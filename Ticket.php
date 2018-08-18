@@ -10,7 +10,7 @@ class Ticket {
     
     public function nombreMetodo(){
         print "La id es: " . $this->id . "<br>" . "El espectaculo es: " . $this->nombreEspectaculo;
-        
+        echo "nuevo cambio";
     }
 }
 
