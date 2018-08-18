@@ -2,9 +2,13 @@
 //require __DIR__.'/vendor/autoload.php';
 // Require composer autoloader
 require __DIR__ . '/vendor/autoload.php';
+require "Ticket.php";
 
 // Create Router instance
 $router = new \Bramus\Router\Router();
+
+$bar = new Ticket ("1", "evento");
+$bar->nombreMetodo();
 
 $router->set404(function () {
     header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
@@ -91,4 +95,3 @@ $router->run();
  * http://php.net/manual/es/function.htmlentities.php
 */
 ?>
-
