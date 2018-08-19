@@ -2,7 +2,57 @@
 //require __DIR__.'/vendor/autoload.php';
 // Require composer autoloader
 require __DIR__ . '/vendor/autoload.php';
-require "Ticket.php";
+
+
+$loader = new Twig_Loader_Array(array(
+    'index' => 'Hello {{ name }}!',
+));
+
+
+//$uri = //Get uri???
+$uri = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_URL);
+$loader = new Twig_Loader_Filesystem(__DIR__.'/templates');
+$twig = new Twig_Environment($loader, array(
+    // cache disabled, since this is just a testing project
+    'cache' => false,
+    'debug' => true,
+    'strict_variables' => true
+));
+$twig->addExtension(new Twig_Extension_Debug());
+// 3) create a few different "pages"
+switch ($uri) {
+    // The Homepage! (/)
+    case '/':
+        echo $twig->render('index.html', array(
+            'pageTitle' => 'Suit Up!',
+            'products' => array(
+                'Serious Businessman',
+                'Penguin Dress',
+                'Sportstar Penguin',
+                'Angel Costume',
+                'Penguin Accessories',
+                'Super Cool Penguin',
+            ),
+        ));
+        break;
+    // All other pages
+    default:
+        // if we have anything else, render the URL + .twig (e.g. /about -> about.twig)
+        $template = substr($uri, 1).'index.html';
+        echo $twig->render($template, array(
+            'title' => 'Some random page!',
+        ));
+}
+
+
+require_once '/path/to/vendor/autoload.php';
+
+$loader = new Twig_Loader_Array(array(
+    'index' => 'Hello {{ name }}!',
+));
+$twig = new Twig_Environment($loader);
+
+echo $twig->render('index', array('name' => 'Fabien'));
 
 // Create Router instance
 $router = new \Bramus\Router\Router();
