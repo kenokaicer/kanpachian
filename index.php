@@ -4,13 +4,11 @@
 require __DIR__ . '/vendor/autoload.php';
 
 
-$loader = new Twig_Loader_Array(array(
-    'index' => 'Hello {{ name }}!',
-));
 
 
 //$uri = //Get uri???
 $uri = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_URL);
+
 $loader = new Twig_Loader_Filesystem(__DIR__.'/templates');
 $twig = new Twig_Environment($loader, array(
     // cache disabled, since this is just a testing project
@@ -45,14 +43,9 @@ switch ($uri) {
 }
 
 
-require_once '/path/to/vendor/autoload.php';
+/* AREA DE TESTING */
 
-$loader = new Twig_Loader_Array(array(
-    'index' => 'Hello {{ name }}!',
-));
-$twig = new Twig_Environment($loader);
-
-echo $twig->render('index', array('name' => 'Fabien'));
+require "Ticket.php";
 
 // Create Router instance
 $router = new \Bramus\Router\Router();
