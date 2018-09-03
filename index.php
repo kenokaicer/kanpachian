@@ -2,56 +2,26 @@
 //require __DIR__.'/vendor/autoload.php';
 // Require composer autoloader
 require __DIR__ . '/vendor/autoload.php';
+require_once 'config/Config.php';
+require_once 'src/controllers/pedidosController.php';
 
 
+//require "Ticket.php";
 
-
-//$uri = //Get uri???
-$uri = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_URL);
-
-$loader = new Twig_Loader_Filesystem(__DIR__.'/templates');
-$twig = new Twig_Environment($loader, array(
-    // cache disabled, since this is just a testing project
-    'cache' => false,
-    'debug' => true,
-    'strict_variables' => true
-));
-$twig->addExtension(new Twig_Extension_Debug());
-// 3) create a few different "pages"
-switch ($uri) {
-    // The Homepage! (/)
-    case '/':
-        echo $twig->render('index.html', array(
-            'pageTitle' => 'Suit Up!',
-            'products' => array(
-                'Serious Businessman',
-                'Penguin Dress',
-                'Sportstar Penguin',
-                'Angel Costume',
-                'Penguin Accessories',
-                'Super Cool Penguin',
-            ),
-        ));
-        break;
-    // All other pages
-    default:
-        // if we have anything else, render the URL + .twig (e.g. /about -> about.twig)
-        $template = substr($uri, 1).'index.html';
-        echo $twig->render($template, array(
-            'title' => 'Some random page!',
-        ));
-}
-
-
-/* AREA DE TESTING */
-
-require "Ticket.php";
-
-// Create Router instance
+/* Router */
 $router = new \Bramus\Router\Router();
 
-$bar = new Ticket ("1", "evento");
-$bar->nombreMetodo();
+/*
+$loader = new Twig_Loader_Filesystem(ROOT . 'views');
+$twig = new Twig_Environment($loader, array(
+    'cache' => ROOT . 'cache',
+));
+$template = $twig->load('home.php');
+*/
+
+//$bar = new Ticket ("1", "evento");
+//$bar->nombreMetodo();
+
 
 $router->set404(function () {
     header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
@@ -60,13 +30,26 @@ $router->set404(function () {
 
 // Before Router Middleware
 $router->before('GET', '/.*', function () {
-    header('X-Powered-By: bramus/router');
+    
+   //$template = $twig->load('home.php');
+});
+
+$router->before('GET', '/.*', function () {
+    //require_once ROOT . 'views/home.php';
+   //$template = $twig->load('home.php');
 });
 
 // Static route: / (homepage)
 $router->get('/', function () {
-    echo '<h1>bramus/router</h1><p>Try these routes:<p><ul><li>/hello/<em>name</em></li><li>/blog</li><li>/blog/<em>year</em></li><li>/blog/<em>year</em>/<em>month</em></li><li>/blog/<em>year</em>/<em>month</em>/<em>day</em></li><li>/movies</li><li>/movies/<em>id</em></li></ul>';
+require_once ROOT . 'views/home.php';
 });
+
+/* Sections */
+$router->get('/demo', function () {
+    require_once ROOT . 'views/demo.php';
+});
+
+
 
 // Static route: /hello
 $router->get('/hello', function () {
@@ -82,6 +65,13 @@ $router->get('/hello/(\w+)', function ($name) {
 $router->get('/ohai/(.*)', function ($url) {
     echo 'Ohai ' . htmlentities($url);
 });
+
+    function kappa()
+    {
+        $pedidos = pedidosController::get()->todos();
+       //$pedidos = src\controllers\pedidosController::get()->todos();
+       var_dump($pedidos);
+    }
 
 // Dynamic route with (successive) optional subpatterns: /blog(/year(/month(/day(/slug))))
 $router->get('/blog(/\d{4}(/\d{2}(/\d{2}(/[a-z0-9_-]+)?)?)?)?', function ($year = null, $month = null, $day = null, $slug = null) {
@@ -113,8 +103,9 @@ $router->mount('/movies', function () use ($router) {
     });
 
     // will result in '/movies'
-    $router->post('/', function () {
-        echo 'add movie';
+    $router->post('/', function () 
+    {
+        echo 'POSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT';
     });
 
     // will result in '/movies/id'
