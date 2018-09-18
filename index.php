@@ -3,9 +3,46 @@
 // Require composer autoloader
 require __DIR__ . '/vendor/autoload.php';
 require_once 'config/Config.php';
-require_once 'src/controllers/pedidosController.php';
+//require_once 'src/controllers/pedidosController.php';
+require_once 'controllers/pedidosController.php';
+require_once 'dao/pedidosDao.php';
 
 
+//use controllers;
+
+
+function CorroborarPDO()
+{
+
+        if (extension_loaded('pdo')) 
+    {
+        print("Existe pdo");
+    }
+
+    if (class_exists('PDO', false)) 
+    { 
+        print("Existe pdo2");
+
+    }
+
+    if (!defined('PDO::ATTR_DRIVER_NAME')) {
+    echo 'PDO unavailable';
+    }
+
+    try{
+    $dbh = new pdo( 'mysql:host=;dbname=ilpeccato_wp172',
+                    'ilpeccato_kenokaicer',
+                    '156047794swag',
+                    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+
+                    die(json_encode(array('outcome' => true)));
+        }
+        catch(PDOException $ex){
+            die(json_encode(array('outcome' => false, 'message' => 'Unable to connect')));
+        }
+}
+
+//CorroborarPDO();
 //require "Ticket.php";
 
 /* Router */
@@ -68,9 +105,38 @@ $router->get('/ohai/(.*)', function ($url) {
 
     function kappa()
     {
-        $pedidos = pedidosController::get()->todos();
+        //To call the namespace-enabled version of either function or variable, prepend (::) the namespace name as follows −
+        $x= new controllers\pedidosController();
+        $peds = $x->obtenerPedidos(); 
+        return $peds;
+        
+       // $pedidos = pedidosController::get()->todos();
        //$pedidos = src\controllers\pedidosController::get()->todos();
-       var_dump($pedidos);
+       var_dump($x);
+    }
+
+    function Route($callback)
+    {
+        print("Routeando");
+        $res = explode("/", $callback);
+        $folder = $res[0];
+        $controller = $res[1];
+        $method = $res[2];
+        if(isset($res[3]))
+        {
+         $param = $res[3];
+        }
+
+ 
+        call_user_func(array("\\".$folder."\\".$controller, $method)); 
+        //call_user_func_array(array($controller, $method), array($param));
+        
+    }
+
+    function obtenerDaoPeds()
+    {
+        $pedidos = pedidosDao::get()->traerTodosPost();
+        var_dump($pedidos);
     }
 
 // Dynamic route with (successive) optional subpatterns: /blog(/year(/month(/day(/slug))))

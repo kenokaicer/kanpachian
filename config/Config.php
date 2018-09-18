@@ -2,12 +2,11 @@
 //define('ROOT', dirname(dirname(__FILE__)) . DS); //str_replace("/", "\\", $_SERVER['CONTEXT_DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']));
 //define('__ROOT__', dirname(dirname(__FILE__)));
 
-
 // Constantes Base de datos
-define("DB_NAME", "basededatos");
-define("DB_USER", "root");
-define("DB_PASS", "");
-define("DB_HOST", "localhost");
+define("DB_NAME", "ilpeccato_wp172");
+define("DB_USER", "ilpeccato_kenokaicer");
+define("DB_PASS", "156047794swag");
+define("DB_HOST", "");
 
 // Constantes front
 define('THEME_NAME', 'tema1');

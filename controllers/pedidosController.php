@@ -4,7 +4,8 @@
     use dao;
     use config;
     
-  
+
+
 class pedidosController
     {  
        public static function get() {
@@ -53,10 +54,9 @@ class pedidosController
        public function obtenerPedidos()
        {
 
-       	$pedidos = dao\pedidosDao::get()->traerTodos(); 
-        $arrayGustos = array(
- 
-        );
+       	$pedidos = \pedidosDao::get()->traerTodosPost(); 
+       	var_dump($pedidos);
+        $arrayGustos = array();
       
         foreach($pedidos as $x => $x_value) 
         {
@@ -70,9 +70,13 @@ class pedidosController
 
        public function todos()
        {
-        print("LLego al todos");
-       	$pedidos = \src\dao\pedidosDao::get()->traerTodosPost();  
+        $pedidos = \pedidosDao::get()->traerTodosPost();
         return $pedidos;
+        //Route("dao/pedidosDao/get");
+        //$pedidos = dao\pedidosDao::get()->traerTodosPost();
+        //$x= new dao\ordenesDao(); 
+       // $pedidos = $x->traerTodosPost();
+        //return $pedidos;
        }
 
        

@@ -1,0 +1,611 @@
+[15-Sep-2018 00:03:07 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 00:05:05 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 00:17:28 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:20:05 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:21:38 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:23:05 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:23:07 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:23:44 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:24:01 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/index.php(146): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): obtenerDaoPeds()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#8 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Route in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 00:35:58 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:36:01 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:36:40 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:37:26 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:37:48 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:38:26 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:40:36 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:45:16 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected '}' in /home/ilpeccato/public_html/kanpachian/index.php on line 40
+[15-Sep-2018 00:55:19 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 01:00:15 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 01:02:02 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 01:05:11 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 01:05:59 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:81
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(81): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 81
+[15-Sep-2018 01:08:14 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:84
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(84): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:09:13 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:84
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(84): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:09:16 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:84
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(84): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:10:19 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:84
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(84): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:11:42 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:84
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(84): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:12:05 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:84
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(84): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:14:41 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:85
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(85): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 85
+[15-Sep-2018 01:14:51 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:85
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(85): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(120): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(91): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 85
+[15-Sep-2018 01:15:15 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:85
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(85): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 85
+[15-Sep-2018 01:18:53 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:85
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(85): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 85
+[15-Sep-2018 01:19:19 America/Argentina/Buenos_Aires] PHP Fatal error:  Call to undefined method pedidosDao::traerTodosPos() in /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php on line 74
+[15-Sep-2018 01:19:25 America/Argentina/Buenos_Aires] PHP Fatal error:  Call to undefined method pedidosDao::traerTodosPos() in /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php on line 74
+[15-Sep-2018 01:19:52 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:85
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(85): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 85
+[15-Sep-2018 01:25:13 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:89
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(89): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 89
+[15-Sep-2018 01:26:49 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:89
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(89): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 89
+[15-Sep-2018 01:27:18 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:80
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(80): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 80
+[15-Sep-2018 01:34:37 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:80
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(80): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 80
+[15-Sep-2018 01:34:58 America/Argentina/Buenos_Aires] PHP Notice:  Undefined property: Conexion::$exception 'PDOException' with message 'SQLSTATE[28000] [1045] Access denied for user 'ilpeccato_kenokaicer'@'localhost' (using password: YES)' in /home/ilpeccato/public_html/kanpachian/dao/Conexion.php:17
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/Conexion.php(17): PDO->__construct('mysql:host=;dbn...', 'ilpeccato_kenok...', '156047794swa')
+#1 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(74): Conexion->conectar()
+#2 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#3 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#4 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#5 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#6 [internal function]: {closure}()
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array) in /home/ilpeccato/public_html/kanpachian/dao/Conexion.php on line 25
+[15-Sep-2018 01:34:58 America/Argentina/Buenos_Aires] PHP Fatal error:  Call to a member function getMessage() on null in /home/ilpeccato/public_html/kanpachian/dao/Conexion.php on line 25
+[15-Sep-2018 01:35:35 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:80
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(80): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 80
+[15-Sep-2018 01:35:41 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:80
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(80): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 80
+[15-Sep-2018 01:37:13 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:79
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(79): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 79
+[15-Sep-2018 01:37:18 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:79
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(79): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 79
+[15-Sep-2018 01:38:22 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:79
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(79): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 79
+[15-Sep-2018 01:39:00 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:79
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(79): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 79
+[15-Sep-2018 01:39:45 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilpeccato_wp172.wp_posts' doesn't exist' in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php:79
+Stack trace:
+#0 /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php(79): PDOStatement->execute()
+#1 /home/ilpeccato/public_html/kanpachian/controllers/pedidosController.php(74): pedidosDao->traerTodosPost()
+#2 /home/ilpeccato/public_html/kanpachian/index.php(110): controllers\pedidosController->todos()
+#3 /home/ilpeccato/public_html/kanpachian/views/home.php(50): kappa()
+#4 /home/ilpeccato/public_html/kanpachian/index.php(81): require_once('/home/ilpeccato...')
+#5 [internal function]: {closure}()
+#6 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(378): call_user_func_array(Object(Closure), Array)
+#7 /home/ilpeccato/public_html/kanpachian/vendor/bramus/router/src/Bramus/Router/Router.php(361): Bramus\Router\Router->invoke(Object(Closure), Array)
+#8 /home/i in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 79
+[15-Sep-2018 01:41:35 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 83
+[15-Sep-2018 01:41:35 America/Argentina/Buenos_Aires] PHP Notice:  Undefined variable: array in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 97
+[15-Sep-2018 01:41:35 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 01:48:50 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 83
+[15-Sep-2018 01:48:50 America/Argentina/Buenos_Aires] PHP Notice:  Undefined variable: array in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 97
+[15-Sep-2018 01:48:50 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 01:49:53 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 83
+[15-Sep-2018 01:49:53 America/Argentina/Buenos_Aires] PHP Notice:  Undefined variable: array in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 97
+[15-Sep-2018 01:49:53 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 01:50:37 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 83
+[15-Sep-2018 01:50:37 America/Argentina/Buenos_Aires] PHP Notice:  Undefined variable: array in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 97
+[15-Sep-2018 01:50:37 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 01:50:47 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 83
+[15-Sep-2018 01:50:47 America/Argentina/Buenos_Aires] PHP Notice:  Undefined variable: array in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 97
+[15-Sep-2018 01:50:47 America/Argentina/Buenos_Aires] PHP Warning:  Invalid argument supplied for foreach() in /home/ilpeccato/public_html/kanpachian/views/home.php on line 56
+[15-Sep-2018 01:52:25 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 83
+[15-Sep-2018 01:52:25 America/Argentina/Buenos_Aires] PHP Fatal error:  Unsupported operand types in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 97
+[15-Sep-2018 01:56:52 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:56:52 America/Argentina/Buenos_Aires] PHP Fatal error:  Unsupported operand types in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 98
+[15-Sep-2018 01:56:54 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 84
+[15-Sep-2018 01:56:54 America/Argentina/Buenos_Aires] PHP Fatal error:  Unsupported operand types in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 98
+[15-Sep-2018 01:57:23 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[15-Sep-2018 01:58:07 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[15-Sep-2018 02:05:11 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[15-Sep-2018 02:05:44 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[15-Sep-2018 13:07:40 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[16-Sep-2018 13:48:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[16-Sep-2018 22:44:38 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[16-Sep-2018 22:44:38 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[16-Sep-2018 22:44:38 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[16-Sep-2018 22:44:38 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:15:05 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:15:05 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:15:05 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:15:05 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:43:42 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:43:57 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:23 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:25 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:45:39 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 18:52:52 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:14:27 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:51 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:53 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:54 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:16:55 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:17:04 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:02 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:18:36 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Notice:  Object of class PDOStatement could not be converted to int in /home/ilpeccato/public_html/kanpachian/dao/pedidosDao.php on line 53
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 63
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_title' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 71
+[18-Sep-2018 19:19:09 America/Argentina/Buenos_Aires] PHP Warning:  Illegal string offset 'post_content' in /home/ilpeccato/public_html/kanpachian/views/home.php on line 73
