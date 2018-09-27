@@ -1,4 +1,6 @@
-<?php namespace dao;
+<?php //namespace dao;
+
+require_once('Conexion.php');
 
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -17,7 +19,9 @@ class pedidosDao
           $todos = $this->traerTodos();
           return $todos;
       }
+
       public static function get() {
+
         static $inst = null;
         if ($inst === null) {
             $inst = new pedidosDao();
@@ -57,8 +61,8 @@ class pedidosDao
         public function traerTodosPost() {
 
             // Guardo como string la consulta sql
-           // $sql = "SELECT * FROM " . $this->tabla . "WHERE post_type='post'";
-          $sql="SELECT * FROM wp_posts WHERE post_type='post'";
+            $sql = "SELECT * FROM " . $this->tabla . " WHERE post_type='post'";
+         // $sql="SELECT * FROM wp_posts WHERE post_type='post'";
 
 
             // creo el objeto conexion
@@ -76,12 +80,16 @@ class pedidosDao
             // Ejecuto la sentencia.
             $sentencia->execute();
 
-                        //Obtiene la siguiente fila de un conjunto de resultados
-            while ($row = $sentencia->fetch()) {
+            //Obtiene la siguiente fila de un conjunto de resultados
+            while ($row = $sentencia->fetch()) 
+            {
                 $array[] = $row;
             }
+
+           // var_dump($array);
+
             if(!empty($array))
-                            return $array;
+            return $array;
         }
 
     public function agregarEquipo($equipo)

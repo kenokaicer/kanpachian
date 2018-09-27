@@ -4,7 +4,8 @@
     use dao;
     use config;
     
-  
+
+
 class pedidosController
     {  
        public static function get() {
@@ -53,29 +54,24 @@ class pedidosController
        public function obtenerPedidos()
        {
 
-       	$pedidos = dao\pedidosDao::get()->traerTodos(); 
-        $arrayGustos = array(
- 
-        );
-      
+       	$pedidos = \pedidosDao::get()->traerTodosPost(); 
+        
+
+      //  var_dump($pedidos);
+
+/*
+        $arrayGustos = array();
+        
         foreach($pedidos as $x => $x_value) 
         {
             //print($x_value["post_title"]); //Chocolatechocolate amargoFrutilla
             array_push($arrayGustos, $x_value["post_title"]);
         }
-
-        return $arrayGustos;
-
-       }
-
-       public function todos()
-       {
-        print("LLego al todos");
-       	$pedidos = \src\dao\pedidosDao::get()->traerTodosPost();  
+*/
         return $pedidos;
+
        }
 
-       
 
        public function doFilter($array)
     {

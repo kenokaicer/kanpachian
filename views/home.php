@@ -48,42 +48,45 @@
      <?php
 
       $pedidos = kappa();
-      //$pedidos = src\controllers\pedidosController::get()->todos();
+     // $pedidos = \controllers\pedidosController::get()->todos();
       $cantidadDeColumnas = 3;
       $boostrapDivision = 12/$cantidadDeColumnas;
       $contador=0;
+
+      //var_dump($pedidos);
      
       foreach($pedidos as $x => $x_value) 
       {
        if($contador==0)
        {
-        echo'<container>';
-        echo'<div class="row">';
+        echo'<div class="large-12 cell">';
+        echo'<div class="grid-x grid-padding-x">';
        }
       $pc =  $x_value["post_title"];
-       echo'<div class="col-'.$boostrapDivision.'">';
-       echo'<div class="md-wishlist" mbsc-form>';
+       echo'<div class="large-'.$boostrapDivision.' medium-6 cell">';
+      // echo'<div class="md-wishlist" mbsc-form>';
          //Chocolatechocolate amargoFrutilla
         //echo'<div mbsc-page class="demo-wishlist">';
         //echo'<div class="md-wishlist" mbsc-form>';
        // echo'<img src=class="md-wishlist-img">';
-        print("<center>");
+       // print("<center>");
         print($x_value["post_title"]);
         print("</ceneter>");
         print("<center>".$x_value['post_content']."</center>");
        // echo'<div class="md-title">'.$x_value["post_title"].'</div>';
-        print('<button id="'.$pc.'" class="mbsc-btn mbsc-btn-block md-wish" "data-icon="plus" onClick="reply_click(this.id)"> <span class="md-wish-text">Agregar gusto</span></button>');
+        //print('<button id="'.$pc.'" class="mbsc-btn mbsc-btn-block md-wish" "data-icon="plus" onClick="reply_click(this.id)"> <span class="md-wish-text">Agregar gusto</span></button>');
         echo'</div>';//end col
         echo'</div>';//end col
         if($contador==$cantidadDeColumnas)
         {
            echo'</div>';//end row
-            echo'<container>';//end container
+             echo'</div>';//end large-12 cell
             $contador=$cantidadDeColumnas;
         }
         $contador++;
         
       }
+      
   
       ?> 
 
