@@ -6,6 +6,8 @@ require_once 'config/Config.php';
 //require_once 'src/controllers/pedidosController.php';
 require_once 'controllers/pedidosController.php';
 require_once 'dao/pedidosDao.php';
+//require_once 'dao/PDOMongo.php';
+
 
 
 //use controllers;
@@ -20,6 +22,8 @@ if (class_exists('PDO', false))
     print("Existe pdo2");
 
 }
+
+
 
 function CorroborarPDO()
 {
@@ -115,16 +119,21 @@ $router->get('/ohai/(.*)', function ($url) {
 
     function kappa()
     {
+
         //To call the namespace-enabled version of either function or variable, prepend (::) the namespace name as follows −
         $x= new controllers\pedidosController();
-        $peds = $x->obtenerPedidos(); 
+        //$peds = $x->obtenerPedidos(); 
+        $peds = $x->crearPedidoTest(); 
+        
         //var_dump($peds);
-        return $peds;
+        //return $peds;
 
        // $pedidos = pedidosController::get()->todos();
        //$pedidos = src\controllers\pedidosController::get()->todos();
        //var_dump($x);
     }
+
+
 
     function Route($callback)
     {
@@ -147,7 +156,7 @@ $router->get('/ohai/(.*)', function ($url) {
     function obtenerDaoPeds()
     {
        
-        $pedidos = pedidosDao::get()->traerTodosPost();
+        $pedidos = pedidosDao::get()->crearPedidoTest();
         return $pedidos;
        // var_dump($pedidos);
     }

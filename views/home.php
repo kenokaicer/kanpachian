@@ -54,7 +54,7 @@
       $contador=0;
 
       //var_dump($pedidos);
-     
+     /*
       foreach($pedidos as $x => $x_value) 
       {
        if($contador==0)
@@ -86,7 +86,7 @@
         $contador++;
         
       }
-      
+      */
   
       ?> 
 

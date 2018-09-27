@@ -55,22 +55,22 @@ class pedidosController
        {
 
        	$pedidos = \pedidosDao::get()->traerTodosPost(); 
-        
-
-      //  var_dump($pedidos);
-
-/*
-        $arrayGustos = array();
-        
-        foreach($pedidos as $x => $x_value) 
-        {
-            //print($x_value["post_title"]); //Chocolatechocolate amargoFrutilla
-            array_push($arrayGustos, $x_value["post_title"]);
-        }
-*/
         return $pedidos;
 
        }
+
+
+           public function crearPedidoTest()
+        {
+          \pedidosDao::get()->crearPedido(); 
+           // pedidosDao::crearPedido();
+        }
+
+        public function traerTodosTest()
+        {
+        \pedidosDao::get()->traerTodosTest(); 
+        }
+
 
 
        public function doFilter($array)
@@ -83,18 +83,8 @@ class pedidosController
         return $element  == "post_title";
     }
 
-        public function multa($datos)
-        {
-            //ControladoraSemaforo::luzroja($datos);
-            //dao\multasDao::get()->agregar($titu);
-           dao\multasDao::get()->agregar($datos);
-        }
         
-          public function AgregarVehiculo($datos)
-        {
-            ControladoraAgregarVehiculo::cargar($datos);
-        }
-
+      
         public function Index()
 	{       
            

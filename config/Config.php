@@ -3,10 +3,10 @@
 //define('__ROOT__', dirname(dirname(__FILE__)));
 
 // Constantes Base de datos
-define("DB_NAME", "basededatos");
-define("DB_USER", "root");
-define("DB_PASS", "");
-define("DB_HOST", "localhost");
+define("DB_NAME", "neonlab1_gotoevent");
+define("DB_USER", "neonlab1_termo");
+define("DB_PASS", "lluviadehamburguesas");
+define("DB_HOST", "http://www.neonlab.com.ar");
 
 // Constantes front
 define('THEME_NAME', 'tema1');
