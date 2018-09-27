@@ -7,6 +7,7 @@
       <title>Foundation for Sites</title>
       <link rel="stylesheet" href="css/foundation.css">
       <link rel="stylesheet" href="css/app.css">
+      <link rel="stylesheet" href="css/login-box.scss">
    </head>
    <body>
       <div class="grid-container">
@@ -46,6 +47,7 @@
                 <!--Section Cuerpo-->  
                 
      <?php
+     header("location:test.php");
 
       $pedidos = kappa();
      // $pedidos = \controllers\pedidosController::get()->todos();
@@ -100,6 +102,10 @@
          </div>
       </div>
       </div>
+
+
+
+
       <script src="js/vendor/jquery.js"></script>
       <script src="js/vendor/what-input.js"></script>
       <script src="js/vendor/foundation.js"></script>

@@ -123,8 +123,8 @@ $router->get('/ohai/(.*)', function ($url) {
         //To call the namespace-enabled version of either function or variable, prepend (::) the namespace name as follows −
         $x= new controllers\pedidosController();
         //$peds = $x->obtenerPedidos(); 
-        $peds = $x->crearPedidoTest(); 
-        
+        $peds = $x->traerTodosTest(); 
+
         //var_dump($peds);
         //return $peds;
 

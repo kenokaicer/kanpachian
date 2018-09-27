@@ -10,7 +10,7 @@ require_once('Conexion.php');
 
 class pedidosDao
 {
-      private $tabla='wp_posts';
+      private $tabla='Artistas';
       
       public function __construct() {
           
@@ -96,8 +96,6 @@ class pedidosDao
 
     public function traerTodosTest()
     {
-
-
             // Guardo como string la consulta sql
             $sql = "SELECT * FROM " . $this->tabla; //. " WHERE post_type='post'";
          // $sql="SELECT * FROM wp_posts WHERE post_type='post'";
