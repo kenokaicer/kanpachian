@@ -9,8 +9,7 @@ class __TwigTemplate_32b488f75a746692be8bdd7473909444f421147995406eb18bde161ba2b
 
         $this->parent = false;
 
-        $this->blocks = array(
-        );
+        $this->blocks = array();
     }
 
     protected function doDisplay(array $context, array $blocks = array())
