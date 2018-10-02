@@ -7,47 +7,11 @@
       <title>Foundation for Sites</title>
       <link rel="stylesheet" href="css/foundation.css">
       <link rel="stylesheet" href="css/app.css">
-      <link rel="stylesheet" href="css/login-box.scss">
    </head>
    <body>
       <div class="grid-container">
-         <div class="grid-x grid-padding-x">
-            <div class="large-12 cell">
-               <h1>Pedidos</h1>
-            </div>
-         </div>
-         <div class="grid-x grid-padding-x">
-            <div class="large-12 cell">
-               <div class="callout">
-                  <h3>Peccatore!</h3>
-                  <p>Info sobre los pedidos.</p>
-                  <p>Mas detalles:</p>
-               </div>
-               <div class="grid-x grid-padding-x">
-                  <div class="large-4 medium-4 cell">
-                     <label>Telefono</label>
-                     <input type="text" placeholder="telefono">
-                  </div>
-                  <div class="large-4 medium-4 cell">
-                     <label>Direccion</label>
-                     <input type="text" placeholder="direccion">
-                  </div>
-                  <div class="large-4 medium-4 cell">
-                     <label>Peso</label>
-                     <input type="radio" name="1/4" value="Blue" id="1/4k"><label for="pokemonRed">1/4 Kilo</label>
-                     <input type="radio" name="1/2" value="Blue" id="1/2k"><label for="pokemonBlue">1/2 Kilo</label>
-                     <input type="radio" name="1" value="Blue" id="1k"><label for="pokemonBlue">1 Kilo</label>
-                     <input type="radio" name="2" value="Blue" id="2k"><label for="pokemonBlue">2 Kilos</label>
-                  </div>
-               </div>
-               <div class="grid-x grid-padding-x">
-                 
-
-
-                <!--Section Cuerpo-->  
                 
      <?php
-     header("location:test.php");
 
       $pedidos = kappa();
      // $pedidos = \controllers\pedidosController::get()->todos();
@@ -56,7 +20,7 @@
       $contador=0;
 
       //var_dump($pedidos);
-     /*
+     
       foreach($pedidos as $x => $x_value) 
       {
        if($contador==0)
@@ -77,8 +41,7 @@
         print("<center>".$x_value['post_content']."</center>");
        // echo'<div class="md-title">'.$x_value["post_title"].'</div>';
         //print('<button id="'.$pc.'" class="mbsc-btn mbsc-btn-block md-wish" "data-icon="plus" onClick="reply_click(this.id)"> <span class="md-wish-text">Agregar gusto</span></button>');
-        echo'</div>';//end col
-        echo'</div>';//end col
+             echo'</div>';//end row
         if($contador==$cantidadDeColumnas)
         {
            echo'</div>';//end row
@@ -88,24 +51,11 @@
         $contador++;
         
       }
-      */
+      
   
       ?> 
 
-
-
-
-
-
-               </div>
-            </div>
-         </div>
-      </div>
-      </div>
-
-
-
-
+       </div>
       <script src="js/vendor/jquery.js"></script>
       <script src="js/vendor/what-input.js"></script>
       <script src="js/vendor/foundation.js"></script>
