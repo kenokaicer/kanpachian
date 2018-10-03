@@ -39,7 +39,7 @@ class ArtistsDao extends SingletonDao implements IDao
     public function Add(Artist $artist)//intefas se
     {
         // $sql = "INSERT INTO Artists VALUES (?)";
-        $sql = "INSERT INTO Artists (name,Apellido) VALUES ('Robie','Williams');";
+        $sql = "INSERT INTO Artists (name,lastname) VALUES ('Robie','Williams');";
         $obj_pdo = new Conexion();
         $pdoConexion = $obj_pdo->conectar();
         $sentencia = $pdoConexion->prepare($sql);

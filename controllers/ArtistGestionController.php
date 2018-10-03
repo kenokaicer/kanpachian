@@ -20,11 +20,11 @@ class ArtistGestionController
         require ROOT . 'views/ArtistGestion.php';
     }
 
-    public function addArtist($name, $apellido)
+    public function addArtist($name, $lastname)
     {
         try {
             $Artist = new Artist();
-            $Artist->setname($name)->setApellido($apellido);
+            $Artist->setname($name)->setLastname($lastname);
             $this->artistList->Add($Artist);
             $this->index();
         } catch (Exception $e) {

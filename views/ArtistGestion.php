@@ -17,7 +17,7 @@
                 <table>
                     <tr>
                         <td>name: <input type="text" name="name" required></td>
-                        <td>Apellido: <input type="text" name="apellido"></td>
+                        <td>lastname: <input type="text" name="lastname"></td>
                     </tr>
                     <tr>
                         <td><button type="submit">Agregar</button></td>

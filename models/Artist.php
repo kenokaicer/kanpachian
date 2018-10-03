@@ -5,7 +5,7 @@ class Artist
 //implements JsonSerializable
 {
     private $name;
-    private $apellido;
+    private $lastname;
 
     public function __construct()
     {
@@ -24,14 +24,14 @@ class Artist
         return $this;
     }
 
-    public function getApellido()
+    public function getlastname()
     {
-        return $this->apellido;
+        return $this->lastname;
     }
 
-    public function setApellido($apellido)
+    public function setLastname($lastname)
     {
-        $this->apellido = $apellido;
+        $this->lastname = $lastname;
 
         return $this;
     }
@@ -41,7 +41,7 @@ class Artist
     //[
         array(
     'name'   => $this->getname(),
-    'apellido' => $this->getApellido()
+    'lastname' => $this->getlastname()
         );
     //];
     }*/
@@ -52,7 +52,7 @@ class Artist
         return json_encode(
             [
                 'name' => $this->getname(),
-                'apellido' => $this->getApellido(),
+                'lastname' => $this->getlastname(),
             ]
         );
     }
