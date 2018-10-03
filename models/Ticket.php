@@ -2,14 +2,14 @@
 class Ticket 
 {
     private $id = "";
-    private $nombreEspectaculo = "";
+    private $nameEspectaculo = "";
     
-    public function __construct($_id, $_nombreEspectaculo){
+    public function __construct($_id, $_nameEspectaculo){
         $this->id = $_id;
-        $this->nombreEspectaculo = $_nombreEspectaculo;
+        $this->nameEspectaculo = $_nameEspectaculo;
     }
     
-    public function nombreMetodo()
+    public function nameMetodo()
     {
     	print($this->$id);
     }

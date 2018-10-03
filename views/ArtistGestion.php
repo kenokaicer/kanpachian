@@ -16,7 +16,7 @@
             <form action="<?=BASE?>ArtistGestion/addArtist" method="post">
                 <table>
                     <tr>
-                        <td>Nombre: <input type="text" name="nombre" required></td>
+                        <td>name: <input type="text" name="name" required></td>
                         <td>Apellido: <input type="text" name="apellido"></td>
                     </tr>
                     <tr>

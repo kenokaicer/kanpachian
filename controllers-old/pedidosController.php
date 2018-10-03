@@ -18,7 +18,7 @@ class pedidosController
 
 	public function RegistroTitular($datos)
 	{
-               $titu = new \modelo\titular($datos['nombre'],$datos['apellido'],$datos['dni'],$datos['correo'],$datos['password']);
+               $titu = new \modelo\titular($datos['name'],$datos['apellido'],$datos['dni'],$datos['correo'],$datos['password']);
                dao\titularDao::get()->agregar($titu);
                // QRcode::png($titu['code'])');
                
@@ -36,7 +36,7 @@ class pedidosController
             if($usuario!=null)
             {
                  \config\Session::setSession('UsuarioId', $usuario[0]['UsuarioId']);
-                 \config\Session::setSession('Nombre', $usuario[0]['Nombre']);
+                 \config\Session::setSession('name', $usuario[0]['name']);
                  \config\Session::setSession('Apellido', $usuario[0]['Apellido']);
                  \config\Session::setSession('Administrador', $usuario[0]['Administrador']);
                  

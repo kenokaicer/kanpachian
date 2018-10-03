@@ -56,11 +56,11 @@ class equiposDao
 
     public function agregarEquipo($equipo)
         { 
-        $sql = "INSERT INTO equipos (nombre) VALUES (?)";
+        $sql = "INSERT INTO equipos (name) VALUES (?)";
         $obj_pdo = new Conexion();
         $conexion = $obj_pdo->conectar();
         $sentencia = $conexion->prepare($sql);
-        $sentencia->bindParam(1, $equipo['nombre'], \PDO::PARAM_STR);
+        $sentencia->bindParam(1, $equipo['name'], \PDO::PARAM_STR);
         try {
             $sentencia->execute();
         } catch (PDOException $e) {

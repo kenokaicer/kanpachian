@@ -40,11 +40,11 @@ class rolesDao
 
     public function agregarEquipo($rol)
         { 
-        $sql = "INSERT INTO roles (nombre) VALUES (?)";
+        $sql = "INSERT INTO roles (name) VALUES (?)";
         $obj_pdo = new Conexion();
         $conexion = $obj_pdo->conectar();
         $sentencia = $conexion->prepare($sql);
-        $sentencia->bindParam(1, $rol['nombre'], \PDO::PARAM_STR);
+        $sentencia->bindParam(1, $rol['name'], \PDO::PARAM_STR);
         try {
             $sentencia->execute();
         } catch (PDOException $e) {

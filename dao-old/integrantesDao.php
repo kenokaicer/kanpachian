@@ -40,11 +40,11 @@ class integrantesDao
 
     public function editar($datos)
     {
-         $sql = "UPDATE integrantes SET nombre=? , dni=? ,fk_rol=,fk_equipo=? WHERE id = " .$datos['id'];
+         $sql = "UPDATE integrantes SET name=? , dni=? ,fk_rol=,fk_equipo=? WHERE id = " .$datos['id'];
         $obj_pdo = new Conexion();
         $conexion = $obj_pdo->conectar();
         $sentencia = $conexion->prepare($sql);
-        $sentencia->bindParam(1, $datos['nombre'], \PDO::PARAM_STR);
+        $sentencia->bindParam(1, $datos['name'], \PDO::PARAM_STR);
         $sentencia->bindParam(2, $datos['dni'], \PDO::PARAM_STR);
         $sentencia->bindParam(3, $datos['rol'], \PDO::PARAM_INT);
         $sentencia->bindParam(4, $datos['equipo'], \PDO::PARAM_INT);
@@ -63,11 +63,11 @@ class integrantesDao
     }
     public function agregar($datos)
         { 
-        $sql = "INSERT INTO integrantes (nombre,dni,fk_rol,fk_equipo) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO integrantes (name,dni,fk_rol,fk_equipo) VALUES (?,?,?,?)";
         $obj_pdo = new Conexion();
         $conexion = $obj_pdo->conectar();
         $sentencia = $conexion->prepare($sql);
-        $sentencia->bindParam(1, $datos['nombre'], \PDO::PARAM_STR);
+        $sentencia->bindParam(1, $datos['name'], \PDO::PARAM_STR);
         $sentencia->bindParam(2, $datos['dni'], \PDO::PARAM_STR);
         $sentencia->bindParam(3, $datos['rol'], \PDO::PARAM_INT);
         $sentencia->bindParam(4, $datos['equipo'], \PDO::PARAM_INT);

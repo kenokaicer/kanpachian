@@ -71,7 +71,7 @@ $template = $twig->load('home.php');
 */
 
 //$bar = new Ticket ("1", "evento");
-//$bar->nombreMetodo();
+//$bar->nameMetodo();
 
 
 $router->set404(function () {

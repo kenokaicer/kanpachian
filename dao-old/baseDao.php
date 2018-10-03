@@ -20,8 +20,8 @@
                 
                 public function add($value) 
                         {
-                            // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
-                            $sql = "INSERT INTO " . $this->tabla . " (nombre) VALUES (:nombre)";
+                            // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con name (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
+                            $sql = "INSERT INTO " . $this->tabla . " (name) VALUES (:name)";
 
                             // creo el objeto conexion
                             $obj_pdo = new Conexion();
@@ -33,7 +33,7 @@
                             $sentencia = $conexion->prepare($sql);
 
                             // Reemplazo los marcadores de parametro por los valores reales utilizando el método bindParam().
-                            $sentencia->bindParam(":nombre", $value);
+                            $sentencia->bindParam(":name", $value);
 
                           try
                           {

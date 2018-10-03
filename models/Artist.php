@@ -4,7 +4,7 @@ namespace models;
 class Artist 
 //implements JsonSerializable
 {
-    private $nombre;
+    private $name;
     private $apellido;
 
     public function __construct()
@@ -12,14 +12,14 @@ class Artist
         //to add
     }
 
-    public function getNombre()
+    public function getname()
     {
-        return $this->nombre;
+        return $this->name;
     }
 
-    public function setNombre($nombre) //interfaz tipada o con hint, segun nombre clase
+    public function setname($name) //interfaz tipada o con hint, segun name clase
     {
-        $this->nombre = $nombre;
+        $this->name = $name;
 
         return $this;
     }
@@ -40,7 +40,7 @@ class Artist
     return
     //[
         array(
-    'nombre'   => $this->getNombre(),
+    'name'   => $this->getname(),
     'apellido' => $this->getApellido()
         );
     //];
@@ -51,7 +51,7 @@ class Artist
     {
         return json_encode(
             [
-                'nombre' => $this->getNombre(),
+                'name' => $this->getname(),
                 'apellido' => $this->getApellido(),
             ]
         );
