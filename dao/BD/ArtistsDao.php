@@ -48,7 +48,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         $pdoConexion = $obj_pdo->connect();
         $sentencia = $pdoConexion->prepare($sql);
         $sentencia->bindParam(1, $artist->getName(), \PDO::PARAM_STR);
-        $sentencia->bindParam(1, $artist->getLastname()(), \PDO::PARAM_STR);
+        $sentencia->bindParam(2, $artist->getLastname()(), \PDO::PARAM_STR);
 
         try {
             $sentencia->execute();
