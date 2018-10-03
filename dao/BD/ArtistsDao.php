@@ -1,11 +1,11 @@
 <?php namespace dao\BD;
 
-use dao\IDao as IDao;
+use dao\intefaces\IArtistDao as IArtistDao;
 use dao\SingletonDao as SingletonDao;
 use models\Artist as Artist;
 use dao\BD\Connection as Connection;
 
-class ArtistsDao extends SingletonDao implements IDao
+class ArtistsDao extends SingletonDao implements IArtistDao
 {
     private $table = 'Artists';
 
@@ -56,4 +56,8 @@ class ArtistsDao extends SingletonDao implements IDao
         //   \controllers\defaultController::registroCompletado();
 
     }
+
+    public function Retrieve($var){}
+    public function Update(Artist $artist){}
+    public function Delete($var){}
 }
