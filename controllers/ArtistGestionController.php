@@ -24,7 +24,7 @@ class ArtistGestionController
     {
         try {
             $Artist = new Artist();
-            $Artist->setname($name)->setLastname($lastname);
+            $Artist->setName($name)->setLastname($lastname);
             $this->artistList->Add($Artist);
             $this->index();
         } catch (Exception $e) {

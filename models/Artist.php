@@ -17,7 +17,7 @@ class Artist
         return $this->name;
     }
 
-    public function setname($name) //interfaz tipada o con hint, segun name clase
+    public function setName($name) //interfaz tipada o con hint, segun name clase
     {
         $this->name = $name;
 
