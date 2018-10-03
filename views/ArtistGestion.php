@@ -16,8 +16,8 @@
             <form action="<?=BASE?>ArtistGestion/addArtist" method="post">
                 <table>
                     <tr>
-                        <td>name: <input type="text" name="name" required></td>
-                        <td>lastname: <input type="text" name="lastname"></td>
+                        <td>Nombre: <input type="text" name="name" required></td>
+                        <td>Apellido: <input type="text" name="lastname"></td>
                     </tr>
                     <tr>
                         <td><button type="submit">Agregar</button></td>
