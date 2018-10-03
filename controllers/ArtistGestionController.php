@@ -1,7 +1,7 @@
 <?php
 namespace controllers;
 
-use dao\Json\artistList as artistList;
+use dao\Json\ArtistList as ArtistList;
 use models\Artist as Artist;
 
 class ArtistGestionController
@@ -11,7 +11,7 @@ class ArtistGestionController
 
     public function __construct()
     {
-        $this->artistList = artistList::getInstance();
+        $this->artistList = ArtistList::getInstance();
     }
 
     public function index()

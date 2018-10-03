@@ -9,7 +9,7 @@ use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
 
 //require_once("vendor\karriere\json-decoder\src\JsonDecoder.php");
 
-class artistList extends Singletondao implements Idao
+class ArtistList extends Singletondao implements Idao
 {
     protected $file = "JsonFiles/Artists.json";
 
