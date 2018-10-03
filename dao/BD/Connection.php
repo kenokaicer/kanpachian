@@ -1,10 +1,10 @@
-<?php //namespace Dao;
+<?php namespace Dao\BD;
 
-    class Conexion {
+    class Connection {
         
         # Métodos
         
-        public function conectar() 
+        public function connect() 
         {
              try
             {
