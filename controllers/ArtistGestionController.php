@@ -20,7 +20,7 @@ class ArtistGestionController
         require ROOT . 'views/ArtistGestion.php';
     }
 
-    public function cargarArtist($nombre, $apellido)
+    public function addArtist($nombre, $apellido)
     {
         try {
             $Artist = new Artist();
