@@ -41,14 +41,15 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         }
     }
 
-    public function Add(Artist $artist)//intefas se
+    public function Add(Artist $artist)
     {
-        // $sql = "INSERT INTO Artists VALUES (?)";
-        $sql = "INSERT INTO Artists (name,lastname) VALUES ('Robie','Williams');";
+        $sql = "INSERT INTO Artists (name,lastname) VALUES ('?','?');";
         $obj_pdo = new Conexion();
         $pdoConexion = $obj_pdo->connect();
         $sentencia = $pdoConexion->prepare($sql);
-        // $sentencia->bindParam(1, $equipo['name'], \PDO::PARAM_STR);
+        $sentencia->bindParam(1, $artist->getName(), \PDO::PARAM_STR);
+        $sentencia->bindParam(1, $artist->getLastname()(), \PDO::PARAM_STR);
+
         try {
             $sentencia->execute();
         } catch (PDOException $e) {
