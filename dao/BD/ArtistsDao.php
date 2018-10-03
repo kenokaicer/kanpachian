@@ -8,12 +8,12 @@ use models\Artist as Artist;
 
 class ArtistsDao extends SingletonDao implements IDao
 {
-    private $tabla = 'Artists';
+    private $table = 'Artists';
 
     public function RetrieveAll()
     {
         // Guardo como string la consulta sql
-        $sql = "SELECT * FROM " . $this->tabla;
+        $sql = "SELECT * FROM " . $this->table;
 
         // creo el objeto conexion
         $obj_pdo = new Conexion();
