@@ -32,7 +32,7 @@ class ArtistGestionController
         }
     }
 
-    public function listarArtists()
+    public function artistList()
     {
         var_dump($this->artistList->RetrieveAll());
     }
