@@ -5,6 +5,12 @@ use dao\SingletonDao as SingletonDao;
 use models\Artist as Artist;
 use dao\BD\Connection as Connection;
 
+
+/**
+ * TO DO 
+ * Retrieve, Update and Delete
+ */
+
 class ArtistsDao extends SingletonDao implements IArtistDao
 {
     private $table = 'Artists';
