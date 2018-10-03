@@ -53,11 +53,11 @@
         <div class="wrapper">
             <form action="<?=BASE?>ArtistGestion/index" method="POST" id="form1">
                 <section id="top">		
-                    <input type="submit" value="Gestion Artistas" /> 
+                    <input type="submit" value="Gestion Artists" /> 
                     <br><br>
                 </section>
             </form>
-			<form action="<?=BASE?>ArtistGestion/listarArtistas" method="POST" id="form1">
+			<form action="<?=BASE?>ArtistGestion/listarArtists" method="POST" id="form1">
                 <section id="top">		
                     <input type="submit" value="Gestion Teatros" /> 
                     <br><br>

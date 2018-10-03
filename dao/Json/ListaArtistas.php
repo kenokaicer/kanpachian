@@ -4,24 +4,24 @@ namespace dao\Json;
 use dao\IDao as IDao;
 use dao\Json\Json as Json;
 use dao\Singletondao as Singletondao;
-use models\Artista as Artista;
+use models\Artist as Artist;
 use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
 
 //require_once("vendor\karriere\json-decoder\src\JsonDecoder.php");
 
-class ListaArtistas extends Singletondao implements Idao
+class ListaArtists extends Singletondao implements Idao
 {
-    protected $file = "JsonFiles/artistas.json";
+    protected $file = "JsonFiles/Artists.json";
 
     /**
      * Retrieve list from file, and an object and then serilize it and store it again
      */
     public function Add($object)
     {
-        $listaArtista = array();
-        $listaArtistas = $this->RetrieveAll();
-        array_push($listaArtistas, $object);
-        json::Serilize($listaArtistas, $this->file);
+        $listaArtist = array();
+        $listaArtists = $this->RetrieveAll();
+        array_push($listaArtists, $object);
+        json::Serilize($listaArtists, $this->file);
     }
 
     public function Retrieve($var)
@@ -41,11 +41,11 @@ class ListaArtistas extends Singletondao implements Idao
         }
         //if(json_decode($jsonDecodedData)!=array()){ //deserilize to know if it's an array, but time consuming
         if($jsonDecodedData[0]!="["){                 //check if first character of the json string is a [ to know if it's an array, much less time consuming
-            $artistas[] = $jsonDecoder->decode($jsonDecodedData, Artista::class);
+            $Artists[] = $jsonDecoder->decode($jsonDecodedData, Artist::class);
         }else{
-            $artistas = $jsonDecoder->decodeMultiple($jsonDecodedData, Artista::class); //This will cast the required class to the object from json string
+            $Artists = $jsonDecoder->decodeMultiple($jsonDecodedData, Artist::class); //This will cast the required class to the object from json string
         }
-        return $artistas;
+        return $Artists;
     }
 
     public function Update($object)

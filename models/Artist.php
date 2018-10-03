@@ -1,7 +1,7 @@
 <?php
 namespace models;
 
-class Artista 
+class Artist 
 //implements JsonSerializable
 {
     private $nombre;
@@ -17,7 +17,7 @@ class Artista
         return $this->nombre;
     }
 
-    public function setNombre($nombre)
+    public function setNombre($nombre) //interfaz tipada o con hint, segun nombre clase
     {
         $this->nombre = $nombre;
 

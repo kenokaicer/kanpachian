@@ -1,17 +1,17 @@
 <?php
 namespace controllers;
 
-use dao\Json\ListaArtistas as ListaArtistas;
-use models\Artista as Artista;
+use dao\Json\ListaArtists as ListaArtists;
+use models\Artist as Artist;
 
 class ArtistGestionController
 {
     protected $message;
-    private $listaArtistas;
+    private $listaArtists;
 
     public function __construct()
     {
-        $this->listaArtistas = ListaArtistas::getInstance();
+        $this->listaArtists = ListaArtists::getInstance();
     }
 
     public function index()
@@ -20,21 +20,21 @@ class ArtistGestionController
         require ROOT . 'views/ArtistGestion.php';
     }
 
-    public function cargarArtista($nombre, $apellido)
+    public function cargarArtist($nombre, $apellido)
     {
         try {
-            $artista = new Artista();
-            $artista->setNombre($nombre)->setApellido($apellido);
-            $this->listaArtistas->Add($artista);
+            $Artist = new Artist();
+            $Artist->setNombre($nombre)->setApellido($apellido);
+            $this->listaArtists->Add($Artist);
             $this->index();
         } catch (Exception $e) {
             $this->message = $e->getMessage();
         }
     }
 
-    public function listarArtistas()
+    public function listarArtists()
     {
-        var_dump($this->listaArtistas->RetrieveAll());
+        var_dump($this->listaArtists->RetrieveAll());
     }
 
 }
