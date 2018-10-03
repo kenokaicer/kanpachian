@@ -9,7 +9,7 @@ use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
 
 //require_once("vendor\karriere\json-decoder\src\JsonDecoder.php");
 
-class ListaArtists extends Singletondao implements Idao
+class artistList extends Singletondao implements Idao
 {
     protected $file = "JsonFiles/Artists.json";
 
@@ -19,9 +19,9 @@ class ListaArtists extends Singletondao implements Idao
     public function Add($object)
     {
         $listaArtist = array();
-        $listaArtists = $this->RetrieveAll();
-        array_push($listaArtists, $object);
-        json::Serilize($listaArtists, $this->file);
+        $artistList = $this->RetrieveAll();
+        array_push($artistList, $object);
+        json::Serilize($artistList, $this->file);
     }
 
     public function Retrieve($var)

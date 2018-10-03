@@ -1,17 +1,17 @@
 <?php
 namespace controllers;
 
-use dao\Json\ListaArtists as ListaArtists;
+use dao\Json\artistList as artistList;
 use models\Artist as Artist;
 
 class ArtistGestionController
 {
     protected $message;
-    private $listaArtists;
+    private $artistList;
 
     public function __construct()
     {
-        $this->listaArtists = ListaArtists::getInstance();
+        $this->artistList = artistList::getInstance();
     }
 
     public function index()
@@ -25,7 +25,7 @@ class ArtistGestionController
         try {
             $Artist = new Artist();
             $Artist->setNombre($nombre)->setApellido($apellido);
-            $this->listaArtists->Add($Artist);
+            $this->artistList->Add($Artist);
             $this->index();
         } catch (Exception $e) {
             $this->message = $e->getMessage();
@@ -34,7 +34,7 @@ class ArtistGestionController
 
     public function listarArtists()
     {
-        var_dump($this->listaArtists->RetrieveAll());
+        var_dump($this->artistList->RetrieveAll());
     }
 
 }
