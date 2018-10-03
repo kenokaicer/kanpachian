@@ -37,12 +37,12 @@ class JsonDecoder
         $this->transformers[$transformer->transforms()] = $transformer;
     }
 
-    public function decode(string $json, string $classType)
+    public function decode($json, $classType) //ambos parametros definidos como string, y los buscaba como dao\Json\JsonDecoder\string, mismo con interfaces propias de php 
     {
         return $this->decodeArray(json_decode($json, true), $classType);
     }
 
-    public function decodeMultiple(string $json, string $classType)
+    public function decodeMultiple($json, $classType)
     {
         $data = json_decode($json, true);
 

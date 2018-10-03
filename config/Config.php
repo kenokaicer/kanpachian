@@ -10,7 +10,6 @@ define("DB_HOST", "http://www.neonlab.com.ar");
 
 // Constantes front
 define('THEME_NAME', 'tema1');
-define('ROOT', str_replace("\\", "/", dirname(__DIR__) . "/"));
 define("URL_THEME", "/TrafficMDQ/vistas");
 define("URL_CSS", URL_THEME . "css");
 define("URL_JS", URL_THEME . "js");

@@ -1,9 +1,9 @@
 <?php
-	namespace Controladoras;
+	namespace controllers;
 	
 	use Vistas;
 	
-	class ControladoraPaginaPrincipal{
+	class MainController{
 		
 		function __construct()
 		{
@@ -12,7 +12,7 @@
 		
 		function index()
 		{
-			require(ROOT.'View/home.php');
+			require(ROOT.'views/home.php');
 		}
 	}
 ?>

@@ -43,7 +43,6 @@ class Json
         $fp = fopen($fileName, 'r');
         $string = fread($fp, filesize($fileName));
         fclose($fp);
-
         return $string;
     }
 }

@@ -28,7 +28,7 @@ class Request
             	 Si el arreglo tiene datos, tomo como controlador el primer elemento.
              */
             if(empty($ArregloUrl)) {
-                $this->controladora = 'PaginaPrincipal';
+                $this->controladora = 'Main';
             } else {
                 $this->controladora = ucwords(array_shift($ArregloUrl)); //ucwords capitaliza la primer letra de un string
             }                                                            //array_shift quita el primer elemento de un array y lo devuelve

@@ -21,7 +21,7 @@ namespace config;
 
             $parametros = array();
             $parametros = $request->getParametros(); //ya deberia de meter un array aca, chequear
-          
+
             $objeto = "controllers\\". $controlador; //mostrar
             $controlador = new $objeto;
             

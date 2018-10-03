@@ -4,7 +4,7 @@ namespace dao\Json;
 use dao\IDao as IDao;
 use dao\Json\Json as Json;
 use dao\Singletondao as Singletondao;
-use Model\Artista as Artista;
+use models\Artista as Artista;
 use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
 
 //require_once("vendor\karriere\json-decoder\src\JsonDecoder.php");
@@ -36,8 +36,7 @@ class ListaArtistas extends Singletondao implements Idao
     {
         $jsonDecodedData = Json::Deserilize($this->file);
         $jsonDecoder = new JsonDecoder(true);         //true bool to access private atributes of class
-
-        if(empty($jsonDecodedData)){ //if file was empty return empty array
+        if($jsonDecodedData == null || empty($jsonDecodedData)){ //if file was empty return empty array
             return array();
         }
         //if(json_decode($jsonDecodedData)!=array()){ //deserilize to know if it's an array, but time consuming
@@ -46,7 +45,6 @@ class ListaArtistas extends Singletondao implements Idao
         }else{
             $artistas = $jsonDecoder->decodeMultiple($jsonDecodedData, Artista::class); //This will cast the required class to the object from json string
         }
-
         return $artistas;
     }
 

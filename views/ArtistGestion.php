@@ -13,7 +13,7 @@
 <body>
     <div class="wrapper">
         <section>
-            <form action="<?=BASE?>GestionArtista/cargarArtista" method="post">
+            <form action="<?=BASE?>ArtistGestion/cargarArtista" method="post">
                 <table>
                     <tr>
                         <td>Nombre: <input type="text" name="nombre" required></td>
@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <td><button type="submit">Agregar</button></td>
-                        <td><input type="submit" value="Volver" formaction="<?=BASE?>PaginaPrincipal/index" formnovalidate></td>
+                        <td><input type="submit" value="Volver" formaction="<?=BASE?>Main/index" formnovalidate></td>
                     </tr>
                     <tr>
                         <td></td>

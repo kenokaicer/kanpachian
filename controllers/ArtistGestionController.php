@@ -4,7 +4,7 @@ namespace controllers;
 use dao\Json\ListaArtistas as ListaArtistas;
 use models\Artista as Artista;
 
-class ControladoraGestionArtista
+class ArtistGestionController
 {
     protected $message;
     private $listaArtistas;
@@ -17,7 +17,7 @@ class ControladoraGestionArtista
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require ROOT . 'View/gestionArtista.php';
+        require ROOT . 'views/ArtistGestion.php';
     }
 
     public function cargarArtista($nombre, $apellido)
