@@ -7,11 +7,11 @@ class SingletonDao
     public static function getInstance()
     {
 
-        $miclase = get_called_class();
-        if (!isset(self::$instance[$miclase])) {
-            self::$instance[$miclase] = new $miclase;
+        $myClass = get_called_class();
+        if (!isset(self::$instance[$myClass])) {
+            self::$instance[$myClass] = new $myClass;
         }
 
-        return self::$instance[$miclase];
+        return self::$instance[$myClass];
     }
 }
