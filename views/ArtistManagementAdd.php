@@ -13,7 +13,7 @@
 <body>
     <div class="wrapper">
         <section>
-            <form action="<?=BASE?>ArtistGestion/addArtist" method="post">
+            <form action="<?=BASE?>ArtistManagement/addArtist" method="post">
                 <table>
                     <tr>
                         <td>Nombre: <input type="text" name="name" required></td>
