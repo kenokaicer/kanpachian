@@ -17,7 +17,7 @@ use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
 
 class ArtistList extends Singletondao implements Idao
 {
-    protected $file = "JsonFiles/Artists.json";
+    protected $file = JSONFOLDER."Artists.json";
 
     /**
      * Retrieve list from file, and an object and then serilize it and store it again
