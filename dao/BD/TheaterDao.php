@@ -41,6 +41,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         /*$sql = "SELECT * FROM ".$table." 
         WHERE ".$var." == ;*/
     }
+    
     public function RetrieveAll(){
         $sql = "SELECT * FROM " . $this->table;
         $obj_pdo = new Connection();
