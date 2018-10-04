@@ -54,8 +54,8 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             return $array;
     }
 
-    public function Update(Theater $theater){
-        $sql = "UPDATE ".$this->table." SET name=? , location=? ,image=, max_capacity=? 
+    public function Update(Theater $theater){ //add button update and delete in a view list in the views
+        $sql = "UPDATE ".$this->table." SET name=? , location=? ,image=?, max_capacity=? 
         WHERE name = " .$theater->getName(); //should this use and id??
         $obj_pdo = new Connection();
         $conexion = $obj_pdo->connect();
