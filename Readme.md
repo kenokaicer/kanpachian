@@ -1,6 +1,13 @@
+DONE
+
+-ArtistDaoBD does Add, RetrieveAll, Update(edit) and Delete, only missing Retrieve, but that needs to know what var is sent to the method
+
 TO DO
 
-- Rename folder to first capital letter
+- Check functionality of Vendor Autoload by loading it in Config
 - Complete Daos
 - Build Data Base
-- Move libraries to library folder and change the namespaces, deprecate composer
+
+
+If Vendor Autoload doesn't work
+- Move libraries to "Packages" folder and change the namespaces, deprecate composer 
