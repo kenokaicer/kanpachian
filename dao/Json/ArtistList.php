@@ -1,7 +1,7 @@
 <?php
 namespace dao\Json;
 
-use dao\IDao as IDao;
+use dao\interfaces\IArtistDao as IArtistDao;
 use dao\Json\Json as Json;
 use dao\Singletondao as Singletondao;
 use models\Artist as Artist;
@@ -15,7 +15,7 @@ use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
  */
 
 
-class ArtistList extends Singletondao implements Idao
+class ArtistList extends Singletondao implements IArtistDao
 {
     protected $file = JSONFOLDER."Artists.json";
 
