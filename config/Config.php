@@ -6,7 +6,7 @@
 define("DB_NAME", "neonlab1_gotoevent");
 define("DB_USER", "neonlab1_termo");
 define("DB_PASS", "lluviadehamburguesas");
-define("DB_HOST", "http://www.neonlab.com.ar");
+define("DB_HOST", "www.neonlab.com.ar");
 
 // Constantes front
 define('THEME_NAME', 'tema1');
