@@ -16,11 +16,10 @@ class Json
         } else {
             foreach ($list as $key => $value) {
                 if ($key != $end - 1) {
-                    $string .= $value->toJson() . ",";
+                    $string .= $value->toJson() . ","; 
                 } else {
-                    $string .= $value->toJson();
+                    $string .= $value->toJson(); //rtrim($string,",") to strip the last,
                 }
-
             }
             $string .= "]";
         }
