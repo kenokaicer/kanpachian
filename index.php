@@ -32,12 +32,12 @@
 	Autoload::start();
 	session_start();
 
-	//include header here
+	require "Views/Header.php";
 
 	//Router::direccionar(new Request());
 	$request = Request::getInstance();
 	Router::direccionar($request); //para que funcione el singleton interno
 
-	//include footer here
+	require "Views/Footer.php";
 
 ?>
