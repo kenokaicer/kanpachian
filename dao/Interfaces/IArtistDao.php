@@ -8,6 +8,6 @@ interface IArtistDao
     public function Add(Artist $artist);
     public function Retrieve($var);
     public function RetrieveAll();
-    public function Update(Artist $artist);
-    public function Delete($var);
+    public function Update($id, Artist $artist);
+    public function Delete($id);
 }

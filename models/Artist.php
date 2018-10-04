@@ -57,4 +57,11 @@ class Artist
         );
     }
 
+    /**
+     * Returns all attributes as an array, used for edit dao
+     */
+    public function getAll() {
+        return get_object_vars($this);
+    }
+
 }
