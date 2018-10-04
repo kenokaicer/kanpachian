@@ -1,7 +1,7 @@
 <?php
-	namespace controllers;
+	namespace Controllers;
 	
-	use Vistas;
+	use Vistas; //necesary?
 	
 	class MainController{
 		

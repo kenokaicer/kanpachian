@@ -1,5 +1,5 @@
 <?php
-    namespace dao;
+    namespace Dao\Interfaces;
 
     interface IDao{
         public function Add($object);

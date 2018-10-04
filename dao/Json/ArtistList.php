@@ -1,11 +1,11 @@
 <?php
 namespace dao\Json;
 
-use dao\interfaces\IArtistDao as IArtistDao;
-use dao\Json\Json as Json;
-use dao\Singletondao as Singletondao;
-use models\Artist as Artist;
-use dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
+use Dao\interfaces\IArtistDao as IArtistDao;
+use Dao\Json\Json as Json;
+use Dao\Singletondao as Singletondao;
+use Models\Artist as Artist;
+use Dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
 
 //require_once("vendor\karriere\json-decoder\src\JsonDecoder.php");
 

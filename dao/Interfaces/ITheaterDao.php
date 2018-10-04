@@ -1,5 +1,5 @@
 <?php
-namespace dao\Interfaces;
+namespace Dao\Interfaces;
 
 interface ITheaterDao
 {

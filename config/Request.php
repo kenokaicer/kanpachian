@@ -1,6 +1,4 @@
-<?php namespace config;
-   
-
+<?php namespace Config;
    
 class Request
 {

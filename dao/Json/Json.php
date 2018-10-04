@@ -1,5 +1,5 @@
 <?php
-namespace dao\Json;
+namespace Dao\Json;
 
 class Json
 {

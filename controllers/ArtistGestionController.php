@@ -1,8 +1,8 @@
 <?php
-namespace controllers;
+namespace Controllers;
 
-use dao\Json\ArtistList as ArtistList;
-use models\Artist as Artist;
+use Dao\Json\ArtistList as ArtistList;
+use Models\Artist as Artist;
 
 class ArtistGestionController
 {

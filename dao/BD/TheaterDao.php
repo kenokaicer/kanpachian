@@ -1,10 +1,10 @@
 <?php
 namespace dao\BD;
 
-use dao\SingletonDao as SingletonDao;
-use dao\Interfaces\ITheaterDao as ITheaterDao;
-use dao\BD\Connection as Connection;
-use models\Theater as Theater;
+use Dao\SingletonDao as SingletonDao;
+use Dao\Interfaces\ITheaterDao as ITheaterDao;
+use Dao\BD\Connection as Connection;
+use Models\Theater as Theater;
 use PDOException as PDOException; //this works?
 
 class TheaterDao extends SingletonDao implements ITheaterDao

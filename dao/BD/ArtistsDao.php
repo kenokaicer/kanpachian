@@ -1,9 +1,9 @@
-<?php namespace dao\BD;
+<?php namespace Dao\BD;
 
-use dao\intefaces\IArtistDao as IArtistDao;
-use dao\SingletonDao as SingletonDao;
-use models\Artist as Artist;
-use dao\BD\Connection as Connection;
+use Dao\Intefaces\IArtistDao as IArtistDao;
+use Dao\SingletonDao as SingletonDao;
+use Models\Artist as Artist;
+use Dao\BD\Connection as Connection;
 
 
 /**

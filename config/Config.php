@@ -1,4 +1,4 @@
-<?php namespace config;
+<?php namespace Config;
 //define('ROOT', dirname(dirname(__FILE__)) . DS); //str_replace("/", "\\", $_SERVER['CONTEXT_DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']));
 //define('__ROOT__', dirname(dirname(__FILE__)));
 

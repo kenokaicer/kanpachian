@@ -1,4 +1,4 @@
-<?php namespace config;
+<?php namespace Config;
 
 define("MODELS","core/models/");
 define('ROOT', str_replace('\\','/',dirname(__DIR__) . "/"));

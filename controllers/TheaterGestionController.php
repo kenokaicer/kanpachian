@@ -1,7 +1,7 @@
 <?php
-namespace controllers;
+namespace Controllers;
 
-use models\Theater as Theater;
+use Models\Theater as Theater;
 
 class TheaterGestionController
 {

@@ -1,7 +1,7 @@
 <?php
-namespace dao\Interfaces;
+namespace Dao\Interfaces;
 
-use models\Artist as Artist;
+use Models\Artist as Artist;
 
 interface IArtistDao
 {
