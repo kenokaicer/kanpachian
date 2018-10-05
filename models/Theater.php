@@ -1,12 +1,16 @@
 <?php
 namespace Models;
 
-class Theater
+use Models\SeatType as SeatType;
+
+class Theater //Lugar_evento
 {
+    private $id;
     private $name;
     private $location;
     private $image;
     private $maxCapacity;
+    private $seatTypes = array(); //to calculate the amount of each type.
 
     public function getName()
     {
@@ -54,5 +58,22 @@ class Theater
         $this->maxCapacity = $maxCapacity;
 
         return $this;
+    }
+
+	public function getSeatTypes()
+	{
+		return $this->seatTypes;
+	}
+
+    public function setSeatTypes($seatTypes)
+    {
+        $this->seatTypes = $seatTypes;
+
+        return $this;
+    }
+
+    public function addSeatType(SeatType $seatType)
+    {
+        $this->seatTypes[] = $seatType;
     }
 }

@@ -4,20 +4,17 @@ namespace Models;
 class Artist 
 //implements JsonSerializable
 {
+    private $id;
     private $name;
     private $lastname;
-
-    public function __construct()
-    {
-        //to add
-    }
+    private $image;
 
     public function getname()
     {
         return $this->name;
     }
 
-    public function setName($name) //interfaz tipada o con hint, segun name clase
+    public function setName($name) 
     {
         $this->name = $name;
 
@@ -64,4 +61,16 @@ class Artist
         return get_object_vars($this);
     }
 
+
+	public function getImage()
+	{
+		return $this->image;
+	}
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
 }

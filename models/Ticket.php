@@ -3,18 +3,11 @@ namespace Models;
 
 class Ticket 
 {
-    private $id = "";
-    private $nameEspectaculo = "";
-    
-    public function __construct($_id, $_nameEspectaculo){
-        $this->id = $_id;
-        $this->nameEspectaculo = $_nameEspectaculo;
-    }
-    
-    public function nameMetodo()
-    {
-    	print($this->$id);
-    }
+    private $id;
+    private $ticketNumber;
+    private $qr;
+    private $date; //Date of purchase.
+    private $seatType; //Class SeatType;
 }
 
 ?>
