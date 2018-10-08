@@ -7,7 +7,7 @@ use Models\Calendar as Calendar;
 
 class Event
 {
-    private $id;
+    private $idEvent;
     private $eventName;
     private $calendar = array(); //Class Calendar
     private $category; //Enum Category

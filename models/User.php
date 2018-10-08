@@ -5,7 +5,7 @@ use Models\Client as Client;
 
 class User
 {
-    private $id;
+    private $idUser;
     private $client; //Class Client.
     private $username;
     private $password;

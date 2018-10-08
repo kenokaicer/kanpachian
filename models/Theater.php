@@ -5,7 +5,7 @@ use Models\SeatType as SeatType;
 
 class Theater //Lugar_evento
 {
-    private $id;
+    private $idTheater;
     private $name;
     private $location;
     private $image;

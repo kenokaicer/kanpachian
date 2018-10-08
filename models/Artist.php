@@ -4,7 +4,7 @@ namespace Models;
 class Artist 
 //implements JsonSerializable
 {
-    private $id;
+    private $idArtist;
     private $name;
     private $lastname;
     private $image;

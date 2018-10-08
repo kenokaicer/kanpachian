@@ -6,7 +6,7 @@ use Models\SeatsByEvent as SeatsByEvent;
 
 class PurchaseLines //Lineas_Compra
 {
-    private $id;
+    private $idPurchaseLines;
     private $seatsByEvent;//Class SeatsByEvent.
     private $quantity; //Tentative var.
     private $price; //This is a calculated value.

@@ -3,7 +3,7 @@ namespace Models;
 
 class Ticket 
 {
-    private $id;
+    private $idTicket;
     private $ticketNumber;
     private $qr;
     private $date; //Date of purchase.

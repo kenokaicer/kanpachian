@@ -9,7 +9,7 @@ use Models\SeatType as SeatType;
  */
 class SeatsByEvent //Plaza_Evento
 {
-    private $id;
+    private $idSeatsByEvent;
     private $seatType; // This is an enum.
     private $quantity;
     private $price;

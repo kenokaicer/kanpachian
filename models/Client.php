@@ -5,7 +5,7 @@ use Models\CreditCard as CreditCard;
 
 class Client
 {
-    private $id;
+    private $idClient;
     private $name;
     private $lastname;
     private $dni;

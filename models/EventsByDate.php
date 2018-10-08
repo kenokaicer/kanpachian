@@ -4,9 +4,9 @@ namespace Models;
 
 use Models\Theater as Theater;
 
-class Calendar
+class EventsByDate //Calendario
 {
-    private $id;
+    private $idEventsByDate;
     private $date;
     private $theater;
     private $eventsBySeats = array();

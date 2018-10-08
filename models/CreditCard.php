@@ -4,7 +4,7 @@ namespace Models;
 
 class CreditCard
 {
-    private $id;
+    private $idCreditCard;
     private $creditCardNumber;
     private $expirationDate;
     private $cardHolder;
