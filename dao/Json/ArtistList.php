@@ -5,9 +5,7 @@ use Dao\interfaces\IArtistDao as IArtistDao;
 use Dao\Json\Json as Json;
 use Dao\Singletondao as Singletondao;
 use Models\Artist as Artist;
-use Dao\Json\JsonDecoder\JsonDecoder as JsonDecoder;
-
-//require_once("vendor\karriere\json-decoder\src\JsonDecoder.php");
+use Karriere\JsonDecoder\JsonDecoder as JsonDecoder;
 
 /**
  * TO DO
