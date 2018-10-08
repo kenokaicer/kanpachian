@@ -4,7 +4,8 @@ namespace Models;
 
 use Models\Theater as Theater;
 
-class EventsByDate //Calendario
+class EventsByDate//Calendario
+
 {
     private $idEventsByDate;
     private $date;
@@ -23,14 +24,26 @@ class EventsByDate //Calendario
         return $this;
     }
 
-	public function getTheater()
-	{
-		return $this->theater;
-	}
+    public function getTheater()
+    {
+        return $this->theater;
+    }
 
     public function setTheater($theater)
     {
         $this->theater = $theater;
+
+        return $this;
+    }
+
+    public function getIdEventsByDate()
+    {
+        return $this->idEventsByDate;
+    }
+
+    public function setIdEventsByDate($idEventsByDate)
+    {
+        $this->idEventsByDate = $idEventsByDate;
 
         return $this;
     }

@@ -3,7 +3,8 @@ namespace Models;
 
 use Models\SeatType as SeatType;
 
-class Theater //Lugar_evento
+class Theater//Lugar_evento
+
 {
     private $idTheater;
     private $name;
@@ -60,14 +61,26 @@ class Theater //Lugar_evento
         return $this;
     }
 
-	public function getSeatTypes()
-	{
-		return $this->seatTypes;
-	}
+    public function getSeatTypes()
+    {
+        return $this->seatTypes;
+    }
 
     public function setSeatTypes($seatTypes)
     {
         $this->seatTypes = $seatTypes;
+
+        return $this;
+    }
+
+    public function getIdTheater()
+    {
+        return $this->idTheater;
+    }
+
+    public function setIdTheater($idTheater)
+    {
+        $this->idTheater = $idTheater;
 
         return $this;
     }

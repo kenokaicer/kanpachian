@@ -11,10 +11,10 @@ class User
     private $password;
     private $rol; //Enum Rol.
 
-	public function getClient()
-	{
-		return $this->client;
-	}
+    public function getClient()
+    {
+        return $this->client;
+    }
 
     public function setClient($client)
     {
@@ -23,10 +23,10 @@ class User
         return $this;
     }
 
-	public function getUsername()
-	{
-		return $this->username;
-	}
+    public function getUsername()
+    {
+        return $this->username;
+    }
 
     public function setUsername($username)
     {
@@ -35,10 +35,10 @@ class User
         return $this;
     }
 
-	public function getPassword()
-	{
-		return $this->password;
-	}
+    public function getPassword()
+    {
+        return $this->password;
+    }
 
     public function setPassword($password)
     {
@@ -47,10 +47,10 @@ class User
         return $this;
     }
 
-	public function getRol()
-	{
-		return $this->rol;
-	}
+    public function getRol()
+    {
+        return $this->rol;
+    }
 
     public function setRol($rol)
     {
@@ -59,8 +59,15 @@ class User
         return $this;
     }
 
-	public function getId()
-	{
-		return $this->id;
-	}
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
 }

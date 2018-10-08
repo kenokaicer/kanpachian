@@ -4,17 +4,18 @@ namespace Models;
 
 use Models\SeatsByEvent as SeatsByEvent;
 
-class PurchaseLines //Lineas_Compra
+class PurchaseLines//Lineas_Compra
+
 {
     private $idPurchaseLines;
-    private $seatsByEvent;//Class SeatsByEvent.
+    private $seatsByEvent; //Class SeatsByEvent.
     private $quantity; //Tentative var.
     private $price; //This is a calculated value.
 
-	public function getSeatsByEvent()
-	{
-		return $this->seatsByEvent;
-	}
+    public function getSeatsByEvent()
+    {
+        return $this->seatsByEvent;
+    }
 
     public function setSeatsByEvent($seatsByEvent)
     {
@@ -23,10 +24,10 @@ class PurchaseLines //Lineas_Compra
         return $this;
     }
 
-	public function getQuantity()
-	{
-		return $this->quantity;
-	}
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 
     public function setQuantity($quantity)
     {
@@ -36,7 +37,19 @@ class PurchaseLines //Lineas_Compra
     }
 
     public function getPrice()
-	{
-		return $this->price;
-	}
+    {
+        return $this->price;
+    }
+
+    public function getIdPurchaseLines()
+    {
+        return $this->idPurchaseLines;
+    }
+
+    public function setIdPurchaseLines($idPurchaseLines)
+    {
+        $this->idPurchaseLines = $idPurchaseLines;
+
+        return $this;
+    }
 }

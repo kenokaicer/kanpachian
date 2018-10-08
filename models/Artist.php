@@ -1,8 +1,9 @@
 <?php
 namespace Models;
 
-class Artist 
+class Artist
 //implements JsonSerializable
+
 {
     private $idArtist;
     private $name;
@@ -14,7 +15,7 @@ class Artist
         return $this->name;
     }
 
-    public function setName($name) 
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -32,19 +33,20 @@ class Artist
 
         return $this;
     }
-  
+
     /*public function jsonSerialize(){ //si se puediera implementar interfaz JsonSerializable
     return
     //[
-        array(
+    array(
     'name'   => $this->getname(),
     'lastname' => $this->getlastname()
-        );
+    );
     //];
     }*/
 
     //The Bad
     public function toJson() //alternative to JsonSerializable interface
+
     {
         return json_encode(
             [
@@ -57,19 +59,31 @@ class Artist
     /**
      * Returns all attributes as an array, used for edit dao
      */
-    public function getAll() {
+    public function getAll()
+    {
         return get_object_vars($this);
     }
 
-
-	public function getImage()
-	{
-		return $this->image;
-	}
+    public function getImage()
+    {
+        return $this->image;
+    }
 
     public function setImage($image)
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getIdArtist()
+    {
+        return $this->idArtist;
+    }
+
+    public function setIdArtist($idArtist)
+    {
+        $this->idArtist = $idArtist;
 
         return $this;
     }
