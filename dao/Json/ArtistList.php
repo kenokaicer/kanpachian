@@ -54,7 +54,7 @@ class ArtistList extends Singletondao implements IArtistDao
         return $Artists;
     }
 
-    public function Update($object)
+    public function Update(Artist $oldArtist, Artist $newArtist)
     {
 
     }

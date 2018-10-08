@@ -1,4 +1,5 @@
-<div class="wrapper">   
+<div class="wrapper"> 
+	<h3>Temprary Admin view</h3>
     <form method="POST">
         <section>
             <div><button type="submit" formaction="<?=BASE?>ArtistManagement/index">Gestión Artistas</button></div>

@@ -74,7 +74,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
     private function retrieveByID($id)
     {
         $query = "SELECT * FROM ".$this->table.
-            " WHERE id_artist = ".$id;
+            " WHERE idArtist = ".$id;
         $obj_pdo = new Connection();
         $pdoConexion = $obj_pdo->connect();
         $sentence = $pdoConexion->prepare($query);
@@ -94,19 +94,19 @@ class ArtistsDao extends SingletonDao implements IArtistDao
     /**
      * Updates values that are diferent from the ones recieved in the object Artist
      */
-    public function Update($id, Artist $artist)
+    public function Update(Artist $oldArtist, Artist $newArtist)
     {
         $valuesToModify = "";
-        $oldArtist = $this->retrieveByID($id); //get row of id as array of values
-        $artistArray = $artist->getAll(); //convert object to array of values
-        
+        $oldArtistArray = $this->retrieveByID($oldArtist->getIdArtist()); //get row of id as array of values
+        $artistArray = $newArtist->getAll(); //convert object to array of values
+
         /**
          * Check if a value is different from the one on the database, if different, sets the column and 
          * value for the SET query
          */
-        foreach ($oldArtist as $key => $value) { 
-            if($key != "id_artist"){
-                if($oldArtist[$key] != $artistArray[$key]){
+        foreach ($oldArtistArray as $key => $value) { 
+            if($key != "idArtist"){
+                if($oldArtistArray[$key] != $artistArray[$key]){
                     $valuesToModify .= $key." = "."'".$artistArray[$key]."', ";
                 }
             }
@@ -114,7 +114,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
 
         $valuesToModify = rtrim($valuesToModify,", "); //strip ", " from last character
 
-        $query = "UPDATE ".$this->table." SET ".$valuesToModify." WHERE id_artist = ".$id;
+        $query = "UPDATE ".$this->table." SET ".$valuesToModify." WHERE idArtist = ".$oldArtist->getIdArtist();
         $obj_pdo = new Connection();
         $pdoConexion = $obj_pdo->connect();
         $sentence = $pdoConexion->prepare($query);

@@ -51,18 +51,31 @@ class ArtistManagementController
         $this->artistList();
     }
 
+    /**
+     * Recieve unmodified atributes for Artist for diplaying in the forms,
+     * then after the modifications sends them to this->editArtist
+     */
     public function viewEditArtist($id, $name, $lastname)
-    {
+    {   
         require ROOT."Views/ArtistManagementEdit.php";
     }
 
+    /**
+     * Recieve modified atributes for object Artist.
+     * Create two Artist objects for ArtistDao update, only load id in oldArtist as the data is
+     * retrieved in the BD, this could be passed as complete object but it would be needed to recieve  
+     * the complete oldArtist by serialization or session in past steps
+     */
     public function editArtist($id, $name, $lastname)
     {
-        $artist = new Artist();
-        $artist->setName($name);
-        $artist->setLastname($lastname);
+        $newArtist = new Artist();
+        $oldArtist = new Artist();
+
+        $oldArtist->setIdArtist($id); //only id is needed for old artist
+        $newArtist->setName($name);
+        $newArtist->setLastname($lastname);
         
-        $this->ArtistsDao->Update($id, $artist);
+        $this->ArtistsDao->Update($oldArtist, $newArtist);
         $this->artistList();
     }
 

@@ -15,7 +15,7 @@
                     <td><?= $artist['lastname'] ?></td>
                     <td>
                     <form action="<?=BASE?>ArtistManagement/viewEditArtist" method="post">
-                            <input type="hidden" name="id" value="<?=$artist['id_artist']?>">
+                            <input type="hidden" name="id" value="<?=$artist['idArtist']?>">
                             <input type="hidden" name="name" value="<?=$artist['name']?>">
                             <input type="hidden" name="lastname" value="<?=$artist['lastname']?>">
                             <input type="submit" value="Editar">
@@ -23,7 +23,7 @@
                     </td>
                     <td>
                         <form action="<?=BASE?>ArtistManagement/deleteArtist" method="post">
-                            <input type="hidden" name="id" value="<?=$artist['id_artist']?>">
+                            <input type="hidden" name="id" value="<?=$artist['idArtist']?>">
                             <input type="submit" value="Eliminar">
                         </form>
                     </td>
