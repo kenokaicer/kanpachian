@@ -47,7 +47,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         $idTheater = array_shift($row);
 
         foreach ($theater->getSeatTypes() as $value) {
-            $querry = "INSERT INTO ".$this->table2." (pfkSeatTpye, pfkTeather) VALUES (?,?);"; //error pfkSeatTpye column doesn't exist??
+            $querry = "INSERT INTO ".$this->table2." (pfkSeatType, pfkTheater) VALUES (?,?);"; //error pfkSeatTpye column doesn't exist??
             $sentence = $pdo_connection->prepare($querry);
             $sentence->bindValue(1, $value->getIdSeatType(), \PDO::PARAM_STR);
             $sentence->bindValue(2, $idTheater, \PDO::PARAM_STR);
