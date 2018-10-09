@@ -9,7 +9,8 @@ class User
     private $client; //Class Client.
     private $username;
     private $password;
-    private $rol; //Enum Rol.
+    private $email;
+    private $role; //Enum Rol.
 
     public function getClient()
     {
@@ -47,14 +48,14 @@ class User
         return $this;
     }
 
-    public function getRol()
+    public function getRole()
     {
         return $this->rol;
     }
 
-    public function setRol($rol)
+    public function setRole($rol)
     {
-        $this->rol = $rol;
+        $this->role = $role;
 
         return $this;
     }
@@ -69,5 +70,22 @@ class User
         $this->idUser = $idUser;
 
         return $this;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
     }
 }

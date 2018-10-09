@@ -9,7 +9,8 @@ class EventsByDate//Calendario
 {
     private $idEventsByDate;
     private $date;
-    private $theater;
+    private $theater; //Class Theater
+    private $artists = array();
     private $eventsBySeats = array();
 
     public function getDate()
@@ -51,5 +52,20 @@ class EventsByDate//Calendario
     public function addEventsBySeat($eventBySeat)
     {
         $this->eventsBySeats[] = $eventBySeat;
+    }
+
+	public function getArtists()
+	{
+		return $this->artists;
+    }
+    
+    public function addArtist($artist)
+    {
+        $this->artists[] = $artist;
+    }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
     }
 }

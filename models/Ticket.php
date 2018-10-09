@@ -5,7 +5,7 @@ class Ticket
 {
     private $idTicket;
     private $ticketNumber;
-    private $qr;
+    private $qrCode;
     private $date; //Date of purchase.
     private $seatType; //Class SeatType;
 
@@ -33,18 +33,6 @@ class Ticket
         return $this;
     }
 
-    public function getQr()
-    {
-        return $this->qr;
-    }
-
-    public function setQr($qr)
-    {
-        $this->qr = $qr;
-
-        return $this;
-    }
-
     public function getDate()
     {
         return $this->date;
@@ -67,5 +55,22 @@ class Ticket
         $this->seatType = $seatType;
 
         return $this;
+    }
+
+    public function getQrCode()
+    {
+        return $this->qrCode;
+    }
+
+    public function setQrCode($qrCode)
+    {
+        $this->qrCode = $qrCode;
+
+        return $this;
+    }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
     }
 }

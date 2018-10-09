@@ -75,4 +75,9 @@ class SeatsByEvent//Plaza_Evento
 
         return $this;
     }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
+    }
 }

@@ -9,8 +9,8 @@ class PurchaseLines//Lineas_Compra
 {
     private $idPurchaseLines;
     private $seatsByEvent; //Class SeatsByEvent.
-    private $quantity; //Tentative var.
-    private $price; //This is a calculated value.
+    //private $quantity; //Tentative var.
+    private $price; //This is a inherited value from SteasByEvent
 
     public function getSeatsByEvent()
     {
@@ -20,18 +20,6 @@ class PurchaseLines//Lineas_Compra
     public function setSeatsByEvent($seatsByEvent)
     {
         $this->seatsByEvent = $seatsByEvent;
-
-        return $this;
-    }
-
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
 
         return $this;
     }
@@ -51,5 +39,10 @@ class PurchaseLines//Lineas_Compra
         $this->idPurchaseLines = $idPurchaseLines;
 
         return $this;
+    }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
     }
 }

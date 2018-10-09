@@ -89,4 +89,9 @@ class Theater//Lugar_evento
     {
         $this->seatTypes[] = $seatType;
     }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
+    }
 }

@@ -71,4 +71,9 @@ class Client
 
         return $this;
     }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
+    }
 }

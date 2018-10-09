@@ -2,13 +2,50 @@
 
 namespace Models;
 
-use SplEnum as SplEnum;
-
-class SeatType extends SplEnum //Tipo_plaza
+class SeatType //Tipo_plaza
 {
-    const platea = "Platea Fila 1 a Fila 15";
-    const superpullman = "Super Pullman Fila 15 a Fila 30";
-    const pullman = "Pullman Fila 31 a Fila 60";
-    const campo = "Campo";
-    const palco = "Palco";
+    private $idSeatType;
+    private $name;
+    private $description;
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
+    }
+
+	public function getIdSeatType()
+	{
+		return $this->idSeatType;
+	}
+
+    public function setIdSeatType($idSeatType)
+    {
+        $this->idSeatType = $idSeatType;
+
+        return $this;
+    }
 }

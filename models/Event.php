@@ -64,4 +64,9 @@ class Event
     {
         $this->calendar[] = $calendar;
     }
+
+    public function getAll()
+    {
+        return get_object_vars($this);
+    }
 }

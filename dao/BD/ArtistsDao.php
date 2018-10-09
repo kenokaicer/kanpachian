@@ -6,11 +6,6 @@ use Dao\SingletonDao as SingletonDao;
 use Models\Artist as Artist;
 use PDO as PDO;
 
-/**
- * TO DO
- * Retrieve, Update and Delete
- */
-
 class ArtistsDao extends SingletonDao implements IArtistDao
 {
     private $table = 'Artists';
@@ -21,7 +16,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
     public function RetrieveAll()
     {
         // Guardo como string la consulta sql
-        $sql = "SELECT * FROM " . $this->table;
+        $querry = "SELECT * FROM " . $this->table;
 
         // creo el objeto conexion
         $obj_pdo = new Connection();
@@ -30,14 +25,14 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         $connection = $obj_pdo->connect();
 
         // Creo una sentencia llamando a prepare. Esto devuelve un objeto statement
-        $sentence = $connection->prepare($sql);
+        $sentence = $connection->prepare($querry);
 
         // Ejecuto la sentencia.
         $sentence->execute();
 
         //Obtiene la siguiente fila de un conjunto de resultados
-        //PDO::FETCH_ASSOC Only return next row as an array indexed by column name (no column number)
-        while ($row = $sentence->fetch(PDO::FETCH_ASSOC)) {
+        
+        while ($row = $sentence->fetch(PDO::FETCH_ASSOC)) { //PDO::FETCH_ASSOC Only return next row as an array indexed by column name (no column number)
             $array[] = $row;
         }
         if (!empty($array)) {
@@ -51,27 +46,23 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         $obj_pdo = new Connection();
         $pdoConexion = $obj_pdo->connect();
         $sentence = $pdoConexion->prepare($query);
-
-        $name = $artist->getName();
-        $lastname = $artist->getLastname();
-
-        $sentence->bindParam(1, $name, \PDO::PARAM_STR); //doesn't like if you use the get method here
-        $sentence->bindParam(2, $lastname, \PDO::PARAM_STR);
+        $sentence->bindValue(1, $artist->getName(), \PDO::PARAM_STR); //use bindValue insted of bindParam to be able to use getters
+        $sentence->bindValue(2, $artist->getLastname(), \PDO::PARAM_STR);
 
         try {
             $sentence->execute();
             echo "<script> alert('Artista agregado exitosamente');</script>";
         } catch (PDOException $e) {
-            echo "<script> alert('No se pudo agregar el artista, codigo de error: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('No se pudo agregar el artista, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         } catch (Exception $e) {
-            echo "<script> alert('No se pudo agregar el artista, codigo de error: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('No se pudo agregar el artista, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         }
     }
 
     public function Retrieve($var)
     {}
 
-    private function retrieveByID($id)
+    private function retrieveByID($id) //Deprecated, no longer used
     {
         $query = "SELECT * FROM ".$this->table.
             " WHERE idArtist = ".$id;
@@ -84,9 +75,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             //$sentence->setFetchMode(PDO::FETCH_CLASS, 'Models/Artist'); //can't convert to object artist
             return $sentence->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "<script> alert('Error al intentar buscar Artista: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('Error al intentar buscar Artista: " . str_replace("'","",$e->getMessage()) . "');</script>";
         } catch (Exception $e) {
-            echo "<script> alert('Error al intentar buscar Artista: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('Error al intentar buscar Artista: " . str_replace("'","",$e->getMessage()) . "');</script>";
         }
 
     }
@@ -97,8 +88,8 @@ class ArtistsDao extends SingletonDao implements IArtistDao
     public function Update(Artist $oldArtist, Artist $newArtist)
     {
         $valuesToModify = "";
-        $oldArtistArray = $this->retrieveByID($oldArtist->getIdArtist()); //get row of id as array of values
-        $artistArray = $newArtist->getAll(); //convert object to array of values
+        $oldArtistArray = $oldArtist->getAll();  //convert object to array of values
+        $artistArray = $newArtist->getAll();
 
         /**
          * Check if a value is different from the one on the database, if different, sets the column and 
@@ -123,15 +114,15 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             $sentence->execute();
             echo "<script> alert('Artista modificado exitosamente');</script>";
         } catch (PDOException $e) {
-            echo "<script> alert('No se pudo modificar el artista, codigo de error: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('No se pudo modificar el artista, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         } catch (Exception $e) {
-            echo "<script> alert('No se pudo modificar el artista, codigo de error: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('No se pudo modificar el artista, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         }
     }
 
     public function Delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_artist = " . $id;
+        $query = "DELETE FROM " . $this->table . " WHERE idArtist = " . $id;
         $obj_pdo = new Connection();
         $pdoConexion = $obj_pdo->connect();
         $sentence = $pdoConexion->prepare($query);
@@ -140,9 +131,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             $sentence->execute();
             echo "<script> alert('Artista eliminado exitosamente');</script>";
         } catch (PDOException $e) {
-            echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         } catch (Exception $e) {
-            echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . $e->getMessage() . "');</script>";
+            echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         }
     }
 }
