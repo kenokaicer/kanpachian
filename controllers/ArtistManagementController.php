@@ -8,12 +8,12 @@ use Models\Artist as Artist;
 class ArtistManagementController
 {
     protected $message;
-    private $ArtistsDao;
+    private $artistsDao;
 
     public function __construct()
     {
-        //$this->ArtistsDao = ArtistList::getInstance();
-        $this->ArtistsDao = ArtistsDao::getInstance();
+        //$this->ArtistsDao = ArtistList::getInstance(); //Json
+        $this->artistsDao = ArtistsDao::getInstance(); //BD
     }
 
     public function index()
@@ -32,22 +32,22 @@ class ArtistManagementController
         try {
             $Artist = new Artist();
             $Artist->setName($name)->setLastname($lastname);
-            $this->ArtistsDao->Add($Artist);
+            $this->artistsDao->Add($Artist);
             $this->index();
         } catch (Exception $e) {
-            $this->message = $e->getMessage();
+            echo "<script>alert('Error al agregar. Error message:".$e->getMessage()."')</script>";
         }
     }
 
     public function artistList()
     {
-        $artistList = $this->ArtistsDao->RetrieveAll();
+        $artistList = $this->artistsDao->RetrieveAll();
         require ROOT."Views/ArtistManagementList.php";
     }
 
-    public function deleteArtist($id)
+    public function deleteArtist($id) //should this recieve all parameters and make an object?
     {
-        $this->ArtistsDao->Delete($id);
+        $this->artistsDao->Delete($id);
         $this->artistList();
     }
 
@@ -57,25 +57,31 @@ class ArtistManagementController
      */
     public function viewEditArtist($id, $name, $lastname)
     {   
+        $oldArtist = new Artist();
+        $oldArtist->setIdArtist($id)->setName($name)->setLastname($lastname);
+        $_SESSION["oldArtist"] = $oldArtist;
         require ROOT."Views/ArtistManagementEdit.php";
     }
 
     /**
-     * Recieve modified atributes for object Artist.
-     * Create two Artist objects for ArtistDao update, only load id in oldArtist as the data is
-     * retrieved in the BD, this could be passed as complete object but it would be needed to recieve  
-     * the complete oldArtist by serialization or session in past steps
+     * Recieve modified atributes for object Artist
+     * and old object by session, call dao update
+     * then unset the old object in session
      */
-    public function editArtist($id, $name, $lastname)
+    public function editArtist($name, $lastname)
     {
+        if(isset($_SESSION["oldArtist"])){
+            $oldArtist = $_SESSION["oldArtist"];
+        }else{
+            echo "<script>alert('Error al editar, [Session for old object not set]');</script>";
+            $this->artistList();
+        }
         $newArtist = new Artist();
-        $oldArtist = new Artist();
 
-        $oldArtist->setIdArtist($id); //only id is needed for old artist
-        $newArtist->setName($name);
-        $newArtist->setLastname($lastname);
+        $newArtist->setName($name)->setLastname($lastname);
         
         $this->ArtistsDao->Update($oldArtist, $newArtist);
+        unset($_SESSION["oldArtist"]);
         $this->artistList();
     }
 

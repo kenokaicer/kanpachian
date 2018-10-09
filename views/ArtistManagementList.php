@@ -4,6 +4,8 @@
             <thead>
                 <th>Nombre</th>
                 <th>Apellido</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </thead>
             <tbody>
             <?php

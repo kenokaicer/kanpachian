@@ -1,7 +1,6 @@
 <div class="wrapper">
     <section>
         <form action="<?=BASE?>ArtistManagement/editArtist" method="post">
-            <input type="hidden" name="id" value="<?=$id?>">
             <table>
                 <tr>
                     <td>Nombre: <input type="text" name="name" value="<?=$name?>"></td>
