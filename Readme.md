@@ -13,4 +13,6 @@ TO DO
 - Change Category enum to Class
 - Change SteasByEvent enum to Class (load list when program starts)
 
+- login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
+
  
