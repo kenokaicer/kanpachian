@@ -10,8 +10,8 @@ DONE
 - Models
 - Composer Autoload working
 - Build Data Base
-- Change SteasByEvent enum to Class
 - ArtistDao converted and automated as much as posible
+- Change SteasByEvent enum to Class (load list when program starts)
 
 TO DO
 
@@ -23,6 +23,10 @@ TO DO
 
 - Change Category enum to Class
 - SteasByEvent is loading list when program starts, change that to a controller call only when needed
+- Change Category enum to Class
+- CreditCard should check if null when making a payment
+- add image to events (then to bd)
+
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
 

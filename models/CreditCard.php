@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class CreditCard
+class CreditCard 
 {
     private $idCreditCard;
     private $creditCardNumber;

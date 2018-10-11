@@ -2,14 +2,14 @@
 
 namespace Models;
 
-use Models\Calendar as Calendar;
+use Models\EventsByDate as EventsByDate;
 use Models\Category as Category;
 
 class Event
 {
     private $idEvent;
     private $eventName;
-    private $calendar = array(); //Class Calendar
+    private $eventsByDate = array(); //Class EventsByDate (calendario)
     private $category; //Enum Category
 
     public function getEventName()
@@ -20,18 +20,6 @@ class Event
     public function setEventName($eventName)
     {
         $this->eventName = $eventName;
-
-        return $this;
-    }
-
-    public function getCalendarsList()
-    {
-        return $this->calendar;
-    }
-
-    public function setCalendar($calendar)
-    {
-        $this->calendar = $calendar;
 
         return $this;
     }
@@ -73,5 +61,17 @@ class Event
     public function __set($name, $value)
     {
         $this->$name = $value;
+    }
+    
+	public function getEventsByDate()
+	{
+		return $this->eventsByDate;
+	}
+
+    public function setEventsByDate($eventsByDate)
+    {
+        $this->eventsByDate = $eventsByDate;
+
+        return $this;
     }
 }
