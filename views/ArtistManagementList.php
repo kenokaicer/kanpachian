@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <div class="wrapper">
     <section>
         <table>
@@ -11,22 +15,32 @@
             <?php
             if (!empty($artistList)) {
                 foreach ($artistList as $key => $artist) {  
+                    $artistValuesArray = $artist->getAll();
             ?>
                 <tr>
-                    <td><?= $artist['name'] ?></td>
-                    <td><?= $artist['lastname'] ?></td>
+                    <?php 
+                        foreach ($artistValuesArray as $atribute => $value) { //print all atributes from object in a td each
+                            if($atribute!="idArtist"){
+                                echo "<td>";
+                                echo $value;
+                                echo "</td>";
+                            }
+                        }
+                    ?>
                     <td>
-                    <form action="<?=BASE?>ArtistManagement/viewEditArtist" method="post">
-                            <input type="hidden" name="id" value="<?=$artist['idArtist']?>">
-                            <input type="hidden" name="name" value="<?=$artist['name']?>">
-                            <input type="hidden" name="lastname" value="<?=$artist['lastname']?>">
-                            <input type="submit" value="Editar">
-                        </form>
+                    <form method="post">
+                        <?php
+                            foreach ($artistValuesArray as $atribute => $value) {
+                        ?>
+                                <input type="hidden" name="<?=$atribute?>" value="<?=$value?>">
+                        <?php
+                            }
+                        ?>                         
+                            <input type="submit" value="Editar" formaction="<?=BASE?>ArtistManagement/viewEditArtist">
+                        
                     </td>
                     <td>
-                        <form action="<?=BASE?>ArtistManagement/deleteArtist" method="post">
-                            <input type="hidden" name="id" value="<?=$artist['idArtist']?>">
-                            <input type="submit" value="Eliminar">
+                            <input type="submit" value="Eliminar" formaction="<?=BASE?>ArtistManagement/deleteArtist">
                         </form>
                     </td>
                 </tr>

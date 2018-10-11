@@ -30,9 +30,18 @@ class ArtistManagementController
     public function addArtist($name, $lastname)
     {
         try {
-            $Artist = new Artist();
-            $Artist->setName($name)->setLastname($lastname);
-            $this->artistsDao->Add($Artist);
+            $artist = new Artist();
+            
+            $args = func_get_args();
+            array_unshift($args, null); //put null at first of array for id
+            
+            $artistAtributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+            
+            foreach ($artistAtributeList as $atribute => $value) {
+                $artist->__set($atribute,$value);
+            }
+
+            $this->artistsDao->Add($artist);
             $this->index();
         } catch (Exception $e) {
             echo "<script>alert('Error al agregar. Error message:".$e->getMessage()."')</script>";
@@ -45,9 +54,17 @@ class ArtistManagementController
         require ROOT."Views/ArtistManagementList.php";
     }
 
-    public function deleteArtist($id) //should this recieve all parameters and make an object?
+    public function deleteArtist($id, $name, $lastname) //should this recieve all parameters and make an object?
     {
-        $this->artistsDao->Delete($id);
+        $artist = new Artist();
+
+        $artistAtributeList = array_combine(array_keys($artist->getAll()),array_values(func_get_args())); 
+
+        foreach ($artistAtributeList as $atribute => $value) {
+            $artist->__set($atribute,$value);
+        }
+
+        $this->artistsDao->Delete($artist);
         $this->artistList();
     }
 
@@ -58,7 +75,13 @@ class ArtistManagementController
     public function viewEditArtist($id, $name, $lastname)
     {   
         $oldArtist = new Artist();
-        $oldArtist->setIdArtist($id)->setName($name)->setLastname($lastname);
+
+        $artistAtributeList = array_combine(array_keys($oldArtist->getAll()),array_values(func_get_args())); 
+
+        foreach ($artistAtributeList as $atribute => $value) {
+            $oldArtist->__set($atribute,$value);
+        }
+        
         $_SESSION["oldArtist"] = $oldArtist;
         require ROOT."Views/ArtistManagementEdit.php";
     }
@@ -78,9 +101,15 @@ class ArtistManagementController
         }
         $newArtist = new Artist();
 
-        $newArtist->setName($name)->setLastname($lastname);
+        $args = func_get_args();
+        array_unshift($args, null); //put null at first of array for id
+        $artistAtributeList = array_combine(array_keys($newArtist->getAll()),array_values($args)); 
+
+        foreach ($artistAtributeList as $atribute => $value) {
+            $newArtist->__set($atribute,$value);
+        }
         
-        $this->ArtistsDao->Update($oldArtist, $newArtist);
+        $this->artistsDao->Update($oldArtist, $newArtist);
         unset($_SESSION["oldArtist"]);
         $this->artistList();
     }

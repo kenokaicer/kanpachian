@@ -6,8 +6,8 @@ use Models\Artist as Artist;
 interface IArtistDao
 {
     public function Add(Artist $artist);
-    public function Retrieve($var);
+    public function RetrieveById($id);
     public function RetrieveAll();
     public function Update(Artist $oldArtist, Artist $newArtist);
-    public function Delete($id);
+    public function Delete(Artist $artist);
 }
