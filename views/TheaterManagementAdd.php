@@ -4,14 +4,13 @@ use Models\Theater as Theater;
 
 if(isset($_POST["seatTypes"]))
 {   
-    $exists = false;
-
-    foreach ($_SESSION["seatTypesForTheater"] as $value) {
+    $var = true;
+    foreach ($_SESSION["seatTypesForTheater"]->getSeatTypes() as $value) {
         if ($value->getIdSeatType()==$_POST["seatTypes"])
-            $exists = true;
+            $var = false;
     }
 
-    if(!$exists){
+    if($var){
         foreach ($seatTypeList as $key => $value) {
             if($value['idSeatType']==$_POST["seatTypes"]){
                 $seatType = new SeatType();
@@ -22,6 +21,7 @@ if(isset($_POST["seatTypes"]))
     }else{
         echo "<script>alert('Plaza ya agregada');</script>";
     }
+
 }else{
     $_SESSION["seatTypesForTheater"] = new Theater();
 }
