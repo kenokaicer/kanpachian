@@ -80,4 +80,9 @@ class SeatsByEvent//Plaza_Evento
     {
         return get_object_vars($this);
     }
+
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
 }

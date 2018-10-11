@@ -48,4 +48,9 @@ class SeatType //Tipo_plaza
 
         return $this;
     }
+
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
 }

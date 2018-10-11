@@ -8,7 +8,18 @@ class Artist
     private $idArtist;
     private $name;
     private $lastname;
-    private $image;
+
+    public function getIdArtist()
+    {
+        return $this->idArtist;
+    }
+
+    public function setIdArtist($idArtist)
+    {
+        $this->idArtist = $idArtist;
+
+        return $this;
+    }
 
     public function getname()
     {
@@ -64,27 +75,8 @@ class Artist
         return get_object_vars($this);
     }
 
-    public function getImage()
+    public function __set($name, $value)
     {
-        return $this->image;
-    }
-
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getIdArtist()
-    {
-        return $this->idArtist;
-    }
-
-    public function setIdArtist($idArtist)
-    {
-        $this->idArtist = $idArtist;
-
-        return $this;
+        $this->$name = $value;
     }
 }
