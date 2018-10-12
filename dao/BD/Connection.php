@@ -16,6 +16,7 @@ class Connection extends SingletonDao
         try
         {
             $this->pdo = new PDO("mysql:host=" . DB_HOST . "; dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $ex) {
             throw $ex;
         } catch (Exception $ex) {
@@ -57,10 +58,8 @@ class Connection extends SingletonDao
 
             return $this->pdoStatement->rowCount();
         } catch (PDOException $ex) {
-            echo "pdoex";
             throw $ex;
         } catch (Exception $ex) {
-            echo "ex";
             throw $ex;
         }
     }
@@ -71,10 +70,8 @@ class Connection extends SingletonDao
         {
             $this->pdoStatement = $this->pdo->prepare($query);
         } catch (PDOException $ex) {
-            echo "prepare_pdoex ";
             throw $ex;
         } catch (Exception $ex) {
-            echo "prepare_ex";
             throw $ex;
         }
     }
