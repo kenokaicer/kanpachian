@@ -6,11 +6,11 @@ use Models\Client as Client;
 class User
 {
     private $idUser;
-    private $client; //Class Client.
     private $username;
     private $password;
     private $email;
     private $role; //Enum Rol.
+    private $client; //Class Client.
 
     public function getClient()
     {

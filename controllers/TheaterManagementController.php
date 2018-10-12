@@ -4,6 +4,8 @@ namespace Controllers;
 
 use Models\Theater as Theater;
 use Dao\BD\TheatersDao as TheatersDao;
+use PDOException as PDOException;
+use Exception as Exception;
 
 class TheaterManagementController
 {
@@ -31,11 +33,14 @@ class TheaterManagementController
         try {
             $theater = $_SESSION["seatTypesForTheater"];
             $theater->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
-            $this->theatersDao->Add($theater);
-            $this->index();
+            $this->theatersDao->Add($theater); 
+        } catch (PDOException $e) {
+            echo "<script> alert('No se pudo agregar el teatro');</script>";
         } catch (Exception $e) {
-            echo "<script>alert('Error al agregar. Error message:".$e->getMessage()."')</script>";
+            echo "<script> alert('No se pudo agregar el teatro');</script>";
         }
+
+        $this->index();
     }
 
     public function theaterList()

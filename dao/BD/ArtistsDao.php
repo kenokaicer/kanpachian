@@ -51,10 +51,10 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             echo "<script> alert('Artista agregado exitosamente');</script>";
         } catch (PDOException $ex) {
             echo "<script> alert('No se pudo agregar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo agregar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         }
     }
 
@@ -80,10 +80,10 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             return $artist;
         } catch (PDOException $ex) {
             echo "<script> alert('Error al intentar buscar Artista: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         } catch (Exception $ex) {
             echo "<script> alert('Error al intentar buscar Artista: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         }
     }
 
@@ -97,7 +97,15 @@ class ArtistsDao extends SingletonDao implements IArtistDao
 
         $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
-        $resultSet = $this->connection->Execute($query);
+        try{
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            die();
+        } catch (Exception $ex) {
+            echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            die();
+        }
 
         $artistPropierties = array_keys($artist->getAll()); //get propierty names from object for use in __set
 
@@ -148,10 +156,10 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             echo "<script> alert('Artista modificado exitosamente');</script>";
         } catch (PDOException $ex) {
             echo "<script> alert('No se pudo modificar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         }
     }
 
@@ -169,10 +177,10 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             echo "<script> alert('Artista eliminado exitosamente');</script>";
         } catch (PDOException $ex) {
             echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
-            throw $ex;
+            die();
         }
     }
 }

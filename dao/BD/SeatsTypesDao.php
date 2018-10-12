@@ -2,7 +2,7 @@
 namespace dao\BD;
 
 use Dao\SingletonDao as SingletonDao;
-use Dao\BD\Connection as Connection;
+use Dao\BD\Connection_old as Connection;
 use Models\SeatsType as SeatsType;
 use PDOException as PDOException;
 use PDO as PDO;

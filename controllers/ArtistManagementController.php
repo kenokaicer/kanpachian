@@ -4,8 +4,6 @@ namespace Controllers;
 //use Dao\Json\ArtistList as ArtistList;
 use Dao\BD\ArtistsDao as ArtistsDao;
 use Models\Artist as Artist;
-use PDOException as PDOException;
-use Exception as Exception;
 
 class ArtistManagementController
 {
@@ -31,22 +29,19 @@ class ArtistManagementController
 
     public function addArtist($name, $lastname)
     {
-        try {
-            $artist = new Artist();
-            
-            $args = func_get_args();
-            array_unshift($args, null); //put null at first of array for id
-            
-            $artistAtributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-            
-            foreach ($artistAtributeList as $atribute => $value) {
-                $artist->__set($atribute,$value);
-            }
+        $artist = new Artist();
+        
+        $args = func_get_args();
+        array_unshift($args, null); //put null at first of array for id
+        
+        $artistAtributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        
+        foreach ($artistAtributeList as $atribute => $value) {
+            $artist->__set($atribute,$value);
+        }
 
-            $this->artistsDao->Add($artist);
-            $this->index();
-        } catch (PDOException $ex) {
-        } catch (Exception $ex) {}
+        $this->artistsDao->Add($artist);
+        $this->index();
     }
 
     public function artistList()
@@ -65,10 +60,7 @@ class ArtistManagementController
             $artist->__set($atribute,$value);
         }
 
-        try {
-            $this->artistsDao->Delete($artist);
-        } catch (PDOException $ex) {
-        } catch (Exception $ex) {}
+        $this->artistsDao->Delete($artist);
 
         $this->artistList();
     }
@@ -113,11 +105,8 @@ class ArtistManagementController
         foreach ($artistAtributeList as $atribute => $value) {
             $newArtist->__set($atribute,$value);
         }
-    
-        try {
-            $this->artistsDao->Update($oldArtist, $newArtist);
-        } catch (PDOException $ex) {
-        } catch (Exception $ex) {}
+
+        $this->artistsDao->Update($oldArtist, $newArtist);
 
         unset($_SESSION["oldArtist"]);
         $this->artistList();
