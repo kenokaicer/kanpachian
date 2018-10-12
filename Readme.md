@@ -6,7 +6,7 @@ PHP PSR-1 Naming conventions
 
 DONE
 
-- ArtistDaoBD does Add, RetrieveAll, Update(edit) and Delete, only missing Retrieve, but that needs to know what var is sent to the method
+- ArtistDaoBD does Add, RetrieveAll, Update(edit) and Delete, exception handling working
 - Models
 - Composer Autoload working
 - Build Data Base
@@ -15,17 +15,13 @@ DONE
 
 TO DO
 
+- Finish Theater dao update and delete
 - Move js, css, img folders to Views folder
-- TRY CATCH FROM CONNECTION NOT WORKING
-
-- Complete Daos
-- See what is better, if passing variables by post or storing the object in session for modifying a deleting (Answer: pass only id, and make a call to dao by id. Still this brakes if another dao is implemented)
-
-- Change Category enum to Class
 - SteasByEvent is loading list when program starts, change that to a controller call only when needed
 - Change Category enum to Class
 - CreditCard should check if null when making a payment
 - add image to events (then to bd)
+- Complete Daos
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
