@@ -8,6 +8,7 @@ use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ITheaterDao as ITheaterDao;
 use Models\Theater as Theater;
+use Models\SeatType as SeatType;
 
 class TheatersDao extends SingletonDao implements ITheaterDao
 {
@@ -59,36 +60,37 @@ class TheatersDao extends SingletonDao implements ITheaterDao
             }
         } catch (PDOException $ex) {
             echo "<script> alert('No se pudo agregar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-            die();
-            //throw $ex;
+            return;
         } catch (Exception $ex) {
-            die();
             echo "<script> alert('No se pudo agregar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-            //throw $ex;
+            return;
         }
             
         //---Get ID of the Theater inserted---//
 
-        $querry= "SELECT LAST_INSERT_ID()";
+        $query= "SELECT LAST_INSERT_ID()";
 
         try {
-            $resultSet = $this->connection->Execute($query);
-            $idTheater = array_shift($resultSet);
+            $resultSet = $this->connection->Execute($query);  
         } catch (PDOException $ex) {
             echo "<script> alert('Error getting last insert id, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-            throw $ex;
+            return;
         } catch (Exception $ex) {
             echo "<script> alert('Error getting last insert id, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-            throw $ex;
+            return;
         }   
+        $row = reset($resultSet);
+        $idTheater = reset($row);
 
         //---Insert each SeatType in a separate querry, N:N Table ---//
 
         foreach ($theater->getSeatTypes() as $value) {
-            $querry = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) VALUES (:idSeatType,:idTheater);";
+            $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) VALUES (:idSeatType,:idTheater);";
             
+            $parameters = array();
             $parameters["idSeatType"] = $value->getIdSeatType();
             $parameters["idTheater"] = $idTheater;
+            var_dump($parameters);
 
             try {
                 $addedRows = $this->connection->executeNonQuery($query, $parameters);
@@ -97,41 +99,87 @@ class TheatersDao extends SingletonDao implements ITheaterDao
                 }
             } catch (PDOException $ex) {
                 echo "<script> alert('Error inserting SeatType, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-                throw $ex;
+                return;
             } catch (Exception $ex) {
                 echo "<script> alert('Error inserting SeatType, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-                throw $ex;
+                return;
             }
         }
         
         echo "<script> alert('Teatro agregado exitosamente');</script>";
-    } //check if this is adding alrrigt withe select to the nn table
+    }
 
     public function Retrieve($var){
     }
     
     public function RetrieveAll(){
-        $querry = "SELECT * FROM " . $this->table;
-        $obj_pdo = new Connection_old();
-        $conexion = $obj_pdo->connect();
-        $sentence = $conexion->prepare($querry);
+        $theaterList = array();
+        $theater = new Theater();
+        $seatType = new SeatType();
+
+        $query = "SELECT * FROM " . $this->tableName." WHERE enabled = 1";
 
         try {
-            $sentence->execute();
+            $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
             echo "<script> alert('No se pudo listar los teatros, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo listar los teatros, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }
+        
+        $theaterProperties = array_keys($theater->getAll());
+        array_pop($theaterProperties);
 
-        while ($row = $sentence->fetch(PDO::FETCH_ASSOC)) {
-            $array[] = $row;
+        foreach ($resultSet as $row){
+            $theater = new Theater();
+            
+            foreach ($theaterProperties as $value) {
+                $theater->__set($value, $row[$value]);
+            }
+
+            array_push($theaterList, $theater);
         }
-        if (!empty($array))
-            return $array;
+
+        $query = "SELECT SeatTypes.idSeatType, name, description, idTheater
+        FROM " . $this->tableName2." 
+        INNER JOIN SeatTypes 
+        ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType 
+        ORDER BY idTheater, SeatTypes.idSeatType";
+
+        try {
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            echo "<script> alert('SeatType listing error, code: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+        } catch (Exception $ex) {
+            echo "<script> alert('SeatType listing error, code: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+        }
+
+        $seatTypeProperties = array_keys($seatType->getAll());
+
+        foreach ($resultSet as $row){
+            $seatType = new SeatType();
+
+            foreach ($seatTypeProperties as $value) {
+                $seatType->__set($value, $row[$value]);
+            }
+
+            if($theater->getIdTheater()!=$row["idTheater"]){
+                foreach ($theaterList as $value) {
+                    if($row["idTheater"]==$value->getIdTheater()){
+                        $theater = $value;
+                        break;
+                    }
+                }
+            }
+
+            $theater->addSeatType($seatType);
+        }
+
+        return $theaterList;
     }
 
     public function Update(Theater $oldTheater, Theater $newTheater){
+        /*
         $valuesToModify = "";
         $oldTheaterArray = $oldTheater->getAll();  //convert object to array of values
         $theaterArray = $newTheater->getAll();
@@ -159,9 +207,11 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         } catch (Exception $ex) { 
             echo "<script> alert('No se pudo modificar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }
+        */
     }
 
     public function Delete($id){
+        /*
         $query = "DELETE FROM " . $this->table . " WHERE idTheater = " . $id;
         $obj_pdo = new Connection();
         $pdoConexion = $obj_pdo->connect();
@@ -175,5 +225,6 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }
+        */
     }
 }
