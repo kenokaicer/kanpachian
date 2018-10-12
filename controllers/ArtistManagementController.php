@@ -4,6 +4,8 @@ namespace Controllers;
 //use Dao\Json\ArtistList as ArtistList;
 use Dao\BD\ArtistsDao as ArtistsDao;
 use Models\Artist as Artist;
+use PDOException as PDOException;
+use Exception as Exception;
 
 class ArtistManagementController
 {
@@ -43,9 +45,8 @@ class ArtistManagementController
 
             $this->artistsDao->Add($artist);
             $this->index();
-        } catch (Exception $e) {
-            echo "<script>alert('Error al agregar. Error message:".$e->getMessage()."')</script>";
-        }
+        } catch (PDOException $ex) {
+        } catch (Exception $ex) {}
     }
 
     public function artistList()
@@ -64,7 +65,11 @@ class ArtistManagementController
             $artist->__set($atribute,$value);
         }
 
-        $this->artistsDao->Delete($artist);
+        try {
+            $this->artistsDao->Delete($artist);
+        } catch (PDOException $ex) {
+        } catch (Exception $ex) {}
+
         $this->artistList();
     }
 
@@ -108,8 +113,12 @@ class ArtistManagementController
         foreach ($artistAtributeList as $atribute => $value) {
             $newArtist->__set($atribute,$value);
         }
-        
-        $this->artistsDao->Update($oldArtist, $newArtist);
+    
+        try {
+            $this->artistsDao->Update($oldArtist, $newArtist);
+        } catch (PDOException $ex) {
+        } catch (Exception $ex) {}
+
         unset($_SESSION["oldArtist"]);
         $this->artistList();
     }
