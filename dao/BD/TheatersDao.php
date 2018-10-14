@@ -1,5 +1,5 @@
 <?php
-namespace dao\BD;
+namespace dao\BD; /*Needs testing.*/
 
 use Dao\BD\Connection as Connection;
 use Dao\SingletonDao as SingletonDao;
