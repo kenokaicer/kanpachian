@@ -34,6 +34,7 @@
 	session_start();
 
 	require "Views/Header.php";
+	require "Views/navbar.php";
 
 	//Router::direccionar(new Request());
 	$request = Request::getInstance();
