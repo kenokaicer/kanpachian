@@ -12,7 +12,10 @@
 	 */
 	require_once "config/Config.php";
 	require_once "config/Autoload.php";
+	require_once 'css/Scssphp/scss.inc.php';
 	
+	use Leafo\ScssPhp\Compiler;
+	$scss = new Compiler();
 	
 	//require_once "Config/Request.php";
 	//require_once "Config/Router.php";
