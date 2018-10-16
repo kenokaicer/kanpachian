@@ -7,6 +7,13 @@
     <title>Ticketeke</title>
     <link rel="stylesheet" href="<?=BASE?>/css/teststyle.css">
     <link rel="stylesheet" href="<?=BASE?>/css/foundation.css">
-    <link rel="stylesheet" href="<?=BASE?>/css/foundation.min.css">       
+    <link rel="stylesheet" href="<?=BASE?>/css/foundation.min.css">    
+
+    <script src="<?=BASE?>/js/vendor/modernizr.js"></script>
+    <link href="<?=BASE?>/css/style.css" rel="stylesheet" />
+    <link href="<?=BASE?>/css/flaticon.css" rel="stylesheet" />  
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+ 
 </head>
 <body>
