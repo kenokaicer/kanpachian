@@ -31,13 +31,26 @@ class TheaterManagementController
 
         $theater = $_SESSION["seatTypesForTheater"];
         $theater->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
-        $this->theatersDao->Add($theater); 
+
+        try{
+            $this->theatersDao->Add($theater);
+            echo "<script> alert('Teatro agregado exitosamente');</script>";
+        }catch (Exception $ex) {
+            echo "<script> alert('No se pudo agregar el teatro. " . str_replace("'","",$ex->getMessage()) . "');</script>";
+        }
+        
         $this->index();
     }
 
     public function theaterList()
     {
-        $theaterList = $this->theatersDao->RetrieveAll();
+        try{
+            $theaterList = $this->theatersDao->RetrieveAll();
+        }catch (Exception $ex) {
+            echo "<script> alert('No se pudo listar los teatros. " . str_replace("'","",$ex->getMessage()) . "');</script>";
+        }
+
+        
         var_dump($theaterList);
         foreach ($theaterList as $key => $value) {
             var_dump($value->getSeatTypes());

@@ -49,9 +49,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("ExecuteNonQuery error: ".$ex->getMessage());
+            throw new Exception ("Add error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("ExecuteNonQuery error: ".$ex->getMessage());
+            throw new Exception ("Add error: ".$ex->getMessage());
         }
     }
 

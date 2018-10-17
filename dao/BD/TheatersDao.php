@@ -59,10 +59,10 @@ class TheatersDao extends SingletonDao implements ITheaterDao
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo agregar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Add error: ".$ex->getMessage());
             return;
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo agregar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Add error: ".$ex->getMessage());
             return;
         }
             
@@ -73,14 +73,14 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         try {
             $resultSet = $this->connection->Execute($query);  
         } catch (PDOException $ex) {
-            echo "<script> alert('Error getting last insert id, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Error getting last insert id. ".$ex->getMessage());
             return;
         } catch (Exception $ex) {
-            echo "<script> alert('Error getting last insert id, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Error getting last insert id. ".$ex->getMessage());
             return;
         }   
-        $row = reset($resultSet);
-        $idTheater = reset($row);
+        $row = reset($resultSet); //gives first object of array
+        $idTheater = reset($row); //get value of previous first object
 
         //---Insert each SeatType in a separate querry, N:N Table ---//
 
@@ -98,15 +98,13 @@ class TheatersDao extends SingletonDao implements ITheaterDao
                     throw new Exception("Number of rows added ".$addedRows.", expected 1, in SeatType");
                 }
             } catch (PDOException $ex) {
-                echo "<script> alert('Error inserting SeatType, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+                throw new Exception ("Error inserting SeatType. ".$ex->getMessage());
                 return;
             } catch (Exception $ex) {
-                echo "<script> alert('Error inserting SeatType, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+                throw new Exception ("Error inserting SeatType. ".$ex->getMessage());
                 return;
             }
         }
-        
-        echo "<script> alert('Teatro agregado exitosamente');</script>";
     }
 
     public function Retrieve($var){
@@ -122,9 +120,11 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         try {
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo listar los teatros, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Theater list error. ".$ex->getMessage());
+            return;
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo listar los teatros, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Theater list error. ".$ex->getMessage());
+            return;
         }
         
         $theaterProperties = array_keys($theater->getAll());
@@ -140,7 +140,9 @@ class TheatersDao extends SingletonDao implements ITheaterDao
             array_push($theaterList, $theater);
         }
 
-        $query = "SELECT SeatTypes.idSeatType, name, description, idTheater
+        //----------------This should be done by SeatTypes controller, method "get all seattypes by theater id"
+        //------Should return an array, and then set that array
+        $query = "SELECT SeatTypes.idSeatType, name, description, idTheater 
         FROM " . $this->tableName2." 
         INNER JOIN SeatTypes 
         ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType 
