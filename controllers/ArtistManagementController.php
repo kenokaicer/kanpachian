@@ -4,6 +4,7 @@ namespace Controllers;
 //use Dao\Json\ArtistList as ArtistList;
 use Dao\BD\ArtistsDao as ArtistsDao;
 use Models\Artist as Artist;
+use Exception as Exception;
 
 class ArtistManagementController
 {
@@ -40,13 +41,24 @@ class ArtistManagementController
             $artist->__set($atribute,$value);
         }
 
-        $this->artistsDao->Add($artist);
+        try{
+            $this->artistsDao->Add($artist);
+            echo "<script> alert('Artista agregado exitosamente');</script>";
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo agregar el artista. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        }
+        
         $this->index();
     }
 
     public function artistList()
     {
-        $artistList = $this->artistsDao->RetrieveAll();
+        try{
+            $artistList = $this->artistsDao->RetrieveAll();
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        }
+        
         require ROOT."Views/ArtistManagementList.php";
     }
 
@@ -60,7 +72,12 @@ class ArtistManagementController
             $artist->__set($atribute,$value);
         }
 
-        $this->artistsDao->Delete($artist);
+        try{
+            $this->artistsDao->Delete($artist);
+            echo "<script> alert('Artista eliminado exitosamente');</script>";
+        } catch (Exception $ex) {
+            echo "<script> alert('No se pudo eliminar el artista. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        } 
 
         $this->artistList();
     }
@@ -106,7 +123,12 @@ class ArtistManagementController
             $newArtist->__set($atribute,$value);
         }
 
-        $this->artistsDao->Update($oldArtist, $newArtist);
+        try{
+            $this->artistsDao->Update($oldArtist, $newArtist);
+            echo "<script> alert('Artista modificado exitosamente');</script>";
+        }catch (Exception $ex) {
+            echo "<script> alert('No se pudo modificar el artista " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        }
 
         unset($_SESSION["oldArtist"]);
         $this->artistList();
