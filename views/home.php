@@ -1,3 +1,6 @@
+ <div><form method="post">
+    <button type="submit" formaction="<?=BASE?>Admin/index">ADMIN</button>
+ </form></div>
  <div id="additional-info">
         <div class="row">
             <div class="large-12 columns">
