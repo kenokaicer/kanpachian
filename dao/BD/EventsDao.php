@@ -1,5 +1,4 @@
-
-<?php namespace Dao\BD; /*Needs testing.*/
+<?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
 use Dao\SingletonDao as SingletonDao;
@@ -9,14 +8,13 @@ use Exception as Exception;
 use Dao\Interfaces\IEventDao as IEventDao;
 use Models\Event as Event;
 
-class EventsDao extends SingletonDao implements IEventDao
+class EventsDao extends SingletonDao //implements IEventDao
 {
     private $connection;
     private $tableName = 'Events';
 
     protected function __construct(){
         $this->connection = Connection::getInstance();
-        //See if having this here causes problems in the future, so far so good.
     }
 
     public function Add(Event $event)
@@ -24,17 +22,8 @@ class EventsDao extends SingletonDao implements IEventDao
         $columns = "";
         $values = "";
         
-        /*
-        $parameters["name"] = $event->getName();
-        $parameters["lastname"] = $event->getLastName();
-        */
-        $parameters = array_filter($event->getAll()); //does the same as the above but automated, array filter unsets null values (id), or values not set
+        $parameters = array_filter($event->getAll()); 
 
-        /**
-         * Auto fill values for querry
-         * end result:
-         * $query = "INSERT INTO " . $this->tableName . " (name,lastname) VALUES (:name,:lastname);";
-         */
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
             $values .= ":".$key.",";
@@ -49,11 +38,10 @@ class EventsDao extends SingletonDao implements IEventDao
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
-            echo "<script> alert('Eventa agregado exitosamente');</script>";
         } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo agregar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Add error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo agregar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Add error: ".$ex->getMessage());
         }
     }
 
@@ -78,16 +66,16 @@ class EventsDao extends SingletonDao implements IEventDao
 
             return $event;
         } catch (PDOException $ex) {
-            echo "<script> alert('Error al intentar buscar Eventa: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Event search error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            echo "<script> alert('Error al intentar buscar Eventa: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Event search error: ".$ex->getMessage());
         }
     }
 
     /**
      * Returns all Events as an array of Events
      */
-    public function RetrieveAll()
+    public function RetrieveEventsOnly()
     {
         $eventList = array();
         $event = new Event();
@@ -97,18 +85,20 @@ class EventsDao extends SingletonDao implements IEventDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            echo "<script> alert('Error al intentar listar Eventas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
         }
         
-        $eventProperties = array_keys($event->getAll()); //get propierty names from object for use in __set
+        $eventProperties = array_keys($event->getAll()); 
+        array_pop($eventProperties);
+        array_pop($eventProperties);
 
-        foreach ($resultSet as $row) //loops returned rows
+        foreach ($resultSet as $row) 
         {                
             $event = new Event();
             
-            foreach ($eventProperties as $value) { //auto fill object with magic function __set
+            foreach ($eventProperties as $value) { 
                 $event->__set($value, $row[$value]);
             }
 
@@ -139,27 +129,24 @@ class EventsDao extends SingletonDao implements IEventDao
             }
         }
 
-        $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+        $valuesToModify = rtrim($valuesToModify, ", "); 
 
         $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idEvent = " . $oldEvent->getIdEvent();
         
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
+            $modifiedRows = $this->connection->executeNonQuery($query, array()); 
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
-            echo "<script> alert('Eventa modificado exitosamente');</script>";
         } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo modificar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Update error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Update error: ".$ex->getMessage());
         }
     }
 
     public function Delete(Event $event)
     {
-        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$eventProperties[0]." = " . $event->getIdEvent();
-        
         $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idEvent = ".$event->getIdEvent();
 
         try {
@@ -167,11 +154,10 @@ class EventsDao extends SingletonDao implements IEventDao
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
-            echo "<script> alert('Eventa eliminado exitosamente');</script>";
         } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Delete error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el artista, codigo de error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            throw new Exception ("Delete error: ".$ex->getMessage());
         }
     }
 }
