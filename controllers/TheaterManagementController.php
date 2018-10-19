@@ -26,11 +26,26 @@ class TheaterManagementController
         require ROOT."Views/TheaterManagementAdd.php";
     }
 
-    public function addTheater($name, $location, $maxCapacity)
-    {
+    public function addTheater($name, $location, $image="", $maxCapacity, $seatTypeList="")
+    {    
+        $theater = new Theater();
+        //$theater = $_SESSION["seatTypesForTheater"]; //seatTypeList no longer by session, should be passed by post
 
-        $theater = $_SESSION["seatTypesForTheater"];
-        $theater->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
+        $args = func_get_args();
+        array_unshift($args, null); //put null at first of array for id
+        array_pop($args); //take out serialized list
+
+        ///----
+        //deserialize list
+        ///-----
+
+        array_push($args, $seatTypeList); //$seatTypeList should be an object array now
+
+        $theaterAtributeList = array_combine(array_keys($theater->getAll()),array_values($args));
+
+        foreach ($theaterAtributeList as $atribute => $value) {
+            $theater->__set($atribute,$value);
+        }
 
         try{
             $this->theatersDao->Add($theater);
