@@ -10,6 +10,8 @@ USE neonlab1_gotoevent;
 /*create table Events(
     idEvent int unsigned auto_increment,
     eventName varchar(50) not null unique,
+    image varchar(255),
+    descritpion varchar(300),
     idCategory int unsigned,
     constraint pkEvent primary key (idEvent),
     enabled bool default '1',
