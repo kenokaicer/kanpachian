@@ -9,6 +9,8 @@ class Event
 {
     private $idEvent;
     private $eventName;
+    private $image;
+    private $description;
     private $eventsByDate = array(); //Class EventsByDate (calendario)
     private $category; //Enum Category
 
