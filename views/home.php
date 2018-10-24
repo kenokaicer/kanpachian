@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <div class="large-12 columns">
-                <img src="img/mockup.png" alt="mockup" />
+                <img src="<?=IMG_PATH?>mockup.png" alt="mockup" />
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
     <div id="intro">
         <div class="row">
             <div class="large-6 medium-6 columns">
-                <img src="img/kappa.png" width="200"  alt="logo" />
+                <img src="<?=IMG_PATH?>kappa.png" width="200"  alt="logo" />
                 <h3 class="color-white">Ingrese con su email y contraseña</h3>
                 <h6 class="color-white" style="line-height: 27px;">Lorem ipsum dolor sit amet, consectetur Maecenas Maecenas adipiscing elit.  Maecenas fermentum neque id lobortis consectetur. Integer facilisis diam metus, quis volutpat mauris porta eget.
                 </h6>

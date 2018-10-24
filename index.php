@@ -1,25 +1,15 @@
 <?php
 
 	/**
-	 * Mostrar errores de PHP
+	 * Show PHP errors
 	 */
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 	
-	/**
-	 * Archivos necesarios de inicio
-	 */
 	require_once "config/Config.php";
 	require_once "config/Autoload.php";
-	require_once 'css/Scssphp/scss.inc.php';
-	
-	use Leafo\ScssPhp\Compiler;
-	$scss = new Compiler();
-	
-	//require_once "Config/Request.php";
-	//require_once "Config/Router.php";
-	//require_once "Daos/SingletonDao.php";
+	require_once "views/css/scssphp/scss.inc.php";
 
 	/**
 	 * Alias
@@ -28,17 +18,18 @@
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
 	use Daos\SingletonDao as SingletonDao;
-	
+	use Config\Session as Session;
+	use Leafo\ScssPhp\Compiler;
+
+	$scss = new Compiler();
 	
 	Autoload::start();
-	session_start();
+	Session::start();
 
 	require "Views/Header.php";
 	require "Views/navbar.php";
 
-	//Router::direccionar(new Request());
-	$request = Request::getInstance();
-	Router::direccionar($request); //para que funcione el singleton interno
+	Router::Route(new Request());
 
 	require "Views/Footer.php";
 

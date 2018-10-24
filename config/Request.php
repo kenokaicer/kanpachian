@@ -1,113 +1,67 @@
-<?php namespace Config;
-   
-class Request
-{
-	/*atributos para almacenar todos los valores que vengan por url*/
-	private $controladora;
-	private $metodo;
-	private $parametros;
+<?php 
+    namespace Config;
 
-	 function __construct()
-	{
-		 /*  En el archivo htaccess se define una regla de reescritura para poder tomar la url tanto para todo metodo de petición.*/
-            $url = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_URL);
-            //echo "url: ";
-            //var_dump($url);
-            /*
-              Convierto la url en un array tomando como separador la "/".
-             */
-            $urlToArray = explode("/", $url);
-            /*
-  				Filtro el arreglo para eliminar datos vacios en caso de haberlos.
-             */
-            $ArregloUrl = array_filter($urlToArray);
-             /*
-              Defino un controlador por defecto en el caso de que el arreglo llegue vacío
-            	 Si el arreglo tiene datos, tomo como controlador el primer elemento.
-             */
-            if(empty($ArregloUrl)) {
-                $this->controladora = 'Main';
-            } else {
-                $this->controladora = ucwords(array_shift($ArregloUrl)); //ucwords capitaliza la primer letra de un string
-            }                                                            //array_shift quita el primer elemento de un array y lo devuelve
-
-
-            /*
-             Defino un método por defecto en el caso de que el arreglo llegue vacío
-             Si el arreglo tiene datos, tomo como método el primero elemento.
-             */
-            if(empty($ArregloUrl)) {
-                $this->metodo = 'index';
-            } else {
-                $this->metodo = ucwords(array_shift($ArregloUrl));
-            }
-            /**
-             * Capturo el metodo de petición y lo guardo en una variable
-             */
-            $metodoRequest = $this->getMetodoRequest();
-           /**
-             * Si el método es GET, en caso de que el arreglo llegue con datos, 
-             * lo guardo entero en el campo "parametros" de la  clase. 
-             *
-             * Si el método es POST, guardo todos los datos que llegaron por POST
-             * en el campo "parametros"
-             */
-
-            if($metodoRequest == 'GET') {
-                if(!empty($ArregloUrl)) {
-                    $this->parametros = $ArregloUrl;
-                }
-            } else {
-                $this->parametros = $_POST; //si no hay parametros es un arreglo vacio
-            }
-           /* echo '<pre>';
-            var_dump($this);
-            echo '</pre>';*/
-        }
-
-        /**
-         * 
-         */
-        public static function getInstance() //singleton, hay que corregir
+    class Request
+    {
+        private $controller;
+        private $method;
+        private $parameters = array();
+        
+        public function __construct()
         {
-            static $inst = null;
-            if ($inst === null) {
-                $inst = new Request();
+
+            $url = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_URL);
+
+            $urlArray = explode("/", $url);
+         
+            $urlArray = array_filter($urlArray);
+
+            if(empty($urlArray))
+                $this->controller = 'Main';    //changed from Home to Main        
+            else
+                $this->controller = ucwords(array_shift($urlArray));
+
+            if(empty($urlArray))
+                $this->method = 'Index';
+            else
+                $this->method = array_shift($urlArray);
+
+            $methodRequest = $this->getMethodRequest();
+            
+            if($methodRequest == 'GET')
+            {
+                unset($_GET["url"]);
+
+                /*Determines if GET is sent with Controller/Method/Value1/ValueN 
+                or Controller/Method?Param1=value1&ParamN=valueN format*/
+                if(!empty($_GET))
+                {
+                    foreach($_GET as $key => $value)                    
+                        array_push($this->parameters, $value);
+                }
+                else
+                    $this->parameters = $urlArray;
             }
-           
-            return $inst;
+            elseif ($_POST)
+                $this->parameters = $_POST;
         }
-        /**
-        * Devuelve el método HTTP
-        * con el que se hizo el
-        * Request
-        * @return String
-        */
-        public static function getMetodoRequest()
+
+        private static function getMethodRequest()
         {
             return $_SERVER['REQUEST_METHOD'];
+        }            
+
+        public function getController() {
+            return $this->controller;
         }
-        /**
-        * Devuelve el controlador
-        * @return String
-        */
-        public function getControladora() {
-            return $this->controladora;
+
+        public function getMethod() {
+            return $this->method;
         }
-        /**
-        * Devuelve el método 
-        * @return String
-        */
-        public function getMetodo() {
-            return $this->metodo;
+
+        public function getparameters() {
+            return $this->parameters;
         }
-        /**
-        * Devuelve los atributos
-        * @return Array
-        */
-        public function getParametros() {
-            return $this->parametros;
-        }
-    
-	}
- ?>
+    }
+
+?>
