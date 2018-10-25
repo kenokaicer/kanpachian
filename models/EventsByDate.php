@@ -11,7 +11,7 @@ class EventsByDate//Calendario
     private $date;
     private $theater; //Class Theater
     private $artists = array(); //Array of Class Artist
-    private $eventsBySeats = array(); //Array of Class EventsBySeat
+    private $seatsByEvents = array(); //Array of Class SeatsByEvent
 
     public function getDate()
     {
