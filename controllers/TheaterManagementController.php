@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Theater as Theater;
 use Dao\BD\TheatersDao as TheatersDao;
+use Dao\BD\SeatTypesDao as SeatTypesDao;
 
 class TheaterManagementController
 {
@@ -22,7 +23,7 @@ class TheaterManagementController
 
     public function viewAddTheater()
     {
-        $seatTypeList = $_SESSION["seatTypes"];
+        $seatTypeList = SeatTypesDao::getInstance()->getAll();
         require ROOT."Views/TheaterManagementAdd.php";
     }
 
@@ -70,7 +71,7 @@ class TheaterManagementController
         foreach ($theaterList as $key => $value) {
             var_dump($value->getSeatTypes());
         }
-        $this->index();
+        $this->index();//temp
         //require ROOT."Views/TheaterManagementList.php";
     }
 
