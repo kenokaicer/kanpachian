@@ -45,7 +45,7 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
         }
     }
 
-    public function retrieveById($id)
+    public function getByID($id)
     {   
         $creditCard = new CreditCard();
 
@@ -72,7 +72,7 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
         }
     }
 
-    public function GetAll()
+    public function getAll()
     {
         $creditCardList = array();
         $creditCard = new CreditCard();
@@ -82,9 +82,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("GetAll error: ".$ex->getMessage());
+            throw new Exception ("getAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("GetAll error: ".$ex->getMessage());
+            throw new Exception ("getAll error: ".$ex->getMessage());
         }
         
         $creditCardProperties = array_keys($creditCard->getAll());

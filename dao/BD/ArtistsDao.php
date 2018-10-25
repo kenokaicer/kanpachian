@@ -55,7 +55,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         }
     }
 
-    public function retrieveById($id)
+    public function getByID($id)
     {   
         $artist = new Artist();
 
@@ -85,7 +85,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
     /**
      * Returns all Artists as an array of Artists
      */
-    public function GetAll()
+    public function getAll()
     {
         $artistList = array();
         $artist = new Artist();
@@ -95,9 +95,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("GetAll error: ".$ex->getMessage());
+            throw new Exception ("getAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("GetAll error: ".$ex->getMessage());
+            throw new Exception ("getAll error: ".$ex->getMessage());
         }
         
         $artistProperties = array_keys($artist->getAll()); //get propierty names from object for use in __set

@@ -23,7 +23,7 @@ class ArtistList extends Singletondao implements IArtistDao
     public function Add($object)
     {
         $listaArtist = array();
-        $artistList = $this->GetAll();
+        $artistList = $this->getAll();
         array_push($artistList, $object);
         json::Serilize($artistList, $this->file);
     }
@@ -36,7 +36,7 @@ class ArtistList extends Singletondao implements IArtistDao
     /**
      * Returns a complete list of Artists stored in artists.json
      */
-    public function GetAll()
+    public function getAll()
     {
         $jsonDecodedData = Json::Deserilize($this->file);
         $jsonDecoder = new JsonDecoder(true);         //true bool to access private atributes of class

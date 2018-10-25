@@ -110,7 +110,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
     public function Get($var){
     }
     
-    public function GetAll(){
+    public function getAll(){
         $theaterList = array();
         $theater = new Theater();
         $seatType = new SeatType();

@@ -6,7 +6,7 @@ PHP PSR-1 Naming conventions
 
 DONE
 
-- ArtistDaoBD does Add, GetAll, Update(edit) and Delete, exception handling working
+- ArtistDaoBD does Add, getAll, Update(edit) and Delete, exception handling working
 - Models
 - Composer Autoload working
 - Build Data Base

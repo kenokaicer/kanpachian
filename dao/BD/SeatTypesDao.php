@@ -5,24 +5,24 @@ use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
-use Dao\Interfaces\ISeatsTypeDao as ISeatsTypeDao;
-use Models\SeatsType as SeatsType;
+use Dao\Interfaces\ISeatTypesDao as ISeatTypesDao;
+use Models\SeatType as SeatType;
 
-class SeatsTypesDao extends SingletonDao implements ISeatsTypeDao
+class SeatTypesDao extends SingletonDao implements ISeatTypesDao
 {
     private $connection;
-    private $tableName = 'SeatsTypes';
+    private $tableName = 'SeatTypes';
 
     protected function __construct(){
         $this->connection = Connection::getInstance();
     }
 
-    public function Add(SeatsType $seatsType)
+    public function Add(SeatType $seatType)
     {
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($seatsType->getAll()); //get object atribute names 
+        $parameters = array_filter($seatType->getAll()); //get object atribute names 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -45,88 +45,88 @@ class SeatsTypesDao extends SingletonDao implements ISeatsTypeDao
         }
     }
 
-    public function retrieveById($id)
+    public function getByID($id)
     {   
-        $seatsType = new SeatsType();
+        $seatType = new SeatType();
 
-        $seatsTypeProperties = array_keys($seatsType->getAll()); //get atribute names from object for use in __set
+        $seatTypeProperties = array_keys($seatType->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$seatsTypeProperties[0]." = ".$id;
+            " WHERE ".$seatTypeProperties[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($seatsTypeProperties as $value) { //auto fill object with magic function __set
-                    $seatsType->__set($value, $row[$value]);
+                foreach ($seatTypeProperties as $value) { //auto fill object with magic function __set
+                    $seatType->__set($value, $row[$value]);
                 }
             }
 
-            return $seatsType;
+            return $seatType;
         } catch (PDOException $ex) {
-            throw new Exception ("SeatsType search error: ".$ex->getMessage());
+            throw new Exception ("SeatType search error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("SeatsType search error: ".$ex->getMessage());
+            throw new Exception ("SeatType search error: ".$ex->getMessage());
         }
     }
 
-    public function GetAll()
+    public function getAll()
     {
-        $seatsTypeList = array();
-        $seatsType = new SeatsType();
+        $seatTypeList = array();
+        $seatType = new SeatType();
 
         $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("GetAll error: ".$ex->getMessage());
+            throw new Exception ("getAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("GetAll error: ".$ex->getMessage());
+            throw new Exception ("getAll error: ".$ex->getMessage());
         }
         
-        $seatsTypeProperties = array_keys($seatsType->getAll());
+        $seatTypeProperties = array_keys($seatType->getAll());
 
         foreach ($resultSet as $row)
         {                
-            $seatsType = new SeatsType();
+            $seatType = new SeatType();
             
-            foreach ($seatsTypeProperties as $value) {
-                $seatsType->__set($value, $row[$value]);
+            foreach ($seatTypeProperties as $value) {
+                $seatType->__set($value, $row[$value]);
             }
 
-            array_push($seatsTypeList, $seatsType);
+            array_push($seatTypeList, $seatType);
         }
 
-        return $seatsTypeList;
+        return $seatTypeList;
     }
 
     /**
-     * Updates values that are diferent from the ones recieved in the object SeatsType
+     * Updates values that are diferent from the ones recieved in the object SeatType
      */
-    public function Update(SeatsType $oldSeatsType, SeatsType $newSeatsType)
+    public function Update(SeatType $oldSeatType, SeatType $newSeatType)
     {
         $valuesToModify = "";
-        $oldSeatsTypeArray = $oldSeatsType->getAll(); //convert object to array of values
-        $seatsTypeArray = $newSeatsType->getAll();
+        $oldSeatTypeArray = $oldSeatType->getAll(); //convert object to array of values
+        $seatTypeArray = $newSeatType->getAll();
 
         /**
          * Check if a value is different from the one on the database, if different, sets the column and
          * value for the SET query
          */
-        foreach ($oldSeatsTypeArray as $key => $value) {
-            if ($key != "idSeatsType") {
-                if ($oldSeatsTypeArray[$key] != $seatsTypeArray[$key]) {
-                    $valuesToModify .= $key . " = " . "'" . $seatsTypeArray[$key] . "', ";
+        foreach ($oldSeatTypeArray as $key => $value) {
+            if ($key != "idSeatType") {
+                if ($oldSeatTypeArray[$key] != $seatTypeArray[$key]) {
+                    $valuesToModify .= $key . " = " . "'" . $seatTypeArray[$key] . "', ";
                 }
             }
         }
 
         $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idSeatsType = " . $oldSeatsType->getIdSeatsType();
+        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idSeatType = " . $oldSeatType->getIdSeatType();
         
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
@@ -143,9 +143,9 @@ class SeatsTypesDao extends SingletonDao implements ISeatsTypeDao
     /**
      * Logical Delete
      */
-    public function Delete(SeatsType $seatsType)
+    public function Delete(SeatType $seatType)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idSeatsType = ".$seatsType->getIdSeatsType();
+        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idSeatType = ".$seatType->getIdSeatType();
 
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array());

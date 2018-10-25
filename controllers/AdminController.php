@@ -1,14 +1,14 @@
 <?php
 	namespace Controllers;
 
-	use Dao\BD\SeatsTypesDao as SeatsTypesDao;
+	use Dao\BD\SeatTypesDao as SeatTypesDao;
 	
 	class AdminController{
 
 		public function __construct()
 		{
 			if(!isset($_SESSION["seatTypes"]))
-				$_SESSION["seatTypes"] = SeatsTypesDao::getInstance()->retrieveAll();
+				$_SESSION["seatTypes"] = SeatTypesDao::getInstance()->getAll();
 		}
 		
 		function index()
