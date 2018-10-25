@@ -12,16 +12,17 @@ DONE
 - Build Data Base
 - ArtistDao converted and automated as much as posible
 - Change SteasByEvent enum to Class (load list when program starts)
+- SteasByEvent is loading list when program starts, change that to a controller call only when needed
+- Change Category enum to Class
 
 TO DO
 
-- Finish Theater dao update and delete
-- Move js, css, img folders to Views folder
-- SteasByEvent is loading list when program starts, change that to a controller call only when needed
-- Change Category enum to Class
 - CreditCard should check if null when making a payment
 - add image to events (then to bd)
 - Complete Daos
+
+- Fix BD for SeatsByEvent
+- Start with EventDao, then EventsByDate (see how SeatsByEvent are made here)
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
