@@ -5,24 +5,24 @@ use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
-use Dao\Interfaces\ICreditCardDao as ICreditCardDao;
-use Models\CreditCard as CreditCard;
+use Dao\Interfaces\ICategoryDao as ICategoryDao;
+use Models\Category as Category;
 
-class CreditCardsDao extends SingletonDao implements ICreditCardDao
+class CategoriesDao extends SingletonDao implements ICategoryDao
 {
     private $connection;
-    private $tableName = 'CreditCards';
+    private $tableName = 'Categories';
 
     protected function __construct(){
         $this->connection = Connection::getInstance();
     }
 
-    public function Add(CreditCard $creditCard)
+    public function Add(Category $category)
     {
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($creditCard->getAll()); //get object atribute names 
+        $parameters = array_filter($category->getAll()); //get object atribute names 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -47,35 +47,35 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
 
     public function retrieveById($id)
     {   
-        $creditCard = new CreditCard();
+        $category = new Category();
 
-        $creditCardProperties = array_keys($creditCard->getAll()); //get atribute names from object for use in __set
+        $categoryProperties = array_keys($category->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$creditCardProperties[0]." = ".$id;
+            " WHERE ".$categoryProperties[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($creditCardProperties as $value) { //auto fill object with magic function __set
-                    $creditCard->__set($value, $row[$value]);
+                foreach ($categoryProperties as $value) { //auto fill object with magic function __set
+                    $category->__set($value, $row[$value]);
                 }
             }
 
-            return $creditCard;
+            return $category;
         } catch (PDOException $ex) {
-            throw new Exception ("CreditCard search error: ".$ex->getMessage());
+            throw new Exception ("Category search error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("CreditCard search error: ".$ex->getMessage());
+            throw new Exception ("Category search error: ".$ex->getMessage());
         }
     }
 
     public function RetrieveAll()
     {
-        $creditCardList = array();
-        $creditCard = new CreditCard();
+        $categoryList = array();
+        $category = new Category();
 
         $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
@@ -87,46 +87,46 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
             throw new Exception ("RetrieveAll error: ".$ex->getMessage());
         }
         
-        $creditCardProperties = array_keys($creditCard->getAll());
+        $categoryProperties = array_keys($category->getAll());
 
         foreach ($resultSet as $row)
         {                
-            $creditCard = new CreditCard();
+            $category = new Category();
             
-            foreach ($creditCardProperties as $value) {
-                $creditCard->__set($value, $row[$value]);
+            foreach ($categoryProperties as $value) {
+                $category->__set($value, $row[$value]);
             }
 
-            array_push($creditCardList, $creditCard);
+            array_push($categoryList, $category);
         }
 
-        return $creditCardList;
+        return $categoryList;
     }
 
     /**
-     * Updates values that are diferent from the ones recieved in the object CreditCard
+     * Updates values that are diferent from the ones recieved in the object Category
      */
-    public function Update(CreditCard $oldCreditCard, CreditCard $newCreditCard)
+    public function Update(Category $oldCategory, Category $newCategory)
     {
         $valuesToModify = "";
-        $oldCreditCardArray = $oldCreditCard->getAll(); //convert object to array of values
-        $creditCardArray = $newCreditCard->getAll();
+        $oldCategoryArray = $oldCategory->getAll(); //convert object to array of values
+        $categoryArray = $newCategory->getAll();
 
         /**
          * Check if a value is different from the one on the database, if different, sets the column and
          * value for the SET query
          */
-        foreach ($oldCreditCardArray as $key => $value) {
-            if ($key != "idCreditCard") {
-                if ($oldCreditCardArray[$key] != $creditCardArray[$key]) {
-                    $valuesToModify .= $key . " = " . "'" . $creditCardArray[$key] . "', ";
+        foreach ($oldCategoryArray as $key => $value) {
+            if ($key != "idCategory") {
+                if ($oldCategoryArray[$key] != $categoryArray[$key]) {
+                    $valuesToModify .= $key . " = " . "'" . $categoryArray[$key] . "', ";
                 }
             }
         }
 
         $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idCreditCard = " . $oldCreditCard->getIdCreditCard();
+        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idCategory = " . $oldCategory->getIdCategory();
         
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
@@ -143,9 +143,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
     /**
      * Logical Delete
      */
-    public function Delete(CreditCard $creditCard)
+    public function Delete(Category $category)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idCreditCard = ".$creditCard->getIdCreditCard();
+        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idCategory = ".$category->getIdCategory();
 
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array());
