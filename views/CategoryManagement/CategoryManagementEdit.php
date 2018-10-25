@@ -1,7 +1,7 @@
 <div class="wrapper">
     <section>
         <form action="<?=FRONT_ROOT?>CategoryManagement/editCategory" method="post">
-        <input type="hidden" name="idOldCategory" value="<?=$oldCategory->getIdCategory()?>">
+        <input type="hidden" name="idOldCategory" value="<?=$oldCategory->getIdCategory()?>" required>
             <table>
                 <tr>
                     <td>Categoría: <input type="text" name="name" value="<?=$oldCategory->getCategory()?>"></td>
