@@ -39,9 +39,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -66,9 +66,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
 
             return $creditCard;
         } catch (PDOException $ex) {
-            throw new Exception ("CreditCard search error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("CreditCard search error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -82,9 +82,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("getAll error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("getAll error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
         $creditCardProperties = array_keys($creditCard->getAll());
@@ -134,9 +134,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Update error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Update error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -153,9 +153,9 @@ class CreditCardsDao extends SingletonDao implements ICreditCardDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 }

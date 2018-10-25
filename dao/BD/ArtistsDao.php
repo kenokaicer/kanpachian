@@ -49,9 +49,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -76,9 +76,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
 
             return $artist;
         } catch (PDOException $ex) {
-            throw new Exception ("Artist search error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Artist search error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -95,9 +95,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("getAll error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("getAll error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
         $artistProperties = array_keys($artist->getAll()); //get propierty names from object for use in __set
@@ -147,9 +147,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Update error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Update error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -165,9 +165,9 @@ class ArtistsDao extends SingletonDao implements IArtistDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 }
