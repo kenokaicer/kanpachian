@@ -72,7 +72,7 @@ class CategoriesDao extends SingletonDao implements ICategoryDao
         }
     }
 
-    public function RetrieveAll()
+    public function GetAll()
     {
         $categoryList = array();
         $category = new Category();
@@ -82,9 +82,9 @@ class CategoriesDao extends SingletonDao implements ICategoryDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
+            throw new Exception ("GetAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
+            throw new Exception ("GetAll error: ".$ex->getMessage());
         }
         
         $categoryProperties = array_keys($category->getAll());

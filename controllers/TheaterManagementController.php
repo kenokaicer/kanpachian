@@ -60,7 +60,7 @@ class TheaterManagementController
     public function theaterList()
     {
         try{
-            $theaterList = $this->theatersDao->RetrieveAll();
+            $theaterList = $this->theatersDao->GetAll();
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo listar los teatros. " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }

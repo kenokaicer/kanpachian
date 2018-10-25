@@ -72,7 +72,7 @@ class SeatsTypesDao extends SingletonDao implements ISeatsTypeDao
         }
     }
 
-    public function RetrieveAll()
+    public function GetAll()
     {
         $seatsTypeList = array();
         $seatsType = new SeatsType();
@@ -82,9 +82,9 @@ class SeatsTypesDao extends SingletonDao implements ISeatsTypeDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
+            throw new Exception ("GetAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
+            throw new Exception ("GetAll error: ".$ex->getMessage());
         }
         
         $seatsTypeProperties = array_keys($seatsType->getAll());

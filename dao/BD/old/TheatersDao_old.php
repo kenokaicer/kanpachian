@@ -66,7 +66,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
     public function Retrieve($var){
     }
     
-    public function RetrieveAll(){
+    public function GetAll(){
         $querry = "SELECT * FROM " . $this->table;
         $obj_pdo = new Connection_old();
         $conexion = $obj_pdo->connect();

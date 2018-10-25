@@ -54,7 +54,7 @@ class ArtistManagementController
     public function artistList()
     {
         try{
-            $artistList = $this->artistsDao->RetrieveAll();
+            $artistList = $this->artistsDao->GetAll();
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }

@@ -6,8 +6,8 @@ use Models\CreditCard as CreditCard;
 interface ICreditCardsDao
 {
     public function Add(CreditCard $creditCard);
-    public function RetrieveById($id);
-    public function RetrieveAll();
+    public function GetByID($id);
+    public function GetAll();
     public function Update(CreditCard $oldCreditCard, CreditCard $newCreditCard);
     public function Delete(CreditCard $creditCard);
 }

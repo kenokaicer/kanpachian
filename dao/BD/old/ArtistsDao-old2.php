@@ -13,7 +13,7 @@ class ArtistsDao extends SingletonDao implements IArtistDao
     /**
      * Returns all Artists as an array of rows
      */
-    public function RetrieveAll()
+    public function GetAll()
     {
         // Guardo como string la consulta sql
         $querry = "SELECT * FROM " . $this->table;

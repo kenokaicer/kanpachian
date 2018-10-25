@@ -9,7 +9,7 @@ use Karriere\JsonDecoder\JsonDecoder as JsonDecoder;
 
 /**
  * TO DO
- * Retrieve, Update, Delete
+ * Get, Update, Delete
  */
 
 
@@ -18,17 +18,17 @@ class ArtistList extends Singletondao implements IArtistDao
     protected $file = JSONFOLDER."Artists.json";
 
     /**
-     * Retrieve list from file, and an object and then serilize it and store it again
+     * Get list from file, and an object and then serilize it and store it again
      */
     public function Add($object)
     {
         $listaArtist = array();
-        $artistList = $this->RetrieveAll();
+        $artistList = $this->GetAll();
         array_push($artistList, $object);
         json::Serilize($artistList, $this->file);
     }
 
-    public function Retrieve($var)
+    public function Get($var)
     {
 
     }
@@ -36,7 +36,7 @@ class ArtistList extends Singletondao implements IArtistDao
     /**
      * Returns a complete list of Artists stored in artists.json
      */
-    public function RetrieveAll()
+    public function GetAll()
     {
         $jsonDecodedData = Json::Deserilize($this->file);
         $jsonDecoder = new JsonDecoder(true);         //true bool to access private atributes of class

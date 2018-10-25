@@ -3,8 +3,8 @@
 
     interface IDao{
         public function Add($object);
-        public function Retrieve($var);
-        public function RetrieveAll();
+        public function Get($var);
+        public function GetAll();
         public function Update($object);
         public function Delete($var);
     }

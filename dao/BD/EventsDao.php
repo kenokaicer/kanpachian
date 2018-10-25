@@ -85,9 +85,9 @@ class EventsDao extends SingletonDao //implements IEventDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
+            throw new Exception ("GetAll error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("RetrieveAll error: ".$ex->getMessage());
+            throw new Exception ("GetAll error: ".$ex->getMessage());
         }
         
         $eventProperties = array_keys($event->getAll()); 
