@@ -180,53 +180,20 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         return $theaterList;
     }
 
-    public function Update(Theater $oldTheater, Theater $newTheater){
-        /*
-        $valuesToModify = "";
-        $oldTheaterArray = $oldTheater->getAll();  //convert object to array of values
-        $theaterArray = $newTheater->getAll();
+    public function Update(Theater $oldTheater, Theater $newTheater){}
 
-        foreach ($oldTheaterArray as $key => $value) { 
-            if($key != "idTheater"){
-                if($oldTheaterArray[$key] != $theaterArray[$key]){
-                    $valuesToModify .= $key." = "."'".$theaterArray[$key]."', ";
-                }
+    public function Delete(Theater $theater){
+        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idTheater = ".$theater->getIdArtist();
+
+        try {
+            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            if($modifiedRows!=1){
+                throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
-        }
-
-        $valuesToModify = rtrim($valuesToModify,", "); //strip ", " from last character
-
-        $query = "UPDATE ".$this->table." SET ".$valuesToModify." WHERE idTheater = ".$oldTheater->getIdTheater();
-        $obj_pdo = new Connection();
-        $pdoConexion = $obj_pdo->connect();
-        $sentence = $pdoConexion->prepare($query);
-
-        try {
-            $sentence->execute();
-            echo "<script> alert('Teatro modificado exitosamente');</script>";
         } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo modificar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-        } catch (Exception $ex) { 
-            echo "<script> alert('No se pudo modificar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-        }
-        */
-    }
-
-    public function Delete($id){
-        /*
-        $query = "DELETE FROM " . $this->table . " WHERE idTheater = " . $id;
-        $obj_pdo = new Connection();
-        $pdoConexion = $obj_pdo->connect();
-        $sentence = $pdoConexion->prepare($query);
-
-        try {
-            $sentence->execute();
-            echo "<script> alert('Teatro eliminado exitosamente');</script>";
-        } catch (PDOException $ex) {
-            echo "<script> alert('No se pudo eliminar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Delete error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el teatro, codigo de error: " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            throw new Exception ("Delete error: ".$ex->getMessage());
         }
-        */
     }
 }
