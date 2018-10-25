@@ -18,13 +18,13 @@ class TheaterManagementController
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require ROOT."Views/TheaterManagement.php";
+        require VIEWS_PATH."TheaterManagement.php";
     }
 
     public function viewAddTheater()
     {
         $seatTypeList = SeatTypesDao::getInstance()->getAll();
-        require ROOT."Views/TheaterManagementAdd.php";
+        require VIEWS_PATH."TheaterManagementAdd.php";
     }
 
     public function addTheater($name, $location, $image="", $maxCapacity, $seatTypeList="")
@@ -72,7 +72,7 @@ class TheaterManagementController
             var_dump($value->getSeatTypes());
         }
         $this->index();//temp
-        //require ROOT."Views/TheaterManagementList.php";
+        //require VIEWS_PATH."TheaterManagementList.php";
     }
 
     public function deleteTheater($id)
@@ -86,7 +86,7 @@ class TheaterManagementController
         $oldTheater = new Theater();
         $oldTheater->setIdTheater($id)->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
         $_SESSION["oldTheater"] = $oldTheater;
-        require ROOT."Views/TheaterManagementEdit.php";
+        require VIEWS_PATH."TheaterManagementEdit.php";
     }
 
     public function editTheater($name, $location, $maxCapacity)

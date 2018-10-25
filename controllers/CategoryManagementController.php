@@ -18,12 +18,12 @@ class CategoryManagementController
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require ROOT."Views/CategoryManagement.php";
+        require VIEWS_PATH."CategoryManagement.php";
     }
 
     public function viewAddCategory()
     {
-        require ROOT."Views/CategoryManagementAdd.php";
+        require VIEWS_PATH."CategoryManagementAdd.php";
     }
 
     public function addCategory($categoryName)
@@ -57,7 +57,7 @@ class CategoryManagementController
             echo "<script> alert('Error al intentar listar Categorías: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
         
-        require ROOT."Views/CategoryManagementList.php";
+        require VIEWS_PATH."CategoryManagementList.php";
     }
 
     public function deleteCategory($id)
@@ -82,7 +82,7 @@ class CategoryManagementController
     {   
         $oldCategory = $this->categoriesDao->getByID($idCategory);
 
-        require ROOT."Views/CategoryManagementEdit.php";
+        require VIEWS_PATH."CategoryManagementEdit.php";
     }
 
     /**
