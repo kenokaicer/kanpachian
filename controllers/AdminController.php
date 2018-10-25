@@ -1,18 +1,12 @@
 <?php
 	namespace Controllers;
-
-	use Dao\BD\SeatTypesDao as SeatTypesDao;
+	use Dao\BD\TheatersDao as TheatersDao;
 	
 	class AdminController{
-
-		public function __construct()
-		{
-			if(!isset($_SESSION["seatTypes"]))
-				$_SESSION["seatTypes"] = SeatTypesDao::getInstance()->getAll();
-		}
 		
 		function index()
-		{
+		{	
+			var_dump(TheatersDao::getInstance()->getByID(1));
 			require "Views/admin.php";
 		}
 	}
