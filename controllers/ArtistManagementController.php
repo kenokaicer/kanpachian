@@ -2,20 +2,20 @@
 namespace Controllers;
 
 //use Dao\Json\ArtistList as ArtistList;
-use Dao\BD\ArtistsDao as ArtistsDao;
+use Dao\BD\ArtistDao as ArtistDao;
 use Models\Artist as Artist;
 use Exception as Exception;
 
 class ArtistManagementController
 {
     protected $message;
-    private $artistsDao;
+    private $artistDao;
     private $folder = "ArtistManagement/";
 
     public function __construct()
     {
-        //$this->ArtistsDao = ArtistList::getInstance(); //Json
-        $this->artistsDao = ArtistsDao::getInstance(); //BD
+        //$this->ArtistDao = ArtistList::getInstance(); //Json
+        $this->artistDao = ArtistDao::getInstance(); //BD
     }
 
     public function index()
@@ -43,7 +43,7 @@ class ArtistManagementController
         }
 
         try{
-            $this->artistsDao->Add($artist);
+            $this->artistDao->Add($artist);
             echo "<script> alert('Artista agregado exitosamente');</script>";
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar el artista. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
@@ -55,7 +55,7 @@ class ArtistManagementController
     public function artistList()
     {
         try{
-            $artistList = $this->artistsDao->getAll();
+            $artistList = $this->artistDao->getAll();
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
@@ -65,10 +65,10 @@ class ArtistManagementController
 
     public function deleteArtist($id)
     {
-        $artist = $this->artistsDao->getByID($idArtist);
+        $artist = $this->artistDao->getByID($idArtist);
 
         try{
-            $this->artistsDao->Delete($artist);
+            $this->artistDao->Delete($artist);
             echo "<script> alert('Artista eliminado exitosamente');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el artista. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
@@ -83,7 +83,7 @@ class ArtistManagementController
      */
     public function viewEditArtist($idArtist)
     {   
-        $oldArtist = $this->artistsDao->getByID($idArtist);
+        $oldArtist = $this->artistDao->getByID($idArtist);
 
         require VIEWS_PATH.$this->folder."ArtistManagementEdit.php";
     }
@@ -94,7 +94,7 @@ class ArtistManagementController
      */
     public function editArtist($oldIdArtist, $name, $lastname)
     {
-        $oldArtist = $this->artistsDao->getByID($oldIdArtist);
+        $oldArtist = $this->artistDao->getByID($oldIdArtist);
         $newArtist = new Artist();
 
         $args = func_get_args();
@@ -105,7 +105,7 @@ class ArtistManagementController
         }
 
         try{
-            $this->artistsDao->Update($oldArtist, $newArtist);
+            $this->artistDao->Update($oldArtist, $newArtist);
             echo "<script> alert('Artista modificado exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el artista " . str_replace("'", "", $ex->getMessage()) . "');</script>";

@@ -3,17 +3,17 @@
 namespace Controllers;
 
 use Models\Theater as Theater;
-use Dao\BD\TheatersDao as TheatersDao;
-use Dao\BD\SeatTypesDao as SeatTypesDao;
+use Dao\BD\TheaterDao as TheaterDao;
+use Dao\BD\SeatTypeDao as SeatTypeDao;
 
 class TheaterManagementController
 {
-    private $theatersDao;
+    private $theaterDao;
     private $folder = "TheaterManagement/";
 
     public function __construct()
     {
-        $this->theatersDao = TheatersDao::getInstance(); //BD
+        $this->theaterDao = TheaterDao::getInstance(); //BD
     }
 
     public function index()
@@ -24,7 +24,7 @@ class TheaterManagementController
 
     public function viewAddTheater()
     {
-        $seatTypeList = SeatTypesDao::getInstance()->getAll();
+        $seatTypeList = SeatTypeDao::getInstance()->getAll();
         require VIEWS_PATH.$this->folder."TheaterManagementAdd.php";
     }
 
@@ -50,7 +50,7 @@ class TheaterManagementController
         }
 
         try{
-            $this->theatersDao->Add($theater);
+            $this->theaterDao->Add($theater);
             echo "<script> alert('Teatro agregado exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo agregar el teatro. " . str_replace("'","",$ex->getMessage()) . "');</script>";
@@ -62,7 +62,7 @@ class TheaterManagementController
     public function theaterList()
     {
         try{
-            $theaterList = $this->theatersDao->getAll();
+            $theaterList = $this->theaterDao->getAll();
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo listar los teatros. " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }
@@ -78,7 +78,7 @@ class TheaterManagementController
 
     public function deleteTheater($id)
     {
-        $this->theatersDao->Delete($id);
+        $this->theaterDao->Delete($id);
         $this->TheaterList();
     }
 
@@ -102,7 +102,7 @@ class TheaterManagementController
 
         $newTheater->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
 
-        $this->theatersDao->Update($oldTheater, $newTheater);
+        $this->theaterDao->Update($oldTheater, $newTheater);
         unset($_SESSION["oldTheater"]);
         $this->theaterList();
     }

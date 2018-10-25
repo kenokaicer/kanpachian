@@ -11,7 +11,7 @@ use PDO as PDO;
  * Retrieve, Update and Delete
  */
 
-class ArtistsDao extends SingletonDao implements IArtistDao
+class ArtistDao extends SingletonDao implements IArtistDao
 {
     private $table = 'Artists';
 

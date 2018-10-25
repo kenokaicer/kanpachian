@@ -1,6 +1,6 @@
 <?php
 	namespace Controllers;
-	use Dao\BD\TheatersDao as TheatersDao;
+	use Dao\BD\TheaterDao as TheaterDao;
 	
 	class AdminController{
 		

@@ -1,39 +1,29 @@
-<?php namespace Dao\BD;
+<?php namespace Dao\BD; //This one doesn't need a controller and views?
 
 use Dao\BD\Connection as Connection;
 use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
-use Dao\Interfaces\IArtistDao as IArtistDao;
-use Models\Artist as Artist;
+use Dao\Interfaces\ICreditCardDao as ICreditCardDao;
+use Models\CreditCard as CreditCard;
 
-class ArtistsDao extends SingletonDao implements IArtistDao
+class CreditCardDao extends SingletonDao implements ICreditCardDao
 {
     private $connection;
-    private $tableName = 'Artists';
+    private $tableName = 'CreditCards';
 
     protected function __construct(){
         $this->connection = Connection::getInstance();
-        //See if having this here causes problems in the future, so far so good.
     }
 
-    public function Add(Artist $artist)
+    public function Add(CreditCard $creditCard)
     {
         $columns = "";
         $values = "";
         
-        /*
-        $parameters["name"] = $artist->getName();
-        $parameters["lastname"] = $artist->getLastName();
-        */
-        $parameters = array_filter($artist->getAll()); //does the same as the above but automated, array filter unsets null values (id), or values not set
+        $parameters = array_filter($creditCard->getAll()); //get object atribute names 
 
-        /**
-         * Auto fill values for querry
-         * end result:
-         * $query = "INSERT INTO " . $this->tableName . " (name,lastname) VALUES (:name,:lastname);";
-         */
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
             $values .= ":".$key.",";
@@ -57,24 +47,24 @@ class ArtistsDao extends SingletonDao implements IArtistDao
 
     public function getByID($id)
     {   
-        $artist = new Artist();
+        $creditCard = new CreditCard();
 
-        $artistProperties = array_keys($artist->getAll()); //get propierty names from object for use in __set
+        $creditCardProperties = array_keys($creditCard->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$artistProperties[0]." = ".$id;
+            " WHERE ".$creditCardProperties[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($artistProperties as $value) { //auto fill object with magic function __set
-                    $artist->__set($value, $row[$value]);
+                foreach ($creditCardProperties as $value) { //auto fill object with magic function __set
+                    $creditCard->__set($value, $row[$value]);
                 }
             }
 
-            return $artist;
+            return $creditCard;
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
@@ -82,13 +72,10 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         }
     }
 
-    /**
-     * Returns all Artists as an array of Artists
-     */
     public function getAll()
     {
-        $artistList = array();
-        $artist = new Artist();
+        $creditCardList = array();
+        $creditCard = new CreditCard();
 
         $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
@@ -100,46 +87,46 @@ class ArtistsDao extends SingletonDao implements IArtistDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $artistProperties = array_keys($artist->getAll()); //get propierty names from object for use in __set
+        $creditCardProperties = array_keys($creditCard->getAll());
 
-        foreach ($resultSet as $row) //loops returned rows
+        foreach ($resultSet as $row)
         {                
-            $artist = new Artist();
+            $creditCard = new CreditCard();
             
-            foreach ($artistProperties as $value) { //auto fill object with magic function __set
-                $artist->__set($value, $row[$value]);
+            foreach ($creditCardProperties as $value) {
+                $creditCard->__set($value, $row[$value]);
             }
 
-            array_push($artistList, $artist);
+            array_push($creditCardList, $creditCard);
         }
 
-        return $artistList;
+        return $creditCardList;
     }
 
     /**
-     * Updates values that are diferent from the ones recieved in the object Artist
+     * Updates values that are diferent from the ones recieved in the object CreditCard
      */
-    public function Update(Artist $oldArtist, Artist $newArtist)
+    public function Update(CreditCard $oldCreditCard, CreditCard $newCreditCard)
     {
         $valuesToModify = "";
-        $oldArtistArray = $oldArtist->getAll(); //convert object to array of values
-        $artistArray = $newArtist->getAll();
+        $oldCreditCardArray = $oldCreditCard->getAll(); //convert object to array of values
+        $creditCardArray = $newCreditCard->getAll();
 
         /**
          * Check if a value is different from the one on the database, if different, sets the column and
          * value for the SET query
          */
-        foreach ($oldArtistArray as $key => $value) {
-            if ($key != "idArtist") {
-                if ($oldArtistArray[$key] != $artistArray[$key]) {
-                    $valuesToModify .= $key . " = " . "'" . $artistArray[$key] . "', ";
+        foreach ($oldCreditCardArray as $key => $value) {
+            if ($key != "idCreditCard") {
+                if ($oldCreditCardArray[$key] != $creditCardArray[$key]) {
+                    $valuesToModify .= $key . " = " . "'" . $creditCardArray[$key] . "', ";
                 }
             }
         }
 
         $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idArtist = " . $oldArtist->getIdArtist();
+        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idCreditCard = " . $oldCreditCard->getIdCreditCard();
         
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
@@ -153,11 +140,12 @@ class ArtistsDao extends SingletonDao implements IArtistDao
         }
     }
 
-    public function Delete(Artist $artist)
+    /**
+     * Logical Delete
+     */
+    public function Delete(CreditCard $creditCard)
     {
-        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$artistProperties[0]." = " . $artist->getIdArtist();
-        
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idArtist = ".$artist->getIdArtist();
+        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idCreditCard = ".$creditCard->getIdCreditCard();
 
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array());

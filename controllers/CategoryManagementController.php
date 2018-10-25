@@ -1,19 +1,19 @@
 <?php
 namespace Controllers;
 
-use Dao\BD\CategoriesDao as CategoriesDao;
+use Dao\BD\CategoryDao as CategoryDao;
 use Models\Category as Category;
 use Exception as Exception;
 
 class CategoryManagementController
 {
     protected $message;
-    private $categoriesDao;
+    private $categoryDao;
     private $folder = "CategoryManagement/";
 
     public function __construct()
     {
-        $this->categoriesDao = CategoriesDao::getInstance(); //BD
+        $this->categoryDao = CategoryDao::getInstance(); //BD
     }
 
     public function index()
@@ -41,7 +41,7 @@ class CategoryManagementController
         }
 
         try{
-            $this->categoriesDao->Add($category);
+            $this->categoryDao->Add($category);
             echo "<script> alert('Categoría agregada exitosamente');</script>";
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
@@ -53,7 +53,7 @@ class CategoryManagementController
     public function categoryList()
     {
         try{
-            $categoryList = $this->categoriesDao->getAll();
+            $categoryList = $this->categoryDao->getAll();
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Categorías: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
@@ -63,10 +63,10 @@ class CategoryManagementController
 
     public function deleteCategory($id)
     {
-        $category = $this->categoriesDao->getByID($idCategory);
+        $category = $this->categoryDao->getByID($idCategory);
 
         try{
-            $this->categoriesDao->Delete($category);
+            $this->categoryDao->Delete($category);
             echo "<script> alert('Categorya eliminado exitosamente');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
@@ -81,7 +81,7 @@ class CategoryManagementController
      */
     public function viewEditCategory($idCategory)
     {   
-        $oldCategory = $this->categoriesDao->getByID($idCategory);
+        $oldCategory = $this->categoryDao->getByID($idCategory);
 
         require VIEWS_PATH.$this->folder."CategoryManagementEdit.php";
     }
@@ -92,7 +92,7 @@ class CategoryManagementController
      */
     public function editCategory($oldIdCategory, $category)
     {
-        $oldCategory = $this->categoriesDao->getByID($oldIdCategory);
+        $oldCategory = $this->categoryDao->getByID($oldIdCategory);
         $newCategory = new Category();
 
         $args = func_get_args();
@@ -103,7 +103,7 @@ class CategoryManagementController
         }
 
         try{
-            $this->categoriesDao->Update($oldCategory, $newCategory);
+            $this->categoryDao->Update($oldCategory, $newCategory);
             echo "<script> alert('Categoría modificada exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el categoría " . str_replace("'", "", $ex->getMessage()) . "');</script>";

@@ -5,10 +5,10 @@ use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
-use Dao\Interfaces\ISeatTypesDao as ISeatTypesDao;
+use Dao\Interfaces\ISeatTypeDao as ISeatTypeDao;
 use Models\SeatType as SeatType;
 
-class SeatTypesDao extends SingletonDao implements ISeatTypesDao
+class SeatTypeDao extends SingletonDao implements ISeatTypeDao
 {
     private $connection;
     private $tableName = 'SeatTypes';

@@ -3,7 +3,7 @@ namespace Dao\Interfaces;
 
 use Models\SeatType as SeatType;
 
-interface ISeatTypesDao
+interface ISeatTypeDao
 {
     public function Add(SeatType $seatType);
     public function getByID($id);

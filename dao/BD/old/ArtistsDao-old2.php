@@ -6,7 +6,7 @@ use Dao\SingletonDao as SingletonDao;
 use Models\Artist as Artist;
 use PDO as PDO;
 
-class ArtistsDao extends SingletonDao implements IArtistDao
+class ArtistDao extends SingletonDao implements IArtistDao
 {
     private $table = 'Artists';
 

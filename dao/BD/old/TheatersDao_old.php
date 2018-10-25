@@ -8,7 +8,7 @@ use Models\Theater as Theater;
 use PDOException as PDOException;
 use PDO as PDO;
 
-class TheatersDao extends SingletonDao implements ITheaterDao
+class TheaterDao extends SingletonDao implements ITheaterDao
 {
     private $message;
     private $table = 'Theaters';

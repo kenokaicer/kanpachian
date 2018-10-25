@@ -3,7 +3,7 @@ namespace Dao\Interfaces;
 
 use Models\Category as Category;
 
-interface ICategoriesDao
+interface ICategoryDao
 {
     public function Add(Category $category);
     public function getByID($id);

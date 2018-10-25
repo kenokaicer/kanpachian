@@ -8,12 +8,12 @@ use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ITheaterDao as ITheaterDao;
 use Models\Theater as Theater;
-use Dao\BD\SeatTypesDao as SeatTypesDao;
+use Dao\BD\SeatTypeDao as SeatTypeDao;
 
-class TheatersDao extends SingletonDao implements ITheaterDao
+class TheaterDao extends SingletonDao implements ITheaterDao
 {
     private $connection;
-    private $seatTypesDao;
+    private $seatTypeDao;
     private $tableName = 'Theaters';
     private $tableName2 = 'SeatTypes_x_Theater';
 
@@ -83,7 +83,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         $row = reset($resultSet); //gives first object of array
         $idTheater = reset($row); //get value of previous first object
 
-        //---Insert each SeatType in a separate querry, N:N Table ---// //This could have been delegated to SeatTypesDao//
+        //---Insert each SeatType in a separate querry, N:N Table ---// //This could have been delegated to SeatTypeDao//
 
         foreach ($theater->getSeatTypes() as $value) {
             $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) VALUES (:idSeatType,:idTheater);";
@@ -109,7 +109,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
     }
 
     public function getByID($id){
-        $this->seatTypesDao = SeatTypesDao::getInstance();
+        $this->seatTypeDao = SeatTypeDao::getInstance();
         $theater = new Theater();
 
         $query = "SELECT * FROM " . $this->tableName." 
@@ -135,14 +135,14 @@ class TheatersDao extends SingletonDao implements ITheaterDao
             $theater->__set($value, $row[$value]);
         }
 
-        $seatTypesList = $this->seatTypesDao->getAllByTheaterId($theater->getIdTheater());
+        $seatTypesList = $this->seatTypeDao->getAllByTheaterId($theater->getIdTheater());
         $theater->setSeatTypes($seatTypesList);
 
         return $theater;
     }
     
     public function getAll(){
-        $this->seatTypesDao = SeatTypesDao::getInstance();
+        $this->seatTypeDao = SeatTypeDao::getInstance();
         $theaterList = array();
         $theater = new Theater();
 
@@ -172,7 +172,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         }
 
         foreach ($theaterList as $theater) {
-            $seatTypesList = $this->seatTypesDao->getAllByTheaterId($theater->getIdTheater());
+            $seatTypesList = $this->seatTypeDao->getAllByTheaterId($theater->getIdTheater());
             $theater->setSeatTypes($seatTypesList);
         }
 
