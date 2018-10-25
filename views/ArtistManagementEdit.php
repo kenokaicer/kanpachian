@@ -1,10 +1,11 @@
 <div class="wrapper">
     <section>
         <form action="<?=FRONT_ROOT?>ArtistManagement/editArtist" method="post">
+            <input type="hidden" name="idOldArtist" value="<?=$oldArtist->getIdArtist()?>">
             <table>
                 <tr>
-                    <td>Nombre: <input type="text" name="name" value="<?=$name?>"></td>
-                    <td>Apellido: <input type="text" name="lastname" value="<?=$lastname?>"></td>
+                    <td>Nombre: <input type="text" name="name" value="<?=$oldArtist->getName()?>"></td>
+                    <td>Apellido: <input type="text" name="lastname" value="<?=$oldArtist->getLastname()?>"></td>
                 </tr>
                 <tr>
                     <td colspan="2">

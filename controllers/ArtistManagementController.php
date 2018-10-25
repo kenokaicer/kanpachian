@@ -62,15 +62,9 @@ class ArtistManagementController
         require ROOT."Views/ArtistManagementList.php";
     }
 
-    public function deleteArtist($id, $name, $lastname) //should this recieve all parameters and make an object?
+    public function deleteArtist($id)
     {
-        $artist = new Artist();
-
-        $artistAtributeList = array_combine(array_keys($artist->getAll()),array_values(func_get_args())); 
-
-        foreach ($artistAtributeList as $atribute => $value) {
-            $artist->__set($atribute,$value);
-        }
+        $artist = $this->artistsDao->getByID($idArtist);
 
         try{
             $this->artistsDao->Delete($artist);
@@ -83,40 +77,26 @@ class ArtistManagementController
     }
 
     /**
-     * Recieve unmodified atributes for Artist for diplaying in the forms,
+     * Recieve id of Artist to edit, retrieve by DAO for diplaying in the forms,
      * then after the modifications sends them to this->editArtist
      */
-    public function viewEditArtist($id, $name, $lastname)
+    public function viewEditArtist($idArtist)
     {   
-        $oldArtist = new Artist();
+        $oldArtist = $this->artistsDao->getByID($idArtist);
 
-        $artistAtributeList = array_combine(array_keys($oldArtist->getAll()),array_values(func_get_args())); 
-
-        foreach ($artistAtributeList as $atribute => $value) {
-            $oldArtist->__set($atribute,$value);
-        }
-        
-        $_SESSION["oldArtist"] = $oldArtist;
         require ROOT."Views/ArtistManagementEdit.php";
     }
 
     /**
      * Recieve modified atributes for object Artist
-     * and old object by session, call dao update
-     * then unset the old object in session
+     * and old object by id, call dao update
      */
-    public function editArtist($name, $lastname)
+    public function editArtist($oldIdArtist, $name, $lastname)
     {
-        if(isset($_SESSION["oldArtist"])){
-            $oldArtist = $_SESSION["oldArtist"];
-        }else{
-            echo "<script>alert('Error al editar, [Session for old object not set]');</script>";
-            $this->artistList();
-        }
+        $oldArtist = $this->artistsDao->getByID($oldIdArtist);
         $newArtist = new Artist();
 
         $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
         $artistAtributeList = array_combine(array_keys($newArtist->getAll()),array_values($args)); 
 
         foreach ($artistAtributeList as $atribute => $value) {
@@ -130,7 +110,6 @@ class ArtistManagementController
             echo "<script> alert('No se pudo modificar el artista " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
 
-        unset($_SESSION["oldArtist"]);
         $this->artistList();
     }
 
