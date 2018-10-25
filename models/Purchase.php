@@ -6,7 +6,7 @@ class Purchase// Compra - Carrito
 {
     private $idPurchase;
     private $date;
-    private $purchaseLines = array();
+    private $purchaseLines = array(); //Array of Class PurcahseLine
 
     public function getIdPurchase()
     {

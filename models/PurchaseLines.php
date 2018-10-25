@@ -5,13 +5,11 @@ namespace Models;
 use Models\SeatsByEvent as SeatsByEvent;
 
 class PurchaseLines//Lineas_Compra
-
 {
     private $idPurchaseLines;
-    private $seatsByEvent; //Class SeatsByEvent.
-    //private $quantity; //Tentative var.
     private $price; //This is a inherited value from SteasByEvent
-
+    private $seatsByEvent; //Class SeatsByEvent.
+    
     public function getSeatsByEvent()
     {
         return $this->seatsByEvent;

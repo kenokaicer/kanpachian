@@ -11,10 +11,10 @@ class SeatsByEvent//Plaza_Evento
 
 {
     private $idSeatsByEvent;
-    private $seatType; // This is an enum.
     private $quantity;
     private $price;
     private $remnants; // This is a self calulated value.
+    private $seatType; // Class SeatType.
 
     public function getIdSeatsByEvent()
     {

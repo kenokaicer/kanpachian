@@ -12,7 +12,7 @@ class Event
     private $image;
     private $description;
     private $eventsByDate = array(); //Class EventsByDate (calendario)
-    private $category; //Enum Category
+    private $category; //Class Category
 
     public function getEventName()
     {
