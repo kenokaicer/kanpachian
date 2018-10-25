@@ -1,5 +1,5 @@
 <?php
-namespace dao\BD; /*Needs testing.*/
+namespace dao\BD; //incomplete
 
 use Dao\SingletonDao as SingletonDao;
 use Dao\BD\Connection_old as Connection;

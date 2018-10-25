@@ -1,4 +1,4 @@
-<?php namespace Dao\BD;
+<?php namespace Dao\BD; //to do: update for complex dao
 
 use Dao\BD\Connection as Connection;
 use Dao\SingletonDao as SingletonDao;
