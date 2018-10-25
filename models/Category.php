@@ -4,7 +4,20 @@ namespace Models;
 
 class Category
 {
+    private $idCategory;
     private $category;
+
+    public function getIdCategory()
+    {
+        return $this->idCategory;
+    }
+
+    public function setIdCategory($idCategory)
+    {
+        $this->idCategory = $idCategory;
+
+        return $this;
+    }
 
     public function getCategory()
     {
@@ -27,4 +40,5 @@ class Category
     {
         $this->$name = $value;
     }
+
 }
