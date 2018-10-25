@@ -9,6 +9,7 @@ use Dao\BD\SeatTypesDao as SeatTypesDao;
 class TheaterManagementController
 {
     private $theatersDao;
+    private $folder = "TheaterManagement/";
 
     public function __construct()
     {
@@ -18,13 +19,13 @@ class TheaterManagementController
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require VIEWS_PATH."TheaterManagement.php";
+        require VIEWS_PATH.$this->folder."TheaterManagement.php";
     }
 
     public function viewAddTheater()
     {
         $seatTypeList = SeatTypesDao::getInstance()->getAll();
-        require VIEWS_PATH."TheaterManagementAdd.php";
+        require VIEWS_PATH.$this->folder."TheaterManagementAdd.php";
     }
 
     public function addTheater($name, $location, $image="", $maxCapacity, $seatTypeList="")
@@ -72,7 +73,7 @@ class TheaterManagementController
             var_dump($value->getSeatTypes());
         }
         $this->index();//temp
-        //require VIEWS_PATH."TheaterManagementList.php";
+        //require VIEWS_PATH.$this->folder."TheaterManagementList.php";
     }
 
     public function deleteTheater($id)
@@ -86,7 +87,7 @@ class TheaterManagementController
         $oldTheater = new Theater();
         $oldTheater->setIdTheater($id)->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
         $_SESSION["oldTheater"] = $oldTheater;
-        require VIEWS_PATH."TheaterManagementEdit.php";
+        require VIEWS_PATH.$this->folder."TheaterManagementEdit.php";
     }
 
     public function editTheater($name, $location, $maxCapacity)

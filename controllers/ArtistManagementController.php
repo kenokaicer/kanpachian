@@ -10,6 +10,7 @@ class ArtistManagementController
 {
     protected $message;
     private $artistsDao;
+    private $folder = "ArtistManagement/";
 
     public function __construct()
     {
@@ -20,12 +21,12 @@ class ArtistManagementController
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require VIEWS_PATH."ArtistManagement.php";
+        require VIEWS_PATH.$this->folder."ArtistManagement.php";
     }
 
     public function viewAddArtist()
     {
-        require VIEWS_PATH."ArtistManagementAdd.php";
+        require VIEWS_PATH.$this->folder."ArtistManagementAdd.php";
     }
 
     public function addArtist($name, $lastname)
@@ -59,7 +60,7 @@ class ArtistManagementController
             echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
         
-        require VIEWS_PATH."ArtistManagementList.php";
+        require VIEWS_PATH.$this->folder."ArtistManagementList.php";
     }
 
     public function deleteArtist($id)
@@ -84,7 +85,7 @@ class ArtistManagementController
     {   
         $oldArtist = $this->artistsDao->getByID($idArtist);
 
-        require VIEWS_PATH."ArtistManagementEdit.php";
+        require VIEWS_PATH.$this->folder."ArtistManagementEdit.php";
     }
 
     /**
