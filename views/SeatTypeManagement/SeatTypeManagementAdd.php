@@ -1,16 +1,17 @@
 <div class="wrapper">
     <section>
-        <form action="<?=FRONT_ROOT?>ArtistManagement/addArtist" method="post">
+        <form action="<?=FRONT_ROOT?>SeatTypeManagement/addSeatType" method="post">
             <table>
                 <tr>
                     <td>Nombre: <input type="text" name="name" required></td>
-                    <td>Apellido: <input type="text" name="lastname" required></td>
+                    <td>Descripción: <textarea name="description" rows="5" cols="50" required></textarea>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>ArtistManagement/index" formnovalidate>
+                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatTypeManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

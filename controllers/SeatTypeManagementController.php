@@ -27,7 +27,7 @@ class SeatTypeManagementController
         require VIEWS_PATH.$this->folder."SeatTypeManagementAdd.php";
     }
 
-    public function addSeatType($name, $lastname)
+    public function addSeatType($name, $description)
     {
         $seatType = new SeatType();
         
@@ -90,7 +90,7 @@ class SeatTypeManagementController
      * Recieve modified atributes for object SeatType
      * and old object by id, call dao update
      */
-    public function editSeatType($oldIdSeatType, $name, $lastname)
+    public function editSeatType($oldIdSeatType, $name, $description)
     {
         $oldSeatType = $this->seatTypesDao->getByID($oldIdSeatType);
         $newSeatType = new SeatType();

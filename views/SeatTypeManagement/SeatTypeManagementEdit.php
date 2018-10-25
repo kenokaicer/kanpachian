@@ -1,17 +1,17 @@
 <div class="wrapper">
     <section>
-        <form action="<?=FRONT_ROOT?>ArtistManagement/editArtist" method="post">
-            <input type="hidden" name="idOldArtist" value="<?=$oldArtist->getIdArtist()?>">
+        <form action="<?=FRONT_ROOT?>SeatTypeManagement/editSeatType" method="post">
+            <input type="hidden" name="idOldSeatType" value="<?=$oldSeatType->getIdSeatType()?>">
             <table>
                 <tr>
-                    <td>Nombre: <input type="text" name="name" value="<?=$oldArtist->getName()?>"></td>
-                    <td>Apellido: <input type="text" name="lastname" value="<?=$oldArtist->getLastname()?>"></td>
+                    <td>Nombre: <input type="text" name="name" value="<?=$oldSeatType->getName()?>" required></td>
+                    <td>Descripción: <textarea name="description" rows="5" cols="50" required><?=$oldSeatType->getDescription()?></textarea>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <div>
                             <button type="submit">Modificar</button>
-                            <input type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>ArtistManagement/index" formnovalidate>
+                            <input type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>SeatTypeManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>
