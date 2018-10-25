@@ -5,10 +5,10 @@ use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
-use Dao\Interfaces\ICategoryDao as ICategoryDao;
+use Dao\Interfaces\ICategoriesDao as ICategoriesDao;
 use Models\Category as Category;
 
-class CategoriesDao extends SingletonDao implements ICategoryDao
+class CategoriesDao extends SingletonDao implements ICategoriesDao
 {
     private $connection;
     private $tableName = 'Categories';
