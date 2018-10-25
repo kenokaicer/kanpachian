@@ -1,7 +1,7 @@
 <?php
 	namespace Controllers;
 
-	use Dao\BD\EventsDao as EventsDao;
+	use Dao\BD\EventDao as EventDao;
 	
 	class MainController{
 		
@@ -9,17 +9,17 @@
 
 		public function __construct()
 		{
-			$this->eventsDao = EventsDao::getInstance();
+			$this->eventDao = EventDao::getInstance();
 		}
 		
 		function index()
 		{	
-			try{
-				$eventList = $this->eventsDao->RetrieveEventsOnly();
+			try{ 
+				$eventList = $this->eventDao->RetrieveEventsOnly();
 			}catch(Exception $ex){
 				echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
 			}
-			var_dump($eventList);
+			var_dump($eventList); //this is for the dyinamic event slot in the main view
 			require "Views/home.php";
 		}
 	}
