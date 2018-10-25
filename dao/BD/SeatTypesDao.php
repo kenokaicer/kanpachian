@@ -12,6 +12,7 @@ class SeatTypesDao extends SingletonDao implements ISeatTypesDao
 {
     private $connection;
     private $tableName = 'SeatTypes';
+    private $tableName2 = 'SeatTypes_x_Theater';
 
     protected function __construct(){
         $this->connection = Connection::getInstance();
@@ -39,9 +40,9 @@ class SeatTypesDao extends SingletonDao implements ISeatTypesDao
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -66,9 +67,9 @@ class SeatTypesDao extends SingletonDao implements ISeatTypesDao
 
             return $seatType;
         } catch (PDOException $ex) {
-            throw new Exception ("SeatType search error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("SeatType search error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -82,11 +83,49 @@ class SeatTypesDao extends SingletonDao implements ISeatTypesDao
         try{
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("getAll error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("getAll error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
+        $seatTypeProperties = array_keys($seatType->getAll());
+
+        foreach ($resultSet as $row)
+        {                
+            $seatType = new SeatType();
+            
+            foreach ($seatTypeProperties as $value) {
+                $seatType->__set($value, $row[$value]);
+            }
+
+            array_push($seatTypeList, $seatType);
+        }
+
+        return $seatTypeList;
+    }
+
+    /**
+     * Retruns array of all SeatTypes associated to a Theater
+     */
+    public function getAllByTheaterId($id)
+    {
+        $seatTypeList = array();
+        $seatType = new SeatType();
+
+        $query = "SELECT SeatTypes.idSeatType, name, description 
+        FROM " . $this->tableName2." 
+        INNER JOIN ".$this->tableName." 
+        ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType
+        WHERE SeatTypes_x_Theater.idTheater = ".$id;
+
+        try{
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
         $seatTypeProperties = array_keys($seatType->getAll());
 
         foreach ($resultSet as $row)
@@ -134,9 +173,9 @@ class SeatTypesDao extends SingletonDao implements ISeatTypesDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Update error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Update error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 
@@ -153,9 +192,9 @@ class SeatTypesDao extends SingletonDao implements ISeatTypesDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 }
