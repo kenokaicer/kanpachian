@@ -8,11 +8,12 @@ use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ITheaterDao as ITheaterDao;
 use Models\Theater as Theater;
-use Models\SeatType as SeatType;
+use Dao\BD\SeatTypesDao as SeatTypesDao;
 
 class TheatersDao extends SingletonDao implements ITheaterDao
 {
     private $connection;
+    private $seatTypesDao;
     private $tableName = 'Theaters';
     private $tableName2 = 'SeatTypes_x_Theater';
 
@@ -32,7 +33,7 @@ class TheatersDao extends SingletonDao implements ITheaterDao
     }
     
     /**
-     * Add Theater and all SeatTypes inide it to second table
+     * Add Theater and all SeatTypes inside it to second table
      */
     public function Add(Theater $theater){
 
@@ -59,10 +60,10 @@ class TheatersDao extends SingletonDao implements ITheaterDao
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
             return;
         } catch (Exception $ex) {
-            throw new Exception ("Add error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
             return;
         }
             
@@ -73,16 +74,16 @@ class TheatersDao extends SingletonDao implements ITheaterDao
         try {
             $resultSet = $this->connection->Execute($query);  
         } catch (PDOException $ex) {
-            throw new Exception ("Error getting last insert id. ".$ex->getMessage());
+            throw new Exception (__METHOD__.", Error getting last insert id. ".$ex->getMessage());
             return;
         } catch (Exception $ex) {
-            throw new Exception ("Error getting last insert id. ".$ex->getMessage());
+            throw new Exception (__METHOD__.", Error getting last insert id. ".$ex->getMessage());
             return;
         }   
         $row = reset($resultSet); //gives first object of array
         $idTheater = reset($row); //get value of previous first object
 
-        //---Insert each SeatType in a separate querry, N:N Table ---//
+        //---Insert each SeatType in a separate querry, N:N Table ---// //This could have been delegated to SeatTypesDao//
 
         foreach ($theater->getSeatTypes() as $value) {
             $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) VALUES (:idSeatType,:idTheater);";
@@ -98,32 +99,62 @@ class TheatersDao extends SingletonDao implements ITheaterDao
                     throw new Exception("Number of rows added ".$addedRows.", expected 1, in SeatType");
                 }
             } catch (PDOException $ex) {
-                throw new Exception ("Error inserting SeatType. ".$ex->getMessage());
+                throw new Exception (__METHOD__.", Error inserting SeatType. ".$ex->getMessage());
                 return;
             } catch (Exception $ex) {
-                throw new Exception ("Error inserting SeatType. ".$ex->getMessage());
+                throw new Exception (__METHOD__.", Error inserting SeatType. ".$ex->getMessage());
                 return;
             }
         }
     }
 
-    public function Get($var){
+    public function getByID($id){
+        $this->seatTypesDao = SeatTypesDao::getInstance();
+        $theater = new Theater();
+
+        $query = "SELECT * FROM " . $this->tableName." 
+        WHERE idTheater = ".$id." 
+        AND enabled = 1";
+
+        try {
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error. ".$ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error. ".$ex->getMessage());
+            return;
+        }
+
+        $theaterProperties = array_keys($theater->getAll());
+        array_pop($theaterProperties); //delete from properties list the object array, as we don't have it yet
+
+        $row = reset($resultSet);
+
+        foreach ($theaterProperties as $value) {
+            $theater->__set($value, $row[$value]);
+        }
+
+        $seatTypesList = $this->seatTypesDao->getAllByTheaterId($theater->getIdTheater());
+        $theater->setSeatTypes($seatTypesList);
+
+        return $theater;
     }
     
     public function getAll(){
+        $this->seatTypesDao = SeatTypesDao::getInstance();
         $theaterList = array();
         $theater = new Theater();
-        $seatType = new SeatType();
 
         $query = "SELECT * FROM " . $this->tableName." WHERE enabled = 1";
 
         try {
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception ("Theater list error. ".$ex->getMessage());
+            throw new Exception (__METHOD__." error. ".$ex->getMessage());
             return;
         } catch (Exception $ex) {
-            throw new Exception ("Theater list error. ".$ex->getMessage());
+            throw new Exception (__METHOD__." error. ".$ex->getMessage());
             return;
         }
         
@@ -140,41 +171,9 @@ class TheatersDao extends SingletonDao implements ITheaterDao
             array_push($theaterList, $theater);
         }
 
-        //----------------This should be done by SeatTypes controller, method "get all seattypes by theater id"
-        //------Should return an array, and then set that array
-        $query = "SELECT SeatTypes.idSeatType, name, description, idTheater 
-        FROM " . $this->tableName2." 
-        INNER JOIN SeatTypes 
-        ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType 
-        ORDER BY idTheater, SeatTypes.idSeatType";
-
-        try {
-            $resultSet = $this->connection->Execute($query);
-        } catch (PDOException $ex) {
-            echo "<script> alert('SeatType listing error, code: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-        } catch (Exception $ex) {
-            echo "<script> alert('SeatType listing error, code: " . str_replace("'","",$ex->getMessage()) . "');</script>";
-        }
-
-        $seatTypeProperties = array_keys($seatType->getAll());
-
-        foreach ($resultSet as $row){
-            $seatType = new SeatType();
-
-            foreach ($seatTypeProperties as $value) {
-                $seatType->__set($value, $row[$value]);
-            }
-
-            if($theater->getIdTheater()!=$row["idTheater"]){
-                foreach ($theaterList as $value) {
-                    if($row["idTheater"]==$value->getIdTheater()){
-                        $theater = $value;
-                        break;
-                    }
-                }
-            }
-
-            $theater->addSeatType($seatType);
+        foreach ($theaterList as $theater) {
+            $seatTypesList = $this->seatTypesDao->getAllByTheaterId($theater->getIdTheater());
+            $theater->setSeatTypes($seatTypesList);
         }
 
         return $theaterList;
@@ -191,9 +190,9 @@ class TheatersDao extends SingletonDao implements ITheaterDao
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception ("Delete error: ".$ex->getMessage());
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }
 }
