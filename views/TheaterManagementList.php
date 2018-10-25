@@ -18,7 +18,7 @@
                     <td><?= $theater['location'] ?></td>
                     <td><?= $theater['maxCapacity'] ?></td>
                     <td>
-                    <form action="<?=BASE?>TheaterManagement/viewEditTheater" method="post">
+                    <form action="<?=FRONT_ROOT?>TheaterManagement/viewEditTheater" method="post">
                             <input type="hidden" name="id" value="<?=$theater['idTheater']?>">
                             <input type="hidden" name="name" value="<?=$theater['name']?>">
                             <input type="hidden" name="location" value="<?=$theater['location']?>">
@@ -27,7 +27,7 @@
                         </form>
                     </td>
                     <td>
-                        <form action="<?=BASE?>TheaterManagement/deleteTheater" method="post">
+                        <form action="<?=FRONT_ROOT?>TheaterManagement/deleteTheater" method="post">
                             <input type="hidden" name="id" value="<?=$theater['idTheater']?>">
                             <input type="submit" value="Eliminar">
                         </form>
@@ -42,7 +42,7 @@
     </section>
     <section>
         <form method="post">
-            <button type="submit" formaction="<?=BASE?>TheaterManagement/index">Volver</button>
+            <button type="submit" formaction="<?=FRONT_ROOT?>TheaterManagement/index">Volver</button>
         </form>
     </section>
 </div>

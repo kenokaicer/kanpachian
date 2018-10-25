@@ -1,6 +1,6 @@
 <div class="wrapper">
     <section>
-        <form action="<?=BASE?>ArtistManagement/addArtist" method="post">
+        <form action="<?=FRONT_ROOT?>ArtistManagement/addArtist" method="post">
             <table>
                 <tr>
                     <td>Nombre: <input type="text" name="name" required></td>
@@ -10,7 +10,7 @@
                     <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=BASE?>ArtistManagement/index" formnovalidate>
+                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>ArtistManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

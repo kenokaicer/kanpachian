@@ -36,11 +36,11 @@
                         <?php
                             }
                         ?>                         
-                            <input type="submit" value="Editar" formaction="<?=BASE?>ArtistManagement/viewEditArtist">
+                            <input type="submit" value="Editar" formaction="<?=FRONT_ROOT?>ArtistManagement/viewEditArtist">
                         
                     </td>
                     <td>
-                            <input type="submit" value="Eliminar" formaction="<?=BASE?>ArtistManagement/deleteArtist">
+                            <input type="submit" value="Eliminar" formaction="<?=FRONT_ROOT?>ArtistManagement/deleteArtist">
                         </form>
                     </td>
                 </tr>
@@ -53,7 +53,7 @@
     </section>
     <section>
         <form method="post">
-            <button type="submit" formaction="<?=BASE?>ArtistManagement/index">Volver</button>
+            <button type="submit" formaction="<?=FRONT_ROOT?>ArtistManagement/index">Volver</button>
         </form>
     </section>
 </div>

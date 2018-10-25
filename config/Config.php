@@ -8,7 +8,7 @@ define('ROOT', str_replace('\\','/',dirname(__DIR__) . "/"));
 
 // Constat for Request
 $base=explode($_SERVER['DOCUMENT_ROOT'],ROOT);
-define("BASE",$base[1]);
+define("FRONT_ROOT",$base[1]);
 
 // Constats for Json
 define("JSONFOLDER", "JsonFiles/");
@@ -20,8 +20,8 @@ define("DB_PASS", "lluviadehamburguesas");
 define("DB_HOST", "www.neonlab.com.ar");
 
 // Constats for front
-//define("FRONT_ROOT", "/UTN/MVC Example/"); //fix this constant, call BASE?
+//define("FRONT_ROOT", "/UTN/MVC Example/"); //fix this constant, call FRONT_ROOT?
 define("VIEWS_PATH", "Views/");
-define("CSS_PATH", BASE.VIEWS_PATH . "css/");
-define("JS_PATH", BASE.VIEWS_PATH . "js/");
-define("IMG_PATH",BASE.VIEWS_PATH . "img/");
+define("CSS_PATH", FRONT_ROOT.VIEWS_PATH . "css/");
+define("JS_PATH", FRONT_ROOT.VIEWS_PATH . "js/");
+define("IMG_PATH",FRONT_ROOT.VIEWS_PATH . "img/");

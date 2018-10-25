@@ -1,5 +1,5 @@
  <div><form method="post">
-    <button type="submit" formaction="<?=BASE?>Admin/index">ADMIN</button>
+    <button type="submit" formaction="<?=FRONT_ROOT?>Admin/index">ADMIN</button>
  </form></div>
  <div id="additional-info">
         <div class="row">

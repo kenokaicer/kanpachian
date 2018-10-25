@@ -62,7 +62,7 @@ if(isset($_POST["seatTypes"]))
                     </form>
                 </td>
             </tr>
-            <form action="<?=BASE?>TheaterManagement/addTheater" method="post" id="form1">
+            <form action="<?=FRONT_ROOT?>TheaterManagement/addTheater" method="post" id="form1">
             <tr>
                 <td>Nombre: <input type="text" name="name" required></td>
                 <td>Imágen: </td>
@@ -75,7 +75,7 @@ if(isset($_POST["seatTypes"]))
         </table>
     </section> 
     <section>
-        <form action="<?=BASE?>TheaterManagement/index" method="post" id="form2"></form>
+        <form action="<?=FRONT_ROOT?>TheaterManagement/index" method="post" id="form2"></form>
         <button type="submit" form="form1">Agregar</button>
         <button type="submit" form="form2">Volver</button>
     </section>

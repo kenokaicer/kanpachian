@@ -1,6 +1,6 @@
 <div class="wrapper">
     <section>
-        <form action="<?=BASE?>TheaterManagement/editTheater" method="post">
+        <form action="<?=FRONT_ROOT?>TheaterManagement/editTheater" method="post">
             <table>
                 <tr>
                     <td>Nombre: <input type="text" name="name" value="<?=$name?>"></td>
@@ -11,7 +11,7 @@
                     <td colspan="2">
                         <div>
                             <button type="submit">Modificar</button>
-                            <input type="submit" value="Cancelar" formaction="<?=BASE?>TheaterManagement/index" formnovalidate>
+                            <input type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>TheaterManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>
