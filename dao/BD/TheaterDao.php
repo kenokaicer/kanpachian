@@ -112,8 +112,11 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         $this->seatTypeDao = SeatTypeDao::getInstance();
         $theater = new Theater();
 
+        $theaterProperties = array_keys($theater->getAll());
+        array_pop($theaterProperties); //delete from properties list the object array, as we don't have it yet
+
         $query = "SELECT * FROM " . $this->tableName." 
-        WHERE idTheater = ".$id." 
+        WHERE ".$eventProperties[0]." = ".$id." 
         AND enabled = 1";
 
         try {
@@ -125,9 +128,6 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             throw new Exception (__METHOD__." error. ".$ex->getMessage());
             return;
         }
-
-        $theaterProperties = array_keys($theater->getAll());
-        array_pop($theaterProperties); //delete from properties list the object array, as we don't have it yet
 
         $row = reset($resultSet);
 

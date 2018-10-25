@@ -57,20 +57,19 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         
         try {
             $resultSet = $this->connection->Execute($query);
-
-            foreach ($resultSet as $row) //loops returned rows
-            {               
-                foreach ($seatTypeProperties as $value) { //auto fill object with magic function __set
-                    $seatType->__set($value, $row[$value]);
-                }
-            }
-
-            return $seatType;
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
+        
+        $row = reset($resultSet);
+
+        foreach ($seatTypeProperties as $value) { //auto fill object with magic function __set
+            $seatType->__set($value, $row[$value]);
+        }
+
+        return $seatType;
     }
 
     public function getAll()

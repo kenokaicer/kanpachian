@@ -63,13 +63,13 @@ class CategoryDao extends SingletonDao implements ICategoryDao
                     $category->__set($value, $row[$value]);
                 }
             }
-
-            return $category;
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
+
+        return $category;
     }
 
     public function getAll()
