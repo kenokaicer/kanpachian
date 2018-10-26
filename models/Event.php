@@ -12,7 +12,6 @@ class Event
     private $image;
     private $description;
     private $category; //Class Category
-    private $eventsByDate = array(); //Class EventsByDate (calendario)
 
     public function getEventName()
     {

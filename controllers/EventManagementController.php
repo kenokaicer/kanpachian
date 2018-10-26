@@ -34,18 +34,26 @@ class EventManagementController
     public function addEvent($eventName, $image, $description, $idCategory)
     {
         $event = new Event();
+
+        $eventAtributes = $event->getAll();
+        array_pop($eventAtributes);
         
         $args = func_get_args();
         array_unshift($args, null); //put null at first of array for id
         array_pop($args);
         
-        $eventAtributeList = array_combine(array_keys($event->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-        
+        $eventAtributeList = array_combine(array_keys($eventAtributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+
         foreach ($eventAtributeList as $atribute => $value) {
             $event->__set($atribute,$value);
         }
 
-        $category = $this->categoryDao->getByID($idCategory);
+        try{
+            $category = $this->categoryDao->getByID($idCategory);
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        }
 
         $event->setCategory($category);
 
@@ -71,7 +79,7 @@ class EventManagementController
 
     public function deleteEvent($id)
     {
-        $event = $this->eventDao->getByID($idEvent);
+        $event = $this->eventDao->getByID($id);
 
         try{
             $this->eventDao->Delete($event);
