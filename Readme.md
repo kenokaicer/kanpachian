@@ -17,16 +17,15 @@ DONE
 
 TO DO
 
+- Typehint models with object
 - CreditCard should check if null when making a payment
 - add image to events (then to bd)
-- Complete Daos
 
 - Fix BD for SeatsByEvent
-- Start with EventDao, then EventByDate (see how SeatsByEvent are made here)
-- EventDao needs to return with EventByDate, not doing it right now
-
 - SeatsByEvent has new atribute private $eventByDate; // Class EventByDate
 fix everyting that implies that
+- rename properties to atributes when calling magic set
+- fix theaterDao try-catchs (use eventByDate as reference)
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
