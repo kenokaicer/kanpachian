@@ -9,9 +9,10 @@ class EventsByDate//Calendario
 {
     private $idEventsByDate;
     private $date;
+    private $event; //Class Event
     private $theater; //Class Theater
     private $artists = array(); //Array of Class Artist
-    private $seatsByEvents = array(); //Array of Class SeatsByEvent
+    //private $seatsByEvents = array(); //Array of Class SeatsByEvent //this only if I want a bidirectional dependancy
 
     public function getDate()
     {
@@ -21,6 +22,18 @@ class EventsByDate//Calendario
     public function setDate($date)
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    public function setEvent($event)
+    {
+        $this->event = $event;
 
         return $this;
     }
@@ -54,11 +67,11 @@ class EventsByDate//Calendario
         $this->eventsBySeats[] = $eventBySeat;
     }
 
-	public function getArtists()
-	{
-		return $this->artists;
+    public function getArtists()
+    {
+        return $this->artists;
     }
-    
+
     public function addArtist($artist)
     {
         $this->artists[] = $artist;
@@ -73,4 +86,5 @@ class EventsByDate//Calendario
     {
         $this->$name = $value;
     }
+
 }
