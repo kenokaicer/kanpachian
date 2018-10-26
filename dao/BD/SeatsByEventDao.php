@@ -27,9 +27,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $parameters["idSeatType"] = $seatsByEvent->getSeatType()->getIdSeatType();
         var_dump($parameters);
 
-        //need EventByDates----------------------------------------------***-*-*-*-*-*-*-*-
-        //purchase seems to need a N:N table, so modify the BD
-
         /*
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";

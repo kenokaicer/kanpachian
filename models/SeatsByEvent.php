@@ -15,6 +15,7 @@ class SeatsByEvent//Plaza_Evento
     private $price;
     private $remnants; // This is a self calulated value.
     private $seatType; // Class SeatType.
+    private $eventByDate; // Class EventByDate
 
     public function getIdSeatsByEvent()
     {
