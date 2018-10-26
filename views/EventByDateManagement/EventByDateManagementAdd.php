@@ -1,6 +1,6 @@
 <div class="wrapper">
     <section>
-        <form action="<?=FRONT_ROOT?>EventsByDateManagement/addEventsByDate" method="post">
+        <form action="<?=FRONT_ROOT?>EventByDateManagement/addEventByDate" method="post">
             <table>
                 <tr>
                     <td colspan="2">Evento:
@@ -49,7 +49,7 @@
                     <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>EventsByDateManagement/index" formnovalidate>
+                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>EventByDateManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

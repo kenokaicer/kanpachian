@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Models\EventsByDate as EventsByDate;
+use Models\EventByDate as EventByDate;
 use Models\Category as Category;
 
 class Event
@@ -64,14 +64,14 @@ class Event
         $this->$name = $value;
     }
     
-	public function getEventsByDate()
+	public function getEventByDate()
 	{
-		return $this->eventsByDate;
+		return $this->eventByDate;
 	}
 
-    public function setEventsByDate($eventsByDate)
+    public function setEventByDate($eventByDate)
     {
-        $this->eventsByDate = $eventsByDate;
+        $this->eventByDate = $eventByDate;
 
         return $this;
     }

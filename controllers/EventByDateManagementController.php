@@ -1,26 +1,26 @@
 <?php
 namespace Controllers;
 
-//use Dao\BD\EventsByDateDao as EventsByDateDao;
+use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\EventDao as EventDao;
-use Models\EventsByDate as EventsByDate;
+use Models\EventByDate as EventByDate;
 use Models\Artist as Artist;
 use Exception as Exception;
 
-class EventsByDateManagementController
+class EventByDateManagementController
 {
     protected $message;
-    private $eventsByDateDao;
+    private $eventByDateDao;
     private $theaterDao;
     private $artistDao;
     private $eventDao;
-    private $folder = "EventsByDateManagement/";
+    private $folder = "EventByDateManagement/";
 
     public function __construct()
     {
-        //$this->eventsByDateDao = EventsByDateDao::getInstance(); //BD
+        $this->eventByDateDao = EventByDateDao::getInstance(); //BD
         $this->theaterDao = TheaterDao::getInstance();
         $this->artistDao = ArtistDao::getInstance();
         $this->eventDao = EventDao::getInstance();
@@ -29,10 +29,10 @@ class EventsByDateManagementController
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require VIEWS_PATH.$this->folder."EventsByDateManagement.php";
+        require VIEWS_PATH.$this->folder."EventByDateManagement.php";
     }
 
-    public function viewAddEventsByDate()
+    public function viewAddEventByDate()
     {   
         try{
             $theaterList = $this->theaterDao->getAll();
@@ -43,17 +43,17 @@ class EventsByDateManagementController
             $this->index();
         }
         
-        require VIEWS_PATH.$this->folder."EventsByDateManagementAdd.php";
+        require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
     }
 
     /**
      * Not complete, waiting for ajax of artists in add
      */
-    public function addEventsByDate($idEvent, $date, $idTheater, $idArtistList)
+    public function addEventByDate($idEvent, $date, $idTheater, $idArtistList)
     {
-        $eventsByDate = new EventsByDate();
+        $eventByDate = new EventByDate();
         
-        $eventsByDate->setDate($date);
+        $eventByDate->setDate($date);
 
         try{
             $theater = $this->theaterDao->getByID($idTheater);
@@ -63,8 +63,8 @@ class EventsByDateManagementController
             $this->index();
         }
 
-        $eventsByDate->setTheater($theater);
-        $eventsByDate->setEvent($event);
+        $eventByDate->setTheater($theater);
+        $eventByDate->setEvent($event);
 
         //-----------------------
         //deserialize $idArtistList
@@ -78,11 +78,11 @@ class EventsByDateManagementController
                 $this->index();
             }
 
-            $eventsByDate->addArtist($artist);
+            $eventByDate->addArtist($artist);
         }
 
         try{
-            $this->eventsByDateDao->Add($eventsByDate);
+            $this->eventByDateDao->Add($eventByDate);
             echo "<script> alert('Calendario agregado exitosamente');</script>";
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
@@ -91,66 +91,66 @@ class EventsByDateManagementController
         $this->index();
     }
 
-    public function eventsByDateList()
+    public function eventByDateList()
     {
         try{
-            $eventsByDateList = $this->eventsByDateDao->getAll();
+            $eventByDateList = $this->eventByDateDao->getAll();
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
         
-        require VIEWS_PATH.$this->folder."EventsByDateManagementList.php";
+        require VIEWS_PATH.$this->folder."EventByDateManagementList.php";
     }
 
-    public function deleteEventsByDate($id)
+    public function deleteEventByDate($id)
     {
-        $eventsByDate = $this->eventsByDateDao->getByID($idEventsByDate);
+        $eventByDate = $this->eventByDateDao->getByID($idEventByDate);
 
         try{
-            $this->eventsByDateDao->Delete($eventsByDate);
+            $this->eventByDateDao->Delete($eventByDate);
             echo "<script> alert('Calendario eliminado exitosamente');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         } 
 
-        $this->eventsByDateList();
+        $this->eventByDateList();
     }
 
     /**
-     * Recieve id of EventsByDate to edit, retrieve by DAO for diplaying in the forms,
-     * then after the modifications sends them to this->editEventsByDate
+     * Recieve id of EventByDate to edit, retrieve by DAO for diplaying in the forms,
+     * then after the modifications sends them to this->editEventByDate
      */
-    public function viewEditEventsByDate($idEventsByDate)
+    public function viewEditEventByDate($idEventByDate)
     {   
-        $oldEventsByDate = $this->eventsByDateDao->getByID($idEventsByDate);
+        $oldEventByDate = $this->eventByDateDao->getByID($idEventByDate);
 
-        require VIEWS_PATH.$this->folder."EventsByDateManagementEdit.php";
+        require VIEWS_PATH.$this->folder."EventByDateManagementEdit.php";
     }
 
     /**
-     * Recieve modified atributes for object EventsByDate
+     * Recieve modified atributes for object EventByDate
      * and old object by id, call dao update
      */
-    public function editEventsByDate($oldIdEventsByDate, $eventsByDate)
+    public function editEventByDate($oldIdEventByDate, $eventByDate)
     {
-        $oldEventsByDate = $this->eventsByDateDao->getByID($oldIdEventsByDate);
-        $newEventsByDate = new EventsByDate();
+        $oldEventByDate = $this->eventByDateDao->getByID($oldIdEventByDate);
+        $newEventByDate = new EventByDate();
 
         $args = func_get_args();
-        $eventsByDateAtributeList = array_combine(array_keys($newEventsByDate->getAll()),array_values($args)); 
+        $eventByDateAtributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
 
-        foreach ($eventsByDateAtributeList as $atribute => $value) {
-            $newEventsByDate->__set($atribute,$value);
+        foreach ($eventByDateAtributeList as $atribute => $value) {
+            $newEventByDate->__set($atribute,$value);
         }
 
         try{
-            $this->eventsByDateDao->Update($oldEventsByDate, $newEventsByDate);
+            $this->eventByDateDao->Update($oldEventByDate, $newEventByDate);
             echo "<script> alert('Calendario modificada exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el calendario " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
 
-        $this->eventsByDateList();
+        $this->eventByDateList();
     }
 
 }

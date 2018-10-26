@@ -20,7 +20,7 @@ class EventDao extends SingletonDao implements IEventDao
     }
 
     /**
-     * Add event without EventsByDate
+     * Add event without EventByDate
      */
     public function Add(Event $event)
     {
@@ -53,7 +53,7 @@ class EventDao extends SingletonDao implements IEventDao
         }
     }
 
-    public function getByID($id) //right now not returning eventsByDate
+    public function getByID($id) //right now not returning eventByDate
     {   
         $event = new Event();
         $category = new Category();
@@ -93,7 +93,7 @@ class EventDao extends SingletonDao implements IEventDao
         return $event;
     }
 
-    public function getAll() //right now not returning eventsByDate
+    public function getAll() //right now not returning eventByDate
     {
         $eventList = array();
         $event = new Event();

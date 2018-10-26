@@ -116,6 +116,8 @@ class ArtistDao extends SingletonDao implements IArtistDao
         return $artistList;
     }
 
+    //public function getAllArtitsByEventByDate($idEvents)
+
     /**
      * Updates values that are diferent from the ones recieved in the object Artist
      */

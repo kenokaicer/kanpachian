@@ -28,13 +28,13 @@ USE neonlab1_gotoevent;
     constraint pkTheater primary key (idTheater)
 );*/
 
-/*create table EventsByDates(
-    idEventsByDate int unsigned auto_increment,
+/*create table EventByDates(
+    idEventByDate int unsigned auto_increment,
     date date,
     idTheater int unsigned,
     idEvent int unsigned,
     enabled bool default '1',
-    constraint pkEventsByDate primary key (idEventsByDate),
+    constraint pkEventByDate primary key (idEventByDate),
     constraint fkTheater foreign key (idTheater) references Theaters (idTheater),
     constraint fkEvent foreign key (idEvent) references Events (idEvent)
 );*/
@@ -52,7 +52,7 @@ USE neonlab1_gotoevent;
     idEventByDate int unsigned,
     constraint pkArtists_x_EventByDate primary key (idArtist, idEventByDate),
     constraint pfkArtist foreign key (idArtist) references Artists (idArtist),
-    constraint pfkEventByDate foreign key (idEventByDate) references EventsByDates (idEventsByDate)
+    constraint pfkEventByDate foreign key (idEventByDate) references EventByDates (idEventByDate)
 );*/
 
 /*create table SeatTypes(
@@ -117,11 +117,11 @@ USE neonlab1_gotoevent;
     quantity smallint unsigned not null,
     price double unsigned not null,
     remnants smallint unsigned not null,
-    idEventsByDate int unsigned not null,
+    idEventByDate int unsigned not null,
     idSeatType int unsigned not null,
     enabled bool default '1',
     constraint pkSeatByEvent primary key (idSeatsByEvent),
-    constraint fkEventsByDate foreign key (idEventsByDate) references EventsByDates (idEventsByDate),
+    constraint fkEventByDate foreign key (idEventByDate) references EventByDates (idEventByDate),
     constraint fkSeatType foreign key (idSeatType) references SeatTypes (idSeatType)
 );*/
 

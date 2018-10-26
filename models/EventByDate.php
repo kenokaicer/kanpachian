@@ -4,10 +4,10 @@ namespace Models;
 
 use Models\Theater as Theater;
 
-class EventsByDate//Calendario
+class EventByDate//Calendario
 
 {
-    private $idEventsByDate;
+    private $idEventByDate;
     private $date;
     private $event; //Class Event
     private $theater; //Class Theater
@@ -50,14 +50,14 @@ class EventsByDate//Calendario
         return $this;
     }
 
-    public function getIdEventsByDate()
+    public function getIdEventByDate()
     {
-        return $this->idEventsByDate;
+        return $this->idEventByDate;
     }
 
-    public function setIdEventsByDate($idEventsByDate)
+    public function setIdEventByDate($idEventByDate)
     {
-        $this->idEventsByDate = $idEventsByDate;
+        $this->idEventByDate = $idEventByDate;
 
         return $this;
     }

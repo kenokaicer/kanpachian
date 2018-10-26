@@ -15,7 +15,7 @@
 		function index()
 		{	
 			try{ 
-				$eventList = $this->eventDao->RetrieveEventsOnly();
+				$eventList = $this->eventDao->getAll();
 			}catch(Exception $ex){
 				echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
 			}

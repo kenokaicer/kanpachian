@@ -22,8 +22,8 @@ TO DO
 - Complete Daos
 
 - Fix BD for SeatsByEvent
-- Start with EventDao, then EventsByDate (see how SeatsByEvent are made here)
-- EventDao needs to return with EventsByDate, not doing it right now
+- Start with EventDao, then EventByDate (see how SeatsByEvent are made here)
+- EventDao needs to return with EventByDate, not doing it right now
 
 - SeatsByEvent has new atribute private $eventByDate; // Class EventByDate
 fix everyting that implies that
