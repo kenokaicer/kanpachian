@@ -14,6 +14,18 @@ class EventByDate//Calendario
     private $artists = array(); //Array of Class Artist
     //private $seatsByEvents = array(); //Array of Class SeatsByEvent //this only if I want a bidirectional dependancy
 
+    public function getIdEventByDate()
+    {
+        return $this->idEventByDate;
+    }
+
+    public function setIdEventByDate($idEventByDate)
+    {
+        $this->idEventByDate = $idEventByDate;
+
+        return $this;
+    }
+
     public function getDate()
     {
         return $this->date;
@@ -50,14 +62,14 @@ class EventByDate//Calendario
         return $this;
     }
 
-    public function getIdEventByDate()
-    {
-        return $this->idEventByDate;
-    }
+    public function getArtists()
+	{
+		return $this->artists;
+	}
 
-    public function setIdEventByDate($idEventByDate)
+    public function setArtists($artists)
     {
-        $this->idEventByDate = $idEventByDate;
+        $this->artists = $artists;
 
         return $this;
     }
@@ -65,11 +77,6 @@ class EventByDate//Calendario
     public function addEventsBySeat($eventBySeat)
     {
         $this->eventsBySeats[] = $eventBySeat;
-    }
-
-    public function getArtists()
-    {
-        return $this->artists;
     }
 
     public function addArtist($artist)
