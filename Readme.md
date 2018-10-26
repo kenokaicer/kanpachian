@@ -23,6 +23,10 @@ TO DO
 
 - Fix BD for SeatsByEvent
 - Start with EventDao, then EventsByDate (see how SeatsByEvent are made here)
+- EventDao needs to return with EventsByDate, not doing it right now
+
+- SeatsByEvent has new atribute private $eventByDate; // Class EventByDate
+fix everyting that implies that
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
