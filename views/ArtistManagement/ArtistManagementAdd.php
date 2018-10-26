@@ -10,7 +10,7 @@
                     <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>ArtistManagement/index" formnovalidate>
+                            <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>ArtistManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

@@ -11,7 +11,7 @@
                     <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatTypeManagement/index" formnovalidate>
+                            <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatTypeManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>
