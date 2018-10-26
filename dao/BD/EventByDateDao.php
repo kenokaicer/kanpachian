@@ -61,6 +61,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $eventByDateProperties = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
         array_pop($eventByDateProperties);
         array_pop($eventByDateProperties);
+        array_pop($eventByDateProperties);
 
         $query = "SELECT * FROM " . $this->tableName ."  
                 WHERE ".$eventByDateProperties[0]." = ".$id." 
@@ -100,9 +101,15 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         
         $eventByDate->setTheater($theater);
         
-        //----------artist list get, make method
-
-        $eventByDate->setCategory($category);
+        try{
+            $artistList = ArtistDao::getInstance()->getAllArtitsByEventByDate($theater->getIdTheater());
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__.",artist list query error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__.",artist list query error: ".$ex->getMessage());
+        }
+        
+        $eventByDate->setArtists($artistList);
 
         return $eventByDate;
     }
@@ -112,46 +119,64 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $eventByDateList = array();
         $eventByDate = new EventByDate();
 
-        $query = "SELECT e.idEventByDate, eventByDateName, image, description, c.idCategory, c.category
-                FROM " . $this->tableName ." e
-                INNER JOIN ".$this->tableName2." c
-                On e.idCategory = c.idCategory  
-                AND e.enabled = 1";
+        $eventByDateProperties = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        array_pop($eventByDateProperties);
+        array_pop($eventByDateProperties);
+        array_pop($eventByDateProperties);
 
-        try{
-            $resultSet = $this->connection->Execute($query);
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
+        $query = "SELECT * FROM " . $this->tableName ." WHERE enabled = 1";
         
-        $eventByDateProperties = array_keys($eventByDate->getAll());
-        array_pop($eventByDateProperties);
-        array_pop($eventByDateProperties);
+        try {
+            $resultSet = $this->connection->Execute($query);  
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__.",eventByDate query error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__.",eventByDate query error: ".$ex->getMessage());
+        }
 
-        $categoryProperties = array_keys($category->getAll());
-
-        foreach ($resultSet as $row)
-        {                
+        foreach ($resultSet as $row){
             $eventByDate = new EventByDate();
             
             foreach ($eventByDateProperties as $value) {
                 $eventByDate->__set($value, $row[$value]);
             }
 
-            $category = new Category();
-
-            foreach ($categoryProperties as $value) {
-                $category->__set($value, $row[$value]);
-            }
-    
-            $eventByDate->setCategory($category);
-
             array_push($eventByDateList, $eventByDate);
         }
 
-        return $eventByDateList;
+        foreach ($eventByDateList as $value) {
+            try{
+                $event = EventDao::getInstance()->getByID($row["idEvent"]);
+            } catch (PDOException $ex) {
+                throw new Exception (__METHOD__.",event query error: ".$ex->getMessage());
+            } catch (Exception $ex) {
+                throw new Exception (__METHOD__.",event query error: ".$ex->getMessage());
+            }
+
+            $eventByDate->setEvent($event);
+
+            try{
+                $theater = TheaterDao::getInstance()->getByID($row["idTheater"]);
+            } catch (PDOException $ex) {
+                throw new Exception (__METHOD__.",theater query error: ".$ex->getMessage());
+            } catch (Exception $ex) {
+                throw new Exception (__METHOD__.",theater query error: ".$ex->getMessage());
+            }
+
+            $eventByDate->setTheater($theater);
+
+            try{
+                $artistList = ArtistDao::getInstance()->getAllArtitsByEventByDate($theater->getIdTheater());
+            } catch (PDOException $ex) {
+                throw new Exception (__METHOD__.",artist list query error: ".$ex->getMessage());
+            } catch (Exception $ex) {
+                throw new Exception (__METHOD__.",artist list query error: ".$ex->getMessage());
+            }
+    
+            $eventByDate->setArtists($artistList);
+        }
+
+        return $eventByDate;
     }
 
     /**
