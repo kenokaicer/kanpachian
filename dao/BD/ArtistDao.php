@@ -12,6 +12,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
 {
     private $connection;
     private $tableName = 'Artists';
+    private $tableName2 = 'Artists_x_EventByDate';
 
     protected function __construct(){
         $this->connection = Connection::getInstance();
@@ -116,7 +117,40 @@ class ArtistDao extends SingletonDao implements IArtistDao
         return $artistList;
     }
 
-    //public function getAllArtitsByEventByDate($idEvents)
+    public function getAllArtitsByEventByDate($idEvent)
+    {
+        $artistList = array();
+        $artist = new Artist();
+
+        $query = "SELECT a.idArtist, name, lastname 
+        FROM " . $this->tableName." a 
+        INNER JOIN ".$this->tableName2." ae 
+        ON a.idArtist = ae.idArtist
+        WHERE ae.idArtist = ".$idEvent;
+
+        try{
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        $artistAtributes = array_keys($artist->getAll());
+
+        foreach ($resultSet as $row)
+        {                
+            $artist = new Artist();
+            
+            foreach ($artistAtributes as $value) {
+                $artist->__set($value, $row[$value]);
+            }
+
+            array_push($artistList, $artist);
+        }
+
+        return $artistList;
+    }
 
     /**
      * Updates values that are diferent from the ones recieved in the object Artist
