@@ -152,10 +152,8 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error. ".$ex->getMessage());
-            return;
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error. ".$ex->getMessage());
-            return;
         }
         
         $theaterProperties = array_keys($theater->getAll());
