@@ -49,17 +49,17 @@ class CategoryDao extends SingletonDao implements ICategoryDao
     {   
         $category = new Category();
 
-        $categoryProperties = array_keys($category->getAll()); //get atribute names from object for use in __set
+        $categoryAttributes = array_keys($category->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$categoryProperties[0]." = ".$id;
+            " WHERE ".$categoryAttributes[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($categoryProperties as $value) { //auto fill object with magic function __set
+                foreach ($categoryAttributes as $value) { //auto fill object with magic function __set
                     $category->__set($value, $row[$value]);
                 }
             }
@@ -87,13 +87,13 @@ class CategoryDao extends SingletonDao implements ICategoryDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $categoryProperties = array_keys($category->getAll());
+        $categoryAttributes = array_keys($category->getAll());
 
         foreach ($resultSet as $row)
         {                
             $category = new Category();
             
-            foreach ($categoryProperties as $value) {
+            foreach ($categoryAttributes as $value) {
                 $category->__set($value, $row[$value]);
             }
 

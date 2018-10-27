@@ -49,17 +49,17 @@ class EventsDao extends SingletonDao //implements IEventDao
     {   
         $event = new Event();
 
-        $eventProperties = array_keys($event->getAll()); //get propierty names from object for use in __set
+        $eventAttributes = array_keys($event->getAll()); //get attributes names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$eventProperties[0]." = ".$id;
+            " WHERE ".$eventAttributes[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($eventProperties as $value) { //auto fill object with magic function __set
+                foreach ($eventAttributes as $value) { //auto fill object with magic function __set
                     $event->__set($value, $row[$value]);
                 }
             }
@@ -90,15 +90,15 @@ class EventsDao extends SingletonDao //implements IEventDao
             throw new Exception ("getAll error: ".$ex->getMessage());
         }
         
-        $eventProperties = array_keys($event->getAll()); 
-        array_pop($eventProperties);
-        array_pop($eventProperties);
+        $eventAttributes = array_keys($event->getAll()); 
+        array_pop($eventAttributes);
+        array_pop($eventAttributes);
 
         foreach ($resultSet as $row) 
         {                
             $event = new Event();
             
-            foreach ($eventProperties as $value) { 
+            foreach ($eventAttributes as $value) { 
                 $event->__set($value, $row[$value]);
             }
 

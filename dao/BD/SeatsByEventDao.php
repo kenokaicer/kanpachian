@@ -53,17 +53,17 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
     {   
         $seatsByEvent = new SeatsByEvent();
 
-        $seatsByEventProperties = array_keys($seatsByEvent->getAll()); //get atribute names from object for use in __set
+        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$seatsByEventProperties[0]." = ".$id;
+            " WHERE ".$seatsByEventAttributes[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($seatsByEventProperties as $value) { //auto fill object with magic function __set
+                foreach ($seatsByEventAttributes as $value) { //auto fill object with magic function __set
                     $seatsByEvent->__set($value, $row[$value]);
                 }
             }
@@ -91,13 +91,13 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $seatsByEventProperties = array_keys($seatsByEvent->getAll());
+        $seatsByEventAttributes = array_keys($seatsByEvent->getAll());
 
         foreach ($resultSet as $row)
         {                
             $seatsByEvent = new SeatsByEvent();
             
-            foreach ($seatsByEventProperties as $value) {
+            foreach ($seatsByEventAttributes as $value) {
                 $seatsByEvent->__set($value, $row[$value]);
             }
 

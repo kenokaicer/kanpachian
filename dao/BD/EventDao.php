@@ -58,16 +58,16 @@ class EventDao extends SingletonDao implements IEventDao
         $event = new Event();
         $category = new Category();
 
-        $eventProperties = array_keys($event->getAll()); //get atribute names from object for use in __set
-        array_pop($eventProperties);
+        $eventAttributes = array_keys($event->getAll()); //get atribute names from object for use in __set
+        array_pop($eventAttributes);
 
-        $categoryProperties = array_keys($category->getAll());
+        $categoryAttributes = array_keys($category->getAll());
 
         $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.category
                 FROM " . $this->tableName ." e
                 INNER JOIN ".$this->tableName2." c
                 On e.idCategory = c.idCategory  
-                WHERE ".$eventProperties[0]." = ".$id." 
+                WHERE ".$eventAttributes[0]." = ".$id." 
                 AND e.enabled = 1";
         
         try {
@@ -80,11 +80,11 @@ class EventDao extends SingletonDao implements IEventDao
 
         $row = reset($resultSet);
    
-        foreach ($eventProperties as $value) { //auto fill object with magic function __set
+        foreach ($eventAttributes as $value) { //auto fill object with magic function __set
             $event->__set($value, $row[$value]);
         }
 
-        foreach ($categoryProperties as $value) {
+        foreach ($categoryAttributes as $value) {
             $category->__set($value, $row[$value]);
         }
 
@@ -113,22 +113,22 @@ class EventDao extends SingletonDao implements IEventDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $eventProperties = array_keys($event->getAll());
-        array_pop($eventProperties);
+        $eventAttributes = array_keys($event->getAll());
+        array_pop($eventAttributes);
 
-        $categoryProperties = array_keys($category->getAll());
+        $categoryAttributes = array_keys($category->getAll());
 
         foreach ($resultSet as $row)
         {                
             $event = new Event();
             
-            foreach ($eventProperties as $value) {
+            foreach ($eventAttributes as $value) {
                 $event->__set($value, $row[$value]);
             }
 
             $category = new Category();
 
-            foreach ($categoryProperties as $value) {
+            foreach ($categoryAttributes as $value) {
                 $category->__set($value, $row[$value]);
             }
     

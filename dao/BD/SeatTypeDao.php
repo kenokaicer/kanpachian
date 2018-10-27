@@ -50,10 +50,10 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
     {   
         $seatType = new SeatType();
 
-        $seatTypeProperties = array_keys($seatType->getAll()); //get atribute names from object for use in __set
+        $seatTypeAttributes = array_keys($seatType->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$seatTypeProperties[0]." = ".$id;
+            " WHERE ".$seatTypeAttributes[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
@@ -65,7 +65,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         
         $row = reset($resultSet);
 
-        foreach ($seatTypeProperties as $value) { //auto fill object with magic function __set
+        foreach ($seatTypeAttributes as $value) { //auto fill object with magic function __set
             $seatType->__set($value, $row[$value]);
         }
 
@@ -87,13 +87,13 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $seatTypeProperties = array_keys($seatType->getAll());
+        $seatTypeAttributes = array_keys($seatType->getAll());
 
         foreach ($resultSet as $row)
         {                
             $seatType = new SeatType();
             
-            foreach ($seatTypeProperties as $value) {
+            foreach ($seatTypeAttributes as $value) {
                 $seatType->__set($value, $row[$value]);
             }
 
@@ -125,13 +125,13 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
 
-        $seatTypeProperties = array_keys($seatType->getAll());
+        $seatTypeAttributes = array_keys($seatType->getAll());
 
         foreach ($resultSet as $row)
         {                
             $seatType = new SeatType();
             
-            foreach ($seatTypeProperties as $value) {
+            foreach ($seatTypeAttributes as $value) {
                 $seatType->__set($value, $row[$value]);
             }
 

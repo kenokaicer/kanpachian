@@ -60,17 +60,17 @@ class ArtistDao extends SingletonDao implements IArtistDao
     {   
         $artist = new Artist();
 
-        $artistProperties = array_keys($artist->getAll()); //get propierty names from object for use in __set
+        $artistAttributes = array_keys($artist->getAll()); //get attributes names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$artistProperties[0]." = ".$id;
+            " WHERE ".$artistAttributes[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
-                foreach ($artistProperties as $value) { //auto fill object with magic function __set
+                foreach ($artistAttributes as $value) { //auto fill object with magic function __set
                     $artist->__set($value, $row[$value]);
                 }
             }
@@ -101,13 +101,13 @@ class ArtistDao extends SingletonDao implements IArtistDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $artistProperties = array_keys($artist->getAll()); //get propierty names from object for use in __set
+        $artistAttributes = array_keys($artist->getAll()); //get attributes names from object for use in __set
 
         foreach ($resultSet as $row) //loops returned rows
         {                
             $artist = new Artist();
             
-            foreach ($artistProperties as $value) { //auto fill object with magic function __set
+            foreach ($artistAttributes as $value) { //auto fill object with magic function __set
                 $artist->__set($value, $row[$value]);
             }
 
@@ -191,7 +191,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
 
     public function Delete(Artist $artist)
     {
-        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$artistProperties[0]." = " . $artist->getIdArtist();
+        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$artistAttributes[0]." = " . $artist->getIdArtist();
         
         $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idArtist = ".$artist->getIdArtist();
 

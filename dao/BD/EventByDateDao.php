@@ -58,13 +58,13 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     {   
         $eventByDate = new EventByDate();
 
-        $eventByDateProperties = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
-        array_pop($eventByDateProperties);
-        array_pop($eventByDateProperties);
-        array_pop($eventByDateProperties);
+        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        array_pop($eventByDateAttributes);
+        array_pop($eventByDateAttributes);
+        array_pop($eventByDateAttributes);
 
         $query = "SELECT * FROM " . $this->tableName ."  
-                WHERE ".$eventByDateProperties[0]." = ".$id." 
+                WHERE ".$eventByDateAttributes[0]." = ".$id." 
                 AND e.enabled = 1";
         
         try {
@@ -77,7 +77,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $row = reset($resultSet);
    
-        foreach ($eventByDateProperties as $value) { //auto fill object with magic function __set
+        foreach ($eventByDateAttributes as $value) { //auto fill object with magic function __set
             $eventByDate->__set($value, $row[$value]);
         }
 
@@ -119,10 +119,10 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $eventByDateList = array();
         $eventByDate = new EventByDate();
 
-        $eventByDateProperties = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
-        array_pop($eventByDateProperties);
-        array_pop($eventByDateProperties);
-        array_pop($eventByDateProperties);
+        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        array_pop($eventByDateAttributes);
+        array_pop($eventByDateAttributes);
+        array_pop($eventByDateAttributes);
 
         $query = "SELECT * FROM " . $this->tableName ." WHERE enabled = 1";
         
@@ -137,7 +137,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         foreach ($resultSet as $row){
             $eventByDate = new EventByDate();
             
-            foreach ($eventByDateProperties as $value) {
+            foreach ($eventByDateAttributes as $value) {
                 $eventByDate->__set($value, $row[$value]);
             }
 

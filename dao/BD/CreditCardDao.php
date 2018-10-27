@@ -49,10 +49,10 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
     {   
         $creditCard = new CreditCard();
 
-        $creditCardProperties = array_keys($creditCard->getAll()); //get atribute names from object for use in __set
+        $creditCardAttributes = array_keys($creditCard->getAll()); //get atribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$creditCardProperties[0]." = ".$id;
+            " WHERE ".$creditCardAttributes[0]." = ".$id;
         
         try {
             $resultSet = $this->connection->Execute($query);
@@ -64,7 +64,7 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
 
         $row = reset($resultSet);
 
-        foreach ($creditCardProperties as $value) { //auto fill object with magic function __set
+        foreach ($creditCardAttributes as $value) { //auto fill object with magic function __set
             $creditCard->__set($value, $row[$value]);
         }
 
@@ -86,13 +86,13 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $creditCardProperties = array_keys($creditCard->getAll());
+        $creditCardAttributes = array_keys($creditCard->getAll());
 
         foreach ($resultSet as $row)
         {                
             $creditCard = new CreditCard();
             
-            foreach ($creditCardProperties as $value) {
+            foreach ($creditCardAttributes as $value) {
                 $creditCard->__set($value, $row[$value]);
             }
 
