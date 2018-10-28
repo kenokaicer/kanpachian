@@ -7,20 +7,20 @@ class Theater//Lugar_evento
 
 {
     private $idTheater;
-    private $name;
+    private $theaterName;
     private $location;
     private $image;
     private $maxCapacity;
     private $seatTypes = array(); //to calculate the amount of each type.
 
-    public function getName()
+    public function getTheaterName()
     {
-        return $this->name;
+        return $this->theaterName;
     }
 
-    public function setName($name)
+    public function setTheaterName($name)
     {
-        $this->name = $name;
+        $this->theaterName = $theaterName;
 
         return $this;
     }

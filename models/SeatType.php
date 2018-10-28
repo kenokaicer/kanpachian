@@ -5,17 +5,17 @@ namespace Models;
 class SeatType //Tipo_plaza
 {
     private $idSeatType;
-    private $name;
+    private $seatTypeName;
     private $description;
 
-	public function getName()
+    public function getSeatTypeName()
 	{
-		return $this->name;
+		return $this->seatTypeName;
 	}
 
-    public function setName($name)
+    public function setSeatTypeName($seatTypeName)
     {
-        $this->name = $name;
+        $this->seatTypeName = $seatTypeName;
 
         return $this;
     }

@@ -13,14 +13,14 @@ USE neonlab1_gotoevent;
     image varchar(255),
     descritpion varchar(300),
     idCategory int unsigned,
-    constraint pkEvent primary key (idEvent),
     enabled bool default '1',
+    constraint pkEvent primary key (idEvent),
     constraint fkCategory foreign key (idCategory) references Categories (idCategory)
 );*/
 
 /*create table Theaters(
     idTheater int unsigned auto_increment,
-    name varchar(50) not null,
+    theaterName varchar(50) not null,
     location varchar(80),
     image varchar(150),
     maxCapacity smallint unsigned,
@@ -50,6 +50,7 @@ USE neonlab1_gotoevent;
 /*create table Artists_x_EventByDate(
     idArtist int unsigned,
     idEventByDate int unsigned,
+    enabled bool default '1',
     constraint pkArtists_x_EventByDate primary key (idArtist, idEventByDate),
     constraint pfkArtist foreign key (idArtist) references Artists (idArtist),
     constraint pfkEventByDate foreign key (idEventByDate) references EventByDates (idEventByDate)
@@ -57,7 +58,7 @@ USE neonlab1_gotoevent;
 
 /*create table SeatTypes(
     idSeatType int unsigned auto_increment,
-    name varchar(50) not null unique,
+    seatTypeName varchar(50) not null unique,
     description varchar(300),
     enabled bool default '1',
     constraint pkSeatType primary key (idSeatType)
@@ -66,6 +67,7 @@ USE neonlab1_gotoevent;
 /*create table SeatTypes_x_Theater(
     idSeatType int unsigned,
     idTheater int unsigned,
+    enabled bool default '1',
     constraint pkSeatTypes_x_Theater primary key (idSeatType, idTheater),
     constraint pfkSeatType foreign key (idSeatType) references SeatTypes (idSeatType),
     constraint pfkTheater foreign key (idTheater) references Theaters (idTheater)
@@ -129,9 +131,11 @@ USE neonlab1_gotoevent;
     idPurchaseLine int unsigned auto_increment,
     price double unsigned not null,
     idSeatsByEvent int unsigned not null,
+    idPurchase int unsigned not null,
     enabled bool default '1',
     constraint pkPurchaseLine primary key (idPurchaseLine),
-    constraint fkSeatsByEvent foreign key (idSeatsByEvent) references SeatsByEvents (idSeatsByEvent)
+    constraint fkSeatsByEvent foreign key (idSeatsByEvent) references SeatsByEvents (idSeatsByEvent),
+    constraint fkPurchase foreign key (idPurchase) references Pruchases (idPurchase)
 );*/
 
 
