@@ -20,7 +20,7 @@ class EventByDateManagementController
 
     public function __construct()
     {
-        $this->eventByDateDao = EventByDateDao::getInstance(); //BD
+        $this->eventByDateDao = EventByDateDao::getInstance();
         $this->theaterDao = TheaterDao::getInstance();
         $this->artistDao = ArtistDao::getInstance();
         $this->eventDao = EventDao::getInstance();
@@ -94,12 +94,23 @@ class EventByDateManagementController
     public function eventByDateList()
     {
         try{
-            $eventByDateList = $this->eventByDateDao->getAll();
+            $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
         
         require VIEWS_PATH.$this->folder."EventByDateManagementList.php";
+    }
+
+    public function eventByDateList2($idEvent)
+    {
+        try{
+            $eventByDateList = $this->eventByDateDao->getByEventID($idEvent);//get by Event
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        }
+
+        require VIEWS_PATH.$this->folder."EventByDateManagementList2.php";
     }
 
     public function deleteEventByDate($id)

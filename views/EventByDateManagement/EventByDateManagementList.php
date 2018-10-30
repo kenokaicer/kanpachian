@@ -1,50 +1,20 @@
 <div class="wrapper">
-    <section>
-        <table>
-            <thead>
-                <th>Categoría</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </thead>
-            <tbody>
-            <?php
-            if (!empty($categoryList)) {
-                foreach ($categoryList as $category) {  
-                    $categoryValuesArray = $category->getAll();
-            ?>
-                <tr>
-                    <form method="post">
-                        <?php 
-                            foreach ($categoryValuesArray as $atribute => $value) { //print all atributes from object in a td each
-                                if($atribute=="idCategory"){
-                        ?>
-                                    <input type="hidden" name="idCategory" value="<?=$value?>">
-                        <?php 
-                                }else{
-                                    echo "<td>";
-                                    echo $value;
-                                    echo "</td>";
-                                }
-                            }
-                        ?>
-                        <td>
-                            <input type="submit" value="Editar" formaction="<?=FRONT_ROOT?>CategoryManagement/viewEditCategory"> 
-                        </td>
-                        <td>
-                            <input type="submit" value="Eliminar" formaction="<?=FRONT_ROOT?>CategoryManagement/deleteCategory">
-                        </td>
-                    </form>
-                </tr>
-            <?php
-                }
-            }
-            ?>
-            </tbody>
-        </table>
-    </section>
-    <section>
-        <form method="post">
-            <button type="submit" formaction="<?=FRONT_ROOT?>CategoryManagement/index">Volver</button>
-        </form>
-    </section>
+    <form method="post">
+        <section>
+            <h3>Seleccionar Evento</h3>
+            <select name="idEvent">
+                <?php
+                    foreach ($eventList as $value) {
+                ?>
+                    <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName()?></option>      
+                <?php
+                    }
+                ?>
+            </select>
+        </section>
+        <section>
+            <button type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/eventByDateList2">Continuar</button>
+            <button type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/index">Volver</button>
+        </section>
+    </form>
 </div>
