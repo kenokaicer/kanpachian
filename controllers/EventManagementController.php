@@ -11,7 +11,7 @@ class EventManagementController
     protected $message;
     private $eventDao;
     private $categoryDao;
-    private $folder = "EventManagement/";
+    private $folder = "Management/Event/";
 
     public function __construct()
     {

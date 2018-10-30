@@ -10,7 +10,7 @@ class UserManagementController
 {
     protected $message;
     private $userDao;
-    private $folder = "UserManagement/";
+    private $folder = "Management/User/";
 
     public function __construct()
     {

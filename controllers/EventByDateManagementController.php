@@ -16,7 +16,7 @@ class EventByDateManagementController
     private $theaterDao;
     private $artistDao;
     private $eventDao;
-    private $folder = "EventByDateManagement/";
+    private $folder = "Management/EventByDate/";
 
     public function __construct()
     {

@@ -10,7 +10,7 @@ class ArtistManagementController
 {
     protected $message;
     private $artistDao;
-    private $folder = "ArtistManagement/";
+    private $folder = "Management/Artist/";
 
     public function __construct()
     {

@@ -9,7 +9,7 @@ class SeatTypeManagementController
 {
     protected $message;
     private $seatTypeDao;
-    private $folder = "SeatTypeManagement/";
+    private $folder = "Management/SeatType/";
 
     public function __construct()
     {

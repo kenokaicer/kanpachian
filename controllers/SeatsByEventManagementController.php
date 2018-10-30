@@ -19,7 +19,7 @@ class SeatsByEventManagementController
     private $theaterDao;
     private $artistDao;
     private $eventDao;
-    private $folder = "SeatsByEventManagement/";
+    private $folder = "Management/SeatsByEvent/";
 
     public function __construct()
     {

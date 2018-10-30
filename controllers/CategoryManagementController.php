@@ -9,7 +9,7 @@ class CategoryManagementController
 {
     protected $message;
     private $categoryDao;
-    private $folder = "CategoryManagement/";
+    private $folder = "Management/Category/";
 
     public function __construct()
     {

@@ -9,7 +9,7 @@ use Dao\BD\SeatTypeDao as SeatTypeDao;
 class TheaterManagementController
 {
     private $theaterDao;
-    private $folder = "TheaterManagement/";
+    private $folder = "Management/Theater/";
 
     public function __construct()
     {
