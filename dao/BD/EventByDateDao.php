@@ -1,17 +1,16 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
-use PDO as PDO;
-use PDOException as PDOException;
-use Exception as Exception;
 use Dao\Interfaces\IEventByDateDao as IEventByDateDao;
-use Models\EventByDate as EventByDate;
-use Models\Event as Event;
-use Models\Category as Category;
+use Dao\SingletonDao as SingletonDao;
+use Exception as Exception;
 use Models\Artist as Artist;
-use Models\Theater as Theater;
+use Models\Category as Category;
+use Models\Event as Event;
+use Models\EventByDate as EventByDate;
 use Models\SeatType as SeatType;
+use Models\Theater as Theater;
+use PDOException as PDOException;
 
 class EventByDateDao extends SingletonDao implements IEventByDateDao
 {
@@ -25,7 +24,8 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     private $tableNameEvent = 'Events';
     private $tableNameCatergory = 'Categories';
 
-    protected function __construct(){
+    protected function __construct()
+    {
         $this->connection = Connection::getInstance();
     }
 
@@ -36,51 +36,39 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     {
         $columns = "";
         $values = "";
-        
+
         $parameters["date"] = $eventByDate->getDate();
         $parameters["idTheater"] = $eventByDate->getTheater()->getIdTheater();
         $parameters["idEvent"] = $eventByDate->getEvent()->getIdEvent();
 
         foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
+            $columns .= $key . ",";
+            $values .= ":" . $key . ",";
         }
         $columns = rtrim($columns, ",");
         $values = rtrim($values, ",");
 
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+        $query = "INSERT INTO " . $this->tableName . " (" . $columns . ") VALUES (" . $values . ");";
 
-        try { 
+        try {
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
-            if($addedRows!=1){
-                throw new Exception("Number of rows added ".$addedRows.", expected 1");
+            if ($addedRows != 1) {
+                throw new Exception("Number of rows added " . $addedRows . ", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . " error: " . $ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . " error: " . $ex->getMessage());
         }
 
         //---Get ID of the EventByDate inserted---//
 
-        $query= "SELECT LAST_INSERT_ID()";
-
-        try {
-            $resultSet = $this->connection->Execute($query);  
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.", Error getting last insert id. ".$ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__.", Error getting last insert id. ".$ex->getMessage());
-            return;
-        }   
-        $row = reset($resultSet); //gives first object of array
-        $idEventByDate = reset($row); //get value of previous first object
+        $idEventByDate = $this->lastInsertId();
 
         //---Insert each Artist in a separate querry, N:N Table ---//
 
-        foreach ($eventByDate->getArtists() as $artistItem){
-            $query = "INSERT INTO ".$this->tableNameArtistEventByDate." (idArtist, idEventByDate) VALUES (:idArtist,:idEventByDate);";
+        foreach ($eventByDate->getArtists() as $artistItem) {
+            $query = "INSERT INTO " . $this->tableNameArtistEventByDate . " (idArtist, idEventByDate) VALUES (:idArtist,:idEventByDate);";
 
             $parameters = array();
             $parameters["idArtist"] = $artistItem->getIdArtist();
@@ -88,102 +76,24 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
             try {
                 $addedRows = $this->connection->executeNonQuery($query, $parameters);
-                if($addedRows!=1){
-                    throw new Exception("Number of rows added ".$addedRows.", expected 1, in SeatType");
+                if ($addedRows != 1) {
+                    throw new Exception("Number of rows added " . $addedRows . ", expected 1, in SeatType");
                 }
             } catch (PDOException $ex) {
-                throw new Exception (__METHOD__.", Error inserting Artist. ".$ex->getMessage());
+                throw new Exception(__METHOD__ . ", Error inserting Artist. " . $ex->getMessage());
                 return;
             } catch (Exception $ex) {
-                throw new Exception (__METHOD__.", Error inserting Artist. ".$ex->getMessage());
+                throw new Exception(__METHOD__ . ", Error inserting Artist. " . $ex->getMessage());
                 return;
             }
         }
-    }
-
-    public function getTheaterByID($idTheater)
-    {
-        $theater = new Theater();
-        $seatType = new SeatType();
-
-        $theaterAttributes = array_keys($theater->getAll()); //get atribute names from object for use in __set
-        array_pop($theaterAttributes); //delete object variables
-
-        $seatTypeAttributes = array_keys($seatType->getAll());
-
-        $query = "SELECT * FROM " . $this->tableNameTheater ." T 
-            INNER JOIN ".$this->tableNameSeatTypesTheater." STT 
-            ON T.idTheater = STT.idTheater
-            INNER JOIN ".$this->tableNameSeatType." ST
-            ON STT.idSeatType = ST.idSeatType
-            WHERE T.enabled = 1 AND T.idTheater = ".$idTheater;
-
-        try{
-            $resultSet = $this->connection->Execute($query); 
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.",theater query error: ".$ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__.",theater query error: ".$ex->getMessage());
-        }
-
-        foreach ($resultSet as $row){
-            if($theater->getIdTheater()!=$idTheater){ //load theater only on first loop
-                foreach ($theaterAttributes as $value){
-                    $theater->__set($value, $row[$value]);
-                }
-            }
-
-            $seatType =  new SeatType();
-
-            foreach ($seatTypeAttributes as $value){
-                $seatType->__set($value, $row[$value]);
-            }
-
-            $theater->addSeatType($seatType);
-        }
-
-        return $theater;
-    }
-
-    public function getArtistsByEventByDateID($idEventByDate)
-    {
-        $artist = new Artist();
-        $artistsList = array();
-
-        $artistAttributes = array_keys($artist->getAll());
-
-        $query = "SELECT * FROM " . $this->tableNameArtist ." A 
-        INNER JOIN ".$this->tableNameArtistEventByDate." AED 
-        ON A.idArtist = AED.idArtist
-        WHERE A.enabled = 1 AND AED.idEventByDate = ".$idEventByDate;
-
-        try{
-            $resultSet = $this->connection->Execute($query); 
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.",artist list query error: ".$ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__.",artist list query error: ".$ex->getMessage());
-        }
-
-        foreach ($resultSet as $row){
-            $artist = new Artist();
-
-            foreach ($artistAttributes as $value){
-                $artist->__set($value, $row[$value]);
-            }
-
-            array_push($artistsList, $artist);
-        }
-
-        return $artistsList;
     }
 
     public function getByID($id)
-    {   
+    {
         $eventByDate = new EventByDate();
         $category = new Category();
         $event = new Event();
-        
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
         array_pop($eventByDateAttributes);
@@ -195,49 +105,49 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $categoryAttributes = array_keys($category->getAll());
 
-        $query = "SELECT * FROM " . $this->tableName ." ED 
-                INNER JOIN ".$this->tableNameEvent." E 
-                ON ED.idEvent = E.idEvent 
-                INNER JOIN ".$this->tableNameCatergory." C 
-                ON E.idCategory = C.idCategory 
-                WHERE ED.".$eventByDateAttributes[0]." = ".$id." 
+        $query = "SELECT * FROM " . $this->tableName . " ED
+                INNER JOIN " . $this->tableNameEvent . " E
+                ON ED.idEvent = E.idEvent
+                INNER JOIN " . $this->tableNameCatergory . " C
+                ON E.idCategory = C.idCategory
+                WHERE ED." . $eventByDateAttributes[0] . " = " . $id . "
                 AND ED.enabled = 1";
-        
+
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.",eventByDate, event, category query error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . ",eventByDate, event, category query error: " . $ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception (__METHOD__.",eventByDate, event, category query error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . ",eventByDate, event, category query error: " . $ex->getMessage());
         }
 
         $row = reset($resultSet);
-   
+
         foreach ($eventByDateAttributes as $value) { //auto fill object with magic function __set
             $eventByDate->__set($value, $row[$value]);
         }
 
-        foreach ($categoryAttributes as $value){
+        foreach ($categoryAttributes as $value) {
             $category->__set($value, $row[$value]);
         }
 
-        foreach ($eventAttributes as $value){
+        foreach ($eventAttributes as $value) {
             $event->__set($value, $row[$value]);
         }
-        
+
         $event->setCategory($category);
         $eventByDate->setEvent($event);
 
-        //---Get Theater---// 
+        //---Get Theater---//
 
-        $theater = $this->getTheaterByID($row["idTheater"]); 
-        
+        $theater = $this->getTheaterByID($row["idTheater"]);
+
         $eventByDate->setTheater($theater);
 
         //---Get Artists---//
 
         $artistsList = $this->getArtistsByEventByDateID($eventByDate->getIdEventByDate());
-        
+
         $eventByDate->setArtists($artistsList);
 
         return $eventByDate;
@@ -260,60 +170,55 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $categoryAttributes = array_keys($category->getAll());
 
-        $query = "SELECT * FROM " . $this->tableName ." ED 
-         INNER JOIN ".$this->tableNameEvent." E 
-         ON ED.idEvent = E.idEvent 
-         INNER JOIN ".$this->tableNameCatergory." C 
-         ON E.idCategory = C.idCategory 
-         WHERE ED.enabled = 1 
-         AND ED.idEvent = ".$idEvent;
-        
+        $query = "SELECT * FROM " . $this->tableName . " ED
+         INNER JOIN " . $this->tableNameEvent . " E
+         ON ED.idEvent = E.idEvent
+         INNER JOIN " . $this->tableNameCatergory . " C
+         ON E.idCategory = C.idCategory
+         WHERE ED.enabled = 1
+         AND ED.idEvent = " . $idEvent;
+
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.",eventByDate query error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception (__METHOD__.",eventByDate query error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
         }
 
-        foreach ($resultSet as $row){
+        foreach ($resultSet as $row) {
             $eventByDate = new EventByDate();
             $event = new Event();
             $category = new Category();
-            
+
             foreach ($eventByDateAttributes as $value) {
                 $eventByDate->__set($value, $row[$value]);
             }
 
-            $eventByDate->setTheater($row["idTheater"]); //temporal id store for getting theater object
-
-            foreach ($categoryAttributes as $value){
+            foreach ($categoryAttributes as $value) {
                 $category->__set($value, $row[$value]);
             }
 
-            foreach ($eventAttributes as $value){
+            foreach ($eventAttributes as $value) {
                 $event->__set($value, $row[$value]);
             }
-            
+
             $event->setCategory($category);
             $eventByDate->setEvent($event);
-                    
-            array_push($eventByDateList, $eventByDate);
-        }
-  
-        foreach ($eventByDateList as $eventByDateItem) {
-            
-            //---Get theater and its SeatTypes---//
-            
-            $theater = $this->getTheaterByID($eventByDateItem->getTheater());
 
-            $eventByDateItem->setTheater($theater);
+            //---Get theater and its SeatTypes---//
+
+            $theater = $this->getTheaterByID($row["idTheater"]);
+            
+            $eventByDate->setTheater($theater);
 
             //---Get Artists---//
 
-            $artistsList = $this->getArtistsByEventByDateID($eventByDateItem->getIdEventByDate());
+            $artistsList = $this->getArtistsByEventByDateID($row["idEventByDate"]);
 
-            $eventByDateItem->setArtists($artistsList);
+            $eventByDate->setArtists($artistsList);
+
+            array_push($eventByDateList, $eventByDate);
         }
 
         return $eventByDateList;
@@ -336,59 +241,54 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $categoryAttributes = array_keys($category->getAll());
 
-        $query = "SELECT * FROM " . $this->tableName ." ED 
-         INNER JOIN ".$this->tableNameEvent." E 
-         ON ED.idEvent = E.idEvent 
-         INNER JOIN ".$this->tableNameCatergory." C 
-         ON E.idCategory = C.idCategory 
+        $query = "SELECT * FROM " . $this->tableName . " ED
+         INNER JOIN " . $this->tableNameEvent . " E
+         ON ED.idEvent = E.idEvent
+         INNER JOIN " . $this->tableNameCatergory . " C
+         ON E.idCategory = C.idCategory
          WHERE ED.enabled = 1";
-        
+
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $resultSet = $this->connection->Execute($query);
         } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.",eventByDate query error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception (__METHOD__.",eventByDate query error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
         }
 
-        foreach ($resultSet as $row){
+        foreach ($resultSet as $row) {
             $eventByDate = new EventByDate();
             $event = new Event();
             $category = new Category();
-            
+
             foreach ($eventByDateAttributes as $value) {
                 $eventByDate->__set($value, $row[$value]);
             }
 
-            $eventByDate->setTheater($row["idTheater"]); //temporal id store for getting theater object
-
-            foreach ($categoryAttributes as $value){
+            foreach ($categoryAttributes as $value) {
                 $category->__set($value, $row[$value]);
             }
 
-            foreach ($eventAttributes as $value){
+            foreach ($eventAttributes as $value) {
                 $event->__set($value, $row[$value]);
             }
-            
+
             $event->setCategory($category);
             $eventByDate->setEvent($event);
-                    
-            array_push($eventByDateList, $eventByDate);
-        }
-  
-        foreach ($eventByDateList as $eventByDateItem) {
-            
-            //---Get theater and its SeatTypes---//
-            
-            $theater = $this->getTheaterByID($eventByDateItem->getTheater());
 
-            $eventByDateItem->setTheater($theater);
+            //---Get theater and its SeatTypes---//
+
+            $theater = $this->getTheaterByID($row["idTheater"]);
+            
+            $eventByDate->setTheater($theater);
 
             //---Get Artists---//
-                        
-            $artistsList = $this->getArtistsByEventByDateID($eventByDateItem->getIdEventByDate());
 
-            $eventByDateItem->setArtists($artistsList);
+            $artistsList = $this->getArtistsByEventByDateID($row["idEventByDate"]);
+
+            $eventByDate->setArtists($artistsList);
+
+            array_push($eventByDateList, $eventByDate);
         }
 
         return $eventByDateList;
@@ -397,24 +297,121 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     /**
      * Updates values that are diferent from the ones recieved in the object EventByDate
      */
-    public function Update(EventByDate $oldEventByDate, EventByDate $newEventByDate){}
+    public function Update(EventByDate $oldEventByDate, EventByDate $newEventByDate)
+    {}
 
     /**
      * Logical Delete
      */
     public function Delete(EventByDate $eventByDate)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idEventByDate = ".$eventByDate->getIdEventByDate();
+        $query = "UPDATE " . $this->tableName . " SET enabled = 0 WHERE idEventByDate = " . $eventByDate->getIdEventByDate();
 
         try {
             $modifiedRows = $this->connection->executeNonQuery($query, array());
-            if($modifiedRows!=1){
-                throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+            if ($modifiedRows != 1) {
+                throw new Exception("Number of rows added " . $modifiedRows . ", expected 1");
             }
         } catch (PDOException $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . " error: " . $ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+            throw new Exception(__METHOD__ . " error: " . $ex->getMessage());
         }
+    }
+
+    public function lastInsertId()
+    {
+        $query = "SELECT LAST_INSERT_ID()";
+
+        try {
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        }
+        $row = reset($resultSet); //gives first object of array
+        $id = reset($row); //get value of previous first object
+
+        return $id;
+    }
+
+    public function getTheaterByID($idTheater)
+    {
+        $theater = new Theater();
+        $seatType = new SeatType();
+
+        $theaterAttributes = array_keys($theater->getAll()); //get atribute names from object for use in __set
+        array_pop($theaterAttributes); //delete object variables
+
+        $seatTypeAttributes = array_keys($seatType->getAll());
+
+        $query = "SELECT * FROM " . $this->tableNameTheater . " T
+            INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
+            ON T.idTheater = STT.idTheater
+            INNER JOIN " . $this->tableNameSeatType . " ST
+            ON STT.idSeatType = ST.idSeatType
+            WHERE T.enabled = 1 AND T.idTheater = " . $idTheater;
+
+        try {
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
+        }
+
+        foreach ($resultSet as $row) {
+            if ($theater->getIdTheater() != $idTheater) { //load theater only on first loop
+                foreach ($theaterAttributes as $value) {
+                    $theater->__set($value, $row[$value]);
+                }
+            }
+
+            $seatType = new SeatType();
+
+            foreach ($seatTypeAttributes as $value) {
+                $seatType->__set($value, $row[$value]);
+            }
+
+            $theater->addSeatType($seatType);
+        }
+
+        return $theater;
+    }
+
+    public function getArtistsByEventByDateID($idEventByDate)
+    {
+        $artist = new Artist();
+        $artistsList = array();
+
+        $artistAttributes = array_keys($artist->getAll());
+
+        $query = "SELECT * FROM " . $this->tableNameArtist . " A
+        INNER JOIN " . $this->tableNameArtistEventByDate . " AED
+        ON A.idArtist = AED.idArtist
+        WHERE A.enabled = 1 AND AED.idEventByDate = " . $idEventByDate;
+
+        try {
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",artist list query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",artist list query error: " . $ex->getMessage());
+        }
+
+        foreach ($resultSet as $row) {
+            $artist = new Artist();
+
+            foreach ($artistAttributes as $value) {
+                $artist->__set($value, $row[$value]);
+            }
+
+            array_push($artistsList, $artist);
+        }
+
+        return $artistsList;
     }
 }
