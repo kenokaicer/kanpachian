@@ -15,21 +15,21 @@ DONE
 - SteasByEvent is loading list when program starts, change that to a controller call only when needed
 - Change Category enum to Class
 - add image to events (then to bd)
-- rename properties to atributes when calling magic set
-
-DONE?
-- SeatsByEvent has new atribute private $eventByDate; // Class EventByDate
-fix everyting that implies that
+- rename properties to attributes when calling magic set
+- Fix BD for SeatsByEvent and purchaes, n:n table in between (purchases connected to purchase lines)
+- SeatsByEvent has new atribute private $eventByDate; // Class EventByDate, fix everyting that implies that
 
 TO DO
 
 - Typehint models with object
 - CreditCard should check if null when making a payment
 
-- Fix BD for SeatsByEvent and purchaes, n:n table in between
-- fix theaterDao try-catchs (use eventByDate as reference)
+- fix theaterDao try-catchs (use eventByDate as reference), remake theaterDao with improvementes from eventByDateDao
+
+- Check for clean up EventDao
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
+- user logged checks in controller contructor for admin
 
  
