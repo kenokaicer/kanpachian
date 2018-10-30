@@ -21,7 +21,7 @@ class Artist
         return $this;
     }
 
-    public function getname()
+    public function getName()
     {
         return $this->name;
     }
@@ -33,7 +33,7 @@ class Artist
         return $this;
     }
 
-    public function getlastname()
+    public function getLastname()
     {
         return $this->lastname;
     }
@@ -49,8 +49,8 @@ class Artist
     return
     //[
     array(
-    'name'   => $this->getname(),
-    'lastname' => $this->getlastname()
+    'name'   => $this->getName(),
+    'lastname' => $this->getLastname()
     );
     //];
     }*/
@@ -61,8 +61,8 @@ class Artist
     {
         return json_encode(
             [
-                'name' => $this->getname(),
-                'lastname' => $this->getlastname(),
+                'name' => $this->getName(),
+                'lastname' => $this->getLastname(),
             ]
         );
     }
