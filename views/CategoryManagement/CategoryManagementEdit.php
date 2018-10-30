@@ -4,7 +4,7 @@
         <input type="hidden" name="idOldCategory" value="<?=$oldCategory->getIdCategory()?>">
             <table>
                 <tr>
-                    <td>Categoría: <input type="text" name="name" value="<?=$oldCategory->getCategory()?>"></td>
+                    <td>Categoría: <input type="text" name="name" value="<?=$oldCategory->getCategoryName()?>"></td>
                 </tr>
                 <tr>
                     <td>
