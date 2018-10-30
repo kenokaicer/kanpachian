@@ -6,6 +6,18 @@ class Category
 {
     private $idCategory;
     private $categoryName;
+    
+    public function getIdCategory()
+	{
+		return $this->idCategory;
+	}
+
+    public function setIdCategory($idCategory)
+    {
+        $this->idCategory = $idCategory;
+
+        return $this;
+    }
 
     public function getCategoryName()
 	{
@@ -15,18 +27,6 @@ class Category
     public function setCategoryName($categoryName)
     {
         $this->categoryName = $categoryName;
-
-        return $this;
-    }
-
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    public function setCategory($category)
-    {
-        $this->category = $category;
 
         return $this;
     }

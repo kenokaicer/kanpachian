@@ -61,13 +61,13 @@ class CategoryManagementController
         require VIEWS_PATH.$this->folder."CategoryManagementList.php";
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory($idCategory)
     {
         $category = $this->categoryDao->getByID($idCategory);
 
         try{
             $this->categoryDao->Delete($category);
-            echo "<script> alert('Categorya eliminado exitosamente');</script>";
+            echo "<script> alert('Categoría eliminada exitosamente');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         } 
