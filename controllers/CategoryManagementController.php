@@ -87,7 +87,7 @@ class CategoryManagementController
     }
 
     /**
-     * Recieve modified atributes for object Category
+     * Recieve modified attributes for object Category
      * and old object by id, call dao update
      */
     public function editCategory($oldIdCategory, $category)

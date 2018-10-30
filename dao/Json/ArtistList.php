@@ -39,7 +39,7 @@ class ArtistList extends Singletondao implements IArtistDao
     public function getAll()
     {
         $jsonDecodedData = Json::Deserilize($this->file);
-        $jsonDecoder = new JsonDecoder(true);         //true bool to access private atributes of class
+        $jsonDecoder = new JsonDecoder(true);         //true bool to access private attributes of class
         if($jsonDecodedData == null || empty($jsonDecodedData)){ //if file was empty return empty array
             return array();
         }

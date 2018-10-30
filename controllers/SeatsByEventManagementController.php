@@ -158,7 +158,7 @@ class SeatsByEventManagementController
     }
 
     /**
-     * Recieve modified atributes for object SeatsByEvent
+     * Recieve modified attributes for object SeatsByEvent
      * and old object by id, call dao update
      */
     public function editSeatsByEvent($oldIdSeatsByEvent, $seatsByEvent)

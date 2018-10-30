@@ -35,14 +35,14 @@ class EventManagementController
     {
         $event = new Event();
 
-        $eventAtributes = $event->getAll();
-        array_pop($eventAtributes);
+        $eventAttributes = $event->getAll();
+        array_pop($eventAttributes);
         
         $args = func_get_args();
         array_unshift($args, null); //put null at first of array for id
         array_pop($args);
         
-        $eventAtributeList = array_combine(array_keys($eventAtributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $eventAtributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
 
         foreach ($eventAtributeList as $atribute => $value) {
             $event->__set($atribute,$value);
@@ -103,7 +103,7 @@ class EventManagementController
     }
 
     /**
-     * Recieve modified atributes for object Event
+     * Recieve modified attributes for object Event
      * and old object by id, call dao update
      */
     public function editEvent($oldIdEvent, $event)

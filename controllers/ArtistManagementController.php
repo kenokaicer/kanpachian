@@ -89,7 +89,7 @@ class ArtistManagementController
     }
 
     /**
-     * Recieve modified atributes for object Artist
+     * Recieve modified attributes for object Artist
      * and old object by id, call dao update
      */
     public function editArtist($oldIdArtist, $name, $lastname)

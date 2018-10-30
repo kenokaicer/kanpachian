@@ -139,7 +139,7 @@ class EventByDateManagementController
     }
 
     /**
-     * Recieve modified atributes for object EventByDate
+     * Recieve modified attributes for object EventByDate
      * and old object by id, call dao update
      */
     public function editEventByDate($oldIdEventByDate, $eventByDate)

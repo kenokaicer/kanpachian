@@ -87,7 +87,7 @@ class SeatTypeManagementController
     }
 
     /**
-     * Recieve modified atributes for object SeatType
+     * Recieve modified attributes for object SeatType
      * and old object by id, call dao update
      */
     public function editSeatType($oldIdSeatType, $name, $description)

@@ -90,7 +90,7 @@ class UserManagementController
     }
 
     /**
-     * Recieve modified atributes for object User
+     * Recieve modified attributes for object User
      * and old object by id, call dao update
      */
     public function editUser($oldIdUser, $user)

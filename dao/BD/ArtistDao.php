@@ -136,13 +136,13 @@ class ArtistDao extends SingletonDao implements IArtistDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
 
-        $artistAtributes = array_keys($artist->getAll());
+        $artistAttributes = array_keys($artist->getAll());
 
         foreach ($resultSet as $row)
         {                
             $artist = new Artist();
             
-            foreach ($artistAtributes as $value) {
+            foreach ($artistAttributes as $value) {
                 $artist->__set($value, $row[$value]);
             }
 
