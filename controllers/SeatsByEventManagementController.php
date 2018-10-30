@@ -7,7 +7,7 @@ use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\EventDao as EventDao;
 use Models\EventByDate as EventByDate;
 use Models\Artist as Artist;
-use Exception as Exception;
+use Exception as Exception;//check whats needed here
 
 class EventByDateManagementController
 {
@@ -21,7 +21,7 @@ class EventByDateManagementController
     public function __construct()
     {
         $this->eventByDateDao = EventByDateDao::getInstance();
-        $this->theaterDao = TheaterDao::getInstance();
+        $this->theaterDao = TheaterDao::getInstance();//check whats needed here
         $this->artistDao = ArtistDao::getInstance();
         $this->eventDao = EventDao::getInstance();
     }

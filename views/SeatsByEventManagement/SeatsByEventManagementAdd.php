@@ -1,12 +1,25 @@
 <div class="wrapper">
     <section>
-        <form action="<?=FRONT_ROOT?>EventByDateManagement/addEventByDate" method="post">
+        <form action="<?=FRONT_ROOT?>SeatsByEventManagement/addSeatsByEvent" method="post">
             <table>
                 <tr>
                     <td colspan="2">Evento:
                         <select name="idEvent">
                             <?php
                                 foreach ($eventList as $value) {
+                            ?>
+                                <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName().", Categoría: ".$value->getCategory()->getCategoryName()?></option>      
+                            <?php
+                                }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Calendario:
+                        <select name="idEventByDate">
+                            <?php
+                                foreach ($eventList as $value) { ////////javascritp event on "Evento" changed
                             ?>
                                 <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName().", Categoría: ".$value->getCategory()->getCategoryName()?></option>      
                             <?php
@@ -49,7 +62,7 @@
                     <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>EventByDateManagement/index" formnovalidate>
+                            <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>
