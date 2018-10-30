@@ -83,7 +83,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         $row = reset($resultSet); //gives first object of array
         $idTheater = reset($row); //get value of previous first object
 
-        //---Insert each SeatType in a separate querry, N:N Table ---// //This could have been delegated to SeatTypeDao//
+        //---Insert each SeatType in a separate querry, N:N Table ---//
 
         foreach ($theater->getSeatTypes() as $value) {
             $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) VALUES (:idSeatType,:idTheater);";
@@ -91,7 +91,6 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             $parameters = array();
             $parameters["idSeatType"] = $value->getIdSeatType();
             $parameters["idTheater"] = $idTheater;
-            var_dump($parameters);
 
             try {
                 $addedRows = $this->connection->executeNonQuery($query, $parameters);
