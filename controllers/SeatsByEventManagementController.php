@@ -1,97 +1,105 @@
 <?php
 namespace Controllers;
 
+use Dao\BD\SeatsByEventDao as SeatsByEventDao;
+use Dao\BD\SeatTypeDao as SeatTypeDao;
 use Dao\BD\EventByDateDao as EventByDateDao;
-use Dao\BD\TheaterDao as TheaterDao;
-use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\EventDao as EventDao;
-use Models\EventByDate as EventByDate;
-use Models\Artist as Artist;
-use Exception as Exception;//check whats needed here
 
-class EventByDateManagementController
+use Models\SeatsByEvent as SeatsByEvent;
+
+use Exception as Exception;
+
+class SeatsByEventManagementController
 {
     protected $message;
-    private $eventByDateDao;
+    private $seatsByEventDao;
+    private $seatTypeDao;
+
     private $theaterDao;
     private $artistDao;
     private $eventDao;
-    private $folder = "EventByDateManagement/";
+    private $folder = "SeatsByEventManagement/";
 
     public function __construct()
     {
-        $this->eventByDateDao = EventByDateDao::getInstance();
-        $this->theaterDao = TheaterDao::getInstance();//check whats needed here
-        $this->artistDao = ArtistDao::getInstance();
+        $this->seatsByEventDao = SeatsByEventDao::getInstance();
         $this->eventDao = EventDao::getInstance();
+        $this->seatTypeDao = SeatTypeDao::getInstance();
+        $this->eventByDateDao = EventByDateDao::getInstance();
     }
 
     public function index()
     { //agregar validaciones aca (ej userLogged)
 
-        require VIEWS_PATH.$this->folder."EventByDateManagement.php";
+        require VIEWS_PATH.$this->folder."SeatsByEventManagement.php";
     }
 
-    public function viewAddEventByDate()
+    public function viewAddSeatsByEvent()
     {   
         try{
-            $theaterList = $this->theaterDao->getAll();
-            $artistList = $this->artistDao->getAll();
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex){
             echo "<script> alert('No se pude cargar datos necesarios. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
         
-        require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
+        require VIEWS_PATH.$this->folder."SeatsByEventManagementAdd.php";
     }
 
     /**
-     * Not complete, waiting for ajax of artists in add
+     * almost complete, waiting for ajax of artists in add
      */
-    public function addEventByDate($idEvent, $date, $idTheater, $idArtistList)
+    public function addSeatsByEvent($eventByDateId, $seatTypeIdList, $quantityList, $priceList)
     {
-        $eventByDate = new EventByDate();
+        $seatsByEvent = new SeatsByEvent();
         
-        $eventByDate->setDate($date);
+        //-----------------------
+        //deserialize $seatTypeIdList
+        //quantityList
+        //priceList
+        //-----------------------
 
         try{
-            $theater = $this->theaterDao->getByID($idTheater);
-            $event = $this->eventDao->getByID($idEvent);
+            $eventByDate = $this->eventByDateDao->getByID($eventByDateId);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
-
-        $eventByDate->setTheater($theater);
-        $eventByDate->setEvent($event);
-
-        //-----------------------
-        //deserialize $idArtistList
-        //-----------------------
-
-        foreach ($idArtistList as $idArtist) {
+        
+        foreach ($seatTypeIdList as $seatTypeIdItem) {
             try{
-                $artist = $this->artistDao->getByID($idArtist);
+                $seatType = $this->seatTypeDao->getByID($seatTypeIdItem);
             }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
                 $this->index();
             }
-
-            $eventByDate->addArtist($artist);
+            
+            array_push($seatTypeList, $seatType);
         }
 
-        try{
-            $this->eventByDateDao->Add($eventByDate);
-            echo "<script> alert('Calendario agregado exitosamente');</script>";
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        for ($i=0; $i < count($seatTypeList); $i++) { //count how many SeatByEvent were recieved, and add that many SeatsByEvent
+            $seatsByEvent = new SeatsByEvent();
+
+            $seatsByEvent->setEventByDate($eventByDate);
+            $seatsByEvent->setQuantity($quantityList[$i]);
+            $seatsByEvent->setRemnants($quantityList[$i]);
+            $seatsByEvent->setPrice($priceList[$i]);
+
+            try{
+                $this->seatsByEventDao->Add($seatsByEvent);
+            }catch (Exception $ex){
+                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+                $this->index();
+            }
         }
-        
+
+        echo "<script> alert('Plaza/s Evento agregada/s exitosamente');</script>";
+
         $this->index();
     }
 
-    public function eventByDateList()
+    public function seatsByEventList()
     {
         try{
             $eventList = $this->eventDao->getAll();
@@ -99,10 +107,10 @@ class EventByDateManagementController
             echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
         
-        require VIEWS_PATH.$this->folder."EventByDateManagementList.php";
+        require VIEWS_PATH.$this->folder."SeatsByEventManagementList.php";
     }
 
-    public function eventByDateList2($idEvent)
+    public function seatsByEventList2($idEvent)
     {
         try{
             $eventByDateList = $this->eventByDateDao->getByEventID($idEvent);//get by Event
@@ -110,58 +118,69 @@ class EventByDateManagementController
             echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
 
-        require VIEWS_PATH.$this->folder."EventByDateManagementList2.php";
+        require VIEWS_PATH.$this->folder."SeatsByEventManagementList2.php";
     }
 
-    public function deleteEventByDate($id)
+    public function seatsByEventList3($idEventByDate)
     {
-        $eventByDate = $this->eventByDateDao->getByID($idEventByDate);
+        try{
+            $seatsByEventList = $this->seatsByEventDao->getByEventByDateID($idEventByDate);
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+        }
+
+        require VIEWS_PATH.$this->folder."SeatsByEventManagementList3.php";
+    }
+
+    public function deleteSeatsByEvent($id)
+    {
+        $seatsByEvent = $this->seatsByEventDao->getByID($idSeatsByEvent);
 
         try{
-            $this->eventByDateDao->Delete($eventByDate);
-            echo "<script> alert('Calendario eliminado exitosamente');</script>";
+            $this->seatsByEventDao->Delete($seatsByEvent);
+            echo "<script> alert('Asiento por Evento eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el Asiento por Evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         } 
 
-        $this->eventByDateList();
+        $this->seatsByEventList();
     }
 
     /**
-     * Recieve id of EventByDate to edit, retrieve by DAO for diplaying in the forms,
-     * then after the modifications sends them to this->editEventByDate
+     * Recieve id of SeatsByEvent to edit, retrieve by DAO for diplaying in the forms,
+     * then after the modifications sends them to this->editSeatsByEvent
      */
-    public function viewEditEventByDate($idEventByDate)
+    public function viewEditSeatsByEvent($idSeatsByEvent)
     {   
-        $oldEventByDate = $this->eventByDateDao->getByID($idEventByDate);
+        $oldSeatsByEvent = $this->seatsByEventDao->getByID($idSeatsByEvent);
 
-        require VIEWS_PATH.$this->folder."EventByDateManagementEdit.php";
+        require VIEWS_PATH.$this->folder."SeatsByEventManagementEdit.php";
     }
 
     /**
-     * Recieve modified atributes for object EventByDate
+     * Recieve modified atributes for object SeatsByEvent
      * and old object by id, call dao update
      */
-    public function editEventByDate($oldIdEventByDate, $eventByDate)
+    public function editSeatsByEvent($oldIdSeatsByEvent, $seatsByEvent)
     {
-        $oldEventByDate = $this->eventByDateDao->getByID($oldIdEventByDate);
-        $newEventByDate = new EventByDate();
+        $oldSeatsByEvent = $this->seatsByEventDao->getByID($oldIdSeatsByEvent);
+        $newSeatsByEvent = new SeatsByEvent();
 
         $args = func_get_args();
-        $eventByDateAtributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
+        $seatsByEventAtributeList = array_combine(array_keys($newSeatsByEvent->getAll()),array_values($args)); 
 
-        foreach ($eventByDateAtributeList as $atribute => $value) {
-            $newEventByDate->__set($atribute,$value);
+        foreach ($seatsByEventAtributeList as $atribute => $value) {
+            $newSeatsByEvent->__set($atribute,$value);
         }
 
         try{
-            $this->eventByDateDao->Update($oldEventByDate, $newEventByDate);
+            $this->seatsByEventDao->Update($oldSeatsByEvent, $newSeatsByEvent);
             echo "<script> alert('Calendario modificada exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el calendario " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
 
-        $this->eventByDateList();
+        $this->seatsByEventList();
     }
 
 }

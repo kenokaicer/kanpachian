@@ -77,6 +77,18 @@ class SeatsByEvent//Plaza_Evento
         return $this;
     }
 
+    public function getEventByDate()
+	{
+		return $this->eventByDate;
+	}
+
+    public function setEventByDate($eventByDate)
+    {
+        $this->eventByDate = $eventByDate;
+
+        return $this;
+    }
+
     public function getAll()
     {
         return get_object_vars($this);

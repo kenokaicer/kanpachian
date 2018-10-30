@@ -5,8 +5,7 @@
                 <th>Fecha</th>
                 <th>Teatro</th>
                 <th>Artistas</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th>Seleccionar</th>
             </thead>
             <tbody>
             <?php
@@ -32,10 +31,7 @@
                         ?>
                         <!-- <td><button>Ver</button></td> -->
                         <td>
-                            <input type="submit" value="Editar" formaction="<?=FRONT_ROOT?>EventByDateManagement/viewEditCategory"> 
-                        </td>
-                        <td>
-                            <input type="submit" value="Eliminar" formaction="<?=FRONT_ROOT?>EventByDateManagement/deleteCategory">
+                            <input type="submit" value="Seleccionar" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/seatsByEventList3"> 
                         </td>
                     </form>
                 </tr>
