@@ -55,9 +55,8 @@ class Artist
     //];
     }*/
 
-    //The Bad
-    public function toJson() //alternative to JsonSerializable interface
-
+    //The Bad //alternative to JsonSerializable interface
+    public function toJson() 
     {
         return json_encode(
             [
