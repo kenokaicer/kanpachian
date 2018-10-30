@@ -5,16 +5,16 @@ namespace Models;
 class Category
 {
     private $idCategory;
-    private $category;
+    private $categoryName;
 
-    public function getIdCategory()
-    {
-        return $this->idCategory;
-    }
+    public function getCategoryName()
+	{
+		return $this->categoryName;
+	}
 
-    public function setIdCategory($idCategory)
+    public function setCategoryName($categoryName)
     {
-        $this->idCategory = $idCategory;
+        $this->categoryName = $categoryName;
 
         return $this;
     }
@@ -40,5 +40,4 @@ class Category
     {
         $this->$name = $value;
     }
-
 }

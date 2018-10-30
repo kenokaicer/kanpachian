@@ -2,7 +2,7 @@ USE neonlab1_gotoevent;
 
 /*create table Categories(
     idCategory int unsigned auto_increment,
-    category varchar(50) not null unique,
+    categoryName varchar(50) not null unique,
     enabled bool default '1',
     constraint pkCategory primary key (idCategory)
 );*/
