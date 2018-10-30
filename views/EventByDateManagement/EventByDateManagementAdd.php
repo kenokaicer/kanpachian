@@ -8,7 +8,7 @@
                             <?php
                                 foreach ($eventList as $value) {
                             ?>
-                                <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName().", Categoría: ".$value->getCategory()->getCategory()?></option>      
+                                <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName().", Categoría: ".$value->getCategory()->getCategoryName()?></option>      
                             <?php
                                 }
                             ?>

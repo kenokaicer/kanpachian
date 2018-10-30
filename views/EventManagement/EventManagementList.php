@@ -32,7 +32,7 @@
                             }
                         ?>
                         <td>
-                            <?=$event->getCategory()->getCategory();?>
+                            <?=$event->getCategory()->getCategoryName();?>
                         </td>
                         <td>
                             <input type="submit" value="Editar" formaction="<?=FRONT_ROOT?>EventManagement/viewEditEvent"> 

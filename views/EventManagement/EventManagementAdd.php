@@ -13,7 +13,7 @@
                             <?php
                                 foreach ($categoryList as $value) {
                             ?>
-                                <option value="<?=$value->getIdCategory()?>"><?=$value->getCategory()?></option>      
+                                <option value="<?=$value->getIdCategory()?>"><?=$value->getCategoryName()?></option>      
                             <?php
                                 }
                             ?>

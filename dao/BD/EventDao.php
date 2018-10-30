@@ -99,7 +99,7 @@ class EventDao extends SingletonDao implements IEventDao
         $event = new Event();
         $category = new Category();
 
-        $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.category
+        $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.categoryName
                 FROM " . $this->tableName ." e
                 INNER JOIN ".$this->tableName2." c
                 On e.idCategory = c.idCategory  
