@@ -14,17 +14,19 @@ DONE
 - Change SteasByEvent enum to Class (load list when program starts)
 - SteasByEvent is loading list when program starts, change that to a controller call only when needed
 - Change Category enum to Class
+- add image to events (then to bd)
+- rename properties to atributes when calling magic set
+
+DONE?
+- SeatsByEvent has new atribute private $eventByDate; // Class EventByDate
+fix everyting that implies that
 
 TO DO
 
 - Typehint models with object
 - CreditCard should check if null when making a payment
-- add image to events (then to bd)
 
-- Fix BD for SeatsByEvent
-- SeatsByEvent has new atribute private $eventByDate; // Class EventByDate
-fix everyting that implies that
-- rename properties to atributes when calling magic set
+- Fix BD for SeatsByEvent and purchaes, n:n table in between
 - fix theaterDao try-catchs (use eventByDate as reference)
 
 
