@@ -22,7 +22,7 @@
                             <?php
                                 foreach ($theaterList as $value) {
                             ?>
-                                <option value="<?=$value->getIdTheater()?>"><?=$value->getName().", maxCap: ".$value->getMaxCapacity()?></option>      
+                                <option value="<?=$value->getIdTheater()?>"><?=$value->getTheaterName().", maxCap: ".$value->getMaxCapacity()?></option>      
                             <?php
                                 }
                             ?>

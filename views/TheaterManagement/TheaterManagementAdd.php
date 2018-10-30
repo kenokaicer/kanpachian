@@ -52,7 +52,7 @@ if(isset($_POST["seatTypes"]))
                             foreach ($_SESSION["seatTypesForTheater"]->getSeatTypes() as $value) {        
                         ?>
                             <tr>
-                                <td><?=$value->getName()?></td>
+                                <td><?=$value->getSeatTypeName()?></td>
                                 <td><?=$value->getDescription()?></td>
                             </tr>
                         <?php

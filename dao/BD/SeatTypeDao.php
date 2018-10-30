@@ -111,7 +111,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         $seatTypeList = array();
         $seatType = new SeatType();
 
-        $query = "SELECT SeatTypes.idSeatType, name, description 
+        $query = "SELECT SeatTypes.idSeatType, seatTypeName, description 
         FROM " . $this->tableName2." 
         INNER JOIN ".$this->tableName." 
         ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType

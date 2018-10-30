@@ -10,7 +10,7 @@
     <link href="<?=CSS_PATH?>style.css" rel="stylesheet" />
     <link href="<?=CSS_PATH?>flaticon.css" rel="stylesheet" />  
     <link href="<?=CSS_PATH?>cart.css" rel="stylesheet" />  
-    <link rel="stylesheet" href="<?=ccss?>foundation.css">
+    <link rel="stylesheet" href="<?=CSS_PATH?>foundation.css">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 

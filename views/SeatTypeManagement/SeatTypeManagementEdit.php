@@ -4,7 +4,7 @@
             <input type="hidden" name="idOldSeatType" value="<?=$oldSeatType->getIdSeatType()?>">
             <table>
                 <tr>
-                    <td>Nombre: <input type="text" name="name" value="<?=$oldSeatType->getName()?>" required></td>
+                    <td>Nombre: <input type="text" name="name" value="<?=$oldSeatType->getSeatTypeName()?>" required></td>
                     <td>Descripción: <textarea name="description" rows="5" cols="50" required><?=$oldSeatType->getDescription()?></textarea>
                 </tr>
                 <tr>
