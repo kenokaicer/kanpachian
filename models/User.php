@@ -10,19 +10,6 @@ class User
     private $password;
     private $email;
     private $role; //Enum Rol.
-    private $client; //Class Client.
-
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    public function setClient($client)
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function getUsername()
     {

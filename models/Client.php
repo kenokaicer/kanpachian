@@ -11,6 +11,7 @@ class Client
     private $lastname;
     private $dni;
     private $creditCard; //CreditCard Class.
+    private $user; //User Class
 
     public function getIdClient()
     {
@@ -72,6 +73,18 @@ class Client
         return $this;
     }
 
+    public function getUser()
+	{
+		return $this->user;
+	}
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getAll()
     {
         return get_object_vars($this);
@@ -80,5 +93,5 @@ class Client
     public function __set($name, $value)
     {
         $this->$name = $value;
-    }
+    }	
 }
