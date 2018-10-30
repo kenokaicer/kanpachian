@@ -24,10 +24,10 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         
         $parameters = array_filter($seatsByEvent->getAll()); //get object atribute names
         array_pop($parameters);
+        array_pop($parameters);
         $parameters["idSeatType"] = $seatsByEvent->getSeatType()->getIdSeatType();
-        var_dump($parameters);
+        $parameters["idEventByDate"] = $seatsByEvent->getEventByDate()->getIdEventByDate();
 
-        /*
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
             $values .= ":".$key.",";
@@ -35,7 +35,8 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $columns = rtrim($columns, ",");
         $values = rtrim($values, ",");
 
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+        $query = "INSERT INTO " . $this->tableName . " (".$columns.",idSeatType,idEventByDate) 
+        VALUES (".$values.",:idSeatType,:idEventByDate);";
 
         try { 
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
@@ -46,7 +47,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }*/
+        }
     }
 
     public function getByID($id)
