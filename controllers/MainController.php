@@ -14,13 +14,19 @@
 		
 		function index()
 		{	
+			require "Views/home.php";
+		}
+
+		public function getEventList()
+		{
 			try{ 
 				$eventList = $this->eventDao->getAll();
 			}catch(Exception $ex){
 				echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
 			}
-			var_dump($eventList); //this is for the dyinamic event slot in the main view
-			require "Views/home.php";
+
+			return $eventList;
 		}
+		
 	}
 ?>

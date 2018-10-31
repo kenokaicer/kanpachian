@@ -35,19 +35,51 @@
             </div>
         </div>
     </div>
-    <div id="features">
-        <div class="row">
-            <div class="large-3 medium-6 small-12 columns">
-                <div class="featured-item">
-                    <div class="glyph-icon flaticon-airplane6"></div>
-                    <h6 class="text-center">Evento </h6>
-                    <div>
-                        Datos del evento 
-                    </div>
-                </div>
-            </div>
+
+     <div id="features">
+       
+    <?php
+    
+    $pedidos = \controllers\mainController::getEventList();
+    $cantidadDeColumnas = 3;
+    $boostrapDivision = 12/$cantidadDeColumnas;
+    $contador=0;
+    //var_dump($pedidos);
+    foreach($pedidos as $key => $value) 
+    {
+     if($contador==0)
+     {
+      echo'<div class="grid-x grid-padding-x">';
+     }
+     $pc =  $value->getEventName();
+     ?>
+      <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
+      <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=$value->getImage()?>">
+      <div><?=$pc?></div>
+      <input type="submit" class="button" value="Ver" 
+      id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)"></div>
+      <?php
+      
+      if($contador==$cantidadDeColumnas)
+      {
+        ?>
         </div>
-    </div>
+           </div>
+          
+          <?php
+                  $contador=$cantidadDeColumnas;
+
+      }
+      $contador++;
+      ?>
+      
+      <?php
+    }
+        
+    
+    ?> 
+</div>
+
 
     <div id="pricing">
         <div class="row">
@@ -123,9 +155,19 @@
 
     </footer>
 </body>
+<!--
 <script src="js/vendor/jquery.js"></script>
 <script src="js/foundation.min.js"></script>
 <script>
-    $(document).foundation();
+ //   $(document).foundation();
+</script>
+-->
+
+<script>
+
+function doSomething(id)
+{
+    console.log(id);
+}
 </script>
 </html>

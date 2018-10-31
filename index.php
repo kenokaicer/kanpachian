@@ -26,7 +26,7 @@
 		$scss = new Compiler();
 		$scss->setImportPaths("views/css/");
 		echo '<style>';
-		//echo $scss->compile('@import "cart.scss"'); //To add more .scss just copy n paste this line.
+		echo $scss->compile('@import "cart.scss"'); //To add more .scss just copy n paste this line.
 		echo '</style>';
 	}
 	

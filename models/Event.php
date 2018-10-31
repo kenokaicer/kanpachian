@@ -25,6 +25,18 @@ class Event
         return $this;
     }
 
+    public function getImage()
+	{
+		return $this->image;
+	}
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function getCategory()
     {
         return $this->category;
@@ -48,7 +60,18 @@ class Event
 
         return $this;
     }
+    
+	public function getDescription()
+	{
+		return $this->description;
+	}
 
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
     public function addCalendar(Calendar $calendar)
     {
         $this->calendar[] = $calendar;
@@ -75,4 +98,6 @@ class Event
 
         return $this;
     }
+
+
 }
