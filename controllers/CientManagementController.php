@@ -42,10 +42,10 @@ class ClientManagementController
         array_unshift($args, null); //put null at first of array for id
         array_pop($args);
         
-        $clientAtributeList = array_combine(array_keys($clientAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $clientAttributeList = array_combine(array_keys($clientAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
 
-        foreach ($clientAtributeList as $atribute => $value) {
-            $client->__set($atribute,$value);
+        foreach ($clientAttributeList as $attribute => $value) {
+            $client->__set($attribute,$value);
         }
 
         try{
@@ -112,10 +112,10 @@ class ClientManagementController
         $newClient = new Client();
 
         $args = func_get_args();
-        $clientAtributeList = array_combine(array_keys($newClient->getAll()),array_values($args)); 
+        $clientAttributeList = array_combine(array_keys($newClient->getAll()),array_values($args)); 
 
-        foreach ($clientAtributeList as $atribute => $value) {
-            $newClient->__set($atribute,$value);
+        foreach ($clientAttributeList as $attribute => $value) {
+            $newClient->__set($attribute,$value);
         }
 
         try{

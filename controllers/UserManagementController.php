@@ -36,10 +36,10 @@ class UserManagementController
         $args = func_get_args();
         array_unshift($args, null); //put null at first of array for id
         
-        $userAtributeList = array_combine(array_keys($user->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $userAttributeList = array_combine(array_keys($user->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
         
-        foreach ($userAtributeList as $atribute => $value) {
-            $user->__set($atribute,$value);
+        foreach ($userAttributeList as $attribute => $value) {
+            $user->__set($attribute,$value);
         }
 
         try{
@@ -99,10 +99,10 @@ class UserManagementController
         $newUser = new User();
 
         $args = func_get_args();
-        $userAtributeList = array_combine(array_keys($newUser->getAll()),array_values($args)); 
+        $userAttributeList = array_combine(array_keys($newUser->getAll()),array_values($args)); 
 
-        foreach ($userAtributeList as $atribute => $value) {
-            $newUser->__set($atribute,$value);
+        foreach ($userAttributeList as $attribute => $value) {
+            $newUser->__set($attribute,$value);
         }
 
         try{

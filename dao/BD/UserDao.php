@@ -22,7 +22,7 @@ class UserDao extends SingletonDao implements IUserDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($user->getAll()); //get object atribute names 
+        $parameters = array_filter($user->getAll()); //get object attribute names 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -48,7 +48,7 @@ class UserDao extends SingletonDao implements IUserDao
     public function getByID($id)
     {   
         $user = new User();
-        $userAttributes = array_keys($user->getAll()); //get atribute names from object for use in __set
+        $userAttributes = array_keys($user->getAll()); //get attribute names from object for use in __set
 
         $parameters["id"] = $id;
 
@@ -78,7 +78,7 @@ class UserDao extends SingletonDao implements IUserDao
     { 
         $user = new User();
 
-        $userAttributes = array_keys($user->getAll()); //get atribute names from object for use in __set
+        $userAttributes = array_keys($user->getAll()); //get attribute names from object for use in __set
 
         $parameters["username"] = $username;
 

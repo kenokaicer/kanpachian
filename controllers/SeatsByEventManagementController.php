@@ -167,10 +167,10 @@ class SeatsByEventManagementController
         $newSeatsByEvent = new SeatsByEvent();
 
         $args = func_get_args();
-        $seatsByEventAtributeList = array_combine(array_keys($newSeatsByEvent->getAll()),array_values($args)); 
+        $seatsByEventAttributeList = array_combine(array_keys($newSeatsByEvent->getAll()),array_values($args)); 
 
-        foreach ($seatsByEventAtributeList as $atribute => $value) {
-            $newSeatsByEvent->__set($atribute,$value);
+        foreach ($seatsByEventAttributeList as $attribute => $value) {
+            $newSeatsByEvent->__set($attribute,$value);
         }
 
         try{

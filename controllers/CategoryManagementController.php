@@ -34,10 +34,10 @@ class CategoryManagementController
         $args = func_get_args();
         array_unshift($args, null); //put null at first of array for id
         
-        $categoryAtributeList = array_combine(array_keys($category->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $categoryAttributeList = array_combine(array_keys($category->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
         
-        foreach ($categoryAtributeList as $atribute => $value) {
-            $category->__set($atribute,$value);
+        foreach ($categoryAttributeList as $attribute => $value) {
+            $category->__set($attribute,$value);
         }
 
         try{
@@ -96,10 +96,10 @@ class CategoryManagementController
         $newCategory = new Category();
 
         $args = func_get_args();
-        $categoryAtributeList = array_combine(array_keys($newCategory->getAll()),array_values($args)); 
+        $categoryAttributeList = array_combine(array_keys($newCategory->getAll()),array_values($args)); 
 
-        foreach ($categoryAtributeList as $atribute => $value) {
-            $newCategory->__set($atribute,$value);
+        foreach ($categoryAttributeList as $attribute => $value) {
+            $newCategory->__set($attribute,$value);
         }
 
         try{

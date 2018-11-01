@@ -157,10 +157,10 @@ class EventByDateManagementController
         $newEventByDate = new EventByDate();
 
         $args = func_get_args();
-        $eventByDateAtributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
+        $eventByDateAttributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
 
-        foreach ($eventByDateAtributeList as $atribute => $value) {
-            $newEventByDate->__set($atribute,$value);
+        foreach ($eventByDateAttributeList as $attribute => $value) {
+            $newEventByDate->__set($attribute,$value);
         }
 
         try{

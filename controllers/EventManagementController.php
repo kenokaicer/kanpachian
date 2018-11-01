@@ -42,10 +42,10 @@ class EventManagementController
         array_unshift($args, null); //put null at first of array for id
         array_pop($args);
         
-        $eventAtributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
 
-        foreach ($eventAtributeList as $atribute => $value) {
-            $event->__set($atribute,$value);
+        foreach ($eventAttributeList as $attribute => $value) {
+            $event->__set($attribute,$value);
         }
 
         try{
@@ -112,10 +112,10 @@ class EventManagementController
         $newEvent = new Event();
 
         $args = func_get_args();
-        $eventAtributeList = array_combine(array_keys($newEvent->getAll()),array_values($args)); 
+        $eventAttributeList = array_combine(array_keys($newEvent->getAll()),array_values($args)); 
 
-        foreach ($eventAtributeList as $atribute => $value) {
-            $newEvent->__set($atribute,$value);
+        foreach ($eventAttributeList as $attribute => $value) {
+            $newEvent->__set($attribute,$value);
         }
 
         try{

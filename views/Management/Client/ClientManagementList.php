@@ -23,8 +23,8 @@
                 <tr>
                     <form method="post">
                         <?php 
-                            foreach ($clientValuesArray as $atribute => $value) { //print all attributes from object in a td each
-                                if($atribute=="idClient"){
+                            foreach ($clientValuesArray as $attribute => $value) { //print all attributes from object in a td each
+                                if($attribute=="idClient"){
                         ?>
                                     <input type="hidden" name="idClient" value="<?=$value?>">
                         <?php 
@@ -36,8 +36,8 @@
                             }
                         ?>
                         <?php 
-                            foreach ($userValuesArray as $atribute => $value) { //print all attributes from object in a td each
-                                if(!$atribute=="iduser"){
+                            foreach ($userValuesArray as $attribute => $value) { //print all attributes from object in a td each
+                                if(!$attribute=="iduser"){
                                     echo "<td>";
                                     echo $value;
                                     echo "</td>";

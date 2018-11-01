@@ -17,7 +17,7 @@ DONE
 - add image to events (then to bd)
 - rename properties to attributes when calling magic set
 - Fix BD for SeatsByEvent and purchaes, n:n table in between (purchases connected to purchase lines)
-- SeatsByEvent has new atribute private $eventByDate; // Class EventByDate, fix everyting that implies that
+- SeatsByEvent has new attribute private $eventByDate; // Class EventByDate, fix everyting that implies that
 
 TO DO
 

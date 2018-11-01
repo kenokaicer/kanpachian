@@ -27,7 +27,7 @@ class EventDao extends SingletonDao implements IEventDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($event->getAll()); //get object atribute names 
+        $parameters = array_filter($event->getAll()); //get object attribute names 
         array_pop($parameters);
         array_pop($parameters);
         $parameters["idCategory"] = $event->getCategory()->getIdCategory();
@@ -58,7 +58,7 @@ class EventDao extends SingletonDao implements IEventDao
         $event = new Event();
         $category = new Category();
 
-        $eventAttributes = array_keys($event->getAll()); //get atribute names from object for use in __set
+        $eventAttributes = array_keys($event->getAll()); //get attribute names from object for use in __set
         array_pop($eventAttributes);
 
         $categoryAttributes = array_keys($category->getAll());

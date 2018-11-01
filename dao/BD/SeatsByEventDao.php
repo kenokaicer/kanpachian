@@ -36,7 +36,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($seatsByEvent->getAll()); //get object atribute names
+        $parameters = array_filter($seatsByEvent->getAll()); //get object attribute names
         array_pop($parameters);
         array_pop($parameters);
         $parameters["idSeatType"] = $seatsByEvent->getSeatType()->getIdSeatType();
@@ -69,7 +69,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatsByEvent = new SeatsByEvent();
         $seatType = new SeatType();
 
-        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get atribute names from object for use in __set
+        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get attribute names from object for use in __set
         array_pop($seatsByEventAttributes);
         array_pop($seatsByEventAttributes);
 
@@ -116,7 +116,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatsByEvent = new SeatsByEvent();
         $seatType = new SeatType();
 
-        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get atribute names from object for use in __set
+        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get attribute names from object for use in __set
         array_pop($seatsByEventAttributes);
         array_pop($seatsByEventAttributes);
 
@@ -168,7 +168,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatsByEvent = new SeatsByEvent();
         $seatType = new SeatType();
 
-        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get atribute names from object for use in __set
+        $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get attribute names from object for use in __set
         array_pop($seatsByEventAttributes);
         array_pop($seatsByEventAttributes);
 
@@ -275,7 +275,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $category = new Category();
         $event = new Event();
 
-        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes); //delete object variables
@@ -338,7 +338,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $theater = new Theater();
         $seatType = new SeatType();
 
-        $theaterAttributes = array_keys($theater->getAll()); //get atribute names from object for use in __set
+        $theaterAttributes = array_keys($theater->getAll()); //get attribute names from object for use in __set
         array_pop($theaterAttributes); //delete object variables
 
         $seatTypeAttributes = array_keys($seatType->getAll());

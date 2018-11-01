@@ -59,7 +59,7 @@ class ClientDao extends SingletonDao implements IClientDao
         $user = new User();
         $creditCard = new CreditCard();
 
-        $clientAttributes = array_keys($client->getAll()); //get atribute names from object for use in __set
+        $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
         array_pop($clientAttributes);
         array_pop($clientAttributes);
 
@@ -110,7 +110,7 @@ class ClientDao extends SingletonDao implements IClientDao
         $client = new Client();
         $creditCard = new CreditCard();
 
-        $clientAttributes = array_keys($client->getAll()); //get atribute names from object for use in __set
+        $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
         array_pop($clientAttributes);
         array_pop($clientAttributes);
 
@@ -153,7 +153,7 @@ class ClientDao extends SingletonDao implements IClientDao
         $user = new User();
         $creditCard = new CreditCard();
 
-        $clientAttributes = array_keys($client->getAll()); //get atribute names from object for use in __set
+        $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
         array_pop($clientAttributes);
         array_pop($clientAttributes);
 

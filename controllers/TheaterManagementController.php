@@ -43,10 +43,10 @@ class TheaterManagementController
 
         array_push($args, $seatTypeList); //$seatTypeList should be an object array now
 
-        $theaterAtributeList = array_combine(array_keys($theater->getAll()),array_values($args));
+        $theaterAttributeList = array_combine(array_keys($theater->getAll()),array_values($args));
 
-        foreach ($theaterAtributeList as $atribute => $value) {
-            $theater->__set($atribute,$value);
+        foreach ($theaterAttributeList as $attribute => $value) {
+            $theater->__set($attribute,$value);
         }
 
         try{

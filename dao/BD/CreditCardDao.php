@@ -22,7 +22,7 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($creditCard->getAll()); //get object atribute names 
+        $parameters = array_filter($creditCard->getAll()); //get object attribute names 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -49,7 +49,7 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
     {   
         $creditCard = new CreditCard();
 
-        $creditCardAttributes = array_keys($creditCard->getAll()); //get atribute names from object for use in __set
+        $creditCardAttributes = array_keys($creditCard->getAll()); //get attribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
             " WHERE ".$creditCardAttributes[0]." = ".$id;

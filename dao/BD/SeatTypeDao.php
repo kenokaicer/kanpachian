@@ -23,7 +23,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($seatType->getAll()); //get object atribute names 
+        $parameters = array_filter($seatType->getAll()); //get object attribute names 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -50,7 +50,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
     {   
         $seatType = new SeatType();
 
-        $seatTypeAttributes = array_keys($seatType->getAll()); //get atribute names from object for use in __set
+        $seatTypeAttributes = array_keys($seatType->getAll()); //get attribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
             " WHERE ".$seatTypeAttributes[0]." = ".$id;

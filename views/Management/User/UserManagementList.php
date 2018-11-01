@@ -17,8 +17,8 @@
                 <tr>
                     <form method="post">
                         <?php 
-                            foreach ($userValuesArray as $atribute => $value) { //print all attributes from object in a td each
-                                if($atribute=="idUser"){
+                            foreach ($userValuesArray as $attribute => $value) { //print all attributes from object in a td each
+                                if($attribute=="idUser"){
                         ?>
                                     <input type="hidden" name="idUser" value="<?=$value?>">
                         <?php 

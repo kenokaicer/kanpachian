@@ -36,10 +36,10 @@ class ArtistManagementController
         $args = func_get_args();
         array_unshift($args, null); //put null at first of array for id
         
-        $artistAtributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $artistAttributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
         
-        foreach ($artistAtributeList as $atribute => $value) {
-            $artist->__set($atribute,$value);
+        foreach ($artistAttributeList as $attribute => $value) {
+            $artist->__set($attribute,$value);
         }
 
         try{
@@ -98,10 +98,10 @@ class ArtistManagementController
         $newArtist = new Artist();
 
         $args = func_get_args();
-        $artistAtributeList = array_combine(array_keys($newArtist->getAll()),array_values($args)); 
+        $artistAttributeList = array_combine(array_keys($newArtist->getAll()),array_values($args)); 
 
-        foreach ($artistAtributeList as $atribute => $value) {
-            $newArtist->__set($atribute,$value);
+        foreach ($artistAttributeList as $attribute => $value) {
+            $newArtist->__set($attribute,$value);
         }
 
         try{

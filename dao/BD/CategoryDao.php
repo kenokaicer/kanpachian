@@ -22,7 +22,7 @@ class CategoryDao extends SingletonDao implements ICategoryDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($category->getAll()); //get object atribute names 
+        $parameters = array_filter($category->getAll()); //get object attribute names 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -49,7 +49,7 @@ class CategoryDao extends SingletonDao implements ICategoryDao
     {   
         $category = new Category();
 
-        $categoryAttributes = array_keys($category->getAll()); //get atribute names from object for use in __set
+        $categoryAttributes = array_keys($category->getAll()); //get attribute names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
             " WHERE ".$categoryAttributes[0]." = ".$id;

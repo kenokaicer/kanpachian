@@ -95,7 +95,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $category = new Category();
         $event = new Event();
 
-        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes); //delete object variables
@@ -160,7 +160,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $category = new Category();
         $event = new Event();
 
-        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes); //delete object variables
@@ -231,7 +231,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $category = new Category();
         $event = new Event();
 
-        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get atribute names from object for use in __set
+        $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes);
         array_pop($eventByDateAttributes); //delete object variables
@@ -343,7 +343,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $theater = new Theater();
         $seatType = new SeatType();
 
-        $theaterAttributes = array_keys($theater->getAll()); //get atribute names from object for use in __set
+        $theaterAttributes = array_keys($theater->getAll()); //get attribute names from object for use in __set
         array_pop($theaterAttributes); //delete object variables
 
         $seatTypeAttributes = array_keys($seatType->getAll());

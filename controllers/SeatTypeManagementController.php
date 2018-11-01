@@ -34,10 +34,10 @@ class SeatTypeManagementController
         $args = func_get_args();
         array_unshift($args, null); //put null at first of array for id
         
-        $seatTypeAtributeList = array_combine(array_keys($seatType->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        $seatTypeAttributeList = array_combine(array_keys($seatType->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
         
-        foreach ($seatTypeAtributeList as $atribute => $value) {
-            $seatType->__set($atribute,$value);
+        foreach ($seatTypeAttributeList as $attribute => $value) {
+            $seatType->__set($attribute,$value);
         }
 
         try{
@@ -96,10 +96,10 @@ class SeatTypeManagementController
         $newSeatType = new SeatType();
 
         $args = func_get_args();
-        $seatTypeAtributeList = array_combine(array_keys($newSeatType->getAll()),array_values($args)); 
+        $seatTypeAttributeList = array_combine(array_keys($newSeatType->getAll()),array_values($args)); 
 
-        foreach ($seatTypeAtributeList as $atribute => $value) {
-            $newSeatType->__set($atribute,$value);
+        foreach ($seatTypeAttributeList as $attribute => $value) {
+            $newSeatType->__set($attribute,$value);
         }
 
         try{
