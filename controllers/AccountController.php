@@ -64,10 +64,16 @@ class AccountController
 
     public function addUser($username,$password,$email,$name,$lastname,$dni)
     {
+        $args = get_defined_vars();
+        
         try{
             if(empty($this->userDao->getByUsername($username)))
             {
                 $user = new User();
+
+                $userAttributes = $user->getAll();
+
+                
 
                 //set user, create Client, and set it
             }
