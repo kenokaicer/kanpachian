@@ -91,8 +91,6 @@ class EventsDao extends SingletonDao //implements IEventDao
         }
         
         $eventAttributes = array_keys($event->getAll()); 
-        array_pop($eventAttributes);
-        array_pop($eventAttributes);
 
         foreach ($resultSet as $row) 
         {                

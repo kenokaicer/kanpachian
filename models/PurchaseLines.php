@@ -9,7 +9,7 @@ class PurchaseLines extends Attributes//Lineas_Compra
 {
     protected $idPurchaseLines;
     protected $price; //This is a inherited value from SteasByEvent
-    protected $seatsByEvent; //Class SeatsByEvent.
+    private $seatsByEvent; //Class SeatsByEvent.
 
     public function getIdPurchaseLines()
     {

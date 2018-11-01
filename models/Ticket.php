@@ -7,7 +7,7 @@ class Ticket extends Attributes
     protected $ticketNumber;
     protected $qrCode;
     protected $date; //Date of purchase. Timestamp
-    protected $seatType; //Class SeatType;
+    private $seatType; //Class SeatType;
 
     public function getIdTicket()
     {

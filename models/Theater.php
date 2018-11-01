@@ -11,7 +11,7 @@ class Theater extends Attributes//Lugar_evento
     protected $location;
     protected $image;
     protected $maxCapacity;
-    protected $seatTypes = array(); //to calculate the amount of each type.
+    private $seatTypes = array(); //to calculate the amount of each type.
 
     public function getTheaterName()
     {

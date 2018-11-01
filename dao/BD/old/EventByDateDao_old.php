@@ -63,9 +63,6 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $eventByDate = new EventByDate();
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
 
         $query = "SELECT * FROM " . $this->tableName ."  
                 WHERE ".$eventByDateAttributes[0]." = ".$id." 
@@ -124,9 +121,6 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $eventByDate = new EventByDate();
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
 
         $query = 
         "SELECT

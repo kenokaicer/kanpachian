@@ -11,7 +11,7 @@ class Event extends Attributes
     protected $eventName;
     protected $image;
     protected $description;
-    protected $category; //Class Category
+    private $category; //Class Category
 
     public function getEventName()
     {

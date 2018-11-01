@@ -15,8 +15,8 @@ class SeatsByEvent extends Attributes//Plaza_Evento
     protected $quantity;
     protected $price;
     protected $remnants; // This is a self calulated value.
-    protected $seatType; // Class SeatType.
-    protected $eventByDate; // Class EventByDate
+    private $seatType; // Class SeatType.
+    private $eventByDate; // Class EventByDate
 
     public function getIdSeatsByEvent()
     {

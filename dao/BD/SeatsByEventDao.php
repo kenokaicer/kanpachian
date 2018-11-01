@@ -37,8 +37,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $values = "";
         
         $parameters = array_filter($seatsByEvent->getAll()); //get object attribute names
-        array_pop($parameters);
-        array_pop($parameters);
         $parameters["idSeatType"] = $seatsByEvent->getSeatType()->getIdSeatType();
         $parameters["idEventByDate"] = $seatsByEvent->getEventByDate()->getIdEventByDate();
 
@@ -70,8 +68,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatType = new SeatType();
 
         $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get attribute names from object for use in __set
-        array_pop($seatsByEventAttributes);
-        array_pop($seatsByEventAttributes);
 
         $seatTypeAttributes = array_keys($seatType->getAll());
 
@@ -117,8 +113,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatType = new SeatType();
 
         $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get attribute names from object for use in __set
-        array_pop($seatsByEventAttributes);
-        array_pop($seatsByEventAttributes);
 
         $seatTypeAttributes = array_keys($seatType->getAll());
 
@@ -169,8 +163,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatType = new SeatType();
 
         $seatsByEventAttributes = array_keys($seatsByEvent->getAll()); //get attribute names from object for use in __set
-        array_pop($seatsByEventAttributes);
-        array_pop($seatsByEventAttributes);
 
         $seatTypeAttributes = array_keys($seatType->getAll());
 
@@ -276,12 +268,8 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $event = new Event();
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes); //delete object variables
 
         $eventAttributes = array_keys($event->getAll());
-        array_pop($eventAttributes);
 
         $categoryAttributes = array_keys($category->getAll());
 
@@ -339,7 +327,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $seatType = new SeatType();
 
         $theaterAttributes = array_keys($theater->getAll()); //get attribute names from object for use in __set
-        array_pop($theaterAttributes); //delete object variables
 
         $seatTypeAttributes = array_keys($seatType->getAll());
 

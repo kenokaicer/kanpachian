@@ -29,8 +29,6 @@ class EventDao extends SingletonDao implements IEventDao
         
         try {
             $parameters = array_filter($event->getAll()); //get object attribute names 
-            array_pop($parameters);
-            array_pop($parameters);
             $parameters["idCategory"] = $event->getCategory()->getIdCategory();
 
             foreach ($parameters as $key => $value) {
@@ -61,7 +59,6 @@ class EventDao extends SingletonDao implements IEventDao
 
         try {
             $eventAttributes = array_keys(Event::getAttributes()); //get attribute names from object for use in __set
-            array_pop($eventAttributes);
 
             $categoryAttributes = array_keys(Category::getAttributes());
 
@@ -116,7 +113,6 @@ class EventDao extends SingletonDao implements IEventDao
             $resultSet = $this->connection->Execute($query);
         
             $eventAttributes = array_keys(Event::getAttributes());
-            array_pop($eventAttributes);
 
             $categoryAttributes = array_keys(Category::getAttributes());
 

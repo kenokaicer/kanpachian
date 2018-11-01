@@ -10,8 +10,8 @@ class Purchase extends Attributes// Compra - Carrito
 {
     protected $idPurchase;
     protected $date;
-    protected $client; //Class Client
-    protected $purchaseLines = array(); //Array of Class PurcahseLine
+    private $client; //Class Client
+    private $purchaseLines = array(); //Array of Class PurcahseLine
 
     public function getIdPurchase()
     {
