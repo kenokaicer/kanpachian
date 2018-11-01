@@ -11,9 +11,9 @@ class EventByDate extends Attributes//Calendario
 {
     protected $idEventByDate;
     protected $date;
-    protected $event; //Class Event
-    protected $theater; //Class Theater
-    protected $artists = array(); //Array of Class Artist
+    private $event; //Class Event
+    private $theater; //Class Theater
+    private $artists = array(); //Array of Class Artist
     //protected $seatsByEvents = array(); //Array of Class SeatsByEvent //this only if I want a bidirectional dependancy
 
     public function getIdEventByDate()
