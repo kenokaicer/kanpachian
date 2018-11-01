@@ -27,6 +27,9 @@ TO DO
 - fix theaterDao try-catchs (use eventByDate as reference), remake theaterDao with improvementes from eventByDateDao
 
 - Check for clean up EventDao
+- Put methods in interfaces once all daos are complete
+- singleton only for connection, remove for every other class
+- fix where clause in daos, change to parameters var
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)

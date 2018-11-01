@@ -13,7 +13,7 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
     private $connection;
     private $tableName = 'CreditCards';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 

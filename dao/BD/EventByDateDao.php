@@ -24,7 +24,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     private $tableNameEvent = 'Events';
     private $tableNameCatergory = 'Categories';
 
-    protected function __construct()
+    public function __construct()
     {
         $this->connection = Connection::getInstance();
     }

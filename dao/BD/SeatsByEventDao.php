@@ -27,7 +27,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
     private $tableNameEvent = 'Events';
     private $tableNameCatergory = 'Categories';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 

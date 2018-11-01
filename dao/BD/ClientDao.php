@@ -17,7 +17,7 @@ class ClientDao extends SingletonDao implements IClientDao
     private $tableNameUser = 'Users';
     private $tableNameCreditCard = 'CreaditCards';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 
@@ -98,6 +98,47 @@ class ClientDao extends SingletonDao implements IClientDao
 
         foreach ($creditCardAttributes as $value) {
             $creditCard->__set($value, $row[$value]);
+        }
+
+        $client->setCreditCard($creditCard);
+
+        return $client;
+    }
+
+    public function getByUserId($idUser)
+    {
+        $client = new Client();
+        $creditCard = new CreditCard();
+
+        $clientAttributes = array_keys($client->getAll()); //get atribute names from object for use in __set
+        array_pop($clientAttributes);
+        array_pop($clientAttributes);
+
+        $creditCardAttributes = array_keys($creditCard->getAll());
+
+        $query = "SELECT *
+                FROM " . $this->tableName ." C
+                INNER JOIN ".$this->tableNameCreditCard." CC 
+                ON C.idCreditCard = CC.idCreditCard
+                WHERE idUser = ".$idUser."  
+                AND C.enabled = 1";
+        
+        try {
+            $resultSet = $this->connection->Execute($query);  
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        $row = reset($resultSet);
+   
+        foreach ($clientAttributes as $value) { //auto fill object with magic function __set
+            $client->__set($value, $row[$value]);
+        }
+
+        foreach ($userAttributes as $value) {
+            $user->__set($value, $row[$value]);
         }
 
         $client->setCreditCard($creditCard);

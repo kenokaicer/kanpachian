@@ -14,7 +14,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
     private $tableName = 'Artists';
     private $tableName2 = 'Artists_x_EventByDate';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
         //See if having this here causes problems in the future, so far so good.
     }

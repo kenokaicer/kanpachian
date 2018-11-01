@@ -13,7 +13,7 @@ class UserDao extends SingletonDao implements IUserDao
     private $connection;
     private $tableName = 'Users';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 
@@ -48,14 +48,46 @@ class UserDao extends SingletonDao implements IUserDao
     public function getByID($id)
     {   
         $user = new User();
+        $userAttributes = array_keys($user->getAll()); //get atribute names from object for use in __set
+
+        $parameters["id"] = $id;
+
+        $query = "SELECT * FROM " . $this->tableName." 
+            WHERE ".$userAttributes[0]." = :id
+            AND enabled = 1";
+        
+        try {
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            foreach ($resultSet as $row) //loops returned rows
+            {               
+                foreach ($userAttributes as $value) { //auto fill object with magic function __set
+                    $user->__set($value, $row[$value]);
+                }
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $user;
+    }
+
+    public function getByUsername($username)
+    { 
+        $user = new User();
 
         $userAttributes = array_keys($user->getAll()); //get atribute names from object for use in __set
 
-        $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$userAttributes[0]." = ".$id;
+        $parameters["username"] = $username;
+
+        $query = "SELECT * FROM " . $this->tableName ." 
+            WHERE username = :username
+            AND enabled = 1";
         
         try {
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query, $parameters);
 
             foreach ($resultSet as $row) //loops returned rows
             {               
@@ -77,7 +109,8 @@ class UserDao extends SingletonDao implements IUserDao
         $userList = array();
         $user = new User();
 
-        $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
+        $query = "SELECT * FROM ".$this->tableName." 
+            WHERE enabled = 1";
 
         try{
             $resultSet = $this->connection->Execute($query);

@@ -27,7 +27,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
     //Check array_pop if you need to unset a parameter that is an object or an array in primary object
     //*-------------------------------------------------------------------------------------*//
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
         //See if having this here causes problems in the future, so far so good.
     }

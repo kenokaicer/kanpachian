@@ -13,7 +13,7 @@ class CategoryDao extends SingletonDao implements ICategoryDao
     private $connection;
     private $tableName = 'Categories';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 

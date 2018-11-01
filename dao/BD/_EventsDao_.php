@@ -13,7 +13,7 @@ class EventsDao extends SingletonDao //implements IEventDao
     private $connection;
     private $tableName = 'Events';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 

@@ -14,7 +14,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
     private $tableName = 'SeatTypes';
     private $tableName2 = 'SeatTypes_x_Theater';
 
-    protected function __construct(){
+    public function __construct(){
         $this->connection = Connection::getInstance();
     }
 

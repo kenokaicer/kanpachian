@@ -17,8 +17,8 @@
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
+	use Cross\Session as Session;
 	use Daos\SingletonDao as SingletonDao;
-	use Config\Session as Session;
 	use Leafo\ScssPhp\Compiler;
 
 	function compileScss()

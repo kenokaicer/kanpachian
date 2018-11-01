@@ -1,6 +1,12 @@
  <div><form method="post">
     <button type="submit" formaction="<?=FRONT_ROOT?>Admin/index">ADMIN</button>
  </form></div>
+ <div><form method="post">
+    <button type="submit" formaction="<?=FRONT_ROOT?>Account/index">TEST</button>
+ </form></div>
+ <div><form method="post">
+    <button type="submit" formaction="<?=FRONT_ROOT?>Account/registerUser">REGISTER</button>
+ </form></div>
  <div id="additional-info">
         <div class="row">
             <div class="large-12 columns">
