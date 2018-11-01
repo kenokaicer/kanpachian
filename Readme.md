@@ -30,6 +30,7 @@ TO DO
 - Put methods in interfaces once all daos are complete
 - singleton only for connection, remove for every other class
 - fix where clause in daos, change to parameters var
+- change getall() to getAttributes() where necessary
 
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
