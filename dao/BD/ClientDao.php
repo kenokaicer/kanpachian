@@ -23,14 +23,25 @@ class ClientDao extends SingletonDao implements IClientDao
 
     public function Add(Client $client)
     {
+        //--Add user--//
+        try{
+            $this->addUser($client->getUser());
+            $idUser = $this->lastInsertId();
+        }catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+        //------------//
+
         $columns = "";
         $values = "";
         
         $parameters = array_filter($client->getAll()); //get object attribute names 
         array_pop($parameters);
         array_pop($parameters);
-        $parameters["idCreditCard"] = $client->getCreditCard()->getIdCreditCard();
-        $parameters["idUser"] = $client->getUser()->getIdUser();
+        //$parameters["idCreditCard"] = $client->getCreditCard()->getIdCreditCard(); //this should be in another method
+        $parameters["idUser"] = $idUser; 
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -40,6 +51,34 @@ class ClientDao extends SingletonDao implements IClientDao
         $values = rtrim($values, ",");
 
         $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+
+        try { 
+            $addedRows = $this->connection->executeNonQuery($query, $parameters);
+            if($addedRows!=1){
+                throw new Exception("Number of rows added ".$addedRows.", expected 1");
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    }
+
+    private function addUser($user)
+    {
+        $columns = "";
+        $values = "";
+        
+        $parameters = array_filter($user->getAll()); //get object attribute names 
+
+        foreach ($parameters as $key => $value) {
+            $columns .= $key.",";
+            $values .= ":".$key.",";
+        }
+        $columns = rtrim($columns, ",");
+        $values = rtrim($values, ",");
+
+        $query = "INSERT INTO " . $this->tableNameUser . " (".$columns.") VALUES (".$values.");";
 
         try { 
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
@@ -223,5 +262,24 @@ class ClientDao extends SingletonDao implements IClientDao
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
+    }
+
+    public function lastInsertId()
+    {
+        $query = "SELECT LAST_INSERT_ID()";
+
+        try {
+            $resultSet = $this->connection->Execute($query);
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        }
+        $row = reset($resultSet); //gives first object of array
+        $id = reset($row); //get value of previous first object
+
+        return $id;
     }
 }

@@ -9,7 +9,7 @@
     </section>
     <section>
         <div><button type="submit" formaction="<?=FRONT_ROOT?>Account/sessionStart">Ingresar</button></div>
-        <div><button type="submit" formaction="<?=FRONT_ROOT?>Main/index">Volver</button></div>
+        <div><button type="submit" formaction="<?=FRONT_ROOT?>Home/index">Volver</button></div>
     </section>
 </form>
 <form action="">

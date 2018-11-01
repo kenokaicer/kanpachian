@@ -15,7 +15,7 @@
     </section>
     <section>
         <div><button type="submit" formaction="<?=FRONT_ROOT?>Account/addUser">Registrar</button></div>
-        <div><button type="submit" formnovalidate formaction="<?=FRONT_ROOT?>Main/index">Volver</button></div>
+        <div><button type="submit" formnovalidate formaction="<?=FRONT_ROOT?>Home/index">Volver</button></div>
     </section>
 </form>
 </div>

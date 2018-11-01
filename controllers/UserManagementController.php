@@ -59,7 +59,7 @@ class UserManagementController
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Usuarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
-        
+
         require VIEWS_PATH.$this->folder."UserManagementList.php";
     }
 

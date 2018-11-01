@@ -37,10 +37,10 @@ class User extends Attributes
 
     public function getRole()
     {
-        return $this->rol;
+        return $this->role;
     }
 
-    public function setRole($rol)
+    public function setRole($role)
     {
         $this->role = $role;
 

@@ -22,7 +22,7 @@
                         ?>
                                     <input type="hidden" name="idUser" value="<?=$value?>">
                         <?php 
-                                }else if($attribe!="password"){
+                                }else if($attribute!="password"){
                                     echo "<td>";
                                     echo $value;
                                     echo "</td>";

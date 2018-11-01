@@ -6,6 +6,7 @@ use Models\User as User;
 use Models\Client as Client;
 use Models\Role as Role;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class AccountController
 {
@@ -23,17 +24,17 @@ class AccountController
         try{
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
                 require VIEWS_PATH."Login.php"; 
-            }else if($_SESSION["userLogged"]->getRole=="Admin"){ //Check if user is admin
+            }else if($_SESSION["userLogged"]->getRole()=="Admin"){ //Check if user is admin
                 header("location:".FRONT_ROOT."Admin/Index"); 
             }
             else if(isset($_SESSION["lastLocation"])){ // return to logged event start view
                 //header("location:) //see how to return to place where loggin event ocurred
             }else{
-                header("location:".FRONT_ROOT."Main/Index");
+                header("location:".FRONT_ROOT."Home/Index");
             }
         }catch(Exception $ex){
             echo "<script> alert('".$ex->getMessage()."'<script>;";
-            header("location:".FRONT_ROOT."Main/Index");
+            header("location:".FRONT_ROOT."Home/Index");
         }   
     }   
 
@@ -64,24 +65,48 @@ class AccountController
 
     public function addUser($username,$password,$email,$name,$lastname,$dni)
     {
-        $args = get_defined_vars();
+        $args = get_defined_vars(); //returns defined vars at the moment, funtion vars in this case
         
         try{
-            if(empty($this->userDao->getByUsername($username)))
+            //if(empty($this->userDao->getByUsername($username))) //check obsolet until dao null fixed
+            if(1==1)
             {
                 $user = new User();
+                $client = new Client();
+
+                $password = password_hash($password, PASSWORD_DEFAULT); //hash and salt password
 
                 $userAttributes = $user->getAll();
+                $clientAttributes = $client->getAll();
 
+                foreach ($userAttributes as $attribute => $value) { 
+                    foreach ($args as $key => $value) { //check if there's a value to set
+                        if($attribute==$key)
+                            $user->__set($attribute,$args[$attribute]);
+                    }
+                }
+
+                foreach ($clientAttributes as $attribute => $value) {
+                    foreach ($args as $key => $value) {
+                        if($attribute==$key)
+                            $client->__set($attribute,$args[$attribute]);
+                    }
+                }
                 
+                $user->setPassword($password);
+                $user->setRole("Common");
+                $client->setUser($user);
 
-                //set user, create Client, and set it
+                $this->clientDao->add($client);
+
+                $this->sessionStart($user->getUsername, $password); //this needs to be done, to get userID in the object
+            }else {
+                echo "<script> alert('El usuario ya existe');</script>";
+                $this->index();
             }
         }catch(Excpetion $ex){
-
+            echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            $this->index();
         }
-        //require VIEWS_PATH."Register.php";
-        //check if username exist
-
     }
 }

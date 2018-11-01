@@ -46,7 +46,7 @@
        
     <?php
     
-    $pedidos = \controllers\mainController::getEventList();
+    $pedidos = \controllers\HomeController::getEventList();
     $cantidadDeColumnas = 3;
     $boostrapDivision = 12/$cantidadDeColumnas;
     $contador=0;

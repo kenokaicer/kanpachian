@@ -7,7 +7,8 @@ values ('Palco', 'Palco');*/
 change name seatTypeName varchar(50) not null unique;*/
 
 
-
+truncate table Users;
+truncate table Clients;
 
 
 

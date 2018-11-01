@@ -3,7 +3,7 @@
 
 	use Dao\BD\EventDao as EventDao;
 	
-	class MainController{
+	class HomeController{
 		
 		private $eventsDao;
 

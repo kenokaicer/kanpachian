@@ -17,7 +17,7 @@
             $urlArray = array_filter($urlArray);
 
             if(empty($urlArray))
-                $this->controller = 'Main';    //changed from Home to Main        
+                $this->controller = 'Home';    //changed from Home to Home        
             else
                 $this->controller = ucwords(array_shift($urlArray));
 

@@ -14,7 +14,7 @@
         <div><button style="width: 100%" type="submit" formaction="<?=FRONT_ROOT?>UserManagement/index">Gestión Usuarios</button></div>
     </section>
     <section>
-        <div><button type="submit" formaction="<?=FRONT_ROOT?>Main/index">Volver (temp)</button></div>
+        <div><button type="submit" formaction="<?=FRONT_ROOT?>Home/index">Volver (temp)</button></div>
     </section>
 </form>
 </div>

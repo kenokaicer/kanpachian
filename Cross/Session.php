@@ -25,7 +25,7 @@ class Session
   public static function add($key, $value)
   {
     if (isset($_SESSION)) {
-      if (isset($key) && !is_object($key) && !is_array($key) && trim($key) !== "" && isset($value) && trim($value) !== "") {
+      if (isset($key) && !is_object($key) && !is_array($key) && trim($key) !== "" && isset($value)) {
         $_SESSION[$key] = $value;
 
       } else {
@@ -41,7 +41,7 @@ class Session
         } elseif (!isset($key) || trim($key) === "") {
           throw new Exception('Session::add() - $key is empty or null.');
 
-        } elseif (!isset($value) || trim($value) === "") {
+        } elseif (!isset($value)) {
           throw new Exception('Session::add() - $value is empty or null.');
         }
       }
