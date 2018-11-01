@@ -2,10 +2,10 @@
 
 namespace Models;
 
-class Category
+class Category extends Attributes
 {
-    private $idCategory;
-    private $categoryName;
+    protected $idCategory;
+    protected $categoryName;
     
     public function getIdCategory()
 	{
@@ -29,15 +29,5 @@ class Category
         $this->categoryName = $categoryName;
 
         return $this;
-    }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

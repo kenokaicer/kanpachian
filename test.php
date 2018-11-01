@@ -7,9 +7,15 @@ use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Exception as Exception;
 use Models\Role as Role;
+use Models\Artist as Artist;
+use Models\User as User;
+use Models\Client as Client;
 
 Autoload::start();
 
+//var_dump(Artist::getAttributes());
+
+/*
 try{
     $var = SeatsByEventDao::getInstance()->getByEventByDateID(1);
 }catch(Exception $ex){
@@ -17,7 +23,7 @@ try{
 }
 
 var_dump($var);
-
+*/
 /*
 try{
     $var = EventByDateDao::getInstance()->getAll();

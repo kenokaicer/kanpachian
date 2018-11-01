@@ -3,13 +3,13 @@ namespace Models;
 
 use Models\Client as Client;
 
-class User
+class User extends Attributes
 {
-    private $idUser;
-    private $username;
-    private $password;
-    private $email;
-    private $role; //Enum Rol.
+    protected $idUser;
+    protected $username;
+    protected $password;
+    protected $email;
+    protected $role; //Enum Rol.
 
     public function getUsername()
     {
@@ -69,15 +69,5 @@ class User
         $this->email = $email;
 
         return $this;
-    }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

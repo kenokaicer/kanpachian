@@ -2,11 +2,11 @@
 
 namespace Models;
 
-class SeatType //Tipo_plaza
+class SeatType extends Attributes //Tipo_plaza
 {
-    private $idSeatType;
-    private $seatTypeName;
-    private $description;
+    protected $idSeatType;
+    protected $seatTypeName;
+    protected $description;
 
     public function getSeatTypeName()
 	{
@@ -32,11 +32,6 @@ class SeatType //Tipo_plaza
         return $this;
     }
 
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
 	public function getIdSeatType()
 	{
 		return $this->idSeatType;
@@ -47,10 +42,5 @@ class SeatType //Tipo_plaza
         $this->idSeatType = $idSeatType;
 
         return $this;
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

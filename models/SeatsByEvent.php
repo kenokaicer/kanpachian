@@ -3,19 +3,20 @@
 namespace Models;
 
 use Models\SeatType as SeatType;
+use Models\EventByDate as EventByDate;
 
 /**
  * Type of seat of the event, prices and availability.
  */
-class SeatsByEvent//Plaza_Evento
+class SeatsByEvent extends Attributes//Plaza_Evento
 
 {
-    private $idSeatsByEvent;
-    private $quantity;
-    private $price;
-    private $remnants; // This is a self calulated value.
-    private $seatType; // Class SeatType.
-    private $eventByDate; // Class EventByDate
+    protected $idSeatsByEvent;
+    protected $quantity;
+    protected $price;
+    protected $remnants; // This is a self calulated value.
+    protected $seatType; // Class SeatType.
+    protected $eventByDate; // Class EventByDate
 
     public function getIdSeatsByEvent()
     {
@@ -34,7 +35,7 @@ class SeatsByEvent//Plaza_Evento
         return $this->seatType;
     }
 
-    public function setSeatType($seatType)
+    public function setSeatType(SeatType $seatType)
     {
         $this->seatType = $seatType;
 
@@ -82,20 +83,10 @@ class SeatsByEvent//Plaza_Evento
 		return $this->eventByDate;
 	}
 
-    public function setEventByDate($eventByDate)
+    public function setEventByDate(EventByDate $eventByDate)
     {
         $this->eventByDate = $eventByDate;
 
         return $this;
-    }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

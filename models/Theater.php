@@ -3,15 +3,15 @@ namespace Models;
 
 use Models\SeatType as SeatType;
 
-class Theater//Lugar_evento
+class Theater extends Attributes//Lugar_evento
 
 {
-    private $idTheater;
-    private $theaterName;
-    private $location;
-    private $image;
-    private $maxCapacity;
-    private $seatTypes = array(); //to calculate the amount of each type.
+    protected $idTheater;
+    protected $theaterName;
+    protected $location;
+    protected $image;
+    protected $maxCapacity;
+    protected $seatTypes = array(); //to calculate the amount of each type.
 
     public function getTheaterName()
     {
@@ -88,15 +88,5 @@ class Theater//Lugar_evento
     public function addSeatType(SeatType $seatType)
     {
         $this->seatTypes[] = $seatType;
-    }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

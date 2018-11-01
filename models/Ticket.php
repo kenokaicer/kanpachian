@@ -1,13 +1,13 @@
 <?php
 namespace Models;
 
-class Ticket
+class Ticket extends Attributes
 {
-    private $idTicket;
-    private $ticketNumber;
-    private $qrCode;
-    private $date; //Date of purchase.
-    private $seatType; //Class SeatType;
+    protected $idTicket;
+    protected $ticketNumber;
+    protected $qrCode;
+    protected $date; //Date of purchase. Timestamp
+    protected $seatType; //Class SeatType;
 
     public function getIdTicket()
     {
@@ -50,7 +50,7 @@ class Ticket
         return $this->seatType;
     }
 
-    public function setSeatType($seatType)
+    public function setSeatType(SeatType $seatType)
     {
         $this->seatType = $seatType;
 
@@ -67,15 +67,5 @@ class Ticket
         $this->qrCode = $qrCode;
 
         return $this;
-    }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

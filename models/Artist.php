@@ -1,13 +1,12 @@
 <?php
 namespace Models;
 
-class Artist
+class Artist extends Attributes
 //implements JsonSerializable
-
 {
-    private $idArtist;
-    private $name;
-    private $lastname;
+    protected $idArtist;
+    protected $name;
+    protected $lastname;
 
     public function getIdArtist()
     {
@@ -64,18 +63,5 @@ class Artist
                 'lastname' => $this->getLastname(),
             ]
         );
-    }
-
-    /**
-     * Returns all attributes as an array, used for edit dao
-     */
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }

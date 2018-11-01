@@ -3,16 +3,18 @@
 namespace Models;
 
 use Models\Theater as Theater;
+use Models\Artist as Artist;
+use Models\Event as Event;
 
-class EventByDate//Calendario
+class EventByDate extends Attributes//Calendario
 
 {
-    private $idEventByDate;
-    private $date;
-    private $event; //Class Event
-    private $theater; //Class Theater
-    private $artists = array(); //Array of Class Artist
-    //private $seatsByEvents = array(); //Array of Class SeatsByEvent //this only if I want a bidirectional dependancy
+    protected $idEventByDate;
+    protected $date;
+    protected $event; //Class Event
+    protected $theater; //Class Theater
+    protected $artists = array(); //Array of Class Artist
+    //protected $seatsByEvents = array(); //Array of Class SeatsByEvent //this only if I want a bidirectional dependancy
 
     public function getIdEventByDate()
     {
@@ -43,7 +45,7 @@ class EventByDate//Calendario
         return $this->event;
     }
 
-    public function setEvent($event)
+    public function setEvent(Event $event)
     {
         $this->event = $event;
 
@@ -55,7 +57,7 @@ class EventByDate//Calendario
         return $this->theater;
     }
 
-    public function setTheater($theater)
+    public function setTheater(Theater $theater)
     {
         $this->theater = $theater;
 
@@ -74,24 +76,8 @@ class EventByDate//Calendario
         return $this;
     }
 
-    public function addEventsBySeat($eventBySeat)
-    {
-        $this->eventsBySeats[] = $eventBySeat;
-    }
-
-    public function addArtist($artist)
+    public function addArtist(Artist $artist)
     {
         $this->artists[] = $artist;
     }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
-    }
-
 }

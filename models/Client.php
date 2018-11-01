@@ -3,15 +3,16 @@
 namespace Models;
 
 use Models\CreditCard as CreditCard;
+use Models\User as User;
 
-class Client
+class Client extends Attributes
 {
-    private $idClient;
-    private $name;
-    private $lastname;
-    private $dni;
-    private $creditCard; //CreditCard Class.
-    private $user; //User Class
+    protected $idClient;
+    protected $name;
+    protected $lastname;
+    protected $dni;
+    protected $creditCard; //CreditCard Class.
+    protected $user; //User Class
 
     public function getIdClient()
     {
@@ -66,7 +67,7 @@ class Client
         return $this->creditCard;
     }
 
-    public function setCreditCard($creditCard)
+    public function setCreditCard(CreditCard $creditCard)
     {
         $this->creditCard = $creditCard;
 
@@ -78,20 +79,10 @@ class Client
 		return $this->user;
 	}
 
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
         return $this;
     }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
-    }	
 }

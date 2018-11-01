@@ -5,13 +5,13 @@ namespace Models;
 use Models\EventByDate as EventByDate;
 use Models\Category as Category;
 
-class Event
+class Event extends Attributes
 {
-    private $idEvent;
-    private $eventName;
-    private $image;
-    private $description;
-    private $category; //Class Category
+    protected $idEvent;
+    protected $eventName;
+    protected $image;
+    protected $description;
+    protected $category; //Class Category
 
     public function getEventName()
     {
@@ -42,7 +42,7 @@ class Event
         return $this->category;
     }
 
-    public function setCategory($category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
 
@@ -76,16 +76,6 @@ class Event
     {
         $this->calendar[] = $calendar;
     }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
-    }
     
 	public function getEventByDate()
 	{
@@ -98,6 +88,4 @@ class Event
 
         return $this;
     }
-
-
 }

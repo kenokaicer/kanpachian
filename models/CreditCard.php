@@ -2,12 +2,12 @@
 
 namespace Models;
 
-class CreditCard 
+class CreditCard extends Attributes
 {
-    private $idCreditCard;
-    private $creditCardNumber;
-    private $expirationDate;
-    private $cardHolder;
+    protected $idCreditCard;
+    protected $creditCardNumber;
+    protected $expirationDate;
+    protected $cardHolder;
 
 	public function getIdCreditCard()
 	{
@@ -55,15 +55,5 @@ class CreditCard
         $this->cardHolder = $cardHolder;
 
         return $this;
-    }
-
-    public function getAll()
-    {
-        return get_object_vars($this);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
     }
 }
