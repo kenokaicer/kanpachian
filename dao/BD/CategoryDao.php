@@ -21,19 +21,19 @@ class CategoryDao extends SingletonDao implements ICategoryDao
     {
         $columns = "";
         $values = "";
-        
-        $parameters = array_filter($category->getAll()); //get object attribute names 
 
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
+        try {
+            $parameters = array_filter($category->getAll()); //get object attribute names 
 
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
 
-        try { 
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
@@ -47,16 +47,21 @@ class CategoryDao extends SingletonDao implements ICategoryDao
 
     public function getByID($id)
     {   
-        $category = new Category();
+        $parameters = get_defined_vars();
+        $category = null;
 
-        $categoryAttributes = array_keys($category->getAll()); //get attribute names from object for use in __set
-
-        $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$categoryAttributes[0]." = ".$id;
-        
         try {
-            $resultSet = $this->connection->Execute($query);
+            $categoryAttributes = array_keys(Category::getAttributes()); //get attribute names from object for use in __set
 
+            $query = "SELECT * FROM " . $this->tableName .
+                " WHERE ".$categoryAttributes[0]." = :".key($parameters);
+        
+            $resultSet = $this->connection->Execute($query,$parameters);
+            
+            if(lenght($resultSet)!=1){
+                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+            }
+            
             foreach ($resultSet as $row) //loops returned rows
             {               
                 foreach ($categoryAttributes as $value) { //auto fill object with magic function __set
@@ -75,29 +80,28 @@ class CategoryDao extends SingletonDao implements ICategoryDao
     public function getAll()
     {
         $categoryList = array();
-        $category = new Category();
-
-        $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
         try{
+            $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
+
             $resultSet = $this->connection->Execute($query);
+        
+            $categoryAttributes = array_keys(Category::getAttributes());
+
+            foreach ($resultSet as $row)
+            {                
+                $category = new Category();
+                
+                foreach ($categoryAttributes as $value) {
+                    $category->__set($value, $row[$value]);
+                }
+
+                array_push($categoryList, $category);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-        
-        $categoryAttributes = array_keys($category->getAll());
-
-        foreach ($resultSet as $row)
-        {                
-            $category = new Category();
-            
-            foreach ($categoryAttributes as $value) {
-                $category->__set($value, $row[$value]);
-            }
-
-            array_push($categoryList, $category);
         }
 
         return $categoryList;
@@ -109,27 +113,32 @@ class CategoryDao extends SingletonDao implements ICategoryDao
     public function Update(Category $oldCategory, Category $newCategory)
     {
         $valuesToModify = "";
-        $oldCategoryArray = $oldCategory->getAll(); //convert object to array of values
-        $categoryArray = $newCategory->getAll();
+       
+        try {
+            $oldCategoryArray = $oldCategory->getAll(); //convert object to array of values
+            $categoryArray = $newCategory->getAll();
+            $parameters["idCategory"] = $oldCategory->getIdCategory();
 
-        /**
-         * Check if a value is different from the one on the database, if different, sets the column and
-         * value for the SET query
-         */
-        foreach ($oldCategoryArray as $key => $value) {
-            if ($key != "idCategory") {
-                if ($oldCategoryArray[$key] != $categoryArray[$key]) {
-                    $valuesToModify .= $key . " = " . "'" . $categoryArray[$key] . "', ";
+            /**
+             * Check if a value is different from the one on the database, if different, sets the column and
+             * value for the SET query
+             */
+            foreach ($oldCategoryArray as $key => $value) {
+                if ($key != "idCategory") {
+                    if ($oldCategoryArray[$key] != $categoryArray[$key]) {
+                        $valuesToModify .= $key . " = " . "'" . $categoryArray[$key] . "', ";
+                    }
                 }
             }
-        }
 
-        $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idCategory = " . $oldCategory->getIdCategory();
+            $query = "UPDATE ".$this->tableName." 
+                SET ".$valuesToModify." 
+                WHERE idCategory = :idCategory";
         
-        try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+            
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
@@ -140,15 +149,18 @@ class CategoryDao extends SingletonDao implements ICategoryDao
         }
     }
 
-    /**
-     * Logical Delete
-     */
     public function Delete(Category $category)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idCategory = ".$category->getIdCategory();
-
+        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$categoryAttributes[0]." = " . $category->getIdCategory();
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            $parameters["idCategory"] = $category->getIdCategory();
+
+            $query = "UPDATE ".$this->tableName." 
+                SET enabled = 0 
+                WHERE idCategory = :idCategory";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }

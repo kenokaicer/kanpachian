@@ -32,6 +32,8 @@ TO DO
 - fix where clause in daos, change to parameters var
 - change getall() to getAttributes() where necessary
 
+- change models object attributes to private, no longer array_pop everywhere
+
 
 - login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
 - user logged checks in controller contructor for admin

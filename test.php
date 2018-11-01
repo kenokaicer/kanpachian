@@ -16,7 +16,6 @@ Autoload::start();
 
 //header("location:".FRONT_ROOT."Home/Index");
 
-
 /*
 $hasedPass = password_hash(1234, PASSWORD_DEFAULT);
 

@@ -11,8 +11,8 @@ class Client extends Attributes
     protected $name;
     protected $lastname;
     protected $dni;
-    protected $creditCard; //CreditCard Class.
-    protected $user; //User Class
+    private $creditCard; //CreditCard Class.
+    private $user; //User Class
 
     public function getIdClient()
     {

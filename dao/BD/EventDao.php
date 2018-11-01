@@ -27,22 +27,23 @@ class EventDao extends SingletonDao implements IEventDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($event->getAll()); //get object attribute names 
-        array_pop($parameters);
-        array_pop($parameters);
-        $parameters["idCategory"] = $event->getCategory()->getIdCategory();
+        try {
+            $parameters = array_filter($event->getAll()); //get object attribute names 
+            array_pop($parameters);
+            array_pop($parameters);
+            $parameters["idCategory"] = $event->getCategory()->getIdCategory();
 
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
 
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
-
-        try { 
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+ 
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
@@ -55,40 +56,48 @@ class EventDao extends SingletonDao implements IEventDao
 
     public function getByID($id) //right now not returning eventByDate
     {   
-        $event = new Event();
-        $category = new Category();
+        $parameters = get_defined_vars();
+        $event = null;
 
-        $eventAttributes = array_keys($event->getAll()); //get attribute names from object for use in __set
-        array_pop($eventAttributes);
-
-        $categoryAttributes = array_keys($category->getAll());
-
-        $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.category
-                FROM " . $this->tableName ." e
-                INNER JOIN ".$this->tableName2." c
-                On e.idCategory = c.idCategory  
-                WHERE ".$eventAttributes[0]." = ".$id." 
-                AND e.enabled = 1";
-        
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $eventAttributes = array_keys(Event::getAttributes()); //get attribute names from object for use in __set
+            array_pop($eventAttributes);
+
+            $categoryAttributes = array_keys(Category::getAttributes());
+
+            $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.category
+                    FROM " . $this->tableName ." e
+                    INNER JOIN ".$this->tableName2." c
+                    On e.idCategory = c.idCategory  
+                    WHERE ".$eventAttributes[0]." = :".key($parameters)." 
+                    AND e.enabled = 1";
+            
+            $resultSet = $this->connection->Execute($query,$parameters);  
+
+            
+            if(lenght($resultSet)!=1){
+                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $event = new Event();
+                foreach ($eventAttributes as $value) { //auto fill object with magic function __set
+                    $event->__set($value, $row[$value]);
+                }
+
+                $category = new Category();
+                foreach ($categoryAttributes as $value) {
+                    $category->__set($value, $row[$value]);
+                }
+
+                $event->setCategory($category);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
-
-        $row = reset($resultSet);
-   
-        foreach ($eventAttributes as $value) { //auto fill object with magic function __set
-            $event->__set($value, $row[$value]);
-        }
-
-        foreach ($categoryAttributes as $value) {
-            $category->__set($value, $row[$value]);
-        }
-
-        $event->setCategory($category);
 
         return $event;
     }
@@ -96,47 +105,45 @@ class EventDao extends SingletonDao implements IEventDao
     public function getAll() //right now not returning eventByDate
     {
         $eventList = array();
-        $event = new Event();
-        $category = new Category();
+        
+        try {
+            $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.categoryName
+                    FROM " . $this->tableName ." e
+                    INNER JOIN ".$this->tableName2." c
+                    On e.idCategory = c.idCategory  
+                    AND e.enabled = 1";
 
-        $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.categoryName
-                FROM " . $this->tableName ." e
-                INNER JOIN ".$this->tableName2." c
-                On e.idCategory = c.idCategory  
-                AND e.enabled = 1";
-
-        try{
             $resultSet = $this->connection->Execute($query);
+        
+            $eventAttributes = array_keys(Event::getAttributes());
+            array_pop($eventAttributes);
+
+            $categoryAttributes = array_keys(Category::getAttributes());
+
+            foreach ($resultSet as $row)
+            {                
+                $event = new Event();
+                
+                foreach ($eventAttributes as $value) {
+                    $event->__set($value, $row[$value]);
+                }
+
+                $category = new Category();
+
+                foreach ($categoryAttributes as $value) {
+                    $category->__set($value, $row[$value]);
+                }
+        
+                $event->setCategory($category);
+
+                array_push($eventList, $event);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
-        $eventAttributes = array_keys($event->getAll());
-        array_pop($eventAttributes);
-
-        $categoryAttributes = array_keys($category->getAll());
-
-        foreach ($resultSet as $row)
-        {                
-            $event = new Event();
-            
-            foreach ($eventAttributes as $value) {
-                $event->__set($value, $row[$value]);
-            }
-
-            $category = new Category();
-
-            foreach ($categoryAttributes as $value) {
-                $category->__set($value, $row[$value]);
-            }
-    
-            $event->setCategory($category);
-
-            array_push($eventList, $event);
-        }
-
         return $eventList;
     }
 

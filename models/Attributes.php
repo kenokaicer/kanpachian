@@ -32,10 +32,10 @@ class Attributes
     /**
      * Improved version that uses class own set methods
      */
-    public function __set($name, $value)
+    public function __set($attribute, $value)
     {
-        $name = ucfirst($name);
-        $name = "set".$name;
-        $this->$name($value);
+        $attribute = ucfirst($attribute);
+        $attribute = "set".$attribute;
+        $this->$attribute($value);
     }
 }

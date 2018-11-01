@@ -34,25 +34,25 @@ class ClientDao extends SingletonDao implements IClientDao
         }
         //------------//
 
-        $columns = "";
-        $values = "";
-        
-        $parameters = array_filter($client->getAll()); //get object attribute names 
-        array_pop($parameters);
-        array_pop($parameters);
-        //$parameters["idCreditCard"] = $client->getCreditCard()->getIdCreditCard(); //this should be in another method
-        $parameters["idUser"] = $idUser; 
+        try {
+            $columns = "";
+            $values = "";
+            
+            $parameters = array_filter($client->getAll()); //get object attribute names 
+            array_pop($parameters);
+            array_pop($parameters);
+            //$parameters["idCreditCard"] = $client->getCreditCard()->getIdCreditCard(); //this should be in another method
+            $parameters["idUser"] = $idUser; 
 
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
 
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
-
-        try { 
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+         
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
@@ -66,21 +66,21 @@ class ClientDao extends SingletonDao implements IClientDao
 
     private function addUser($user)
     {
-        $columns = "";
-        $values = "";
-        
-        $parameters = array_filter($user->getAll()); //get object attribute names 
+        try {
+            $columns = "";
+            $values = "";
+            
+            $parameters = array_filter($user->getAll()); //get object attribute names 
 
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
 
-        $query = "INSERT INTO " . $this->tableNameUser . " (".$columns.") VALUES (".$values.");";
-
-        try { 
+            $query = "INSERT INTO " . $this->tableNameUser . " (".$columns.") VALUES (".$values.");";
+         
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
@@ -92,95 +92,119 @@ class ClientDao extends SingletonDao implements IClientDao
         }
     }
 
-    public function getByID($id) 
+    public function getByID($idClient) 
     {   
-        $client = new Client();
-        $user = new User();
-        $creditCard = new CreditCard();
-
-        $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
-        array_pop($clientAttributes);
-        array_pop($clientAttributes);
-
-        $userAttributes = array_keys($user->getAll());
-
-        $creditCardAttributes = array_keys($creditCard->getAll());
-
-        $query = "SELECT *
-                FROM " . $this->tableName ." C
-                INNER JOIN ".$this->tableNameUser." U 
-                ON C.idUser = U.idUser
-                INNER JOIN ".$this->tableNameCreditCard." CC 
-                ON C.idCreditCard = CC.idCreditCard
-                WHERE ".$clientAttributes[0]." = ".$id." 
-                AND C.enabled = 1";
+        $parameters = get_defined_vars();
+        $client = null;
         
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $clientAttributes = array_keys(Client::getAttributes()); //get attribute names from object for use in __set
+            array_pop($clientAttributes);
+            array_pop($clientAttributes);
+
+            $userAttributes = array_keys(User::getAttributes());
+
+            $creditCardAttributes = array_keys(CreditCard::getAttributes());
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." C
+                    INNER JOIN ".$this->tableNameUser." U 
+                    ON C.idUser = U.idUser
+                    INNER JOIN ".$this->tableNameCreditCard." CC 
+                    ON C.idCreditCard = CC.idCreditCard
+                    WHERE ".$clientAttributes[0]." = :".key($parameters)." 
+                    AND C.enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query,$parameters);  
+        
+            if(lenght($resultSet)!=1){
+                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $client = new Client();
+                foreach ($clientAttributes as $value) { //auto fill object with magic function __set
+                    $client->__set($value, $row[$value]);
+                }
+                
+                $user = new User();
+                foreach ($userAttributes as $value) {
+                    $user->__set($value, $row[$value]);
+                }
+    
+                $client->setUser($user);
+                
+                $creditCard = new CreditCard();
+                foreach ($creditCardAttributes as $value) {
+                    $creditCard->__set($value, $row[$value]);
+                }
+    
+                $client->setCreditCard($creditCard);
+            } 
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
-
-        $row = reset($resultSet);
-   
-        foreach ($clientAttributes as $value) { //auto fill object with magic function __set
-            $client->__set($value, $row[$value]);
-        }
-
-        foreach ($userAttributes as $value) {
-            $user->__set($value, $row[$value]);
-        }
-
-        $client->setUser($user);
-
-        foreach ($creditCardAttributes as $value) {
-            $creditCard->__set($value, $row[$value]);
-        }
-
-        $client->setCreditCard($creditCard);
 
         return $client;
     }
 
     public function getByUserId($idUser)
-    {
-        $client = new Client();
-        $creditCard = new CreditCard();
+    {   
+        $parameters = get_defined_vars();
+        $client = null;
 
-        $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
-        array_pop($clientAttributes);
-        array_pop($clientAttributes);
-
-        $creditCardAttributes = array_keys($creditCard->getAll());
-
-        $query = "SELECT *
-                FROM " . $this->tableName ." C
-                INNER JOIN ".$this->tableNameCreditCard." CC 
-                ON C.idCreditCard = CC.idCreditCard
-                WHERE idUser = ".$idUser."  
-                AND C.enabled = 1";
-        
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $client = new Client();
+            $creditCard = new CreditCard();
+
+            $clientAttributes = array_keys(Client::getAttributes()); //get attribute names from object for use in __set
+            array_pop($clientAttributes);
+            array_pop($clientAttributes);
+
+            $creditCardAttributes = array_keys(CreditCard::getAttributes());
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." C
+                    INNER JOIN ".$this->tableNameCreditCard." CC 
+                    ON C.idCreditCard = CC.idCreditCard
+                    WHERE idUser = :".key($parameters)." 
+                    AND C.enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query,$parameters);  
+
+            if(lenght($resultSet)!=1){
+                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $client = new Client();
+                foreach ($clientAttributes as $value) { //auto fill object with magic function __set
+                    $client->__set($value, $row[$value]);
+                }
+
+                $user = new User();
+                foreach ($userAttributes as $value) {
+                    $user->__set($value, $row[$value]);
+                }
+
+                $client->setUser($user);
+
+                $creditCard = new CreditCard();
+                foreach ($creditCardAttributes as $value) {
+                    $creditCard->__set($value, $row[$value]);
+                }
+
+                $client->setCreditCard($creditCard);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
-
-        $row = reset($resultSet);
-   
-        foreach ($clientAttributes as $value) { //auto fill object with magic function __set
-            $client->__set($value, $row[$value]);
-        }
-
-        foreach ($userAttributes as $value) {
-            $user->__set($value, $row[$value]);
-        }
-
-        $client->setCreditCard($creditCard);
 
         return $client;
     }
@@ -188,53 +212,55 @@ class ClientDao extends SingletonDao implements IClientDao
     public function getAll()
     {
         $clientList = array();
-        $client = new Client();
-        $user = new User();
-        $creditCard = new CreditCard();
 
-        $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
-        array_pop($clientAttributes);
-        array_pop($clientAttributes);
-
-        $userAttributes = array_keys($user->getAll());
-
-        $creditCardAttributes = array_keys($creditCard->getAll());
-
-        $query = "SELECT *
-                FROM " . $this->tableName ." C
-                INNER JOIN ".$this->tableNameUser." U 
-                ON C.idUser = U.idUser
-                INNER JOIN ".$this->tableNameCreditCard." CC 
-                ON C.idCreditCard = CC.idCreditCard
-                WHERE ".$clientAttributes[0]." = ".$id." 
-                AND C.enabled = 1";
-        
         try {
-            $resultSet = $this->connection->Execute($query);  
+            $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
+            array_pop($clientAttributes);
+            array_pop($clientAttributes);
+
+            $userAttributes = array_keys($user->getAll());
+
+            $creditCardAttributes = array_keys($creditCard->getAll());
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." C
+                    INNER JOIN ".$this->tableNameUser." U 
+                    ON C.idUser = U.idUser
+                    INNER JOIN ".$this->tableNameCreditCard." CC 
+                    ON C.idCreditCard = CC.idCreditCard
+                    WHERE C.enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query); 
+
+            if(!empty($resultSet))
+            {
+                foreach ($resultSet as $row) {
+                    $client = new Client();
+                    foreach ($clientAttributes as $value) { //auto fill object with magic function __set
+                        $client->__set($value, $row[$value]);
+                    }
+
+                    $user = new User();
+                    foreach ($userAttributes as $value) {
+                        $user->__set($value, $row[$value]);
+                    }
+
+                    $client->setUser($user);
+
+                    $creditCard = new CreditCard();
+                    foreach ($creditCardAttributes as $value) {
+                        $creditCard->__set($value, $row[$value]);
+                    }
+
+                    $client->setCreditCard($creditCard);
+
+                    array_push($clientList, $client);
+                }
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-
-        foreach ($resultSet as $row) {
-            foreach ($clientAttributes as $value) { //auto fill object with magic function __set
-                $client->__set($value, $row[$value]);
-            }
-
-            foreach ($userAttributes as $value) {
-                $user->__set($value, $row[$value]);
-            }
-
-            $client->setUser($user);
-
-            foreach ($creditCardAttributes as $value) {
-                $creditCard->__set($value, $row[$value]);
-            }
-
-            $client->setCreditCard($creditCard);
-
-            array_push($clientList, $client);
         }
 
         return $clientList;
@@ -250,10 +276,15 @@ class ClientDao extends SingletonDao implements IClientDao
      */
     public function Delete(Client $client)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idClient = ".$client->getIdClient();
-
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            $parameters["idClient"] = $client->getIdClient();
+
+            $query = "UPDATE ".$this->tableName." 
+                SET enabled = 0 
+                WHERE idClient = :idClient";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
@@ -266,10 +297,13 @@ class ClientDao extends SingletonDao implements IClientDao
 
     public function lastInsertId()
     {
-        $query = "SELECT LAST_INSERT_ID()";
-
         try {
+            $query = "SELECT LAST_INSERT_ID()";
+
             $resultSet = $this->connection->Execute($query);
+
+            $row = reset($resultSet); //gives first object of array
+            $id = reset($row); //get value of previous first object
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
             return;
@@ -277,8 +311,6 @@ class ClientDao extends SingletonDao implements IClientDao
             throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
             return;
         }
-        $row = reset($resultSet); //gives first object of array
-        $id = reset($row); //get value of previous first object
 
         return $id;
     }
