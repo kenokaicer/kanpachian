@@ -15,12 +15,20 @@ class ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
         ),
+        'K' => 
+        array (
+            'Karriere\\JsonDecoder\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Karriere\\JsonDecoder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/karriere/json-decoder/src',
         ),
     );
 

@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Karriere\\JsonDecoder\\' => array($vendorDir . '/karriere/json-decoder/src'),
 );
