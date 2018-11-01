@@ -40,4 +40,10 @@
 
 	require "Views/Footer.php";
 
+	function test()
+	{
+	 require "Views/admin.php";
+	}
+
+
 ?>

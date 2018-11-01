@@ -17,6 +17,7 @@
 			require "Views/home.php";
 		}
 
+
 		public function getEventList()
 		{
 			try{ 

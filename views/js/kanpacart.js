@@ -41,5 +41,5 @@ Cart.prototype.print = function()
 	alert(cart.getProducts());
 }
 
-function test(){alert("test");};
+
 
