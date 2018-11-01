@@ -8,6 +8,11 @@
   </div>
 </div>
 
+<script>
+var cart = new Cart();
+</script>
+
+<button id="1" class="button primary"<img src="img/1.jpg" alt=""  onclick="cart.add(new Product(1,'Gato',200));">Demo</button>
 
 <article class="grid-container">
 
