@@ -8,7 +8,8 @@ class Json
      */
     public static function Serilize($list, $fileName)
     {
-        $string = "["; //start with [ and end with ] if an array is to be converted
+        //--Old way that works with toJson() methos when JsonSerializable wasn't wokring--//
+        /*$string = "["; //start with [ and end with ] if an array is to be converted
         $end = count($list);
 
         if ($end == 1) { //dirty way of serializing, as Serilaizable interface is not working
@@ -22,10 +23,12 @@ class Json
                 }
             }
             $string .= "]";
-        }
+        }*/
+        //--------------------------------------------------------------------------------//
+        $json = json_encode($list);
 
         $fp = fopen($fileName, 'w');
-        fwrite($fp, $string);
+        fwrite($fp, $json);
         fclose($fp);
     }
 
@@ -40,8 +43,13 @@ class Json
             return "";
         }
         $fp = fopen($fileName, 'r');
-        $string = fread($fp, filesize($fileName));
-        fclose($fp);
+        if(filesize($fileName)!=0){
+            $string = fread($fp, filesize($fileName));
+            fclose($fp);
+        }else{
+            $string = "";
+        }
+        
         return $string;
     }
 }

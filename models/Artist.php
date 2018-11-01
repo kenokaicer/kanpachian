@@ -1,8 +1,8 @@
 <?php
 namespace Models;
+use JsonSerializable as JsonSerializable;
 
-class Artist extends Attributes
-//implements JsonSerializable
+class Artist extends Attributes implements JsonSerializable
 {
     protected $idArtist;
     protected $name;
@@ -44,21 +44,21 @@ class Artist extends Attributes
         return $this;
     }
 
-    /*public function jsonSerialize(){ //si se puediera implementar interfaz JsonSerializable
-    return
-    //[
-    array(
-    'name'   => $this->getName(),
-    'lastname' => $this->getLastname()
-    );
-    //];
-    }*/
+    public function jsonSerialize(){ //si se puediera implementar interfaz JsonSerializable
+        /*return array( 
+            'idArtist' => $this->getIdArtist(),
+            'name'   => $this->getName(),
+            'lastname' => $this->getLastname()
+            );*/
+        return $this->getAll(); //This works instead of the previous array, previous lines left only to know what jsonSerialize expects
+    }
 
-    //The Bad //alternative to JsonSerializable interface
+    //The Bad //alternative to JsonSerializable interface, deprecated
     public function toJson() 
     {
         return json_encode(
             [
+                'idArtist' => $this->getIdArtist(),
                 'name' => $this->getName(),
                 'lastname' => $this->getLastname(),
             ]
