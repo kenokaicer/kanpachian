@@ -348,15 +348,17 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $seatTypeAttributes = array_keys($seatType->getAll());
 
+        $parameters["idTheater"] = $idTheater;
+
         $query = "SELECT * FROM " . $this->tableNameTheater . " T
             INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
             ON T.idTheater = STT.idTheater
             INNER JOIN " . $this->tableNameSeatType . " ST
             ON STT.idSeatType = ST.idSeatType
-            WHERE T.enabled = 1 AND T.idTheater = " . $idTheater;
+            WHERE T.enabled = 1 AND T.idTheater = :idTheater";
 
         try {
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query, $parameters);
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         } catch (Exception $ex) {
@@ -389,13 +391,15 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $artistAttributes = array_keys($artist->getAll());
 
+        $parameters["idEventByDate"] = $idEventByDate;
+
         $query = "SELECT * FROM " . $this->tableNameArtist . " A
         INNER JOIN " . $this->tableNameArtistEventByDate . " AED
         ON A.idArtist = AED.idArtist
-        WHERE A.enabled = 1 AND AED.idEventByDate = " . $idEventByDate;
+        WHERE A.enabled = 1 AND AED.idEventByDate = :idEventByDate";
 
         try {
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query, $parameters);
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",artist list query error: " . $ex->getMessage());
         } catch (Exception $ex) {

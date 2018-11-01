@@ -56,20 +56,22 @@ class ArtistDao extends SingletonDao implements IArtistDao
         }
     }
 
-    public function getByID($id)
+    public function getByID($idArtist)
     {   
-        $artist = new Artist();
-
-        $artistAttributes = array_keys($artist->getAll()); //get attributes names from object for use in __set
+        $parameters = get_defined_vars();
+        $artist = null;
+        
+        $artistAttributes = array_keys(Artist::getAttributes()); //get attributes names from object for use in __set
 
         $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$artistAttributes[0]." = ".$id;
+            " WHERE ".$artistAttributes[0]." = :".key($parameters);
         
         try {
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query,$parameters);
 
             foreach ($resultSet as $row) //loops returned rows
-            {               
+            {     
+                $artist = new Artist();          
                 foreach ($artistAttributes as $value) { //auto fill object with magic function __set
                     $artist->__set($value, $row[$value]);
                 }
