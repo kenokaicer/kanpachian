@@ -41,7 +41,6 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         $values = "";
 
         $parameters = array_filter($theater->getAll());
-        array_pop($parameters); //unset SeatsType
 
         foreach ($parameters as $key => $value) {
             $columns .= $key.",";
@@ -112,7 +111,6 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         $theater = new Theater();
 
         $theaterAttributes = array_keys($theater->getAll());
-        array_pop($theaterAttributes); //delete from attributes list the object array, as we don't have it yet
 
         $query = "SELECT * FROM " . $this->tableName." 
         WHERE ".$eventAttributes[0]." = ".$id." 
@@ -156,7 +154,6 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         }
         
         $theaterAttributes = array_keys($theater->getAll());
-        array_pop($theaterAttributes);
 
         foreach ($resultSet as $row){
             $theater = new Theater();

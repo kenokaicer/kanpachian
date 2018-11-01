@@ -96,12 +96,8 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $event = new Event();
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes); //delete object variables
 
         $eventAttributes = array_keys($event->getAll());
-        array_pop($eventAttributes);
 
         $categoryAttributes = array_keys($category->getAll());
 
@@ -161,12 +157,8 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $event = new Event();
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes); //delete object variables
 
         $eventAttributes = array_keys($event->getAll());
-        array_pop($eventAttributes);
 
         $categoryAttributes = array_keys($category->getAll());
 
@@ -232,12 +224,8 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $event = new Event();
 
         $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes);
-        array_pop($eventByDateAttributes); //delete object variables
 
         $eventAttributes = array_keys($event->getAll());
-        array_pop($eventAttributes);
 
         $categoryAttributes = array_keys($category->getAll());
 
@@ -344,7 +332,6 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $seatType = new SeatType();
 
         $theaterAttributes = array_keys($theater->getAll()); //get attribute names from object for use in __set
-        array_pop($theaterAttributes); //delete object variables
 
         $seatTypeAttributes = array_keys($seatType->getAll());
 
