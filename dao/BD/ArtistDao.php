@@ -63,13 +63,13 @@ class ArtistDao extends SingletonDao implements IArtistDao
         try {
             $artistAttributes = array_keys(Artist::getAttributes()); //get attributes names from object for use in __set
 
-            $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$artistAttributes[0]." = :".key($parameters)." 
-            AND Enabled = 1";
+            $query = "SELECT * FROM " . $this->tableName." 
+                    WHERE ".$artistAttributes[0]." = :".key($parameters)." 
+                    AND Enabled = 1";
         
             $resultSet = $this->connection->Execute($query,$parameters);
 
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -96,7 +96,8 @@ class ArtistDao extends SingletonDao implements IArtistDao
         $artistList = array();
 
         try{
-            $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
+            $query = "SELECT * FROM ".$this->tableName." 
+                    WHERE enabled = 1";
 
             $resultSet = $this->connection->Execute($query);
        
@@ -121,7 +122,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
         return $artistList;
     }
 
-    public function getAllArtitsByEventByDate($idEvent)
+    public function getAllArtitsByEventByDate($idEvent) //deprecated, not used
     {
         $artistList = array();
 
@@ -174,21 +175,27 @@ class ArtistDao extends SingletonDao implements IArtistDao
             foreach ($oldArtistArray as $key => $value) {
                 if ($key != "idArtist") {
                     if ($oldArtistArray[$key] != $artistArray[$key]) {
-                        $valuesToModify .= $key . " = " . "'" . $artistArray[$key] . "', ";
+                        $valuesToModify .= $key . " = " . ":".$key.", ";
+                        $parameters[$key] = $artistArray[$key];
                     }
                 }
             }
 
-            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+            if($valuesToModify != '')
+            {
+                $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-            $query = "UPDATE ".$this->tableName." 
-                SET ".$valuesToModify." 
-                WHERE idArtist = :idArtist";
-        
-            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                $query = "UPDATE ".$this->tableName." 
+                    SET ".$valuesToModify." 
+                    WHERE idArtist = :idArtist";
             
-            if($modifiedRows!=1){
-                throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                
+                if($modifiedRows!=1){
+                    throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                }
+            }else{
+                throw new Exception("No hay datos para modificar, ningún campo nuevo ingresado");
             }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());

@@ -60,7 +60,7 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         
             $resultSet = $this->connection->Execute($query);
 
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -130,21 +130,27 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
             foreach ($oldCreditCardArray as $key => $value) {
                 if ($key != "idCreditCard") {
                     if ($oldCreditCardArray[$key] != $creditCardArray[$key]) {
-                        $valuesToModify .= $key . " = " . "'" . $creditCardArray[$key] . "', ";
+                        $valuesToModify .= $key . " = " . ":".$key.", ";
+                        $parameters[$key] = $creditCardArray[$key];
                     }
                 }
             }
 
-            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+            if($valuesToModify != '')
+            {
+                $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-            $query = "UPDATE ".$this->tableName." 
-                SET ".$valuesToModify." 
-                WHERE idCreditCard = :idCreditCard";
-        
-            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                $query = "UPDATE ".$this->tableName." 
+                    SET ".$valuesToModify." 
+                    WHERE idCreditCard = :idCreditCard";
             
-            if($modifiedRows!=1){
-                throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                
+                if($modifiedRows!=1){
+                    throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                }
+            }else{
+                throw new Exception("No hay datos para modificar, ningún campo nuevo ingresado");
             }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());

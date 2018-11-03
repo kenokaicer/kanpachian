@@ -8,14 +8,15 @@ use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ITheaterDao as ITheaterDao;
 use Models\Theater as Theater;
-use Dao\BD\SeatTypeDao as SeatTypeDao;
+use Models\SeatType as SeatType;
 
 class TheaterDao extends SingletonDao implements ITheaterDao
 {
     private $connection;
     private $seatTypeDao;
     private $tableName = 'Theaters';
-    private $tableName2 = 'SeatTypes_x_Theater';
+    private $tableNameSeatType = 'SeatTypes';
+    private $tableNameSeatTypesTheater = 'SeatTypes_x_Theater';
 
     public function __construct(){
         $this->connection = Connection::getInstance();
@@ -29,20 +30,20 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         $columns = "";
         $values = "";
 
-        $parameters = array_filter($theater->getAll());
-
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
-
-        //---Add Theater---//
-
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
-
         try {
+            $parameters = array_filter($theater->getAll());
+
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
+
+            //---Add Theater---//
+
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
@@ -57,106 +58,113 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             
         //---Get ID of the Theater inserted---//
 
-        $query= "SELECT LAST_INSERT_ID()";
-
-        try {
-            $resultSet = $this->connection->Execute($query);  
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.", Error getting last insert id. ".$ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__.", Error getting last insert id. ".$ex->getMessage());
-            return;
-        }   
-        $row = reset($resultSet); //gives first object of array
-        $idTheater = reset($row); //get value of previous first object
+         $idTheater = $this->lastInsertId(); //get value of previous first object
 
         //---Insert each SeatType in a separate querry, N:N Table ---//
 
-        foreach ($theater->getSeatTypes() as $value) {
-            $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) VALUES (:idSeatType,:idTheater);";
-            
-            $parameters = array();
-            $parameters["idSeatType"] = $value->getIdSeatType();
-            $parameters["idTheater"] = $idTheater;
+        try {
+            foreach ($theater->getSeatTypes() as $value) {
+                $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) 
+                        VALUES (:idSeatType,:idTheater);";
+                
+                $parameters = array();
+                $parameters["idSeatType"] = $value->getIdSeatType();
+                $parameters["idTheater"] = $idTheater;
 
-            try {
                 $addedRows = $this->connection->executeNonQuery($query, $parameters);
+
                 if($addedRows!=1){
                     throw new Exception("Number of rows added ".$addedRows.", expected 1, in SeatType");
                 }
-            } catch (PDOException $ex) {
-                throw new Exception (__METHOD__.", Error inserting SeatType. ".$ex->getMessage());
-                return;
-            } catch (Exception $ex) {
-                throw new Exception (__METHOD__.", Error inserting SeatType. ".$ex->getMessage());
-                return;
             }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__.", Error inserting SeatType. ".$ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__.", Error inserting SeatType. ".$ex->getMessage());
+            return;
         }
     }
 
-    public function getByID($id){
-        $this->seatTypeDao = SeatTypeDao::getInstance();
-        $theater = new Theater();
-
-        $theaterAttributes = array_keys($theater->getAll());
-
-        $query = "SELECT * FROM " . $this->tableName." 
-        WHERE ".$eventAttributes[0]." = ".$id." 
-        AND enabled = 1";
+    public function getByID($idTheater){
+        $parameters = get_defined_vars();
 
         try {
-            $resultSet = $this->connection->Execute($query);
+            $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
+
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableName . " T
+                    INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
+                    ON T.idTheater = STT.idTheater
+                    INNER JOIN " . $this->tableNameSeatType . " ST
+                    ON STT.idSeatType = ST.idSeatType
+                    WHERE STT.".$theaterAttributes[0]." = :".key($parameters)." 
+                    AND T.enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            foreach ($resultSet as $row) {
+                if (!isset($theater)) { //load theater only on first loop
+                    $theater = new Theater();
+                    foreach ($theaterAttributes as $value) {
+                        $theater->__set($value, $row[$value]);
+                    }
+                }
+
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                $theater->addSeatType($seatType);
+            }
         } catch (PDOException $ex) {
-            throw new Exception (__METHOD__." error. ".$ex->getMessage());
-            return;
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         } catch (Exception $ex) {
-            throw new Exception (__METHOD__." error. ".$ex->getMessage());
-            return;
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         }
-
-        $row = reset($resultSet);
-
-        foreach ($theaterAttributes as $value) {
-            $theater->__set($value, $row[$value]);
-        }
-
-        $seatTypesList = $this->seatTypeDao->getAllByTheaterId($theater->getIdTheater());
-        $theater->setSeatTypes($seatTypesList);
 
         return $theater;
     }
     
-    public function getAll(){
-        $this->seatTypeDao = SeatTypeDao::getInstance();
+    public function getAll()
+    {
         $theaterList = array();
-        $theater = new Theater();
-
-        $query = "SELECT * FROM " . $this->tableName." WHERE enabled = 1";
 
         try {
-            $resultSet = $this->connection->Execute($query);
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__." error. ".$ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__." error. ".$ex->getMessage());
-        }
+            $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
+
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableName . " T
+                    INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
+                    ON T.idTheater = STT.idTheater
+                    INNER JOIN " . $this->tableNameSeatType . " ST
+                    ON STT.idSeatType = ST.idSeatType
+                    WHERE T.enabled = 1";
         
-        $theaterAttributes = array_keys($theater->getAll());
+            $resultSet = $this->connection->Execute($query);
 
-        foreach ($resultSet as $row){
-            $theater = new Theater();
-            
-            foreach ($theaterAttributes as $value) {
-                $theater->__set($value, $row[$value]);
+            foreach ($resultSet as $row) {
+                if (($theater->getIdTheater() != $row["idTheater"]) || !isset($theater)) { //load theater only on first loop
+                    $theater = new Theater();
+                    foreach ($theaterAttributes as $value) {
+                        $theater->__set($value, $row[$value]);
+                    }
+                }
+
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                $theater->addSeatType($seatType);
             }
-
-            array_push($theaterList, $theater);
-        }
-
-        foreach ($theaterList as $theater) {
-            $seatTypesList = $this->seatTypeDao->getAllByTheaterId($theater->getIdTheater());
-            $theater->setSeatTypes($seatTypesList);
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         }
 
         return $theaterList;
@@ -164,11 +172,20 @@ class TheaterDao extends SingletonDao implements ITheaterDao
 
     public function Update(Theater $oldTheater, Theater $newTheater){}
 
-    public function Delete(Theater $theater){
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idTheater = ".$theater->getIdArtist();
-
+    /**
+     * Logical Delete
+     */
+    public function Delete(Theater $theater)
+    {
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            $parameters["idTheater"] = $theater->getIdTheater();
+
+            $query = "UPDATE ".$this->tableName." 
+                SET enabled = 0 
+                WHERE idTheater = :idTheater";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
@@ -177,5 +194,25 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
+    }
+
+    public function lastInsertId()
+    {
+        try {
+            $query = "SELECT LAST_INSERT_ID()";
+
+            $resultSet = $this->connection->Execute($query);
+
+            $row = reset($resultSet); //gives first object of array
+            $id = reset($row); //get value of previous first object
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        }
+
+        return $id;
     }
 }

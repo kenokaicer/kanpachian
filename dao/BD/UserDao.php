@@ -59,7 +59,7 @@ class UserDao extends SingletonDao implements IUserDao
         
             $resultSet = $this->connection->Execute($query, $parameters);
 
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -161,21 +161,27 @@ class UserDao extends SingletonDao implements IUserDao
             foreach ($oldUserArray as $key => $value) {
                 if ($key != "idUser") {
                     if ($oldUserArray[$key] != $userArray[$key]) {
-                        $valuesToModify .= $key . " = " . "'" . $userArray[$key] . "', ";
+                        $valuesToModify .= $key . " = " . ":".$key.", ";
+                        $parameters[$key] = $userArray[$key];
                     }
                 }
             }
 
-            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+            if($valuesToModify != '')
+            {
+                $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-            $query = "UPDATE ".$this->tableName." 
-                SET ".$valuesToModify." 
-                WHERE idUser = :idUser";
-        
-            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                $query = "UPDATE ".$this->tableName." 
+                    SET ".$valuesToModify." 
+                    WHERE idUser = :idUser";
             
-            if($modifiedRows!=1){
-                throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                
+                if($modifiedRows!=1){
+                    throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                }
+            }else{
+                throw new Exception("No hay datos para modificar, ningún campo nuevo ingresado");
             }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());

@@ -68,7 +68,7 @@ class EventDao extends SingletonDao implements IEventDao
             
             $resultSet = $this->connection->Execute($query,$parameters);  
 
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             

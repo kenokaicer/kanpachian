@@ -80,7 +80,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
                     
             $resultSet = $this->connection->Execute($query,$parameters);
         
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -260,7 +260,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         
             $resultSet = $this->connection->Execute($query);
 
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -305,7 +305,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
     public function getTheaterByID($idTheater)
     {
         $parameters = get_defined_vars();
-        $theater = null;
 
         try {
             $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
@@ -323,7 +322,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             $resultSet = $this->connection->Execute($query, $parameters);
 
             foreach ($resultSet as $row) {
-                if ($theater->getIdTheater() != $idTheater) { //load theater only on first loop
+                if (!isset($theater)) { //load theater only on first loop
                     $theater = new Theater();
                     foreach ($theaterAttributes as $value) {
                         $theater->__set($value, $row[$value]);

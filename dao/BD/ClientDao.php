@@ -39,7 +39,6 @@ class ClientDao extends SingletonDao implements IClientDao
             $values = "";
             
             $parameters = array_filter(Client::getAttributes()); //get object attribute names 
-            //$parameters["idCreditCard"] = $client->getCreditCard()->getIdCreditCard(); //this should be in another method
             $parameters["idUser"] = $idUser; 
 
             foreach ($parameters as $key => $value) {
@@ -113,7 +112,7 @@ class ClientDao extends SingletonDao implements IClientDao
         
             $resultSet = $this->connection->Execute($query,$parameters);  
         
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -153,9 +152,6 @@ class ClientDao extends SingletonDao implements IClientDao
         $client = null;
 
         try {
-            $client = new Client();
-            $creditCard = new CreditCard();
-
             $clientAttributes = array_keys(Client::getAttributes()); //get attribute names from object for use in __set
 
             $creditCardAttributes = array_keys(CreditCard::getAttributes());
@@ -169,7 +165,7 @@ class ClientDao extends SingletonDao implements IClientDao
         
             $resultSet = $this->connection->Execute($query,$parameters);  
 
-            if(lenght($resultSet)!=1){
+            if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
             
@@ -208,11 +204,11 @@ class ClientDao extends SingletonDao implements IClientDao
         $clientList = array();
 
         try {
-            $clientAttributes = array_keys($client->getAll()); //get attribute names from object for use in __set
+            $clientAttributes = array_keys(Client::getAttributes()); //get attribute names from object for use in __set
 
-            $userAttributes = array_keys($user->getAll());
+            $userAttributes = array_keys(User::getAttributes());
 
-            $creditCardAttributes = array_keys($creditCard->getAll());
+            $creditCardAttributes = array_keys(CreditCard::getAttributes());
 
             $query = "SELECT *
                     FROM " . $this->tableName ." C
@@ -224,30 +220,27 @@ class ClientDao extends SingletonDao implements IClientDao
         
             $resultSet = $this->connection->Execute($query); 
 
-            if(!empty($resultSet))
-            {
-                foreach ($resultSet as $row) {
-                    $client = new Client();
-                    foreach ($clientAttributes as $value) { //auto fill object with magic function __set
-                        $client->__set($value, $row[$value]);
-                    }
-
-                    $user = new User();
-                    foreach ($userAttributes as $value) {
-                        $user->__set($value, $row[$value]);
-                    }
-
-                    $client->setUser($user);
-
-                    $creditCard = new CreditCard();
-                    foreach ($creditCardAttributes as $value) {
-                        $creditCard->__set($value, $row[$value]);
-                    }
-
-                    $client->setCreditCard($creditCard);
-
-                    array_push($clientList, $client);
+            foreach ($resultSet as $row) {
+                $client = new Client();
+                foreach ($clientAttributes as $value) { //auto fill object with magic function __set
+                    $client->__set($value, $row[$value]);
                 }
+
+                $user = new User();
+                foreach ($userAttributes as $value) {
+                    $user->__set($value, $row[$value]);
+                }
+
+                $client->setUser($user);
+
+                $creditCard = new CreditCard();
+                foreach ($creditCardAttributes as $value) {
+                    $creditCard->__set($value, $row[$value]);
+                }
+
+                $client->setCreditCard($creditCard);
+
+                array_push($clientList, $client);
             }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
@@ -305,5 +298,48 @@ class ClientDao extends SingletonDao implements IClientDao
         }
 
         return $id;
+    }
+
+    public function addCreditCardByClientID($idClient, CreditCard $creditCard)
+    {
+        $columns = "";
+        $values = "";
+        
+        try {
+            $parameters = array_filter($creditCard->getAll());
+
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
+
+            $query = "INSERT INTO ".$this->tableNameCreditCard." (".$columns.") VALUES (".$values.");";
+
+            $addedRows = $this->connection->executeNonQuery($query, $parameters);
+            if($addedRows!=1){
+                throw new Exception("Number of rows added ".$addedRows.", expected 1");
+            }
+
+            $parameters = array();
+
+            $parameters["idCreditCard"] = $this->lastInsertId();
+            $parameters["idClient"] = $idClient;
+
+            $query = "UPDATE ".$this->tableName." 
+                    SET idCreditCard = :idCreditCard
+                    WHERE idClient = :idClient";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+        
+            if($modifiedRows!=1){
+                throw new Exception("Number of rows modified ".$modifiedRows.", expected 1");
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
     }
 }

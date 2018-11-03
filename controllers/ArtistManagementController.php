@@ -63,7 +63,7 @@ class ArtistManagementController
         require VIEWS_PATH.$this->folder."ArtistManagementList.php";
     }
 
-    public function deleteArtist($id)
+    public function deleteArtist($idArtist)
     {
         $artist = $this->artistDao->getByID($idArtist);
 
