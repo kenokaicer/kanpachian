@@ -45,7 +45,7 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         }
     }
 
-    public function getByID($idClient)
+    public function getById($idClient)
     {   
         $parameters = get_defined_vars();
         $creditCard = null;

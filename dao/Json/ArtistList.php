@@ -57,7 +57,7 @@ class ArtistList
         return $artists;
     }
 
-    public function getByID($idArtist)
+    public function getById($idArtist)
     {
         $artists = $this->getAll();
         $returnedArtist = null;

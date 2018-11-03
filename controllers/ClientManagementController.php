@@ -49,7 +49,7 @@ class ClientManagementController
         }
 
         try{
-            $user = $this->userDao->getByID($idUser);
+            $user = $this->userDao->getById($idUser);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el usuario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
             $this->index();
@@ -79,7 +79,7 @@ class ClientManagementController
 
     public function deleteClient($id)
     {
-        $client = $this->clientDao->getByID($id);
+        $client = $this->clientDao->getById($id);
 
         try{
             $this->clientDao->Delete($client);
@@ -97,7 +97,7 @@ class ClientManagementController
      */
     public function viewEditClient($idClient)
     {   
-        $oldClient = $this->clientDao->getByID($idClient);
+        $oldClient = $this->clientDao->getById($idClient);
 
         require VIEWS_PATH.$this->folder."ClientManagementEdit.php";
     }
@@ -108,7 +108,7 @@ class ClientManagementController
      */
     public function editClient($oldIdClient, $client)
     {
-        $oldClient = $this->clientDao->getByID($oldIdClient);
+        $oldClient = $this->clientDao->getById($oldIdClient);
         $newClient = new Client();
 
         $args = func_get_args();

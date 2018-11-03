@@ -89,7 +89,7 @@ class ClientDao extends SingletonDao implements IClientDao
         }
     }
 
-    public function getByID($idClient) 
+    public function getById($idClient) 
     {   
         $parameters = get_defined_vars();
         $client = null;
@@ -283,7 +283,7 @@ class ClientDao extends SingletonDao implements IClientDao
     public function lastInsertId()
     {
         try {
-            $query = "SELECT LAST_INSERT_ID()";
+            $query = "SELECT LAST_INSERT_Id()";
 
             $resultSet = $this->connection->Execute($query);
 
@@ -300,7 +300,7 @@ class ClientDao extends SingletonDao implements IClientDao
         return $id;
     }
 
-    public function addCreditCardByClientID($idClient, CreditCard $creditCard)
+    public function addCreditCardByClientId($idClient, CreditCard $creditCard)
     {
         $columns = "";
         $values = "";

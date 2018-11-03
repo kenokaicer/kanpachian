@@ -62,7 +62,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
     public function Retrieve($var)
     {}
 
-    private function retrieveByID($id) //Deprecated, no longer used
+    private function retrieveById($id) //Deprecated, no longer used
     {
         $query = "SELECT * FROM ".$this->table.
             " WHERE idArtist = ".$id;

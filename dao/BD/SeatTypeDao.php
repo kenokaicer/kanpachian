@@ -47,7 +47,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         }
     }
 
-    public function getByID($idSeatType)
+    public function getById($idSeatType)
     {   
         $parameters = get_defined_vars();
         $seatType = null;

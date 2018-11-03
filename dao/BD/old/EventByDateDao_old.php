@@ -58,7 +58,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         }
     }
 
-    public function getByID($id) //right now not returning eventByDatesByDate
+    public function getById($id) //right now not returning eventByDatesByDate
     {   
         $eventByDate = new EventByDate();
 
@@ -83,7 +83,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         }
 
         try{
-            $event = EventDao::getInstance()->getByID($row["idEvent"]);
+            $event = EventDao::getInstance()->getById($row["idEvent"]);
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__.",event query error: ".$ex->getMessage());
         } catch (Exception $ex) {
@@ -93,7 +93,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         $eventByDate->setEvent($event);
 
         try{
-            $theater = TheaterDao::getInstance()->getByID($row["idTheater"]);
+            $theater = TheaterDao::getInstance()->getById($row["idTheater"]);
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__.",theater query error: ".$ex->getMessage());
         } catch (Exception $ex) {
@@ -148,7 +148,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         foreach ($eventByDateList as $value) {
             try{
-                $event = EventDao::getInstance()->getByID($row["idEvent"]);
+                $event = EventDao::getInstance()->getById($row["idEvent"]);
             } catch (PDOException $ex) {
                 throw new Exception (__METHOD__.",event query error: ".$ex->getMessage());
             } catch (Exception $ex) {
@@ -158,7 +158,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
             $eventByDate->setEvent($event);
 
             try{
-                $theater = TheaterDao::getInstance()->getByID($row["idTheater"]);
+                $theater = TheaterDao::getInstance()->getById($row["idTheater"]);
             } catch (PDOException $ex) {
                 throw new Exception (__METHOD__.",theater query error: ".$ex->getMessage());
             } catch (Exception $ex) {

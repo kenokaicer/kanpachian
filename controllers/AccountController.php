@@ -99,7 +99,7 @@ class AccountController
 
                 $this->clientDao->add($client);
 
-                $this->sessionStart($user->getUsername, $password); //this needs to be done, to get userID in the object
+                $this->sessionStart($user->getUsername, $password); //this needs to be done, to get userId in the object
             }else {
                 echo "<script> alert('El usuario ya existe');</script>";
                 $this->index();

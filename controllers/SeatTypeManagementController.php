@@ -63,7 +63,7 @@ class SeatTypeManagementController
 
     public function deleteSeatType($id)
     {
-        $seatType = $this->seatTypeDao->getByID($idSeatType);
+        $seatType = $this->seatTypeDao->getById($idSeatType);
 
         try{
             $this->seatTypeDao->Delete($seatType);
@@ -81,7 +81,7 @@ class SeatTypeManagementController
      */
     public function viewEditSeatType($idSeatType)
     {   
-        $oldSeatType = $this->seatTypeDao->getByID($idSeatType);
+        $oldSeatType = $this->seatTypeDao->getById($idSeatType);
 
         require VIEWS_PATH.$this->folder."SeatTypeManagementEdit.php";
     }
@@ -92,7 +92,7 @@ class SeatTypeManagementController
      */
     public function editSeatType($oldIdSeatType, $name, $description)
     {
-        $oldSeatType = $this->seatTypeDao->getByID($oldIdSeatType);
+        $oldSeatType = $this->seatTypeDao->getById($oldIdSeatType);
         $newSeatType = new SeatType();
 
         $args = func_get_args();

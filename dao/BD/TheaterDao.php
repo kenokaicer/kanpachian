@@ -56,7 +56,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             return;
         }
             
-        //---Get ID of the Theater inserted---//
+        //---Get Id of the Theater inserted---//
 
          $idTheater = $this->lastInsertId(); //get value of previous first object
 
@@ -86,7 +86,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         }
     }
 
-    public function getByID($idTheater){
+    public function getById($idTheater){
         $parameters = get_defined_vars();
 
         try {
@@ -199,7 +199,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
     public function lastInsertId()
     {
         try {
-            $query = "SELECT LAST_INSERT_ID()";
+            $query = "SELECT LAST_INSERT_Id()";
 
             $resultSet = $this->connection->Execute($query);
 

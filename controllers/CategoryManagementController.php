@@ -63,7 +63,7 @@ class CategoryManagementController
 
     public function deleteCategory($idCategory)
     {
-        $category = $this->categoryDao->getByID($idCategory);
+        $category = $this->categoryDao->getById($idCategory);
 
         try{
             $this->categoryDao->Delete($category);
@@ -81,7 +81,7 @@ class CategoryManagementController
      */
     public function viewEditCategory($idCategory)
     {   
-        $oldCategory = $this->categoryDao->getByID($idCategory);
+        $oldCategory = $this->categoryDao->getById($idCategory);
 
         require VIEWS_PATH.$this->folder."CategoryManagementEdit.php";
     }
@@ -92,7 +92,7 @@ class CategoryManagementController
      */
     public function editCategory($oldIdCategory, $category)
     {
-        $oldCategory = $this->categoryDao->getByID($oldIdCategory);
+        $oldCategory = $this->categoryDao->getById($oldIdCategory);
         $newCategory = new Category();
 
         $args = func_get_args();

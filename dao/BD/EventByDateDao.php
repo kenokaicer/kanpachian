@@ -62,7 +62,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
             throw new Exception(__METHOD__ . " error: " . $ex->getMessage());
         }
 
-        //---Get ID of the EventByDate inserted---//
+        //---Get Id of the EventByDate inserted---//
 
         $idEventByDate = $this->lastInsertId();
 
@@ -92,7 +92,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         }
     }
 
-    public function getByID($idEventByDate)
+    public function getById($idEventByDate)
     {
         $parameters = get_defined_vars();
         $eventByDate = null;
@@ -142,13 +142,13 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         //---Get Theater---//
 
-        $theater = $this->getTheaterByID($row["idTheater"]);
+        $theater = $this->getTheaterById($row["idTheater"]);
 
         $eventByDate->setTheater($theater);
 
         //---Get Artists---//
 
-        $artistsList = $this->getArtistsByEventByDateID($eventByDate->getIdEventByDate());
+        $artistsList = $this->getArtistsByEventByDateId($eventByDate->getIdEventByDate());
 
         $eventByDate->setArtists($artistsList);
 
@@ -196,13 +196,13 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
                 //---Get theater and its SeatTypes---//
 
-                $theater = $this->getTheaterByID($row["idTheater"]);
+                $theater = $this->getTheaterById($row["idTheater"]);
                 
                 $eventByDate->setTheater($theater);
 
                 //---Get Artists---//
 
-                $artistsList = $this->getArtistsByEventByDateID($row["idEventByDate"]);
+                $artistsList = $this->getArtistsByEventByDateId($row["idEventByDate"]);
 
                 $eventByDate->setArtists($artistsList);
 
@@ -251,7 +251,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     public function lastInsertId()
     {
         try {
-            $query = "SELECT LAST_INSERT_ID()";
+            $query = "SELECT LAST_INSERT_Id()";
 
             $resultSet = $this->connection->Execute($query);
 
@@ -268,7 +268,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         return $id;
     }
 
-    public function getByEventID($idEvent)
+    public function getByEventId($idEvent)
     {
         $parameters = get_defined_vars();
         $eventByDateList = array();
@@ -311,13 +311,13 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
        
                 //---Get theater and its SeatTypes---//
 
-                $theater = $this->getTheaterByID($row["idTheater"]);
+                $theater = $this->getTheaterById($row["idTheater"]);
                 
                 $eventByDate->setTheater($theater);
 
                 //---Get Artists---//
 
-                $artistsList = $this->getArtistsByEventByDateID($row["idEventByDate"]);
+                $artistsList = $this->getArtistsByEventByDateId($row["idEventByDate"]);
 
                 $eventByDate->setArtists($artistsList);
 
@@ -332,7 +332,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         return $eventByDateList;
     }
 
-    public function getTheaterByID($idTheater)
+    public function getTheaterById($idTheater)
     {
         $parameters = get_defined_vars();
 
@@ -375,7 +375,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         return $theater;
     }
 
-    public function getArtistsByEventByDateID($idEventByDate)
+    public function getArtistsByEventByDateId($idEventByDate)
     {
         $parameters = get_defined_vars();
         $artistsList = array();

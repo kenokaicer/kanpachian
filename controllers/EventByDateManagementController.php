@@ -65,8 +65,8 @@ class EventByDateManagementController
         $eventByDate->setDate($date);
 
         try{
-            $theater = $this->theaterDao->getByID($idTheater);
-            $event = $this->eventDao->getByID($idEvent);
+            $theater = $this->theaterDao->getById($idTheater);
+            $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
             $this->index();
@@ -81,7 +81,7 @@ class EventByDateManagementController
 
         foreach ($idArtistList as $idArtist) {
             try{
-                $artist = $this->artistDao->getByID($idArtist);
+                $artist = $this->artistDao->getById($idArtist);
             }catch (Exception $ex){
                 echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
                 $this->index();
@@ -114,7 +114,7 @@ class EventByDateManagementController
     public function eventByDateList2($idEvent)
     {
         try{
-            $eventByDateList = $this->eventByDateDao->getByEventID($idEvent);//get by Event
+            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);//get by Event
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
@@ -124,7 +124,7 @@ class EventByDateManagementController
 
     public function deleteEventByDate($id)
     {
-        $eventByDate = $this->eventByDateDao->getByID($idEventByDate);
+        $eventByDate = $this->eventByDateDao->getById($idEventByDate);
 
         try{
             $this->eventByDateDao->Delete($eventByDate);
@@ -142,7 +142,7 @@ class EventByDateManagementController
      */
     public function viewEditEventByDate($idEventByDate)
     {   
-        $oldEventByDate = $this->eventByDateDao->getByID($idEventByDate);
+        $oldEventByDate = $this->eventByDateDao->getById($idEventByDate);
 
         require VIEWS_PATH.$this->folder."EventByDateManagementEdit.php";
     }
@@ -153,7 +153,7 @@ class EventByDateManagementController
      */
     public function editEventByDate($oldIdEventByDate, $eventByDate)
     {
-        $oldEventByDate = $this->eventByDateDao->getByID($oldIdEventByDate);
+        $oldEventByDate = $this->eventByDateDao->getById($oldIdEventByDate);
         $newEventByDate = new EventByDate();
 
         $args = func_get_args();

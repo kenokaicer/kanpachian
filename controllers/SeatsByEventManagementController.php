@@ -61,7 +61,7 @@ class SeatsByEventManagementController
         //-----------------------
 
         try{
-            $eventByDate = $this->eventByDateDao->getByID($eventByDateId);
+            $eventByDate = $this->eventByDateDao->getById($eventByDateId);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
             $this->index();
@@ -69,7 +69,7 @@ class SeatsByEventManagementController
         
         foreach ($seatTypeIdList as $seatTypeIdItem) {
             try{
-                $seatType = $this->seatTypeDao->getByID($seatTypeIdItem);
+                $seatType = $this->seatTypeDao->getById($seatTypeIdItem);
             }catch (Exception $ex){
                 echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
                 $this->index();
@@ -113,7 +113,7 @@ class SeatsByEventManagementController
     public function seatsByEventList2($idEvent)
     {
         try{
-            $eventByDateList = $this->eventByDateDao->getByEventID($idEvent);//get by Event
+            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);//get by Event
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
@@ -124,7 +124,7 @@ class SeatsByEventManagementController
     public function seatsByEventList3($idEventByDate)
     {
         try{
-            $seatsByEventList = $this->seatsByEventDao->getByEventByDateID($idEventByDate);
+            $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate);
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
         }
@@ -134,7 +134,7 @@ class SeatsByEventManagementController
 
     public function deleteSeatsByEvent($id)
     {
-        $seatsByEvent = $this->seatsByEventDao->getByID($idSeatsByEvent);
+        $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
 
         try{
             $this->seatsByEventDao->Delete($seatsByEvent);
@@ -152,7 +152,7 @@ class SeatsByEventManagementController
      */
     public function viewEditSeatsByEvent($idSeatsByEvent)
     {   
-        $oldSeatsByEvent = $this->seatsByEventDao->getByID($idSeatsByEvent);
+        $oldSeatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
 
         require VIEWS_PATH.$this->folder."SeatsByEventManagementEdit.php";
     }
@@ -163,7 +163,7 @@ class SeatsByEventManagementController
      */
     public function editSeatsByEvent($oldIdSeatsByEvent, $seatsByEvent)
     {
-        $oldSeatsByEvent = $this->seatsByEventDao->getByID($oldIdSeatsByEvent);
+        $oldSeatsByEvent = $this->seatsByEventDao->getById($oldIdSeatsByEvent);
         $newSeatsByEvent = new SeatsByEvent();
 
         $args = func_get_args();

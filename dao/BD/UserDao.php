@@ -45,7 +45,7 @@ class UserDao extends SingletonDao implements IUserDao
         }
     }
 
-    public function getByID($idUser)
+    public function getById($idUser)
     {   
         $parameters = get_defined_vars();
         $user = null;

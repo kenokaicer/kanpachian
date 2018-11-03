@@ -32,7 +32,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             echo "<script> alert('No se pudo agregar el teatro, codigo de error: " . str_replace("'","",$e->getMessage()) . "');</script>";
         }
         	
-        $querry= "SELECT LAST_INSERT_ID()";
+        $querry= "SELECT LAST_INSERT_Id()";
         $sentence = $pdo_connection->prepare($querry);
 
         try {

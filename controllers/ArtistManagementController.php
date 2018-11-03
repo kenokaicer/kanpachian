@@ -65,7 +65,7 @@ class ArtistManagementController
 
     public function deleteArtist($idArtist)
     {
-        $artist = $this->artistDao->getByID($idArtist);
+        $artist = $this->artistDao->getById($idArtist);
 
         try{
             $this->artistDao->Delete($artist);
@@ -83,7 +83,7 @@ class ArtistManagementController
      */
     public function viewEditArtist($idArtist)
     {   
-        $oldArtist = $this->artistDao->getByID($idArtist);
+        $oldArtist = $this->artistDao->getById($idArtist);
 
         require VIEWS_PATH.$this->folder."ArtistManagementEdit.php";
     }
@@ -94,7 +94,7 @@ class ArtistManagementController
      */
     public function editArtist($oldIdArtist, $name, $lastname)
     {
-        $oldArtist = $this->artistDao->getByID($oldIdArtist);
+        $oldArtist = $this->artistDao->getById($oldIdArtist);
         $newArtist = new Artist();
 
         $args = func_get_args();

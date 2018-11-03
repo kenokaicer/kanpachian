@@ -55,7 +55,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
         }
     }
 
-    public function getByID($idArtist)
+    public function getById($idArtist)
     {   
         $parameters = get_defined_vars();
         $artist = null;

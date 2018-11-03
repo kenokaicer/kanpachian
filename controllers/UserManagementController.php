@@ -65,7 +65,7 @@ class UserManagementController
 
     public function deleteUser($id)
     {
-        $user = $this->userDao->getByID($idUser);
+        $user = $this->userDao->getById($idUser);
 
         try{
             $this->userDao->Delete($user);
@@ -83,7 +83,7 @@ class UserManagementController
      */
     public function viewEditUser($idUser)
     {   
-        $oldUser = $this->userDao->getByID($idUser);
+        $oldUser = $this->userDao->getById($idUser);
         $roles = Role::getConstants();
 
         require VIEWS_PATH.$this->folder."UserManagementEdit.php";
@@ -95,7 +95,7 @@ class UserManagementController
      */
     public function editUser($oldIdUser, $user)
     {
-        $oldUser = $this->userDao->getByID($oldIdUser);
+        $oldUser = $this->userDao->getById($oldIdUser);
         $newUser = new User();
 
         $args = func_get_args();

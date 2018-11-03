@@ -49,7 +49,7 @@ class EventDao extends SingletonDao implements IEventDao
         }
     }
 
-    public function getByID($id)
+    public function getById($id)
     {   
         $parameters = get_defined_vars();
         $event = null;

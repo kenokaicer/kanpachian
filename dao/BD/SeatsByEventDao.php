@@ -62,7 +62,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         }
     }
 
-    public function getByID($id)
+    public function getById($id)
     {   
         $parameters = get_defined_vars();
         $seatsByEvent = null;
@@ -100,7 +100,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //Get EventByDate
 
-                $eventByDate = $this->getEventByDateByID($row["idEventByDate"]);
+                $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
 
                 $seatsByEvent->setEventByDate($eventByDate);
             }
@@ -113,7 +113,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         return $seatsByEvent;
     }
 
-    public function getByEventByDateID($idEventByDate)
+    public function getByEventByDateId($idEventByDate)
     {
         $parameters = get_defined_vars();
         $seatByEventList = array();
@@ -147,7 +147,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //Get EventByDate
 
-                $eventByDate = $this->getEventByDateByID($row["idEventByDate"]);
+                $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
 
                 $seatsByEvent->setEventByDate($eventByDate);
 
@@ -194,7 +194,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //Get EventByDate
 
-                $eventByDate = $this->getEventByDateByID($row["idEventByDate"]);
+                $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
 
                 $seatsByEvent->setEventByDate($eventByDate);
 
@@ -238,7 +238,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         }
     }
 
-    public function getEventByDateByID($idEventByDate)
+    public function getEventByDateById($idEventByDate)
     {
         $parameters = get_defined_vars();
         $eventByDate = null;
@@ -283,13 +283,13 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //---Get Theater---//
 
-                $theater = $this->getTheaterByID($row["idTheater"]);
+                $theater = $this->getTheaterById($row["idTheater"]);
 
                 $eventByDate->setTheater($theater);
 
                 //---Get Artists---//
 
-                $artistsList = $this->getArtistsByEventByDateID($eventByDate->getIdEventByDate());
+                $artistsList = $this->getArtistsByEventByDateId($eventByDate->getIdEventByDate());
 
                 $eventByDate->setArtists($artistsList);
             }
@@ -302,7 +302,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         return $eventByDate;
     }
 
-    public function getTheaterByID($idTheater)
+    public function getTheaterById($idTheater)
     {
         $parameters = get_defined_vars();
 
@@ -345,7 +345,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         return $theater;
     }
 
-    public function getArtistsByEventByDateID($idEventByDate)
+    public function getArtistsByEventByDateId($idEventByDate)
     {
         $parameters = get_defined_vars();
         $artistsList = array();

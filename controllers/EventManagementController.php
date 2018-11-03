@@ -49,7 +49,7 @@ class EventManagementController
         }
 
         try{
-            $category = $this->categoryDao->getByID($idCategory);
+            $category = $this->categoryDao->getById($idCategory);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
             $this->index();
@@ -79,7 +79,7 @@ class EventManagementController
 
     public function deleteEvent($id)
     {
-        $event = $this->eventDao->getByID($id);
+        $event = $this->eventDao->getById($id);
 
         try{
             $this->eventDao->Delete($event);
@@ -97,7 +97,7 @@ class EventManagementController
      */
     public function viewEditEvent($idEvent)
     {   
-        $oldEvent = $this->eventDao->getByID($idEvent);
+        $oldEvent = $this->eventDao->getById($idEvent);
 
         require VIEWS_PATH.$this->folder."EventManagementEdit.php";
     }
@@ -108,7 +108,7 @@ class EventManagementController
      */
     public function editEvent($oldIdEvent, $event)
     {
-        $oldEvent = $this->eventDao->getByID($oldIdEvent);
+        $oldEvent = $this->eventDao->getById($oldIdEvent);
         $newEvent = new Event();
 
         $args = func_get_args();

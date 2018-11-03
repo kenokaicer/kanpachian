@@ -25,7 +25,7 @@ echo password_verify(1234, $hasedPass);
 */
 /*
 try{
-    $var = ArtistDao::getInstance()->getByID(8);
+    $var = ArtistDao::getInstance()->getById(8);
 }catch(Exception $ex){
     echo "<script> alert('Error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
 }
@@ -41,7 +41,7 @@ else {
 */
 /*
 try{
-    $var = SeatsByEventDao::getInstance()->getByEventByDateID(1);
+    $var = SeatsByEventDao::getInstance()->getByEventByDateId(1);
 }catch(Exception $ex){
     echo $ex->getMessage();
 }

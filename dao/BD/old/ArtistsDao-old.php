@@ -71,7 +71,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
     public function Retrieve($var)
     {}
 
-    private function retrieveByID($id)
+    private function retrieveById($id)
     {
         $query = "SELECT * FROM ".$this->table.
             " WHERE idArtist = ".$id;
@@ -97,7 +97,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
     public function Update(Artist $oldArtist, Artist $newArtist)
     {
         $valuesToModify = "";
-        $oldArtistArray = $this->retrieveByID($oldArtist->getIdArtist()); //get row of id as array of values
+        $oldArtistArray = $this->retrieveById($oldArtist->getIdArtist()); //get row of id as array of values
         $artistArray = $newArtist->getAll(); //convert object to array of values
 
         /**
