@@ -8,7 +8,16 @@
   </div>
 </div>
 
+<script>
+var cart = new Cart();
+</script>
+<!--
+<button id="1" class="button primary"<img src="img/1.jpg" alt=""  onclick="cart.add(new Product(1,'Gato',200));">Demo Cart</button>
+-->
 
+<button id="2" class="button primary"<img src="img/1.jpg" alt=""  onclick="woopity('ajax','perro','woopity');">Demo Ajax</button>
+
+<button id="2" class="button primary"<img src="img/1.jpg" alt=""  onclick="woopity('ajax','gato','woopity');">Demo Ajax</button>
 <article class="grid-container">
 
 <h2>Seleccione su combo</h2>
@@ -163,6 +172,26 @@
  var idComboSeleccionado;
  var maximoGustos;
 
+ function xd()
+{
+  aler("holis");
+    $.ajax({
+       url : "index.php", // the resource where youre request will go throw
+       type : "POST", // HTTP verb
+       data : { action: 'myActionToGetHits', param2 : myVar2 },
+       dataType: "json",
+       success : function (response) {
+          //in your case, you should return from the php method some fomated data that you  //need throw the data var object in param
+             data = toJson(response) // optional
+            //heres your code
+            
+       },
+       error : alert("wrong"); 
+       complete : //...
+});
+}
+
+
 
 
  function nuevoPedido(cod)
@@ -266,10 +295,7 @@ function obtenerPeso()
 
     return rate_value;
  }
-function test(v)
-{
-  console.log(v);
-}
+
 
 function dosomething(heladoCodigo)
 {

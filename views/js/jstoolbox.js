@@ -107,10 +107,7 @@ function obtenerPeso()
 
     return rate_value;
  }
-function test(v)
-{
-  console.log(v);
-}
+
 
 function dosomething(heladoCodigo)
 {
