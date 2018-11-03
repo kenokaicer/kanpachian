@@ -4,6 +4,10 @@ PHP PSR-1 Naming conventions
 - Class constants MUST be declared in all upper case with underscore separators.
 - Method names MUST be declared in camelCase.
 
+Passwords Hashed and Salted
+
+- hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/
+
 DONE
 
 - ArtistDaoBD does Add, getAll, Update(edit) and Delete, exception handling working
@@ -18,24 +22,20 @@ DONE
 - rename properties to attributes when calling magic set
 - Fix BD for SeatsByEvent and purchaes, n:n table in between (purchases connected to purchase lines)
 - SeatsByEvent has new attribute private $eventByDate; // Class EventByDate, fix everyting that implies that
+- change models object attributes to private, no longer array_pop everywhere
+- fix where clause in daos, change to parameters var
+- Typehint models with object
+- fix theaterDao try-catchs (use eventByDate as reference), remake theaterDao with improvementes from eventByDateDao [part of dao code clean up]
+
 
 TO DO
 
-- Typehint models with object
 - CreditCard should check if null when making a payment
-
-- fix theaterDao try-catchs (use eventByDate as reference), remake theaterDao with improvementes from eventByDateDao
-
-- Check for clean up EventDao
 - Put methods in interfaces once all daos are complete
 - singleton only for connection, remove for every other class
-- fix where clause in daos, change to parameters var
-- change getall() to getAttributes() where necessary
+- change getall() to getAttributes() where necessary, done in daos, check controllers
+- Test dao methods after dao code clean up
 
-- change models object attributes to private, no longer array_pop everywhere
-
-
-- login (hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/)
-- user logged checks in controller contructor for admin
+- userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
 
  
