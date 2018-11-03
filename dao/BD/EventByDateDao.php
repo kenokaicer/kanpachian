@@ -16,11 +16,11 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 {
     private $connection;
     private $tableName = 'EventByDates';
-    private $tableNameEventByDate = 'EventByDates';
+    private $tableNameArtist = 'Artists';
     private $tableNameTheater = 'Theaters';
     private $tableNameSeatType = 'SeatTypes';
     private $tableNameSeatTypesTheater = 'SeatTypes_x_Theater';
-    private $tableNameEventByDateEventByDate = 'EventByDates_x_EventByDate';
+    private $tableNameArtistEventByDate = 'Artists_x_EventByDate';
     private $tableNameEvent = 'Events';
     private $tableNameCatergory = 'Categories';
 
@@ -30,7 +30,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
     }
 
     /**
-     * Add to tables EventByDates and EventByDates_x_EventByDate
+     * Add to tables EventByDates and Artists_x_EventByDate
      */
     public function Add(EventByDate $eventByDate)
     {
@@ -66,15 +66,15 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $idEventByDate = $this->lastInsertId();
 
-        //---Insert each EventByDate in a separate querry, N:N Table ---//
+        //---Insert each Artist in a separate querry, N:N Table ---//
 
         try {
-            foreach ($eventByDate->getEventByDates() as $eventByDateItem) {
-                $query = "INSERT INTO " . $this->tableNameEventByDateEventByDate . " (idEventByDate, idEventByDate) 
-                        VALUES (:idEventByDate,:idEventByDate);";
+            foreach ($eventByDate->getArtists() as $artistItem) {
+                $query = "INSERT INTO " . $this->tableNameArtistEventByDate . " (idArtist, idEventByDate) 
+                        VALUES (:idArtist,:idEventByDate);";
 
                 $parameters = array();
-                $parameters["idEventByDate"] = $eventByDateItem->getIdEventByDate();
+                $parameters["idArtist"] = $artistItem->getIdArtist();
                 $parameters["idEventByDate"] = $idEventByDate;
 
                 $addedRows = $this->connection->executeNonQuery($query, $parameters);
@@ -94,6 +94,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
     public function getByID($idEventByDate)
     {
+        $parameters = get_defined_vars();
         $eventByDate = null;
 
         try {
@@ -111,7 +112,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                     WHERE ED." . $eventByDateAttributes[0] . " = " . $id . "
                     AND ED.enabled = 1";
 
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query,$parameters);
     
             foreach ($resultSet as $row)
             {
@@ -145,11 +146,11 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         $eventByDate->setTheater($theater);
 
-        //---Get EventByDates---//
+        //---Get Artists---//
 
-        $eventByDatesList = $this->getEventByDatesByID($eventByDate->getIdEventByDate());
+        $artistsList = $this->getArtistsByEventByDateID($eventByDate->getIdEventByDate());
 
-        $eventByDate->setEventByDates($eventByDatesList);
+        $eventByDate->setArtists($artistsList);
 
         return $eventByDate;
     }
@@ -201,11 +202,11 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                 
                 $eventByDate->setTheater($theater);
 
-                //---Get EventByDates---//
+                //---Get Artists---//
 
-                $eventByDatesList = $this->getEventByDatesByID($row["idEventByDate"]);
+                $artistsList = $this->getArtistsByEventByDateID($row["idEventByDate"]);
 
-                $eventByDate->setEventByDates($eventByDatesList);
+                $eventByDate->setArtists($artistsList);
 
                 array_push($eventByDateList, $eventByDate);
             }
@@ -263,11 +264,11 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                 
                 $eventByDate->setTheater($theater);
 
-                //---Get EventByDates---//
+                //---Get Artists---//
 
-                $eventByDatesList = $this->getEventByDatesByID($row["idEventByDate"]);
+                $artistsList = $this->getArtistsByEventByDateID($row["idEventByDate"]);
 
-                $eventByDate->setEventByDates($eventByDatesList);
+                $eventByDate->setArtists($artistsList);
 
                 array_push($eventByDateList, $eventByDate);
             }
@@ -375,37 +376,35 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         return $theater;
     }
 
-    public function getEventByDatesByID($idEventByDate)
+    public function getArtistsByEventByDateID($idEventByDate)
     {
         $parameters = get_defined_vars();
-        $eventByDatesList = array();
-
-        $eventByDateAttributes = array_keys(EventByDate::getAttributes());
-
-        $parameters["idEventByDate"] = $idEventByDate;
-
-        $query = "SELECT * FROM " . $this->tableNameEventByDate . " A
-        INNER JOIN " . $this->tableNameEventByDateEventByDate . " AED
-        ON A.idEventByDate = AED.idEventByDate
-        WHERE AED".$eventByDateAttributes[0]." = :".key($parameters)." 
-        AND A.enabled = 1";
+        $artistsList = array();
 
         try {
+            $artistAttributes = array_keys(Artist::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableNameArtist . " A
+                    INNER JOIN " . $this->tableNameArtistEventByDate . " AED
+                    ON A.idArtist = AED.idArtist
+                    WHERE AED.".$artistAttributes[0]." = :".key($parameters)." 
+                    AND A.enabled = 1";
+        
             $resultSet = $this->connection->Execute($query, $parameters);
+        
+            foreach ($resultSet as $row) {
+                $artist = new Artist();
+
+                foreach ($artistAttributes as $value) {
+                    $artist->__set($value, $row[$value]);
+                }
+
+                array_push($artistsList, $artist);
+            }
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",eventByDate list query error: " . $ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception(__METHOD__ . ",eventByDate list query error: " . $ex->getMessage());
-        }
-
-        foreach ($resultSet as $row) {
-            $eventByDate = new EventByDate();
-
-            foreach ($eventByDateAttributes as $value) {
-                $eventByDate->__set($value, $row[$value]);
-            }
-
-            array_push($eventByDatesList, $eventByDate);
         }
 
         return $eventByDatesList;

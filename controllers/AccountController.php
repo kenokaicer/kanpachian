@@ -66,10 +66,10 @@ class AccountController
     public function addUser($username,$password,$email,$name,$lastname,$dni)
     {
         $args = get_defined_vars(); //returns defined vars at the moment, funtion vars in this case
-        
+        $usernameExists = $this->userDao->getByUsername($username);
+
         try{
-            //if(empty($this->userDao->getByUsername($username))) //check obsolet until dao null fixed
-            if(1==1)
+            if(empty($usernameExists) || $usernameExists == null)
             {
                 $user = new User();
                 $client = new Client();

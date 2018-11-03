@@ -19,9 +19,6 @@ class EventDao extends SingletonDao implements IEventDao
         $this->connection = Connection::getInstance();
     }
 
-    /**
-     * Add event without EventByDate
-     */
     public function Add(Event $event)
     {
         $columns = "";
@@ -52,13 +49,13 @@ class EventDao extends SingletonDao implements IEventDao
         }
     }
 
-    public function getByID($id) //right now not returning eventByDate
+    public function getByID($id)
     {   
         $parameters = get_defined_vars();
         $event = null;
 
         try {
-            $eventAttributes = array_keys(Event::getAttributes()); //get attribute names from object for use in __set
+            $eventAttributes = array_keys(Event::getAttributes());
 
             $categoryAttributes = array_keys(Category::getAttributes());
 
@@ -71,7 +68,6 @@ class EventDao extends SingletonDao implements IEventDao
             
             $resultSet = $this->connection->Execute($query,$parameters);  
 
-            
             if(lenght($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }
@@ -99,7 +95,7 @@ class EventDao extends SingletonDao implements IEventDao
         return $event;
     }
 
-    public function getAll() //right now not returning eventByDate
+    public function getAll()
     {
         $eventList = array();
         
@@ -153,10 +149,15 @@ class EventDao extends SingletonDao implements IEventDao
      */
     public function Delete(Event $event)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idEvent = ".$event->getIdEvent();
-
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            $parameters["idEvent"] = $event->getIdEvent();
+
+            $query = "UPDATE ".$this->tableName." 
+                SET enabled = 0 
+                WHERE idEvent = :idEvent";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }

@@ -14,6 +14,8 @@ use Models\Client as Client;
 
 Autoload::start();
 
+$c = new Client();
+$c->setUser(null);
 //header("location:".FRONT_ROOT."Home/Index");
 
 /*

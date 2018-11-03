@@ -17,19 +17,8 @@ class TheaterDao extends SingletonDao implements ITheaterDao
     private $tableName = 'Theaters';
     private $tableName2 = 'SeatTypes_x_Theater';
 
-    //*-------------------------------------------------------------------------------------*//
-    //When using this for copying other daos change Theater to primary object
-    //and SeatType to secondary object, if more than one secondary object, 
-    //code will need to be added.
-
-    //Also code will need to be checked for secondary class as isn't inserting to a N:N table
-
-    //Check array_pop if you need to unset a parameter that is an object or an array in primary object
-    //*-------------------------------------------------------------------------------------*//
-
     public function __construct(){
         $this->connection = Connection::getInstance();
-        //See if having this here causes problems in the future, so far so good.
     }
     
     /**

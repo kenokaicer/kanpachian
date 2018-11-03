@@ -5,7 +5,9 @@ namespace Models;
 class Attributes
 {
     /**
-     * Get array with attribute names as key, and attributes values as value
+     * Get array with attribute names as key, and attributes values as value.
+     * Only return protected attributes, useful for returning only what you want
+     * in this case only attributes that are not objects
      */
     public function getAll()
     {

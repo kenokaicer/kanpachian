@@ -23,19 +23,20 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($seatType->getAll()); //get object attribute names 
-
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
-
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
-
         try { 
+            $parameters = array_filter($seatType->getAll()); //get object attribute names 
+
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
+
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
+            
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
@@ -46,27 +47,36 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         }
     }
 
-    public function getByID($id)
+    public function getByID($idSeatType)
     {   
-        $seatType = new SeatType();
-
-        $seatTypeAttributes = array_keys($seatType->getAll()); //get attribute names from object for use in __set
-
-        $query = "SELECT * FROM " . $this->tableName .
-            " WHERE ".$seatTypeAttributes[0]." = ".$id;
+        $parameters = get_defined_vars();
+        $seatType = null;
         
         try {
+            $seatTypeAttributes = array_keys(SeatType::getAttributes()); //get attribute names from object for use in __set
+
+            $query = "SELECT * FROM " . $this->tableName ." 
+                WHERE ".$seatTypeAttributes[0]." :".key($parameters)." 
+                AND Enabled = 1";
+            
+            
             $resultSet = $this->connection->Execute($query);
+            
+            if(lenght($resultSet)!=1){
+                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) { //auto fill object with magic function __set
+                    $seatType->__set($value, $row[$value]);
+                }
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-        
-        $row = reset($resultSet);
-
-        foreach ($seatTypeAttributes as $value) { //auto fill object with magic function __set
-            $seatType->__set($value, $row[$value]);
         }
 
         return $seatType;
@@ -75,29 +85,28 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
     public function getAll()
     {
         $seatTypeList = array();
-        $seatType = new SeatType();
-
-        $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
         try{
+            $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
+        
             $resultSet = $this->connection->Execute($query);
+        
+            $seatTypeAttributes = array_keys($seatType->getAll());
+
+            foreach ($resultSet as $row)
+            {                
+                $seatType = new SeatType();
+                
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                array_push($seatTypeList, $seatType);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-        
-        $seatTypeAttributes = array_keys($seatType->getAll());
-
-        foreach ($resultSet as $row)
-        {                
-            $seatType = new SeatType();
-            
-            foreach ($seatTypeAttributes as $value) {
-                $seatType->__set($value, $row[$value]);
-            }
-
-            array_push($seatTypeList, $seatType);
         }
 
         return $seatTypeList;
@@ -106,36 +115,37 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
     /**
      * Retruns array of all SeatTypes associated to a Theater
      */
-    public function getAllByTheaterId($id)
+    public function getAllByTheaterId($idTheater)
     {
+        $parameters = get_defined_vars();
         $seatTypeList = array();
-        $seatType = new SeatType();
-
-        $query = "SELECT SeatTypes.idSeatType, seatTypeName, description 
-        FROM " . $this->tableName2." 
-        INNER JOIN ".$this->tableName." 
-        ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType
-        WHERE SeatTypes_x_Theater.idTheater = ".$id;
-
+        
         try{
-            $resultSet = $this->connection->Execute($query);
+            $query = "SELECT SeatTypes.idSeatType, seatTypeName, description 
+            FROM " . $this->tableName2." 
+            INNER JOIN ".$this->tableName." 
+            ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType
+            WHERE SeatTypes_x_Theater.idTheater = :".key($parameters)." 
+            AND Enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+
+            foreach ($resultSet as $row)
+            {                
+                $seatType = new SeatType();
+                
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                array_push($seatTypeList, $seatType);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-
-        $seatTypeAttributes = array_keys($seatType->getAll());
-
-        foreach ($resultSet as $row)
-        {                
-            $seatType = new SeatType();
-            
-            foreach ($seatTypeAttributes as $value) {
-                $seatType->__set($value, $row[$value]);
-            }
-
-            array_push($seatTypeList, $seatType);
         }
 
         return $seatTypeList;
@@ -147,27 +157,32 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
     public function Update(SeatType $oldSeatType, SeatType $newSeatType)
     {
         $valuesToModify = "";
-        $oldSeatTypeArray = $oldSeatType->getAll(); //convert object to array of values
-        $seatTypeArray = $newSeatType->getAll();
+       
+        try {
+            $oldSeatTypeArray = $oldSeatType->getAll(); //convert object to array of values
+            $seatTypeArray = $newSeatType->getAll();
+            $parameters["idSeatType"] = $oldSeatType->getIdSeatType();
 
-        /**
-         * Check if a value is different from the one on the database, if different, sets the column and
-         * value for the SET query
-         */
-        foreach ($oldSeatTypeArray as $key => $value) {
-            if ($key != "idSeatType") {
-                if ($oldSeatTypeArray[$key] != $seatTypeArray[$key]) {
-                    $valuesToModify .= $key . " = " . "'" . $seatTypeArray[$key] . "', ";
+            /**
+             * Check if a value is different from the one on the database, if different, sets the column and
+             * value for the SET query
+             */
+            foreach ($oldSeatTypeArray as $key => $value) {
+                if ($key != "idSeatType") {
+                    if ($oldSeatTypeArray[$key] != $seatTypeArray[$key]) {
+                        $valuesToModify .= $key . " = " . "'" . $seatTypeArray[$key] . "', ";
+                    }
                 }
             }
-        }
 
-        $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idSeatType = " . $oldSeatType->getIdSeatType();
+            $query = "UPDATE ".$this->tableName." 
+                SET ".$valuesToModify." 
+                WHERE idSeatType = :idSeatType";
         
-        try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+            
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
@@ -183,10 +198,16 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
      */
     public function Delete(SeatType $seatType)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idSeatType = ".$seatType->getIdSeatType();
-
+        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$seatTypeAttributes[0]." = " . $seatType->getIdSeatType();
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            $parameters["idSeatType"] = $seatType->getIdSeatType();
+
+            $query = "UPDATE ".$this->tableName." 
+                SET enabled = 0 
+                WHERE idSeatType = :idSeatType";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }

@@ -153,9 +153,11 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         }
     }
 
+    /**
+     * Logical Delete
+     */
     public function Delete(CreditCard $creditCard)
     {
-        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$creditCardAttributes[0]." = " . $creditCard->getIdCreditCard();
         try {
             $parameters["idCreditCard"] = $creditCard->getIdCreditCard();
 

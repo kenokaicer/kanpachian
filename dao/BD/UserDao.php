@@ -22,18 +22,18 @@ class UserDao extends SingletonDao implements IUserDao
         $columns = "";
         $values = "";
         
-        $parameters = array_filter($user->getAll()); //get object attribute names 
-
-        foreach ($parameters as $key => $value) {
-            $columns .= $key.",";
-            $values .= ":".$key.",";
-        }
-        $columns = rtrim($columns, ",");
-        $values = rtrim($values, ",");
-
-        $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
-
         try { 
+            $parameters = array_filter($user->getAll()); //get object attribute names 
+
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
+
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+        
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
@@ -45,22 +45,28 @@ class UserDao extends SingletonDao implements IUserDao
         }
     }
 
-    public function getByID($id)
+    public function getByID($idUser)
     {   
-        $user = new User();
-        $userAttributes = array_keys($user->getAll()); //get attribute names from object for use in __set
+        $parameters = get_defined_vars();
+        $user = null;
 
-        $parameters["id"] = $id;
-
-        $query = "SELECT * FROM " . $this->tableName." 
-            WHERE ".$userAttributes[0]." = :id
-            AND enabled = 1";
-        
         try {
+            $userAttributes = array_keys(User::getAttributes()); //get attribute names from object for use in __set
+
+            $query = "SELECT * FROM " . $this->tableName." 
+                WHERE ".$userAttributes[0]." = :".key($parameters)." 
+                AND Enabled = 1";
+        
             $resultSet = $this->connection->Execute($query, $parameters);
 
+            if(lenght($resultSet)!=1){
+                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+            }
+            
             foreach ($resultSet as $row) //loops returned rows
-            {               
+            {      
+                $user =  new User();
+                
                 foreach ($userAttributes as $value) { //auto fill object with magic function __set
                     $user->__set($value, $row[$value]);
                 }
@@ -76,22 +82,23 @@ class UserDao extends SingletonDao implements IUserDao
 
     public function getByUsername($username)
     { 
-        $user = new User();
+        $parameters = get_defined_vars();
+        $user = null;
 
-        $userAttributes = array_keys($user->getAll()); //get attribute names from object for use in __set
-
-        $parameters["username"] = $username;
-
-        $query = "SELECT * FROM " . $this->tableName ." 
-            WHERE username = :username
-            AND enabled = 1";
-        
         try {
+            $userAttributes = array_keys($user->getAll());
+
+            $parameters["username"] = $username;
+
+            $query = "SELECT * FROM " . $this->tableName ." 
+                WHERE username = :".key($parameters)." 
+                AND Enabled = 1";
+        
             $resultSet = $this->connection->Execute($query, $parameters);
 
-            foreach ($resultSet as $row) //loops returned rows
+            foreach ($resultSet as $row)
             {               
-                foreach ($userAttributes as $value) { //auto fill object with magic function __set
+                foreach ($userAttributes as $value) {
                     $user->__set($value, $row[$value]);
                 }
             }
@@ -107,30 +114,29 @@ class UserDao extends SingletonDao implements IUserDao
     public function getAll()
     {
         $userList = array();
-        $user = new User();
-
-        $query = "SELECT * FROM ".$this->tableName." 
-            WHERE enabled = 1";
 
         try{
+            $query = "SELECT * FROM ".$this->tableName." 
+                WHERE enabled = 1";
+        
             $resultSet = $this->connection->Execute($query);
+        
+            $userAttributes = array_keys($user->getAll());
+
+            foreach ($resultSet as $row)
+            {                
+                $user = new User();
+                
+                foreach ($userAttributes as $value) {
+                    $user->__set($value, $row[$value]);
+                }
+
+                array_push($userList, $user);
+            }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-        
-        $userAttributes = array_keys($user->getAll());
-
-        foreach ($resultSet as $row)
-        {                
-            $user = new User();
-            
-            foreach ($userAttributes as $value) {
-                $user->__set($value, $row[$value]);
-            }
-
-            array_push($userList, $user);
         }
 
         return $userList;
@@ -142,27 +148,32 @@ class UserDao extends SingletonDao implements IUserDao
     public function Update(User $oldUser, User $newUser)
     {
         $valuesToModify = "";
-        $oldUserArray = $oldUser->getAll(); //convert object to array of values
-        $userArray = $newUser->getAll();
+       
+        try {
+            $oldUserArray = $oldUser->getAll(); //convert object to array of values
+            $userArray = $newUser->getAll();
+            $parameters["idUser"] = $oldUser->getIdUser();
 
-        /**
-         * Check if a value is different from the one on the database, if different, sets the column and
-         * value for the SET query
-         */
-        foreach ($oldUserArray as $key => $value) {
-            if ($key != "idUser") {
-                if ($oldUserArray[$key] != $userArray[$key]) {
-                    $valuesToModify .= $key . " = " . "'" . $userArray[$key] . "', ";
+            /**
+             * Check if a value is different from the one on the database, if different, sets the column and
+             * value for the SET query
+             */
+            foreach ($oldUserArray as $key => $value) {
+                if ($key != "idUser") {
+                    if ($oldUserArray[$key] != $userArray[$key]) {
+                        $valuesToModify .= $key . " = " . "'" . $userArray[$key] . "', ";
+                    }
                 }
             }
-        }
 
-        $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
 
-        $query = "UPDATE " . $this->tableName . " SET " . $valuesToModify . " WHERE idUser = " . $oldUser->getIdUser();
+            $query = "UPDATE ".$this->tableName." 
+                SET ".$valuesToModify." 
+                WHERE idUser = :idUser";
         
-        try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array()); //no parameters needed so sending an empty array
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+            
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }
@@ -178,10 +189,16 @@ class UserDao extends SingletonDao implements IUserDao
      */
     public function Delete(User $user)
     {
-        $query = "UPDATE ".$this->tableName." SET enabled = 0 WHERE idUser = ".$user->getIdUser();
-
+        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$userAttributes[0]." = " . $user->getIdUser();
         try {
-            $modifiedRows = $this->connection->executeNonQuery($query, array());
+            $parameters["idUser"] = $user->getIdUser();
+
+            $query = "UPDATE ".$this->tableName." 
+                SET enabled = 0 
+                WHERE idUser = :idUser";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+
             if($modifiedRows!=1){
                 throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
             }

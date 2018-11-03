@@ -74,9 +74,7 @@ class ArtistDao extends SingletonDao implements IArtistDao
             }
             
             foreach ($resultSet as $row)
-            {
-                $row = reset($resultSet);
-                
+            { 
                 $artist = new Artist();          
                 foreach ($artistAttributes as $value) { //auto fill object with magic function __set
                     $artist->__set($value, $row[$value]);
@@ -199,6 +197,9 @@ class ArtistDao extends SingletonDao implements IArtistDao
         }
     }
 
+    /**
+     * Logical Delete
+     */
     public function Delete(Artist $artist)
     {
         //$query = "DELETE FROM " . $this->tableName . " WHERE ".$artistAttributes[0]." = " . $artist->getIdArtist();

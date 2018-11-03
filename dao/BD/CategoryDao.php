@@ -149,9 +149,11 @@ class CategoryDao extends SingletonDao implements ICategoryDao
         }
     }
 
+    /**
+     * Logical Delete
+     */
     public function Delete(Category $category)
     {
-        //$query = "DELETE FROM " . $this->tableName . " WHERE ".$categoryAttributes[0]." = " . $category->getIdCategory();
         try {
             $parameters["idCategory"] = $category->getIdCategory();
 
