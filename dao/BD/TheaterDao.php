@@ -112,6 +112,10 @@ class TheaterDao extends SingletonDao implements ITheaterDao
                     }
                 }
 
+                if($theater->getIdTheater != $row["idTheater"]){
+                    throw new Exception(__METHOD__."More than one theater returned, expected only one");
+                }
+
                 $seatType = new SeatType();
                 foreach ($seatTypeAttributes as $value) {
                     $seatType->__set($value, $row[$value]);

@@ -61,7 +61,7 @@ class ClientDao extends SingletonDao implements IClientDao
         }
     }
 
-    private function addUser($user)
+    private function addUser(User $user)
     {
         try {
             $columns = "";

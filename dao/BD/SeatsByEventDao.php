@@ -62,7 +62,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         }
     }
 
-    public function getById($id)
+    public function getById($idSeatsByEvent)
     {   
         $parameters = get_defined_vars();
         $seatsByEvent = null;
@@ -244,11 +244,11 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         $eventByDate = null;
         
         try {
-            $eventByDateAttributes = array_keys($eventByDate->getAll()); //get attribute names from object for use in __set
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes()); //get attribute names from object for use in __set
 
-            $eventAttributes = array_keys($event->getAll());
+            $eventAttributes = array_keys(Event::getAttributes());
 
-            $categoryAttributes = array_keys($category->getAll());
+            $categoryAttributes = array_keys(Category::getAttributes());
 
             $query = "SELECT * FROM " . $this->tableNameEventByDate . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
@@ -266,14 +266,17 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             
             foreach ($resultSet as $row)
             {
+                $eventByDate = new EventByDate();
                 foreach ($eventByDateAttributes as $value) { //auto fill object with magic function __set
                     $eventByDate->__set($value, $row[$value]);
                 }
 
+                $category = new Category();
                 foreach ($categoryAttributes as $value) {
                     $category->__set($value, $row[$value]);
                 }
 
+                $event = new Event();
                 foreach ($eventAttributes as $value) {
                     $event->__set($value, $row[$value]);
                 }
@@ -329,12 +332,17 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
                     }
                 }
 
+                if($theater->getIdTheater != $row["idTheater"]){
+                    throw new Exception(__METHOD__."More than one theater returned, expected only one");
+                }
+
                 $seatType = new SeatType();
                 foreach ($seatTypeAttributes as $value) {
                     $seatType->__set($value, $row[$value]);
                 }
 
                 $theater->addSeatType($seatType);
+
             }
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());

@@ -91,7 +91,7 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         
             $resultSet = $this->connection->Execute($query);
         
-            $seatTypeAttributes = array_keys($seatType->getAll());
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
 
             foreach ($resultSet as $row)
             {                
@@ -122,10 +122,10 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
         
         try{
             $query = "SELECT SeatTypes.idSeatType, seatTypeName, description 
-            FROM " . $this->tableName2." 
-            INNER JOIN ".$this->tableName." 
-            ON SeatTypes_x_Theater.idSeatType = SeatTypes.idSeatType
-            WHERE SeatTypes_x_Theater.idTheater = :".key($parameters)." 
+            FROM " . $this->tableName2." STT
+            INNER JOIN ".$this->tableName." ST
+            ON STT.idSeatType = ST.idSeatType
+            WHERE STT.idTheater = :".key($parameters)." 
             AND Enabled = 1";
         
             $resultSet = $this->connection->Execute($query,$parameters);

@@ -45,7 +45,7 @@ class CategoryDao extends SingletonDao implements ICategoryDao
         }
     }
 
-    public function getById($id)
+    public function getById($idCategory)
     {   
         $parameters = get_defined_vars();
         $category = null;

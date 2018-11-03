@@ -86,7 +86,7 @@ class UserDao extends SingletonDao implements IUserDao
         $user = null;
 
         try {
-            $userAttributes = array_keys($user->getAll());
+            $userAttributes = array_keys(User::getAttributes());
 
             $parameters["username"] = $username;
 
@@ -97,7 +97,8 @@ class UserDao extends SingletonDao implements IUserDao
             $resultSet = $this->connection->Execute($query, $parameters);
 
             foreach ($resultSet as $row)
-            {               
+            {      
+                $user = new User();         
                 foreach ($userAttributes as $value) {
                     $user->__set($value, $row[$value]);
                 }
@@ -121,7 +122,7 @@ class UserDao extends SingletonDao implements IUserDao
         
             $resultSet = $this->connection->Execute($query);
         
-            $userAttributes = array_keys($user->getAll());
+            $userAttributes = array_keys(User::getAttributes());
 
             foreach ($resultSet as $row)
             {                

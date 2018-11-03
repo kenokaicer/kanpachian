@@ -109,7 +109,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                     ON ED.idEvent = E.idEvent
                     INNER JOIN " . $this->tableNameCatergory . " C
                     ON E.idCategory = C.idCategory
-                    WHERE ED." . $eventByDateAttributes[0] . " = " . $id . "
+                    WHERE ED." . $eventByDateAttributes[0] . " = :".key($parameters)." 
                     AND ED.enabled = 1";
 
             $resultSet = $this->connection->Execute($query,$parameters);
@@ -357,6 +357,10 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                     foreach ($theaterAttributes as $value) {
                         $theater->__set($value, $row[$value]);
                     }
+                }
+
+                if($theater->getIdTheater != $row["idTheater"]){
+                    throw new Exception(__METHOD__."More than one theater returned, expected only one");
                 }
 
                 $seatType = new SeatType();

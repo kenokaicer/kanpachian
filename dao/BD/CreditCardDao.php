@@ -51,7 +51,6 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         $creditCard = null;
 
         try {
-
             $creditCardAttributes = array_keys(CreditCard::getAttributes()); //get attribute names from object for use in __set
 
             $query = "SELECT * FROM " . $this->tableName .
@@ -85,12 +84,11 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         $creditCardList = array();
         
         try{
-
             $query = "SELECT * FROM ".$this->tableName." WHERE enabled = 1";
 
             $resultSet = $this->connection->Execute($query);
         
-            $creditCardAttributes = array_keys($creditCard->getAll());
+            $creditCardAttributes = array_keys(CreditCard::getAttributes());
 
             foreach ($resultSet as $row)
             {                
