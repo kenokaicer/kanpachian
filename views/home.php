@@ -43,7 +43,7 @@
     </div>
 
     <div id="features">
-       
+    
     <?php
     $pedidos = \controllers\HomeController::getEventList();
     $cantidadDeColumnas = 3;
@@ -62,7 +62,10 @@
     <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
     <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$value->getImage()?>">
     <div><?=$pc?></div>
-    <input type="submit" class="button" value="Ver" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)"></div>
+    <form action="<?=FRONT_ROOT?>Event/index" method="post">
+    <input type="hidden" name="idEvent" value="<?=$value->getIdEvent()?>">
+    <input type="submit" class="button" value="Ver" id="<?=$value->getIdEvent()?>"></div>
+    </form>
     <?php      
         if($contador==$cantidadDeColumnas){
     ?>
@@ -74,6 +77,7 @@
     }
     ?> 
 </div>
+
     <div id="pricing">
         <div class="row">
             <div class="large-12 columns">
@@ -143,11 +147,7 @@
             </div>
         </div>
     </div>
-    <footer>
-        
-
-    </footer>
-</body>
+    
 <!--
 <script src="js/vendor/jquery.js"></script>
 <script src="js/foundation.min.js"></script>
