@@ -51,7 +51,7 @@ class ClientManagementController
         try{
             $user = $this->userDao->getById($idUser);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el usuario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo cargar el usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
 
@@ -61,7 +61,7 @@ class ClientManagementController
             $this->clientDao->Add($client);
             echo "<script> alert('Cliente agregado exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el cliente. " . str_replace("'", "", $ex->getMessage()) . "');</script>";        
+            echo "<script> alert('No se pudo agregar el cliente. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
         
         $this->index();
@@ -72,7 +72,7 @@ class ClientManagementController
         try{
             $clientList = $this->clientDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Clientes: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Clientes: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         require VIEWS_PATH.$this->folder."ClientManagementList.php";
     }
@@ -85,7 +85,7 @@ class ClientManagementController
             $this->clientDao->Delete($client);
             echo "<script> alert('Clienta eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->clientList();
@@ -122,7 +122,7 @@ class ClientManagementController
             $this->clientDao->Update($oldClient, $newClient);
             echo "<script> alert('Categoría modificada exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el categoría " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el categoría " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->clientList();

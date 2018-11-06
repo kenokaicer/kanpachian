@@ -11,13 +11,28 @@ use Models\Role as Role;
 use Models\Artist as Artist;
 use Models\User as User;
 use Models\Client as Client;
+use Models\SeatType as SeatType;
+use Dao\BD\EventB as CategoryDao;
 
 Autoload::start();
 
+$dao = new EventByDateDao();
+
+try{
+    $list = $dao->getByEventIdLazy(1);
+    var_dump($list);
+}catch(Exception $ex){
+    echo $ex->getMessage();
+}
+
+
+//var_dump($list[2]->getSeatTypes());
+
+/*
 $c = new Client();
 $c->setUser(null);
 //header("location:".FRONT_ROOT."Home/Index");
-
+*/
 /*
 $hasedPass = password_hash(1234, PASSWORD_DEFAULT);
 
@@ -27,7 +42,7 @@ echo password_verify(1234, $hasedPass);
 try{
     $var = ArtistDao::getInstance()->getById(8);
 }catch(Exception $ex){
-    echo "<script> alert('Error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+    echo "<script> alert('Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
 }
 
 

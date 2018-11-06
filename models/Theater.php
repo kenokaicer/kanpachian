@@ -18,7 +18,7 @@ class Theater extends Attributes//Lugar_evento
         return $this->theaterName;
     }
 
-    public function setTheaterName($name)
+    public function setTheaterName($theaterName)
     {
         $this->theaterName = $theaterName;
 

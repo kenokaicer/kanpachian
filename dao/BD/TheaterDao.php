@@ -151,11 +151,16 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) {
-                if (($theater->getIdTheater() != $row["idTheater"]) || !isset($theater)) { //load theater only on first loop
+                if(isset($theater) && ($theater->getIdTheater() != $row["idTheater"])){ //push only when id changes
+                    array_push($theaterList, $theater);
+                }
+
+                if (!isset($theater) || ($theater->getIdTheater() != $row["idTheater"])) { //load theater only on first loop
                     $theater = new Theater();
                     foreach ($theaterAttributes as $value) {
                         $theater->__set($value, $row[$value]);
                     }
+                    
                 }
 
                 $seatType = new SeatType();
@@ -165,6 +170,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
 
                 $theater->addSeatType($seatType);
             }
+            array_push($theaterList, $theater); //push last theater
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         } catch (Exception $ex) {

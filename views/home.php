@@ -42,10 +42,9 @@
         </div>
     </div>
 
-     <div id="features">
+    <div id="features">
        
     <?php
-    
     $pedidos = \controllers\HomeController::getEventList();
     $cantidadDeColumnas = 3;
     $boostrapDivision = 12/$cantidadDeColumnas;
@@ -53,40 +52,28 @@
     //var_dump($pedidos);
     foreach($pedidos as $key => $value) 
     {
-     if($contador==0)
-     {
-      echo'<div class="grid-x grid-padding-x">';
-     }
-     $pc =  $value->getEventName();
-     ?>
-      <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
-      <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=$value->getImage()?>">
-      <div><?=$pc?></div>
-      <input type="submit" class="button" value="Ver" 
-      id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)"></div>
-      <?php
-      
-      if($contador==$cantidadDeColumnas)
-      {
-        ?>
-        </div>
-           </div>
-          
-          <?php
-                  $contador=$cantidadDeColumnas;
-
-      }
-      $contador++;
-      ?>
-      
-      <?php
+        if($contador==0){
+    ?>
+            <div class="grid-x grid-padding-x">
+    <?php
+        }
+        $pc =  $value->getEventName();
+    ?>
+    <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
+    <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$value->getImage()?>">
+    <div><?=$pc?></div>
+    <input type="submit" class="button" value="Ver" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)"></div>
+    <?php      
+        if($contador==$cantidadDeColumnas){
+    ?>
+    </div>  
+    <?php
+          $contador=$cantidadDeColumnas;
+        }
+        $contador++;
     }
-        
-    
     ?> 
 </div>
-
-
     <div id="pricing">
         <div class="row">
             <div class="large-12 columns">

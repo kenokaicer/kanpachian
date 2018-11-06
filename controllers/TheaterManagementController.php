@@ -24,7 +24,8 @@ class TheaterManagementController
 
     public function viewAddTheater()
     {
-        $seatTypeList = SeatTypeDao::getInstance()->getAll();
+        $seatTypeDao = new SeatTypeDao();
+        $seatTypeList = $seatTypeDao->getAll();
         require VIEWS_PATH.$this->folder."TheaterManagementAdd.php";
     }
 
@@ -67,13 +68,7 @@ class TheaterManagementController
             echo "<script> alert('No se pudo listar los teatros. " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }
 
-        
-        var_dump($theaterList);
-        foreach ($theaterList as $key => $value) {
-            var_dump($value->getSeatTypes());
-        }
-        $this->index();//temp
-        //require VIEWS_PATH.$this->folder."TheaterManagementList.php";
+        require VIEWS_PATH.$this->folder."TheaterManagementList.php";
     }
 
     public function deleteTheater($id)
@@ -84,10 +79,11 @@ class TheaterManagementController
 
     public function viewEditTheater($id, $name, $location, $maxCapacity)
     {   
-        $oldTheater = new Theater();
+        /*$oldTheater = new Theater();
         $oldTheater->setIdTheater($id)->setName($name)->setLocation($location)->setMaxCapacity($maxCapacity);
         $_SESSION["oldTheater"] = $oldTheater;
-        require VIEWS_PATH.$this->folder."TheaterManagementEdit.php";
+        require VIEWS_PATH.$this->folder."TheaterManagementEdit.php";*/
+        $this->index();
     }
 
     public function editTheater($name, $location, $maxCapacity)

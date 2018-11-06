@@ -1,10 +1,11 @@
+<body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
 <div class="wrapper">
     <section>
-        <form action="<?=FRONT_ROOT?>EventManagement/addEvent" method="post">
+        <form action="<?=FRONT_ROOT?>EventManagement/addEvent" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>Nombre: <input type="text" name="eventName" required></td>
-                    <td>Imágen: <input type="text" name="image"></td>
+                    <td>Imágen: <input id="file" type="file" name="file"></td>
                 </tr>
                 <tr>
                     <td>Descripción: <textarea name="description" cols="30" rows="10" required></textarea></td>
@@ -21,7 +22,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <div>
                             <button type="submit">Agregar</button>
                             <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>EventManagement/index" formnovalidate>

@@ -38,4 +38,7 @@ TO DO
 
 - userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
 
+- Theater Managment add
+- Theater Managment list -> javascript that expands seatTypelist
+
  

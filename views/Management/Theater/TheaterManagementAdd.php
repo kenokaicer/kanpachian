@@ -1,21 +1,16 @@
 <?php
-use Models\SeatType as SeatType;
-use Models\Theater as Theater;
-
 if(isset($_POST["seatTypes"]))
 {   
     $var = true;
-    foreach ($_SESSION["seatTypesForTheater"]->getSeatTypes() as $value) {
-        if ($value->getIdSeatType()==$_POST["seatTypes"])
+    foreach ($_SESSION["seatTypesForTheater"] as $value) {
+        if ($value->getIdSeatType() == $_POST["seatTypes"])
             $var = false;
     }
 
     if($var){
         foreach ($seatTypeList as $key => $value) {
-            if($value['idSeatType']==$_POST["seatTypes"]){
-                $seatType = new SeatType();
-                $seatType->setIdSeatType($value['idSeatType'])->setName($value['name'])->setDescription($value['description']);
-                $_SESSION["seatTypesForTheater"]->addSeatType($seatType);
+            if($value->getIdSeatType() == $_POST["seatTypes"]){
+                array_push($_SESSION["seatTypesForTheater"], $value);
             }
         }
     }else{
@@ -23,10 +18,11 @@ if(isset($_POST["seatTypes"]))
     }
 
 }else{
-    $_SESSION["seatTypesForTheater"] = new Theater();
+    $_SESSION["seatTypesForTheater"] = array();
 }
 ?>
 
+<body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
 <div class="wrapper">
     <section>
         <table>
@@ -38,7 +34,7 @@ if(isset($_POST["seatTypes"]))
                             <?php
                                 foreach ($seatTypeList as $value) {
                             ?>
-                                <option value="<?=$value['idSeatType']?>"><?=$value['name']?></option>      
+                                <option value="<?=$value->getIdSeatType()?>"><?=$value->getSeatTypeName()?></option>      
                             <?php
                                 }
                             ?>
@@ -49,7 +45,7 @@ if(isset($_POST["seatTypes"]))
                         <th>Tipo</th>
                         <th>Descripción</th>
                         <?php
-                            foreach ($_SESSION["seatTypesForTheater"]->getSeatTypes() as $value) {        
+                            foreach ($_SESSION["seatTypesForTheater"] as $value) {        
                         ?>
                             <tr>
                                 <td><?=$value->getSeatTypeName()?></td>

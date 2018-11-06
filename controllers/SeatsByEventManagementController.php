@@ -40,7 +40,7 @@ class SeatsByEventManagementController
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex){
-            echo "<script> alert('No se pude cargar datos necesarios. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pude cargar datos necesarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
         
@@ -63,7 +63,7 @@ class SeatsByEventManagementController
         try{
             $eventByDate = $this->eventByDateDao->getById($eventByDateId);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
         
@@ -71,7 +71,7 @@ class SeatsByEventManagementController
             try{
                 $seatType = $this->seatTypeDao->getById($seatTypeIdItem);
             }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
                 $this->index();
             }
             
@@ -89,7 +89,7 @@ class SeatsByEventManagementController
             try{
                 $this->seatsByEventDao->Add($seatsByEvent);
             }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
                 $this->index();
             }
         }
@@ -104,7 +104,7 @@ class SeatsByEventManagementController
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList.php";
@@ -115,7 +115,7 @@ class SeatsByEventManagementController
         try{
             $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);//get by Event
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList2.php";
@@ -126,7 +126,7 @@ class SeatsByEventManagementController
         try{
             $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate);
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList3.php";
@@ -140,7 +140,7 @@ class SeatsByEventManagementController
             $this->seatsByEventDao->Delete($seatsByEvent);
             echo "<script> alert('Asiento por Evento eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el Asiento por Evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el Asiento por Evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->seatsByEventList();
@@ -177,7 +177,7 @@ class SeatsByEventManagementController
             $this->seatsByEventDao->Update($oldSeatsByEvent, $newSeatsByEvent);
             echo "<script> alert('Calendario modificada exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el calendario " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el calendario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->seatsByEventList();

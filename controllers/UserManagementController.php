@@ -46,7 +46,7 @@ class UserManagementController
             $this->userDao->Add($user);
             echo "<script> alert('Usuario agregada exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la usuario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         $this->index();
@@ -57,7 +57,7 @@ class UserManagementController
         try{
             $userList = $this->userDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Usuarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Usuarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         require VIEWS_PATH.$this->folder."UserManagementList.php";
@@ -71,7 +71,7 @@ class UserManagementController
             $this->userDao->Delete($user);
             echo "<script> alert('Usera eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la usuario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->userList();
@@ -109,7 +109,7 @@ class UserManagementController
             $this->userDao->Update($oldUser, $newUser);
             echo "<script> alert('Usuario modificado exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el usuario " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el usuario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->userList();

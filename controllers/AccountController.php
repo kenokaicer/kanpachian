@@ -53,7 +53,7 @@ class AccountController
             }
             $this->index();
         }catch(Exception $ex){
-            echo "<script> alert('No se pudo realizar el loggeo. Error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo realizar el loggeo. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
     }
@@ -105,7 +105,7 @@ class AccountController
                 $this->index();
             }
         }catch(Excpetion $ex){
-            echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
     }

@@ -63,7 +63,8 @@ class CategoryDao extends SingletonDao implements ICategoryDao
             }
             
             foreach ($resultSet as $row) //loops returned rows
-            {               
+            {   
+                $category =  new Category();            
                 foreach ($categoryAttributes as $value) { //auto fill object with magic function __set
                     $category->__set($value, $row[$value]);
                 }

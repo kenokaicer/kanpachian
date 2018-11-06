@@ -23,7 +23,7 @@
 			try{ 
 				$eventList = $this->eventDao->getAll();
 			}catch(Exception $ex){
-				echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+				echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
 			}
 
 			return $eventList;
