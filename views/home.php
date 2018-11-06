@@ -42,7 +42,7 @@
         </div>
     </div>
 
-     <div id="features">
+     <div id="eventos">
        
     <?php
     
@@ -60,10 +60,10 @@
      $pc =  $value->getEventName();
      ?>
       <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
-      <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=$value->getImage()?>">
+      <img width="200px" id="<?=$value->getIdEvent()?>" onclick="ShowEvent(this.id)" src="<?=$value->getImage()?>">
       <div><?=$pc?></div>
       <input type="submit" class="button" value="Ver" 
-      id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)"></div>
+      id="<?=$value->getIdEvent()?>" onclick="ShowEvent(this.id)"></div>
       <?php
       
       if($contador==$cantidadDeColumnas)
@@ -171,9 +171,12 @@
 
 <script>
 
-function doSomething(id)
+function ShowEvent(id)
 {
     console.log(id);
+    //Load("eventos","views/demo.php");
+    //$("#eventos").load("EventDetails");
+    $("#eventos").load("views/demo.php");
 }
 </script>
 </html>

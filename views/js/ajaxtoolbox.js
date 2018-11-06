@@ -29,4 +29,10 @@ function demo()
     });
 }
 
+function Load(div,page)
+{
+  alert("Hola");
+  $("#" + div).load(page);
+}
+
 
