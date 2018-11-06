@@ -55,16 +55,16 @@ var cart = new Cart();
 
 <div class="grid-x grid-margin-x small-up-3 medium-up-4 large-up-5" id="comboPanel">
 <div id="1" class="cell">
-<button id="1" class="button primary"<img src="img/1.jpg" alt=""  onclick="nuevoPedido(1);">Combo 1 kg</button>
+<button id="1" name="1k" class="button primary"<img src="img/1.jpg" alt=""  onclick="nuevoPedido(1);">Combo 1 kg</button>
 </div>
 <div id="2" class="cell">
-<button href="#" id="2" class="button primary"<img src="img/2.jpg" alt="" onclick="nuevoPedido(2)">Combo 1/2 kg</button>
+<button href="#" id="2" name="1/2k" class="button primary"<img src="img/2.jpg" alt="" onclick="nuevoPedido(2)">Combo 1/2 kg</button>
 </div>
 <div id="3" class="cell">
-<button href="#" id="3" class="button primary"<img src="img/3.jpg" alt="" onclick="nuevoPedido(3)">2 de 1/4 kg</button>
+<button href="#" id="3"  name="2x1/4k" class="button primary"<img src="img/3.jpg" alt="" onclick="nuevoPedido(3)">2 de 1/4 kg</button>
 </div>
 <div id="4" class="cell">
-<button href="#" id="4" class="button primary"<img src="img/4.jpg" alt="" onclick="nuevoPedido(4)">3 de 1/4 kg</button>
+<button href="#" id="4" name="2x1/4k"class="button primary"<img src="img/4.jpg" alt="" onclick="nuevoPedido(4)">3 de 1/4 kg</button>
 </div>
 <div id="5" class="cell">
 <button href="#" id="5" class="button primary"<img src="img/5.jpg" alt="" onclick="nuevoPedido(5)">Combo 1 kg</button>
@@ -198,6 +198,8 @@ var cart = new Cart();
  {
    //  console.log(cod);
     idComboSeleccionado = cod;
+    var prod = new Product(cod,"Gusto","0");
+    add(prod);
     selectCombo(cod);
 
     switch(cod) {

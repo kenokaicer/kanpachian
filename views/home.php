@@ -42,8 +42,14 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <div id="features">
     
+=======
+     <div id="eventos">
+
+       
+>>>>>>> fe3af043c7408396f62020096710e413a882dc56
     <?php
     $pedidos = \controllers\HomeController::getEventList();
     $cantidadDeColumnas = 3;
@@ -52,6 +58,34 @@
     //var_dump($pedidos);
     foreach($pedidos as $key => $value) 
     {
+     if($contador==0)
+     {
+      echo'<div class="grid-x grid-padding-x">';
+     }
+     $pc =  $value->getEventName();
+     ?>
+      <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
+      <img width="200px" id="<?=$value->getIdEvent()?>" onclick="ShowEvent(this.id)" src="<?=$value->getImage()?>">
+      <div><?=$pc?></div>
+      <input type="submit" class="button" value="Ver" 
+      id="<?=$value->getIdEvent()?>" onclick="ShowEvent(this.id)"></div>
+      <?php
+      
+      if($contador==$cantidadDeColumnas)
+      {
+        ?>
+        </div>
+           </div>
+          
+          <?php
+                  $contador=$cantidadDeColumnas;
+
+      }
+      $contador++;
+      ?>
+      
+      <?php
+=======
         if($contador==0){
     ?>
             <div class="grid-x grid-padding-x">
@@ -74,6 +108,7 @@
           $contador=$cantidadDeColumnas;
         }
         $contador++;
+>>>>>>> 29f564ed8a01152278e9dd5d3663076920a88542
     }
     ?> 
 </div>
@@ -158,9 +193,12 @@
 
 <script>
 
-function doSomething(id)
+function ShowEvent(id)
 {
     console.log(id);
+    //Load("eventos","views/demo.php");
+    //$("#eventos").load("EventDetails");
+    $("#eventos").load("views/demo.php");
 }
 </script>
 </html>
