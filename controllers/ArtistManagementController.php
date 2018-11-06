@@ -46,7 +46,7 @@ class ArtistManagementController
             $this->artistDao->Add($artist);
             echo "<script> alert('Artista agregado exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el artista. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         $this->index();
@@ -57,7 +57,7 @@ class ArtistManagementController
         try{
             $artistList = $this->artistDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Artistas: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Artistas: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         require VIEWS_PATH.$this->folder."ArtistManagementList.php";
@@ -71,7 +71,7 @@ class ArtistManagementController
             $this->artistDao->Delete($artist);
             echo "<script> alert('Artista eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el artista. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->artistList();
@@ -108,7 +108,7 @@ class ArtistManagementController
             $this->artistDao->Update($oldArtist, $newArtist);
             echo "<script> alert('Artista modificado exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el artista " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el artista " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->artistList();

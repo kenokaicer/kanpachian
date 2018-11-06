@@ -1,3 +1,4 @@
+<body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
 <div class="wrapper">
     <form method="post">
         <section>

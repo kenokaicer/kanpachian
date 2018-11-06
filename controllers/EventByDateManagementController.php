@@ -39,7 +39,7 @@ class EventByDateManagementController
             $artistList = $this->artistDao->getAll();
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex){
-            echo "<script> alert('No se pude cargar datos necesarios. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pude cargar datos necesarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
         
@@ -68,7 +68,7 @@ class EventByDateManagementController
             $theater = $this->theaterDao->getById($idTheater);
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
 
@@ -83,7 +83,7 @@ class EventByDateManagementController
             try{
                 $artist = $this->artistDao->getById($idArtist);
             }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+                echo "<script> alert('No se pudo agregar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
                 $this->index();
             }
 
@@ -94,7 +94,7 @@ class EventByDateManagementController
             $this->eventByDateDao->Add($eventByDate);
             echo "<script> alert('Calendario agregado exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         $this->index();
@@ -105,7 +105,7 @@ class EventByDateManagementController
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         require VIEWS_PATH.$this->folder."EventByDateManagementList.php";
@@ -114,9 +114,9 @@ class EventByDateManagementController
     public function eventByDateList2($idEvent)
     {
         try{
-            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);//get by Event
+            $eventByDateList = $this->eventByDateDao->getByEventIdLazy($idEvent);//get by Event, lazy load, omit seatTypes for theater, Event and Category
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         require VIEWS_PATH.$this->folder."EventByDateManagementList2.php";
@@ -130,7 +130,7 @@ class EventByDateManagementController
             $this->eventByDateDao->Delete($eventByDate);
             echo "<script> alert('Calendario eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el calendario. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->eventByDateList();
@@ -167,7 +167,7 @@ class EventByDateManagementController
             $this->eventByDateDao->Update($oldEventByDate, $newEventByDate);
             echo "<script> alert('Calendario modificada exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el calendario " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el calendario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->eventByDateList();

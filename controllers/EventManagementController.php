@@ -5,6 +5,8 @@ use Dao\BD\EventDao as EventDao;
 use Dao\BD\CategoryDao as CategoryDao;
 use Models\Event as Event;
 use Exception as Exception;
+use Cross\FileUpload as FileUpload;
+use Models\File as File;
 
 class EventManagementController
 {
@@ -31,39 +33,53 @@ class EventManagementController
         require VIEWS_PATH.$this->folder."EventManagementAdd.php";
     }
 
-    public function addEvent($eventName, $image, $description, $idCategory)
+    public function addEvent($eventName, $description, $idCategory)
     {
-        $event = new Event();
+        try{
+            if (!empty($_FILES['file']['name'])) {
+                $file = $_FILES['file'];
+                $filePath = File::upload($file);
+            } else {
+            $filePath = null;
+            echo "<script> alert('Advertencia, imagen no ingresada');</script>";
+            }
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
 
-        $eventAttributes = $event->getAll();
-        array_pop($eventAttributes);
-        
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        array_pop($args);
-        
-        $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+        try{
+            $args = array();
 
-        foreach ($eventAttributeList as $attribute => $value) {
-            $event->__set($attribute,$value);
+            $eventAttributes = Event::getAttributes();
+            
+            array_push($args, null, $eventName, $filePath, $description);
+
+            $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+
+            $event = new Event();
+            foreach ($eventAttributeList as $attribute => $value) {
+                $event->__set($attribute,$value);
+            }
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
 
         try{
             $category = $this->categoryDao->getById($idCategory);
+
+            $event->setCategory($category);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo cargar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
-
-        $event->setCategory($category);
 
         try{
             $this->eventDao->Add($event);
             echo "<script> alert('Evento agregado exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el evento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";        
+            echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
-        
+
         $this->index();
     }
 
@@ -72,7 +88,7 @@ class EventManagementController
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         require VIEWS_PATH.$this->folder."EventManagementList.php";
     }
@@ -85,7 +101,7 @@ class EventManagementController
             $this->eventDao->Delete($event);
             echo "<script> alert('Eventa eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->eventList();
@@ -97,8 +113,18 @@ class EventManagementController
      */
     public function viewEditEvent($idEvent)
     {   
-        $oldEvent = $this->eventDao->getById($idEvent);
+        try{
+            $oldEvent = $this->eventDao->getById($idEvent);
+        } catch (Exception $ex) {
+            echo "<script> alert('Error getting oldEvent. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        } 
 
+        try{
+            $categoryList = $this->categoryDao->getAll();
+        } catch (Exception $ex) {
+            echo "<script> alert('No se pudo listar las categorías. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        } 
+    
         require VIEWS_PATH.$this->folder."EventManagementEdit.php";
     }
 
@@ -106,23 +132,52 @@ class EventManagementController
      * Recieve modified attributes for object Event
      * and old object by id, call dao update
      */
-    public function editEvent($oldIdEvent, $event)
+    public function editEvent($oldIdEvent, $eventName, $description, $idCategory)
     {
         $oldEvent = $this->eventDao->getById($oldIdEvent);
-        $newEvent = new Event();
 
-        $args = func_get_args();
-        $eventAttributeList = array_combine(array_keys($newEvent->getAll()),array_values($args)); 
+        try{
+            if (!empty($_FILES['file']['name'])) {
+                $file = $_FILES['file'];
+                $filePath = File::upload($file);
+            } else {
+                $filePath = null;
+            }
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
 
-        foreach ($eventAttributeList as $attribute => $value) {
-            $newEvent->__set($attribute,$value);
+        try{
+            $args = array();
+
+            $eventAttributes = Event::getAttributes();
+            
+            array_push($args, $oldIdEvent, $eventName, $filePath, $description);
+
+            $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+
+            $newEvent = new Event();
+            foreach ($eventAttributeList as $attribute => $value) {
+                $newEvent->__set($attribute,$value);
+            }
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+        }
+
+        try{
+            $category = $this->categoryDao->getById($idCategory);
+            
+            $newEvent->setCategory($category);
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
         }
 
         try{
             $this->eventDao->Update($oldEvent, $newEvent);
-            echo "<script> alert('Categoría modificada exitosamente');</script>";
+            echo "<script> alert('Evento modificado exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el categoría " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el evento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->eventList();

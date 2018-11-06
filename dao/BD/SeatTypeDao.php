@@ -56,11 +56,10 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
             $seatTypeAttributes = array_keys(SeatType::getAttributes()); //get attribute names from object for use in __set
 
             $query = "SELECT * FROM " . $this->tableName ." 
-                WHERE ".$seatTypeAttributes[0]." :".key($parameters)." 
+                WHERE ".$seatTypeAttributes[0]." = :".key($parameters)." 
                 AND Enabled = 1";
             
-            
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query,$parameters);
             
             if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
@@ -193,8 +192,10 @@ class SeatTypeDao extends SingletonDao implements ISeatTypeDao
                 throw new Exception("No hay datos para modificar, ningún campo nuevo ingresado");
             }
         } catch (PDOException $ex) {
+            echo "update pdo";
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
+            echo "update ex";
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
     }

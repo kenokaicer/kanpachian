@@ -364,7 +364,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             $query = "SELECT * FROM " . $this->tableNameArtist . " A
                     INNER JOIN " . $this->tableNameArtistEventByDate . " AED
                     ON A.idArtist = AED.idArtist
-                    WHERE AED.".$artistAttributes[0]." = :".key($parameters)." 
+                    WHERE AED.idEventByDate = :".key($parameters)." 
                     AND A.enabled = 1";
         
             $resultSet = $this->connection->Execute($query, $parameters);

@@ -1,3 +1,4 @@
+<body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
 <div class="wrapper">
     <section>
         <form action="<?=FRONT_ROOT?>ArtistManagement/editArtist" method="post">

@@ -3,10 +3,22 @@
     box-sizing: border-box;
 }
 .wrapper{
-    width: 900px !important;
+    width: 65%;
     margin: 0 auto;
     border: 1px;
     border-style: solid;
+}
+.menuWrapper{
+    width: 600px;
+    margin: 0 auto;
+    border: 1px;
+    border-style: solid;
+}
+.menuButton{
+    width: 100%;
+}
+.menu{
+    margin: 0 !important;
 }
 section{
     border: 1px;

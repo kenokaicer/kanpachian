@@ -44,7 +44,7 @@ class CategoryManagementController
             $this->categoryDao->Add($category);
             echo "<script> alert('Categoría agregada exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         $this->index();
@@ -55,7 +55,7 @@ class CategoryManagementController
         try{
             $categoryList = $this->categoryDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Categorías: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Categorías: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         require VIEWS_PATH.$this->folder."CategoryManagementList.php";
@@ -69,7 +69,7 @@ class CategoryManagementController
             $this->categoryDao->Delete($category);
             echo "<script> alert('Categoría eliminada exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->categoryList();
@@ -106,7 +106,7 @@ class CategoryManagementController
             $this->categoryDao->Update($oldCategory, $newCategory);
             echo "<script> alert('Categoría modificada exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el categoría " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el categoría " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->categoryList();

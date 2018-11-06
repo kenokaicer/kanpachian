@@ -43,9 +43,9 @@
     </div>
 
      <div id="eventos">
+
        
     <?php
-    
     $pedidos = \controllers\HomeController::getEventList();
     $cantidadDeColumnas = 3;
     $boostrapDivision = 12/$cantidadDeColumnas;
@@ -80,13 +80,30 @@
       ?>
       
       <?php
+=======
+        if($contador==0){
+    ?>
+            <div class="grid-x grid-padding-x">
+    <?php
+        }
+        $pc =  $value->getEventName();
+    ?>
+    <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
+    <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$value->getImage()?>">
+    <div><?=$pc?></div>
+    <input type="submit" class="button" value="Ver" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)"></div>
+    <?php      
+        if($contador==$cantidadDeColumnas){
+    ?>
+    </div>  
+    <?php
+          $contador=$cantidadDeColumnas;
+        }
+        $contador++;
+>>>>>>> 29f564ed8a01152278e9dd5d3663076920a88542
     }
-        
-    
     ?> 
 </div>
-
-
     <div id="pricing">
         <div class="row">
             <div class="large-12 columns">

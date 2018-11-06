@@ -44,7 +44,7 @@ class SeatTypeManagementController
             $this->seatTypeDao->Add($seatType);
             echo "<script> alert('Tipo de asiento agregado exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el tipo de asiento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo agregar el tipo de asiento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         $this->index();
@@ -55,13 +55,13 @@ class SeatTypeManagementController
         try{
             $seatTypeList = $this->seatTypeDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Tipo de asientos: " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Tipo de asientos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
         require VIEWS_PATH.$this->folder."SeatTypeManagementList.php";
     }
 
-    public function deleteSeatType($id)
+    public function deleteSeatType($idSeatType)
     {
         $seatType = $this->seatTypeDao->getById($idSeatType);
 
@@ -69,7 +69,7 @@ class SeatTypeManagementController
             $this->seatTypeDao->Delete($seatType);
             echo "<script> alert('Tipo de asiento eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el tipo de asiento. " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el tipo de asiento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->seatTypeList();
@@ -81,7 +81,11 @@ class SeatTypeManagementController
      */
     public function viewEditSeatType($idSeatType)
     {   
-        $oldSeatType = $this->seatTypeDao->getById($idSeatType);
+        try{
+            $oldSeatType = $this->seatTypeDao->getById($idSeatType);
+        }catch (Exception $ex) {
+            echo "<script> alert('No se pudo modificar el tipo de asiento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
 
         require VIEWS_PATH.$this->folder."SeatTypeManagementEdit.php";
     }
@@ -106,7 +110,7 @@ class SeatTypeManagementController
             $this->seatTypeDao->Update($oldSeatType, $newSeatType);
             echo "<script> alert('Tipo de asiento modificado exitosamente');</script>";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el tipo de asiento " . str_replace("'", "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo modificar el tipo de asiento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         $this->seatTypeList();
