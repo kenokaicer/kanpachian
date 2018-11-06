@@ -42,14 +42,9 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-    <div id="features">
-    
-=======
      <div id="eventos">
 
        
->>>>>>> fe3af043c7408396f62020096710e413a882dc56
     <?php
     $pedidos = \controllers\HomeController::getEventList();
     $cantidadDeColumnas = 3;
