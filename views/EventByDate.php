@@ -1,20 +1,20 @@
-<!--
+
 <div id="additional-info" style="padding:0">
     <div class="row">
         <div class="large-12 columns">
             <h1 class="color-white headings text-center"><?=$event->getEventName()?></h2>
         </div>
     </div>
-    <div class="large-12 columns">
-        <img src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
-    </div>
+    
 </div>
--->
-<div class="large-12 columns">
+
+<!--<div class="large-12 columns">
         <img src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
-    </div>
+    </div>-->
 <div style="height:500px" id="intro">
-    <div></div>
+<div class="large-12 columns">
+        <img style="width:65%" src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
+    </div>
 </div>
 
 <div id="pricing">
@@ -22,22 +22,22 @@
         <div class="large-12 columns">
             <h2 class="text-center color-pink headings"><?=$event->getEventName()?></h2>
         </div>
-        <div><p><?=$event->getDescription()?></p></div>
-        
+        <div class="large-12 columns"><p><?=$event->getDescription()?></p></div>
+    </div>
+    <div class="row" style="padding:100px 0px 100px 0px">
         <?php 
-        foreach ($eventByDateList as $eventByDate) {
+        foreach ($seatsByEventList as $seatsByEvent) {
         ?>
        
         <div class="large-4 medium-4 small-12 columns">
             <div class="pricing-title">
-                $99.99
+                $<?=$seatsByEvent->getPrice()?>
             </div>
             <ul class="pricing-table">
-                <li class="description">An awesome description</li>
-                <li class="bullet-item">1 Database</li>
-                <li class="bullet-item">5GB Storage</li>
-                <li class="bullet-item">20 Users</li>
-                <li class="cta-button"><a class="button" href="#">Buy Now</a></li>
+                <li class="description">Tipo de Asiento: <?=$seatsByEvent->getSeatType()->getSeatTypeName()?></li>
+                <li class="bullet-item">Descripción: <?=$seatsByEvent->getSeatType()->getDescription()?></li>
+                <li class="bullet-item">Disponibilidad: <?=$seatsByEvent->getRemnants()?></li>
+                <button>Compre Ahora</button>
             </ul>
         </div>
 

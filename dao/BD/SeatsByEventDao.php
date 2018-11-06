@@ -126,7 +126,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             $query = "SELECT * FROM " . $this->tableName." SE 
                     INNER JOIN ".$this->tableNameSeatType." ST
                     ON SE.idSeatType = ST.idSeatType
-                    WHERE SE.".$seatsByEventAttributes[0]." = :".key($parameters)." 
+                    WHERE SE.idEventByDate = :".key($parameters)." 
                     AND SE.enabled = 1";
         
             $resultSet = $this->connection->Execute($query,$parameters);
@@ -258,7 +258,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
                     WHERE ED.".$eventByDateAttributes[0]." = :".key($parameters)." 
                     AND ED.enabled = 1";
         
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query,$parameters);
 
             if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
@@ -332,10 +332,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
                     }
                 }
 
-                if($theater->getIdTheater != $row["idTheater"]){
-                    throw new Exception(__METHOD__."More than one theater returned, expected only one");
-                }
-
                 $seatType = new SeatType();
                 foreach ($seatTypeAttributes as $value) {
                     $seatType->__set($value, $row[$value]);
@@ -384,6 +380,6 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             throw new Exception(__METHOD__ . ",eventByDate list query error: " . $ex->getMessage());
         }
 
-        return $eventByDatesList;
+        return $artistsList;
     }
 }

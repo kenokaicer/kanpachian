@@ -16,10 +16,10 @@ use Dao\BD\EventB as CategoryDao;
 
 Autoload::start();
 
-$dao = new EventByDateDao();
+$dao = new SeatsByEventDao();
 
 try{
-    $list = $dao->getByEventIdLazy(1);
+    $list = $dao->getByEventByDateId(1);
     var_dump($list);
 }catch(Exception $ex){
     echo $ex->getMessage();

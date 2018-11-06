@@ -46,15 +46,6 @@ class EventByDateManagementController
         require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
     }
 
-    public  function test($data)
-    {
-        require "Views/admin.php";
-
-        var_dump($data);
-
-        print(" SUCCCCESSSSSSSSSSSSSSSSSSSSSSSSXXX");
-    }
-
     /**
      * Not complete, waiting for ajax of artists in add
      */
