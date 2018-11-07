@@ -2,12 +2,13 @@
     <button type="submit" formaction="<?=FRONT_ROOT?>Admin/index">ADMIN</button>
  </form></div>
  <div><form method="post">
-    <button type="submit" formaction="<?=FRONT_ROOT?>Account/index">TEST</button>
+    <button type="submit" formaction="<?=FRONT_ROOT?>Account/index">LOGIN</button>
  </form></div>
  <div><form method="post">
     <button type="submit" formaction="<?=FRONT_ROOT?>Account/registerUser">REGISTER</button>
  </form></div>
- <button id="2" class="button primary" onclick="CallPHPFunction();">Demo Ajax</button>
+ <button id="2" class="button primary" onclick="CallPHPFunction('getSeatTypes','1');">Demo Ajax</button>
+ <button id="2" class="button primary" onclick="CallPHPFunction2('SeatsByEventManagement','ajaxGetEventByDates','1');">Test 2 Ajax</button>
  <div id="additional-info">
         <div class="row">
             <div class="large-12 columns">

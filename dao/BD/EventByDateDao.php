@@ -491,4 +491,40 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
         return $artistsList;
     }
+
+    public function getTeatherByEventByDateId($idEventByDate){
+        $parameters = get_defined_vars();
+        $theater = null;
+
+        try{
+            $query = "SELECT idTheater
+                    FROM EventByDates
+                    WHERE idEventByDate = :".key($parameters)." 
+                    AND enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            $row = reset($resultSet); //gives first object of array
+            $idTheater = reset($row); //get value of previous first object
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ", Error getting Theater id. " . $ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ", Error getting Theater id. " . $ex->getMessage());
+            return;
+        }
+
+        try{
+            $theater = $this->getTheaterById($idTheater);
+        }catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ", Error getting Theater. " . $ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ", Error getting Theater. " . $ex->getMessage());
+            return;
+        }
+        
+        return $theater;
+    }
+    
 }

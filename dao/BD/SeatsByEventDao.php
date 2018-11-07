@@ -382,4 +382,29 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
         return $artistsList;
     }
+
+    public function getIdSeatTypesByEventByDate($idEventByDate)
+    {
+        $parameters = get_defined_vars();
+        $seatTypes = array();
+
+        try {
+            $query = "SELECT idSeatType 
+                    FROM " . $this->tableName." 
+                    WHERE idEventByDate = :".key($parameters)." 
+                    AND enabled = 1";
+
+                    $resultSet = $this->connection->Execute($query, $parameters);
+        
+            foreach ($resultSet as $row) {
+                array_push($seatTypes, $row["idSeatType"]);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",seatTypes list error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",seatTypes list error: " . $ex->getMessage());
+        }
+
+        return $seatTypes;
+    }
 }

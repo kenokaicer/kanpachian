@@ -47,10 +47,11 @@ class SeatsByEventManagementController
         require VIEWS_PATH.$this->folder."SeatsByEventManagementAdd.php";
     }
 
-    public function ajaxGetEventByDates($idEvent)
+    public function ajaxGetEventByDates($idEvent) //doesn't work as it returns header and footer in response (router problem)
     {
         try{
             $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);
+            echo json_encode($eventByDateList);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();

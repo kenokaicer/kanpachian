@@ -19,7 +19,7 @@ Autoload::start();
 $dao = new SeatsByEventDao();
 
 try{
-    $list = $dao->getByEventByDateId(1);
+    $list = $dao->getIdSeatTypesByEventByDate(1);
     var_dump($list);
 }catch(Exception $ex){
     echo $ex->getMessage();

@@ -11,11 +11,11 @@ function woopity(controller,method,data)
     $.ajax({ url: controller+"/"+method,
      data: {action: jsonAr},
      type: 'post',
-     success: function(output) {
+     success: function(data) {
                   alert(output);
                    //lala = document.getElementById("demo");
-                   var str ='<div id="divCheckbox" style="display: none;">'+ output+'</div>' ;
-                   document.writeline(str);
+                   //var str ='<div id="divCheckbox" style="display: none;">'+ output+'</div>' ;
+                   //document.writeline(str);
                   // output.getElementById('return');
                   //console.log(lala);
 
@@ -23,15 +23,30 @@ function woopity(controller,method,data)
     });
 }
 
-function CallPHPFunction() // option = id , date , theater. && el claendario set attribute value = id. .
+//mismo problema, devuelve index, header y footer en la respuesta, y es dificil de filtrar el resultado para json, script o xml
+function CallPHPFunction2(controller,method,value) //llamar al metodo y pasa parametro/s por GET
 {
+    $.ajax({
+    url: controller+"/"+method+"?value="+value,
+    type: 'get',
+    dataType : 'script',
+    success: function(data) {
+        console.log(data);
+        alert(data);
+    },
+})
+}
 
+function CallPHPFunction(func, value) // option = id , date , theater. && el claendario set attribute value = id. .
+{
     $.ajax({
     url : 'ajaxtest.php', // requesting a PHP script
+    type: 'post',
     dataType : 'json',
+    data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
     success : function (data) { // data contains the PHP script output
-      console.log(data);
-       alert(data);
+        console.log(data);
+        //alert(data);
     },
 })
 }
