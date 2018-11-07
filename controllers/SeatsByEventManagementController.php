@@ -59,7 +59,7 @@ class SeatsByEventManagementController
 
     public function test($var)
     {
-        
+
     }
 
     /**
