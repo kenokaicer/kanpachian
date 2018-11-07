@@ -1,19 +1,16 @@
 
-<div id="additional-info" style="padding:0">
-    <div class="row">
-        <div class="large-12 columns">
+<div id="additional-info" style="padding:0;height: 70px;">
+    <div class="row" style="padding:0;height: 70px;">
+        <div class="large-12 columns" style="padding:0;height: 70px;">
             <h1 class="color-white headings text-center"><?=$event->getEventName()?></h2>
         </div>
     </div>
     
 </div>
 
-<!--<div class="large-12 columns">
-        <img src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
-    </div>-->
-<div style="height:500px" id="intro">
-<div class="large-12 columns">
-        <img style="width:65%" src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
+<div style="display: inline-block;" id="intro">
+    <div class="large-12 columns">
+        <img style="width:60%" src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
     </div>
 </div>
 
