@@ -53,7 +53,7 @@ class EventController
 
     public function test($var)
     {
-        echo "<div id='return'>true</div>";
+        echo "<div id='idPrueba'>true</div>";
         
     }
 }

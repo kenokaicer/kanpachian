@@ -9,7 +9,7 @@
                             <?php
                                 foreach ($eventList as $value) {
                             ?>
-                                <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName().", Categoría: ".$value->getCategory()->getCategoryName()?></option>      
+                                <option onEventChanged="myFunction(this.value)" value="<?=$value->getIdEvent()?>"><?=$value->getEventName().", Categoría: ".$value->getCategory()->getCategoryName()?></option>      
                             <?php
                                 }
                             ?>
