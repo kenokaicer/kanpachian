@@ -53,7 +53,11 @@ class EventController
 
     public function test($var)
     {
+<<<<<<< HEAD
         print('<p id="demo">Click the button to change the text in this paragraph.</p>');
+=======
+        echo "<div id='idPrueba'>true</div>";
+>>>>>>> b0aefb979f8a7139822b7c46a5eae045cced5ee4
         
     }
 }

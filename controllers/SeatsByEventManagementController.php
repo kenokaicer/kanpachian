@@ -23,10 +23,10 @@ class SeatsByEventManagementController
 
     public function __construct()
     {
-        $this->seatsByEventDao = SeatsByEventDao::getInstance();
-        $this->eventDao = EventDao::getInstance();
-        $this->seatTypeDao = SeatTypeDao::getInstance();
-        $this->eventByDateDao = EventByDateDao::getInstance();
+        $this->seatsByEventDao = new SeatsByEventDao();
+        $this->eventDao = new eventDao();
+        $this->seatTypeDao = new SeatTypeDao();
+        $this->eventByDateDao = new EventByDateDao();
     }
 
     public function index()
@@ -45,6 +45,21 @@ class SeatsByEventManagementController
         }
         
         require VIEWS_PATH.$this->folder."SeatsByEventManagementAdd.php";
+    }
+
+    public function ajaxGetEventByDates($idEvent)
+    {
+        try{
+            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        }
+    }
+
+    public function test($var)
+    {
+
     }
 
     /**
