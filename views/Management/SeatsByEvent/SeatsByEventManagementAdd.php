@@ -88,7 +88,7 @@ $("#selectSeatType").mouseup(function() {
     $(this).data("isopen", !open);
 });
 
-//estaría bueno agregar una funcion que agrege los asientos sin irse de la página, el tema es que como devolver la confirmacion se
+//estaría bueno agregar una funcion que agrege los asientos sin irse de la página, el tema es que como devolver la confirmación si
 //los agregó o no, 
 //de ser hay que hacer un remove del option del select de seatType, para prevenir que no se pueda volver a cargar
 </script>

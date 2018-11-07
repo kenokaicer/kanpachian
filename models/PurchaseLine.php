@@ -4,21 +4,21 @@ namespace Models;
 
 use Models\SeatsByEvent as SeatsByEvent;
 
-class PurchaseLines extends Attributes//Lineas_Compra
+class PurchaseLine extends Attributes//Lineas_Compra
 
 {
-    protected $idPurchaseLines;
+    protected $idPurchaseLine;
     protected $price; //This is a inherited value from SteasByEvent
     private $seatsByEvent; //Class SeatsByEvent.
 
-    public function getIdPurchaseLines()
+    public function getIdPurchaseLine()
     {
-        return $this->idPurchaseLines;
+        return $this->idPurchaseLine;
     }
 
-    public function setIdPurchaseLines($idPurchaseLines)
+    public function setIdPurchaseLine($idPurchaseLine)
     {
-        $this->idPurchaseLines = $idPurchaseLines;
+        $this->idPurchaseLine = $idPurchaseLine;
 
         return $this;
     }

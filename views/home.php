@@ -7,6 +7,9 @@
  <div><form method="post">
     <button type="submit" formaction="<?=FRONT_ROOT?>Account/registerUser">REGISTER</button>
  </form></div>
+ <div><form method="post">
+    <button type="submit" formaction="<?=FRONT_ROOT?>Cart/index">CART</button>
+ </form></div>
  <button id="2" class="button primary" onclick="CallPHPFunction('getSeatTypes','1');">Demo Ajax</button>
  <button id="2" class="button primary" onclick="CallPHPFunction2('SeatsByEventManagement','ajaxGetEventByDates','1');">Test 2 Ajax</button>
  <div id="additional-info">

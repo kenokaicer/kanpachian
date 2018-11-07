@@ -2,7 +2,7 @@
 <div id="additional-info" style="padding:0;height: 70px;">
     <div class="row" style="padding:0;height: 70px;">
         <div class="large-12 columns" style="padding:0;height: 70px;">
-            <h1 class="color-white headings text-center"><?=$event->getEventName()?></h2>
+            <h1 class="color-white headings text-center">Carrito</h2>
         </div>
     </div>
     
@@ -10,39 +10,23 @@
 
 <div style="display: inline-block;" id="intro">
     <div class="large-12 columns">
-        <img style="width:60%" src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
+        <img style="width:60%" src="" alt="mockup" />
     </div>
 </div>
 
-<div id="pricing">
-    <div class="row">
-        <div class="large-12 columns">
-            <h2 class="text-center color-pink headings"><?=$event->getEventName()?></h2>
-        </div>
-        <div class="large-12 columns"><p><?=$event->getDescription()?></p></div>
-    </div>
-    <div class="row" style="padding:100px 0px 100px 0px">
-        <?php 
-        foreach ($seatsByEventList as $seatsByEvent) {
-        ?>
-       
-        <div class="large-4 medium-4 small-12 columns">
-            <div class="pricing-title">
-                $<?=$seatsByEvent->getPrice()?>
-            </div>
-            <ul class="pricing-table">
-                <li class="description">Tipo de Asiento: <?=$seatsByEvent->getSeatType()->getSeatTypeName()?></li>
-                <li class="bullet-item">Descripción: <?=$seatsByEvent->getSeatType()->getDescription()?></li>
-                <li class="bullet-item">Disponibilidad: <?=$seatsByEvent->getRemnants()?></li>
-                <button <?php if($seatsByEvent->getRemnants() <= 0) echo "disabled" ?> >Compre Ahora</button> <!--Check for seat availability-->
-            </ul>
-        </div>
-
-        <?php    
-        }
-        ?>
-    </div>
+<section>
+<div>
+    <table>
+        <th>Evento</th>
+        <th>Categoría</th>
+        <th>Teatro</th>
+        <th>Asiento</th>
+        <th>Fecha</th>
+        <th>Precio</th>
+    </table>
 </div>
+</section>
+
 <div id="testimonial">
     <div class="row">
         <div class="large-12 columns">

@@ -25,16 +25,16 @@ class AccountController
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
                 require VIEWS_PATH."Login.php"; 
             }else if($_SESSION["userLogged"]->getRole()=="Admin"){ //Check if user is admin
-                header("location:".FRONT_ROOT."Admin/Index"); 
+                header("location:".FRONT_ROOT."Admin/index"); 
             }
             else if(isset($_SESSION["lastLocation"])){ // return to logged event start view
                 //header("location:) //see how to return to place where loggin event ocurred
             }else{
-                header("location:".FRONT_ROOT."Home/Index");
+                header("location:".FRONT_ROOT."Home/index");
             }
         }catch(Exception $ex){
             echo "<script> alert('".$ex->getMessage()."'<script>;";
-            header("location:".FRONT_ROOT."Home/Index");
+            header("location:".FRONT_ROOT."Home/index");
         }   
     }   
 
@@ -46,6 +46,7 @@ class AccountController
             if(password_verify($password, $user->getPassword())) //check if password provided coincides with hashed and salted one in BD
             {
                 Session::add("userLogged", $user);
+                Session::add("virtualCart", array());
             }
             else
             {

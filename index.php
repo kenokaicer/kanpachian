@@ -21,10 +21,10 @@
 	use Daos\SingletonDao as SingletonDao;
 	use Leafo\ScssPhp\Compiler;
 
-	function compileScss()
+	function compileScss() //Sass CSS
 	{
 		$scss = new Compiler();
-		$scss->setImportPaths("views/css/");
+		$scss->setImportPaths("Views/css/");
 		echo '<style>';
 		echo $scss->compile('@import "cart.scss"'); //To add more .scss just copy n paste this line.
 		echo '</style>';

@@ -38,7 +38,8 @@ TO DO
 
 - userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
 
-- Theater Managment add
+- Theater Managment add -> transform to javascript (not a priority)
 - Theater Managment list -> javascript that expands seatTypelist
 
+- For events, make a search by event name, by artist name, and by date, and by categories (combobox) (low prority)
  
