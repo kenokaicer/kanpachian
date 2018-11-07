@@ -22,25 +22,30 @@ class AccountController
     public function index()
     {
         try{
+            
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
+                Session::printAll();
                 require VIEWS_PATH."Login.php"; 
             }else if($_SESSION["userLogged"]->getRole()=="Admin"){ //Check if user is admin
                 header("location:".FRONT_ROOT."Admin/index"); 
             }
             else if(isset($_SESSION["lastLocation"])){ // return to logged event start view
-                //header("location:) //see how to return to place where loggin event ocurred
+                header("location:".FRONT_ROOT."Cart/addPurchaseLine"); 
             }else{
                 header("location:".FRONT_ROOT."Home/index");
             }
         }catch(Exception $ex){
-            echo "<script> alert('".$ex->getMessage()."'<script>;";
-            header("location:".FRONT_ROOT."Home/index");
+            echo "<script> alert('".$ex->getMessage()."'); 
+            window.location.replace('".FRONT_ROOT."Home/index');
+        </script>";
         }   
     }   
 
     public function sessionStart($username, $password)
     {   
         try{
+            Session::printAll();
+            die();
             $user = $this->userDao->getByUsername($username);
 
             if(password_verify($password, $user->getPassword())) //check if password provided coincides with hashed and salted one in BD
@@ -109,5 +114,19 @@ class AccountController
             echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
+    }
+
+    public function sessionClose(){
+        try{
+            Session::close();
+            //use script to redirect otherwise doesn't show alert
+            echo "<script> alert('Sesión Cerrada'); 
+                window.location.replace('".FRONT_ROOT."Home/index');
+            </script>";
+        }catch(Excpetion $ex){
+            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        }
+        
     }
 }

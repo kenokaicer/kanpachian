@@ -34,7 +34,10 @@
                 <li class="description">Tipo de Asiento: <?=$seatsByEvent->getSeatType()->getSeatTypeName()?></li>
                 <li class="bullet-item">Descripción: <?=$seatsByEvent->getSeatType()->getDescription()?></li>
                 <li class="bullet-item">Disponibilidad: <?=$seatsByEvent->getRemnants()?></li>
+                <form action="<?=FRONT_ROOT?>Cart/addPurchaseLine" method="post">
+                <input type="hidden" name="idSeatsByEvent" value="<?=$seatsByEvent->getIdSeatsByEvent()?>">
                 <button <?php if($seatsByEvent->getRemnants() <= 0) echo "disabled" ?> >Compre Ahora</button> <!--Check for seat availability-->
+                </form>
             </ul>
         </div>
 

@@ -7,7 +7,8 @@ class Session
 
     public static function start()
     {
-        if (!isset($_SESSION)) {
+        if (!isset($_SESSION) || empty($_SESSION)) {
+            echo date("h:i:sa");
             session_start();
         }
     }

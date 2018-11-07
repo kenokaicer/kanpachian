@@ -2,6 +2,7 @@
 	namespace Controllers;
 
 	use Dao\BD\EventDao as EventDao;
+	use Cross\Session as Session;
 	
 	class HomeController{
 		
@@ -14,6 +15,7 @@
 		
 		function index()
 		{	
+			//Session::printAll();
 			require "Views/home.php";
 		}
 

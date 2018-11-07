@@ -32,14 +32,15 @@ class CartController
     {
         try{
             if(!isset($_SESSION["userLogged"]))
-            {
+            {   
                 if(isset($idSeatsByEvent)){
                     Session::add("lastLocation", $idSeatsByEvent);
                 }else{
                     throw new Exception("idSeatsByEvent not set");
-                    header("location:".FRONT_ROOT."Home/index");
                 }
-                
+                //Session::printAll();
+                //echo "addpuchase line die <br>";
+                //die();
                 header("location:".FRONT_ROOT."Account/index");
             }
 
@@ -70,12 +71,12 @@ class CartController
                 $this->index();
             }else{
                 throw new Exception("idSeatsByEvent not set");
-                header("location:".FRONT_ROOT."Home/index");
             }
 
         }catch(Exception $ex){
-            echo "<script> alert('Error al agregar linea de compra. ".$ex->getMessage()."'<script>;";
-            header("location:".FRONT_ROOT."Home/index");
+            echo "<script> alert('Error al agregar linea de compra. ".$ex->getMessage()."'); 
+                window.location.replace('".FRONT_ROOT."Home/index');
+            </script>";
         } 
     }  
 

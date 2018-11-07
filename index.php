@@ -17,9 +17,9 @@
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
-	use Cross\Session as Session;
-	use Daos\SingletonDao as SingletonDao;
-	use Leafo\ScssPhp\Compiler;
+	//use Cross\Session as Session;
+	//use Daos\SingletonDao as SingletonDao;
+	//use Leafo\ScssPhp\Compiler;
 
 	function compileScss() //Sass CSS
 	{
@@ -30,8 +30,23 @@
 		echo '</style>';
 	}
 	
+	var_dump(session_status());
+	
 	Autoload::start();
-	Session::start();
+	
+	if (session_status() == 1) {
+		echo date("h:i:sa");
+		session_start();
+	}else{
+		echo "exist".date("h:i:sa");
+	}
+
+	var_dump(session_status());
+
+	$_SESSION["test"] = "testy";
+	if (isset($_SESSION["test"]))
+		echo $_SESSION["test"];
+
 
 	require "Views/Header.php";
 	require "Views/navbar.php";
@@ -39,11 +54,5 @@
 	Router::Route(new Request());
 
 	require "Views/Footer.php";
-
-	function test()
-	{
-	 require "Views/admin.php";
-	}
-
 
 ?>

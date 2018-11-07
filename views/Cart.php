@@ -23,6 +23,20 @@
         <th>Asiento</th>
         <th>Fecha</th>
         <th>Precio</th>
+        <?php
+        foreach ($purchaseLines as $purchaseLine) {
+        ?>
+        <tr>
+            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getEvent()->getEventName()?></td>
+            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getEvent()->getCategory()->getCategoryName()?></td>
+            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getTheater()->theaterName()?></td>
+            <td><?=$purchaseLine->getSeatByEvent()->getSeatType()->getSeatTypeName()?></td>
+            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getDate()?></td>
+            <td><?=$purchaseLine->getPrice()?></td>
+        </tr>
+        <?php
+        }
+        ?>
     </table>
 </div>
 </section>
