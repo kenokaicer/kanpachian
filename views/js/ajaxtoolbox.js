@@ -12,22 +12,25 @@ function woopity(controller,method,data)
      data: {action: jsonAr},
      type: 'post',
      success: function(output) {
-                  alert(output);
+                  //alert(output);
+                  lala = output.getElementById('return');
+                  console.log(lala);
+
               }
     });
 }
 
-function demo()
+/*function demo()
 {
      
     $.ajax({ url: 'ajax/perro',
      data: {action: 'perro'},
      type: 'post',
      success: function(output) {
-                  alert(output);
+            //  alert(output);
               }
     });
-}
+}*/
 
 function Load(div,page)
 {

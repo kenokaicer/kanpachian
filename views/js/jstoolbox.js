@@ -1,4 +1,3 @@
-<script>
 
  var contador=0;
  var idComboSeleccionado;
@@ -216,4 +215,3 @@ function getCookieWithName(name) {
   }
 
 
-</script>

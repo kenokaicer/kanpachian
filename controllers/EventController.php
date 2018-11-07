@@ -50,4 +50,10 @@ class EventController
         }
         require VIEWS_PATH."EventByDate.php";
     }
+
+    public function test($var)
+    {
+        echo "<div id='return'>true</div>";
+        
+    }
 }

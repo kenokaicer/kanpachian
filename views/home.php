@@ -7,6 +7,7 @@
  <div><form method="post">
     <button type="submit" formaction="<?=FRONT_ROOT?>Account/registerUser">REGISTER</button>
  </form></div>
+ <button id="2" class="button primary" onclick="woopity('event','test','woopity');">Demo Ajax</button>
  <div id="additional-info">
         <div class="row">
             <div class="large-12 columns">
