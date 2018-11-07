@@ -5,7 +5,7 @@
             <table>
                 <tr>
                     <td colspan="3">Evento:
-                        <select name="idEvent">
+                        <select name="idEvent" onchange="woopity('event','test',this.value);">
                             <?php
                                 foreach ($eventList as $value) {
                             ?>

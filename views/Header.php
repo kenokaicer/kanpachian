@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.min.css"> 
     <link rel="stylesheet" href="<?=CSS_PATH?>flaticon.css" />  
     <link rel="stylesheet" href="<?=CSS_PATH?>cart.css" />    
-    <script src="views/js/kanpacart.js"></script>
-    <script src="views/js/ajaxtoolbox.js"></script>
+    <script src="<?=JS_PATH?>kanpacart.js"></script>
+    <script src="<?=JS_PATH?>ajaxtoolbox.js"></script>
 
 
 

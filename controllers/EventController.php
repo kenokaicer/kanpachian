@@ -53,7 +53,7 @@ class EventController
 
     public function test($var)
     {
-        echo "<div id='return'>true</div>";
+        print('<p id="demo">Click the button to change the text in this paragraph.</p>');
         
     }
 }

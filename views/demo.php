@@ -72,11 +72,6 @@ var cart = new Cart();
 </div>
 </article>
 
-<script>
-
-
-</script>
-
 
 
 

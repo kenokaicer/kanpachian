@@ -12,25 +12,29 @@ function woopity(controller,method,data)
      data: {action: jsonAr},
      type: 'post',
      success: function(output) {
-                  //alert(output);
-                  lala = output.getElementById('return');
-                  console.log(lala);
+                  alert(output);
+                   //lala = document.getElementById("demo");
+                   var str ='<div id="divCheckbox" style="display: none;">'+ output+'</div>' ;
+                   document.writeline(str);
+                  // output.getElementById('return');
+                  //console.log(lala);
 
               }
     });
 }
 
-/*function demo()
+function CallPHPFunction() // option = id , date , theater. && el claendario set attribute value = id. .
 {
-     
-    $.ajax({ url: 'ajax/perro',
-     data: {action: 'perro'},
-     type: 'post',
-     success: function(output) {
-            //  alert(output);
-              }
-    });
-}*/
+
+    $.ajax({
+    url : 'ajaxtest.php', // requesting a PHP script
+    dataType : 'json',
+    success : function (data) { // data contains the PHP script output
+      console.log(data);
+       alert(data);
+    },
+})
+}
 
 function Load(div,page)
 {
