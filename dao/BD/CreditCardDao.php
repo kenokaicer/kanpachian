@@ -45,6 +45,38 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         }
     }
 
+    public function addReturningId(CreditCard $creditCard)
+    {
+        $columns = "";
+        $values = "";
+        
+        try { 
+            $parameters = array_filter($creditCard->getAll()); //get object attribute names 
+
+            foreach ($parameters as $key => $value) {
+                $columns .= $key.",";
+                $values .= ":".$key.",";
+            }
+            $columns = rtrim($columns, ",");
+            $values = rtrim($values, ",");
+
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+        
+            $addedRows = $this->connection->executeNonQuery($query, $parameters);
+            if($addedRows!=1){
+                throw new Exception("Number of rows added ".$addedRows.", expected 1");
+            }
+
+            $idCreditCard = $this->lastInsertId(); 
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $idCreditCard;
+    }
+
     public function getById($idClient)
     {   
         $parameters = get_defined_vars();
@@ -179,5 +211,25 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
+    }
+
+    public function lastInsertId()
+    {
+        try {
+            $query = "SELECT LAST_INSERT_Id()";
+
+            $resultSet = $this->connection->Execute($query);
+
+            $row = reset($resultSet); //gives first object of array
+            $id = reset($row); //get value of previous first object
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
+            return;
+        }
+
+        return $id;
     }
 }

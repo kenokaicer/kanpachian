@@ -300,7 +300,10 @@ class ClientDao extends SingletonDao implements IClientDao
         return $id;
     }
 
-    public function addCreditCardByClientId($idClient, CreditCard $creditCard)
+    /**
+     * Adds object CreditCard
+     */
+    public function addCreditCardByClientIdComplete($idClient, CreditCard $creditCard)
     {
         $columns = "";
         $values = "";
@@ -336,6 +339,32 @@ class ClientDao extends SingletonDao implements IClientDao
             if($modifiedRows!=1){
                 throw new Exception("Number of rows modified ".$modifiedRows.", expected 1");
             }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    }
+
+    /**
+     * Sets id of CreditCard only
+     */
+    public function addCreditCardByClientId($idClient, $idCreditCard)
+    {
+        try{
+            $parameters["idCreditCard"] = $idCreditCard;
+            $parameters["idClient"] = $idClient;
+
+            $query = "UPDATE ".$this->tableName." 
+                    SET idCreditCard = :idCreditCard
+                    WHERE idClient = :idClient";
+
+            $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+        
+            if($modifiedRows!=1){
+                throw new Exception("Number of rows modified ".$modifiedRows.", expected 1");
+            }
+        
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {

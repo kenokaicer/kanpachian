@@ -2,9 +2,11 @@
 
 use Dao\BD\UserDao as UserDao;
 use Dao\BD\ClientDao as ClientDao;
+use Dao\BD\CreditCardDao as CreditCardDao;
 use Models\User as User;
 use Models\Client as Client;
 use Models\Role as Role;
+use Models\CreditCard as CreditCard;
 use Exception as Exception;
 use Cross\Session as Session;
 
@@ -17,6 +19,7 @@ class AccountController
     {
         $this->userDao = new UserDao();
         $this->clientDao = new ClientDao();
+        $this->creditCardDao = new CreditCardDao();
     }
 
     public function index()
@@ -33,7 +36,7 @@ class AccountController
                 header("location:".FRONT_ROOT."Cart/addPurchaseLine"); 
                 exit;
             }else{
-                header("location:".FRONT_ROOT."Home/index");
+                echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
                 exit;
             }
         }catch(Exception $ex){
@@ -130,5 +133,47 @@ class AccountController
             $this->index();
         }
         
+    }
+
+    public function viewRegisterCreditCard()
+    {
+        Session::userLogged();
+
+        require VIEWS_PATH."CreditCard.php"; 
+    }
+
+    public function registerCreditCard($creditCardNumber,$expirationDate,$cardHolder)
+    {
+        Session::userLogged();
+
+        try{
+            $args = func_get_args();
+            array_unshift($args, null);
+
+            $creditCardAttributes = CreditCard::getAttributes();
+
+            $artistAttributeList = array_combine(array_keys($creditCardAttributes), $args);
+            var_dump($artistAttributeList);
+
+            $creditCard = new CreditCard();
+            foreach ($artistAttributeList as $attribute => $value) {
+                $creditCard->__set($attribute,$value);
+            }
+            
+            $idUser = $_SESSION["userLogger"]->getIdUser();
+
+            $idCreditCard = $this->creditCardDao->addReturningId($creditCard);
+            $client = $this->clientDao->getByUserId($idUser);
+            
+            $idClient = $client->getIdClient();
+
+            $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
+
+            echo "<script> alert('Tarjeta de Credito registrada exitosamente, redirigiendo');</script>";
+            echo "<script>window.location.replace('".FRONT_ROOT."Purchase/completePurchase');</script>";
+        }catch(Excpetion $ex){
+            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        }
     }
 }

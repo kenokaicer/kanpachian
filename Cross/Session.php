@@ -116,7 +116,9 @@ class Session
     public static function userLogged()
     {
         if (!isset($_SESSION["userLogged"])) {
-            header("location:" . FRONT_ROOT . "Account/index");
+            echo "<script> alert('Usuario no logeado, debe logearse primero.'); 
+            window.location.replace('".FRONT_ROOT."Account/index');
+        </script>";
             exit;
         } else {
             if($_SESSION["userLogged"]->getRole() == "admin"){
@@ -141,8 +143,6 @@ class Session
     public static function virtualCartCheck()
     {
         if (!isset($_SESSION["virtualCart"])) {
-            var_dump($_SESSION["virtualCart"]);
-            die();
             Session::remove("userLogged");
             echo "<script> alert('Error carrito no seteado, vuelva a logearse.'); 
             window.location.replace('".FRONT_ROOT."Account/index');

@@ -1,34 +1,14 @@
 <?php
-namespace Controllers;
+namespace Controllers\Cross;
 
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Models\PurchaseLine as PurchaseLine;
 use Exception as Exception;
 use Cross\Session as Session;
 
-class CartController
+class CartHelper
 {
-    private $seatsByEventDao;
-
-    public function __construct()
-    {
-        $this->seatsByEventDao = new SeatsByEventDao();
-    }
-
-    public function index()
-    {
-        Session::userLogged();
-
-        if(isset($_SESSION["virtualCart"])){
-            $purchaseLines = $_SESSION["virtualCart"];
-        }else{
-            $purchaseLines = array();
-        }
-
-        require VIEWS_PATH."Cart.php";
-    }
-
-    public function addPurchaseLine($idSeatsByEvent=null)
+    static function addPurchaseLine($idSeatsByEvent=null)
     {
         try{
             if(!isset($_SESSION["userLogged"]))
@@ -51,7 +31,8 @@ class CartController
             if(isset($idSeatsByEvent)){
                 Session::virtualCartCheck();
 
-                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent); //full load
+                $seatsByEventDao = new SeatsByEventDao();
+                $seatsByEvent = $seatsByEventDao->getById($idSeatsByEvent); //full load
                 
                 if($seatsByEvent->getRemnants() > 0){ //Check already done in EventByDate view
                     $purchaseLine = new PurchaseLine();
@@ -66,8 +47,6 @@ class CartController
                 }else{
                     echo "<script> alert('No hay asientos disponibles'<script>;";
                 }
-
-                $this->index();
             }else{
                 throw new Exception("idSeatsByEvent not set");
             }
@@ -79,24 +58,5 @@ class CartController
             exit;
         } 
 
-    }  
-
-    public function removePurchaseLine($indexPurchaseLine)
-    {
-        try{
-            if(isset($_SESSION["virtualCart"])){
-                $purchaseLines = $_SESSION["virtualCart"];
-            }else{
-                throw new Exception (__METHOD__."VirtualCart not set");
-            }
-
-            array_splice($purchaseLines,$indexPurchaseLine, 1);
-
-            $_SESSION["virtualCart"] = $purchaseLines;
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo borrar el item del carrito. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-        }
-
-        $this->index();
     }
-}
+} 

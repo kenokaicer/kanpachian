@@ -3,7 +3,7 @@ namespace Dao\Interfaces;
 
 use Models\CreditCard as CreditCard;
 
-interface ICreditCardsDao
+interface ICreditCardDao
 {
     public function Add(CreditCard $creditCard);
     public function getById($id);

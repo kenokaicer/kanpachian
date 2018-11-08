@@ -15,7 +15,7 @@
 		
 		function index()
 		{	
-			require "Views/home.php";
+			require VIEWS_PATH."home.php";
 		}
 
 
@@ -30,5 +30,9 @@
 			return $eventList;
 		}
 		
+		public function test()
+		{
+			require VIEWS_PATH."/old/login-box.php";
+		}
 	}
 ?>

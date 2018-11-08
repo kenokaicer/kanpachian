@@ -40,7 +40,7 @@
                 echo $stringArtistas;
                 ?>
                 </li>
-                <form action="<?=FRONT_ROOT?>Event/showSeatsByEvent" method="post">
+                <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="post">
                 <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
                 <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
                 <button>Ver</button>
