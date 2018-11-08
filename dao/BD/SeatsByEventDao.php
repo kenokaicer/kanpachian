@@ -62,7 +62,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         }
     }
 
-    public function getById($idSeatsByEvent)
+    public function getById($idSeatsByEvent, $load = "all")
     {   
         $parameters = get_defined_vars();
         $seatsByEvent = null;
@@ -100,7 +100,12 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //Get EventByDate
 
-                $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
+                if($load == "lazy" || $load == "Lazy")
+                {
+                    $eventByDate = $this->getEventByDateById($row["idEventByDate"], "lazy");
+                }else{
+                    $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
+                }
 
                 $seatsByEvent->setEventByDate($eventByDate);
             }
@@ -162,7 +167,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         return $seatByEventList;
     }
 
-    public function getAll()
+    public function getAll($load = "all")
     {
         $seatByEventList = array();
 
@@ -194,7 +199,12 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //Get EventByDate
 
-                $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
+                if($load == "lazy" || $load == "Lazy")
+                {
+                    $eventByDate = $this->getEventByDateById($row["idEventByDate"], "lazy");
+                }else{
+                    $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
+                }
 
                 $seatsByEvent->setEventByDate($eventByDate);
 
@@ -238,7 +248,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         }
     }
 
-    public function getEventByDateById($idEventByDate)
+    public function getEventByDateById($idEventByDate, $load = "all")
     {
         $parameters = get_defined_vars();
         $eventByDate = null;
@@ -286,15 +296,21 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //---Get Theater---//
 
-                $theater = $this->getTheaterById($row["idTheater"]);
+                if($load == "lazy" || $load == "Lazy"){
+                    $theater = $this->getTheaterByIdLazy($row["idTheater"]);
+                }else{
+                    $theater = $this->getTheaterById($row["idTheater"]);
+                }
 
                 $eventByDate->setTheater($theater);
 
                 //---Get Artists---//
 
-                $artistsList = $this->getArtistsByEventByDateId($eventByDate->getIdEventByDate());
+                if($load != "lazy" || $load != "Lazy"){
+                    $artistsList = $this->getArtistsByEventByDateId($eventByDate->getIdEventByDate());
 
-                $eventByDate->setArtists($artistsList);
+                    $eventByDate->setArtists($artistsList);$theater = $this->getTheaterById($row["idTheater"]);
+                } 
             }
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",eventByDate, event, category query error: " . $ex->getMessage());
@@ -339,6 +355,36 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 $theater->addSeatType($seatType);
 
+            }
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
+        }
+
+        return $theater;
+    }
+
+    public function getTheaterByIdLazy($idTheater)
+    {
+        $parameters = get_defined_vars();
+
+        try {
+            $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
+
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableNameTheater . " T
+                    WHERE T.".$theaterAttributes[0]." = :".key($parameters)." 
+                    AND T.enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            foreach ($resultSet as $row) {
+                $theater = new Theater();
+                foreach ($theaterAttributes as $value) {
+                    $theater->__set($value, $row[$value]);
+                }
             }
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
