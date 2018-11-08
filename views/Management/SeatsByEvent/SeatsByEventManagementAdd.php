@@ -43,7 +43,7 @@
                     <td colspan="3">
                         <div>
                             <button type="submit">Agregar</button>
-                            <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate>
+                            <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate> 
                         </div>
                     </td>
                 </tr>
@@ -57,13 +57,17 @@ $("#selectEvent").mouseup(function() {
     var open = $(this).data("isopen");
 
     if(open) {
-        alert(this.value); //do something here with the value recieved by the select
-        //code //aca va el codigo que tenemos hecho hasta ahora en home, que ya esta devolviendo un array con los datos necesarios
-        $("#trEventByDate").show(1000); //show the select after loading it
+        RetriveCalendars('<?=FRONT_ROOT."controllers/Ajax/"?>','getByEventId',this.value);
     }
 
     $(this).data("isopen", !open);
 });
+
+function mostrar(data)
+{
+    console.log(data);
+     $("#trEventByDate").show(1000); //show the select after loading it
+}
 
 $("#selectEventByDate").mouseup(function() {
     var open = $(this).data("isopen");
@@ -87,6 +91,31 @@ $("#selectSeatType").mouseup(function() {
 
     $(this).data("isopen", !open);
 });
+
+
+function RetriveCalendars(path,func,value) // option = id , date , theater. && el claendario set attribute value = id. .
+{
+    $.ajax({
+    url : path+'SeatsByEventManagementAjax.php', // requesting a PHP script
+    type: 'post',
+    dataType : 'json',
+    data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
+    success : function (data) 
+    { // data contains the PHP script output
+        console.log(data);
+       
+       $(this).data("isopen", !open);
+       $("#trEventByDate").show(1000); //show the select after loading it
+
+    data.forEach(loadCalendar);
+    },
+})
+}
+
+function loadCalendar(p)
+{
+  $('#selectEventByDate').append($('<option>',{value:p.id,text:'Teatro: ' +p.theaterName + ",  Fecha: "+ p.date }));
+}
 
 //estaría bueno agregar una funcion que agrege los asientos sin irse de la página, el tema es que como devolver la confirmación si
 //los agregó o no, 

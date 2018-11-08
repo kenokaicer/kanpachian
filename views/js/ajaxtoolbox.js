@@ -47,8 +47,11 @@ function CallPHPFunction(path,func, value) // option = id , date , theater. && e
     dataType : 'json',
     data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
     success : function (data) { // data contains the PHP script output
-        console.log(data);
+        //console.log(data);
         //alert(data);
+        alert(data);
+        console.log(data);
+        return data;
     },
 })
 }
