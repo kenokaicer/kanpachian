@@ -1,10 +1,8 @@
-<?php //namespace Controllers\Ajax; //Move this file to that folder when done testing, the idea is having one for every controller that uses ajax
-//file name SeatsByEventManagementAjax.php
-
+<?php namespace Controllers\Ajax; 
 //To do : errors.
 
-require_once "config/Config.php";
-require_once "config/Autoload.php";
+require_once "../../config/Config.php";
+require_once "../../config/Autoload.php";
 use Config\Autoload as Autoload;
 use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;

@@ -1,10 +1,10 @@
 <?php namespace Config;
 
-// Composer Autoload
-require_once "Vendor/Autoload.php";
-
 // Constat for Root
 define('ROOT', str_replace('\\','/',dirname(__DIR__) . "/"));
+
+// Composer Autoload
+require_once ROOT."Vendor/Autoload.php";
 
 // Constats for Json
 define("JSONFOLDER", "JsonFiles/");
