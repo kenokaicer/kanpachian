@@ -51,7 +51,7 @@ class CartController
             if(isset($idSeatsByEvent)){
                 Session::virtualCartCheck();
 
-                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent); //full load
+                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, "lazy");
                 
                 if($seatsByEvent->getRemnants() > 0){ //Check already done in EventByDate view
                     $purchaseLine = new PurchaseLine();
