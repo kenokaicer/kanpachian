@@ -14,6 +14,7 @@
     <button type="submit" formaction="<?=FRONT_ROOT?>Home/test">login-box</button>
  </form></div>
  <button id="2" class="button primary" onclick="CallPHPFunction('getSeatTypes','1');">Demo Ajax</button>
+  <button id="2" class="button primary" onclick="woopity('EventManagement','getEventById','0');">Woopity</button>
  <button id="2" class="button primary" onclick="CallPHPFunction2('SeatsByEventManagement','ajaxGetEventByDates','1');">Test 2 Ajax</button>
  <div id="additional-info">
         <div class="row">

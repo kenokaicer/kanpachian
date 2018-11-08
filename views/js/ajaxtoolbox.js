@@ -12,6 +12,8 @@ function woopity(controller,method,data)
      data: {action: jsonAr},
      type: 'post',
      success: function(data) {
+
+            var res = data.split(" ");
                   alert(output);
                    //lala = document.getElementById("demo");
                    //var str ='<div id="divCheckbox" style="display: none;">'+ output+'</div>' ;

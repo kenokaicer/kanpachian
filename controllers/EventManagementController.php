@@ -128,6 +128,25 @@ class EventManagementController
         require VIEWS_PATH.$this->folder."EventManagementEdit.php";
     }
 
+    public function getEventById($idEvent)
+    {
+         echo $idEvent;
+        $ev = '';
+        try{
+            $ev = $this->eventDao->getById($idEvent);
+
+
+        } catch (Exception $ex) {
+            echo "<script> alert('Error getting oldEvent. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        } 
+
+        echo "{ respuesta }";
+
+      
+        
+
+    }
+
     /**
      * Recieve modified attributes for object Event
      * and old object by id, call dao update
