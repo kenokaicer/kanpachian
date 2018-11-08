@@ -39,10 +39,10 @@ function CallPHPFunction2(controller,method,value) //llamar al metodo y pasa par
 })
 }
 
-function CallPHPFunction(func, value) // option = id , date , theater. && el claendario set attribute value = id. .
+function CallPHPFunction(path,func, value) // option = id , date , theater. && el claendario set attribute value = id. .
 {
     $.ajax({
-    url : 'ajaxtest.php', // requesting a PHP script
+    url : path+'SeatsByEventManagementAjax.php', // requesting a PHP script
     type: 'post',
     dataType : 'json',
     data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
