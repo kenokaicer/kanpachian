@@ -1,3 +1,4 @@
+
 <div><form method="post">
     <button type="submit" formaction="<?=FRONT_ROOT?>Admin/index">ADMIN</button>
  </form></div>
