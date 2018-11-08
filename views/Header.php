@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.min.css"> 
     <link rel="stylesheet" href="<?=CSS_PATH?>flaticon.css" />  
-    <link rel="stylesheet" href="<?=CSS_PATH?>cart.css" /> 
+   <!-- <link rel="stylesheet" href="<?=CSS_PATH?>cart.css" /> <!--Doing a redirect to home on load, braking session-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>   
     <script src="<?=JS_PATH?>kanpacart.js"></script>
     <script src="<?=JS_PATH?>ajaxtoolbox.js"></script>

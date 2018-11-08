@@ -19,8 +19,8 @@ class CartController
     {
         Session::userLogged();
 
-        if(isset($_SESSION["vitualCart"])){
-            $purchaseLines = $_SESSION["vitualCart"];
+        if(isset($_SESSION["virtualCart"])){
+            $purchaseLines = $_SESSION["virtualCart"];
         }else{
             $purchaseLines = array();
         }
@@ -38,10 +38,8 @@ class CartController
                 }else{
                     throw new Exception("idSeatsByEvent not set");
                 }
-                //Session::printAll();
-                //echo "addpuchase line die <br>";
-                //die();
                 header("location:".FRONT_ROOT."Account/index");
+                exit;
             }
 
             if(isset($_SESSION["lastLocation"]))
@@ -55,15 +53,16 @@ class CartController
 
                 $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent); //full load
                 
-                if($seatsByEvent > 0){ //Check already done in EventByDate view
-                    $purchaseLine = new PruchaseLine();
+                if($seatsByEvent->getRemnants() > 0){ //Check already done in EventByDate view
+                    $purchaseLine = new PurchaseLine();
 
                     $purchaseLine->setPrice($seatsByEvent->getPrice());
                     $purchaseLine->setSeatsByEvent($seatsByEvent);
-    
-                    $array = $_SESSION["vitualCart"];
+
+                    $array = $_SESSION["virtualCart"];
                     array_push($array, $purchaseLine);
-                    $_SESSION["vitualCart"] = $array;
+
+                    $_SESSION["virtualCart"] = $array;
                 }else{
                     echo "<script> alert('No hay asientos disponibles'<script>;";
                 }
@@ -77,7 +76,9 @@ class CartController
             echo "<script> alert('Error al agregar linea de compra. ".$ex->getMessage()."'); 
                 window.location.replace('".FRONT_ROOT."Home/index');
             </script>";
+            exit;
         } 
+
     }  
 
     public function removePurchaseLine(){

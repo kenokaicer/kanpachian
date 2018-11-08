@@ -27,11 +27,11 @@
         foreach ($purchaseLines as $purchaseLine) {
         ?>
         <tr>
-            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getEvent()->getEventName()?></td>
-            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getEvent()->getCategory()->getCategoryName()?></td>
-            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getTheater()->theaterName()?></td>
-            <td><?=$purchaseLine->getSeatByEvent()->getSeatType()->getSeatTypeName()?></td>
-            <td><?=$purchaseLine->getSeatByEvent()->getEventByDate()->getDate()?></td>
+            <td><?=$purchaseLine->getSeatsByEvent()->getEventByDate()->getEvent()->getEventName()?></td>
+            <td><?=$purchaseLine->getSeatsByEvent()->getEventByDate()->getEvent()->getCategory()->getCategoryName()?></td>
+            <td><?=$purchaseLine->getSeatsByEvent()->getEventByDate()->getTheater()->getTheaterName()?></td>
+            <td><?=$purchaseLine->getSeatsByEvent()->getSeatType()->getSeatTypeName()?></td>
+            <td><?=$purchaseLine->getSeatsByEvent()->getEventByDate()->getDate()?></td>
             <td><?=$purchaseLine->getPrice()?></td>
         </tr>
         <?php

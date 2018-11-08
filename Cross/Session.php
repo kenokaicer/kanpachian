@@ -1,14 +1,14 @@
 <?php
 namespace Cross;
 use Cross\Session as Session;
+use Exception as Exception;
 
 class Session
 {
 
     public static function start()
     {
-        if (!isset($_SESSION) || empty($_SESSION)) {
-            echo date("h:i:sa");
+        if (session_status() == 1) {
             session_start();
         }
     }
@@ -56,7 +56,7 @@ class Session
     {
         if (isset($_SESSION)) {
             if (isset($key) && trim($key) !== "") {
-                session_unset($key);
+                unset($_SESSION[$key]);
 
             } else {
                 throw new Exception('Session::remove() - $key is empty or null.');
@@ -117,9 +117,11 @@ class Session
     {
         if (!isset($_SESSION["userLogged"])) {
             header("location:" . FRONT_ROOT . "Account/index");
+            exit;
         } else {
             if($_SESSION["userLogged"]->getRole() == "admin"){
                 header("location:" . FRONT_ROOT . "Admin/index");
+                exit;
             }
         }
     }
@@ -127,9 +129,11 @@ class Session
     public static function adminLogged(){
         if (!isset($_SESSION["userLogged"])) {
             header("location:" . FRONT_ROOT . "Account/index");
+            exit;
         } else {
             if($_SESSION["userLogged"]->getRole() != "admin"){
                 header("location:" . FRONT_ROOT . "Home/index");
+                exit;
             }
         }
     }
@@ -137,9 +141,13 @@ class Session
     public static function virtualCartCheck()
     {
         if (!isset($_SESSION["virtualCart"])) {
+            var_dump($_SESSION["virtualCart"]);
+            die();
             Session::remove("userLogged");
-            echo "<script> alert('Error carrito no seteado, vuelva a logearse'<script>;";
-            header("location:" . FRONT_ROOT . "Account/index");
+            echo "<script> alert('Error carrito no seteado, vuelva a logearse.'); 
+            window.location.replace('".FRONT_ROOT."Account/index');
+        </script>";
+        exit;
         }
     }
 }

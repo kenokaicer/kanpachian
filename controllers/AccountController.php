@@ -24,28 +24,29 @@ class AccountController
         try{
             
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
-                Session::printAll();
                 require VIEWS_PATH."Login.php"; 
             }else if($_SESSION["userLogged"]->getRole()=="Admin"){ //Check if user is admin
-                header("location:".FRONT_ROOT."Admin/index"); 
+                header("location:".FRONT_ROOT."Admin/index");
+                exit; 
             }
             else if(isset($_SESSION["lastLocation"])){ // return to logged event start view
                 header("location:".FRONT_ROOT."Cart/addPurchaseLine"); 
+                exit;
             }else{
                 header("location:".FRONT_ROOT."Home/index");
+                exit;
             }
         }catch(Exception $ex){
             echo "<script> alert('".$ex->getMessage()."'); 
             window.location.replace('".FRONT_ROOT."Home/index');
         </script>";
+        exit;
         }   
     }   
 
     public function sessionStart($username, $password)
     {   
         try{
-            Session::printAll();
-            die();
             $user = $this->userDao->getByUsername($username);
 
             if(password_verify($password, $user->getPassword())) //check if password provided coincides with hashed and salted one in BD
@@ -123,6 +124,7 @@ class AccountController
             echo "<script> alert('Sesión Cerrada'); 
                 window.location.replace('".FRONT_ROOT."Home/index');
             </script>";
+            exit;
         }catch(Excpetion $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();

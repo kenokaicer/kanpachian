@@ -16,6 +16,14 @@ use Dao\BD\EventB as CategoryDao;
 
 Autoload::start();
 
+session_start();
+
+$var = array();
+$_SESSION["a"] = $var;
+var_dump($_SESSION["a"]);
+echo isset($_SESSION["a"]);
+
+/*
 $dao = new SeatsByEventDao();
 
 try{
@@ -24,14 +32,14 @@ try{
 }catch(Exception $ex){
     echo $ex->getMessage();
 }
-
+*/
 
 //var_dump($list[2]->getSeatTypes());
 
 /*
 $c = new Client();
 $c->setUser(null);
-//header("location:".FRONT_ROOT."Home/Index");
+////header("location:".FRONT_ROOT."Home/Index");
 */
 /*
 $hasedPass = password_hash(1234, PASSWORD_DEFAULT);
