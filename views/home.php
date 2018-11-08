@@ -10,17 +10,15 @@
  <div><form method="post">
     <button type="submit" formaction="<?=FRONT_ROOT?>Cart/index">CART</button>
  </form></div>
+ <div><form method="post">
+    <button type="submit" formaction="<?=FRONT_ROOT?>Home/test">login-box</button>
+ </form></div>
  <button id="2" class="button primary" onclick="CallPHPFunction('getSeatTypes','1');">Demo Ajax</button>
  <button id="2" class="button primary" onclick="CallPHPFunction2('SeatsByEventManagement','ajaxGetEventByDates','1');">Test 2 Ajax</button>
  <div id="additional-info">
         <div class="row">
             <div class="large-12 columns">
                 <h2 class="color-white headings text-center">Kanpachian!</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <img src="<?=IMG_PATH?>mockup.png" alt="mockup" />
             </div>
         </div>
     </div>
@@ -67,7 +65,7 @@
     <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
     <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$value->getImage()?>">
     <div><?=$pc?></div>
-    <form action="<?=FRONT_ROOT?>Event/index" method="post">
+    <form action="<?=FRONT_ROOT?>Purchase/index" method="post">
     <input type="hidden" name="idEvent" value="<?=$value->getIdEvent()?>">
     <input type="submit" class="button" value="Ver" id="<?=$value->getIdEvent()?>"></div>
     </form>

@@ -29,11 +29,11 @@ function compileScss() //Sass CSS
 	$scss = new Compiler();
 	$scss->setImportPaths("Views/css/");
 	echo '<style>';
-	echo $scss->compile('@import "cart.scss"'); //To add more .scss just copy n paste this line.
+	echo $scss->compile('@import "login-box.scss"'); //To add more .scss just copy n paste this line.
 	echo '</style>';
 }
 	
-Session::printAll();
+//Session::printAll();
 
 require "Views/Header.php";
 require "Views/navbar.php";
