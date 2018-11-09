@@ -66,8 +66,12 @@ class SeatsByEventManagementController
     /**
      * almost complete, waiting for ajax of artists in add
      */
-    public function addSeatsByEvent($eventByDateId, $seatTypeIdList, $quantityList, $priceList)
+    public function addSeatsByEvent($eventByDateId, $seatTypeId, $quantity, $price)
     {
+
+        var_dump(func_get_args());
+
+    /*
         $seatsByEvent = new SeatsByEvent();
         
         //-----------------------
@@ -113,6 +117,7 @@ class SeatsByEventManagementController
         echo "<script> alert('Plaza/s Evento agregada/s exitosamente');</script>";
 
         $this->index();
+        */
     }
 
     public function seatsByEventList()

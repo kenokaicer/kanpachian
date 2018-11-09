@@ -10,6 +10,9 @@
 
 <style type="text/css">	
 	 /* Style the navbar */
+
+body { padding-top: 70px; }
+
 #navbar {
   overflow: hidden;
   background-color: #333;
