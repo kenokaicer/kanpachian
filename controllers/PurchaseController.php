@@ -5,15 +5,20 @@ use Dao\BD\EventDao as EventDao;
 use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\ClientDao as ClientDao;
-//use Dao\BD\PurchaseDao as PurchaseDao;//not done yet
+use Dao\BD\PurchaseDao as PurchaseDao;
+use Dao\BD\PurchaseLineDao as PurchaseLineDao;
 use Models\Purchase as Purchase;
+use Cross\Session as Session;
 use Exception as Exception;
 
-class PurchaseController
+class PurchaseController //migracion de cart controller acá y dejar de usar cart controller
 {
     private $eventDao;
     private $categoryDao;
     private $clientDao;
+    private $seatsByEventDao;
+    private $purchaseDao;
+    private $purchaseLineDao;
 
     public function __construct()
     {
