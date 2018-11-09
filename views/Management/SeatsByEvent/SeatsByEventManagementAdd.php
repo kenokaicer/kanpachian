@@ -47,9 +47,9 @@
          <table style="padding:0px;margin:0">
          <tr>
          <td colspan="3">
-         <div>
+         <div style="vertical-align: middle;">
          <button type="submit">Agregar</button>
-         <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate> 
+         <input style="margin-top: 18px"  class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate> 
          </div>
          </td>
          </tr>
