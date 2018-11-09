@@ -1,6 +1,7 @@
 <body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
    <div class="wrapper">
       <section>
+
          <table id="mainTable" style="padding:0px;margin:0">
             <tr>
                <td colspan="3">
@@ -17,6 +18,8 @@
                   </select>
                </td>
             </tr>
+            <form action="<?=FRONT_ROOT?>SeatsByEventManagement/addSeatsByEvent" method="post">
+
             <tr id="trEventByDate" hidden>
                <!--set unhidden when event changed on Event select-->
                <td colspan="3">
@@ -35,10 +38,9 @@
                   </select>
                </td>
             </tr>
-            <form action="<?=FRONT_ROOT?>SeatsByEventManagement/addSeatsByEvent" method="post">
                <tr id="inputs" hidden>
                   <!--set unhidden when event changed on SeatType select-->
-                  <td><input type="hidden" name="idSeatType">
+                  <td>
                      Cantidad: <input type="number" name="quantity" required>
                   </td>
                   <td>Precio: <input type="number" name="price" required></td>
@@ -63,6 +65,7 @@
       
           if(open) {
               RetriveCalendars('<?=FRONT_ROOT."controllers/Ajax/"?>','getByEventId',this.value);
+              $("#trEventByDate").show(500); //show the select after loading it
           }
       
           $(this).data("isopen", !open);
@@ -75,7 +78,7 @@
              //alert(this.value); //do something here with the value recieved by the select
               RetriveSeatTypes('<?=FRONT_ROOT."controllers/Ajax/"?>','getSeatTypes',this.value);//code //acá hay que cargar el select de SeatType, con el array devuelto, funcion for ajax "getSeatTypes"
               //importante poner los id de SeatType
-              $("#trSeatType").show(1000); //show the select after loading it
+              $("#trSeatType").show(500); //show the select after loading it
           }
       
           $(this).data("isopen", !open);
@@ -84,13 +87,12 @@
       $("#selectSeatType").mouseup(function() { //This is for seat Types.
           var open = $(this).data("isopen");
           if(open) { //only show the inputs tr
-              $("#inputs").show(1000); //show the select after loading it
-              RetriveCalendars()
+              RetriveCalendars();
+              $("#inputs").show(500); //show the select after loading it
+              //$("#selectSeatType").val(this.value);
           }
-      
           $(this).data("isopen", !open);
       });
-      
       
       function RetriveCalendars(path,func,value) // option = id , date , theater. && el claendario set attribute value = id. .
       {
@@ -104,7 +106,6 @@
              // console.log(data);
              
              $(this).data("isopen", !open);
-             $("#trEventByDate").show(1000); //show the select after loading it
              data.forEach(loadCalendar);
           },
       })
@@ -133,9 +134,7 @@
             console.log(data);
              //alert(data);
              $(this).data("isopen", !open);
-             $("#trEventByDate").show(1000); //show the select after loading it
-      
-          data.forEach(loadSeatTypes);
+             data.forEach(loadSeatTypes);
           },
       })
       }
@@ -148,11 +147,9 @@
           $('#selectSeatType').append($('<option>',{value:p.idSeatType,text: p.seatTypeName }));
       }
 
-            function mostrar(data)
-      {
-         // console.log(data);
-           $("#trEventByDate").show(1000); //show the select after loading it
-      }
+
+           
+
 
 
       
