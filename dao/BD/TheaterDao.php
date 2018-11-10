@@ -170,7 +170,9 @@ class TheaterDao extends SingletonDao implements ITheaterDao
 
                 $theater->addSeatType($seatType);
             }
-            array_push($theaterList, $theater); //push last theater
+            if(isset($theaterList)){
+                array_push($theaterList, $theater); //push last theater
+            } 
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         } catch (Exception $ex) {
