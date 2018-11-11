@@ -95,4 +95,33 @@ if($func == "getSeatTypes"){
     }
 }
 
+/**
+ * Return all SeatsByEvent by EventByDate
+ */
+if($func == "getSeatsByEvents"){
+    try{
+        $seatsByEventDao = new SeatsByEventDao();
+        $seatsByEventArray = array();
+
+        $seatsByEventList = $seatsByEventDao->getByEventByDateId($var, "lazy2");
+
+        foreach ($seatsByEventList as $seatsByEvent) {
+            $array = array();
+
+            $array["idSeatsByEvent"] = $seatsByEvent->getIdSeatsByEvent();
+            $array["seatTypeName"] = $seatsByEvent->getSeatType()->getSeatTypeName();
+            $array["quantity"] = $seatsByEvent->getQuantity();
+            $array["price"] = $seatsByEvent->getPrice();
+            $array["remnants"] = $seatsByEvent->getRemnants();
+
+            array_push($seatsByEventArray, $array);
+        }
+
+        echo json_encode($seatsByEventArray);
+    }catch (Exception $ex){
+        echo $ex->getMessage();
+    }
+}
+
+
 ?>

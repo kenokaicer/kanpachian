@@ -147,7 +147,7 @@ class SeatsByEventManagementController
         try{
             $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate);
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('Error al intentar listar Plazas Evento: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList3.php";

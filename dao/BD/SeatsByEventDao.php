@@ -65,6 +65,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
     public function getById($idSeatsByEvent, $load = "all")
     {   
         $parameters = get_defined_vars();
+        array_pop($parameters);
         $seatsByEvent = null;
 
         try {
@@ -118,9 +119,10 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
         return $seatsByEvent;
     }
 
-    public function getByEventByDateId($idEventByDate)
+    public function getByEventByDateId($idEventByDate, $load = "all")
     {
         $parameters = get_defined_vars();
+        array_pop($parameters);
         $seatByEventList = array();
 
         try {
@@ -152,9 +154,16 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
 
                 //Get EventByDate
 
-                $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
-
-                $seatsByEvent->setEventByDate($eventByDate);
+                if($load == "lazy" || $load == "Lazy")
+                {
+                    $eventByDate = $this->getEventByDateById($row["idEventByDate"], "lazy");
+                    $seatsByEvent->setEventByDate($eventByDate);
+                }else if($load == "lazy2" || $load == "Lazy2"){
+                    //don't load eventByDate
+                }else{
+                    $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
+                    $seatsByEvent->setEventByDate($eventByDate);
+                }
 
                 array_push($seatByEventList, $seatsByEvent);
             }
@@ -251,6 +260,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
     public function getEventByDateById($idEventByDate, $load = "all")
     {
         $parameters = get_defined_vars();
+        array_pop($parameters);
         $eventByDate = null;
         
         try {

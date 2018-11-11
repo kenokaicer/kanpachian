@@ -59,7 +59,6 @@
          </tr>
          </table>
          </form>
-         <button onclick="test()">test</button>
       </section>
    </div>
    <script>
@@ -118,10 +117,6 @@
             }
             $(this).data("isopen", !open);
         });
-
-        function test(){
-            $("#selectEventByDate").empty();
-        }
       
         function ajaxQuery(func,value)
         {
