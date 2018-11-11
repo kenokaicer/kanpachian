@@ -150,7 +150,27 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         
             $resultSet = $this->connection->Execute($query);
 
+            $i=0;
             foreach ($resultSet as $row) {
+                if (!isset($theaterList[0]) || ($theaterList[$i-1]->getIdTheater() != $row["idTheater"])) { //load theater only on first loop
+                    $theaterList[$i] = new Theater();
+                    foreach ($theaterAttributes as $value) {
+                        $theaterList[$i]->__set($value, $row[$value]);
+                    }   
+                    $i++;  
+                }
+
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                $theaterList[$i-1]->addSeatType($seatType);
+            }
+            /**
+             * Alternative Method to fill the list array
+             */
+            /*foreach ($resultSet as $row) {
                 if(isset($theater) && ($theater->getIdTheater() != $row["idTheater"])){ //push only when id changes
                     array_push($theaterList, $theater);
                 }
@@ -159,8 +179,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
                     $theater = new Theater();
                     foreach ($theaterAttributes as $value) {
                         $theater->__set($value, $row[$value]);
-                    }
-                    
+                    }     
                 }
 
                 $seatType = new SeatType();
@@ -172,7 +191,9 @@ class TheaterDao extends SingletonDao implements ITheaterDao
             }
             if(isset($theaterList)){
                 array_push($theaterList, $theater); //push last theater
-            } 
+            }*/
+            
+             
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
         } catch (Exception $ex) {
