@@ -45,6 +45,7 @@
                   </td>
                   <td>Precio: <input type="number" name="price" required></td>
                </tr>
+               <tr id="loading" hidden><td><div><img src="<?=IMG_PATH?>loading.gif" alt="Loading"></div></td></tr>
          </table>
          <table style="padding:0px;margin:0">
          <tr>
@@ -52,104 +53,109 @@
          <div style="vertical-align: middle;">
          <button type="submit">Agregar</button>
          <input style="margin-top: 18px"  class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate> 
+         
          </div>
          </td>
          </tr>
          </table>
          </form>
+         <button onclick="test()">test</button>
       </section>
    </div>
    <script>
-      $("#selectEvent").mouseup(function() { //This is for events. //Is triggered when option changed.
-          var open = $(this).data("isopen");
+   
+        $("#selectEvent").mouseup(function() { //This is for events. //Is triggered when option changed.
+            var open = $(this).data("isopen");
       
-          if(open) {
-              RetriveCalendars('<?=FRONT_ROOT."controllers/Ajax/"?>','getByEventId',this.value);
-              $("#trEventByDate").show(500); //show the select after loading it
-          }
-      
-          $(this).data("isopen", !open);
-      });
-      
-      $("#selectEventByDate").mouseup(function() { // This is for calendars
-          var open = $(this).data("isopen");
-      
-          if(open) {
-             //alert(this.value); //do something here with the value recieved by the select
-              RetriveSeatTypes('<?=FRONT_ROOT."controllers/Ajax/"?>','getSeatTypes',this.value);//code //acá hay que cargar el select de SeatType, con el array devuelto, funcion for ajax "getSeatTypes"
-              //importante poner los id de SeatType
-              $("#trSeatType").show(500); //show the select after loading it
-          }
-      
-          $(this).data("isopen", !open);
-      });
-      
-      $("#selectSeatType").mouseup(function() { //This is for seat Types.
-          var open = $(this).data("isopen");
-          if(open) { //only show the inputs tr
-              RetriveCalendars();
-              $("#inputs").show(500); //show the select after loading it
-              //$("#selectSeatType").val(this.value);
-          }
-          $(this).data("isopen", !open);
-      });
-      
-      function RetriveCalendars(path,func,value) // option = id , date , theater. && el claendario set attribute value = id. .
-      {
-          $.ajax({
-          url : path+'SeatsByEventManagementAjax.php', // requesting a PHP script
-          type: 'post',
-          dataType : 'json',
-          data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
-          success : function (data) 
-          { // data contains the PHP script output
-             // console.log(data);
-             
-             $(this).data("isopen", !open);
-             data.forEach(loadCalendar);
-          },
-      })
-      }
-      
-      function loadCalendar(p)
-      {
+            if(open) {
+                //RetriveCalendars(getByEventId',this.value); //moved to when jquerry
+                $("#loading").show();
+                $("#selectEventByDate").empty();//empty eventByDate select if it was full
+                $("#selectSeatType").empty();
+                $("#trEventByDate").hide();//hide rest of form if performing another query
+                $("#trSeatType").hide();
+                $("#inputs").hide();
+                $.when(ajaxQuery('getByEventId',this.value)).done(function(ajaxResponse){ //waits for ajax call to be done
+                    if (ajaxResponse.length == 0){
+                        alert('No hay Calendarios cargados para este evento');
+                    }else{
+                        ajaxResponse.forEach(loadCalendar);
+                        $("#trEventByDate").show(500); //show the select after loading it
+                    }
+                    $("#loading").hide();
+                });  
+            }
 
-        $('#selectEventByDate').append($('<option>',{value:p.idEventByDate,text:'Teatro: ' +p.theaterName + ",  Fecha: "+ p.date }));
+            $(this).data("isopen", !open);
+        });
+      
+        $("#selectEventByDate").mouseup(function() { // This is for calendars
+            var open = $(this).data("isopen");
+    
+            if(open) {
+            $("#loading").show();
+            $("#selectSeatType").empty();
+            $("#trSeatType").hide();
+            $("#inputs").hide();
+            $.when(ajaxQuery('getSeatTypes',this.value)).done(function(ajaxResponse){ //waits for ajax call to be done
+                if (ajaxResponse.length == 0){
+                    alert('No hay Asientos para cargar para esta fecha (ya se han cargado todos los asientos)');    
+                }else{
+                    ajaxResponse.forEach(loadSeatTypes);
+                    $("#trSeatType").show(500); //show the select after loading it
+                }
+                $("#loading").hide();
+            });     
+            }
+      
+            $(this).data("isopen", !open);
+        });
+      
+        $("#selectSeatType").mouseup(function() { //This is for seat Types.
+            var open = $(this).data("isopen");
+            if(open) { //only show the inputs tr
+                $("#inputs").show(500); //show the select after loading it
+            }
+            $(this).data("isopen", !open);
+        });
 
-        /* Alternative methods for older browsers 
-        $(option).html("texto");
-        $('#selectEventByDate').append(option);
-        */
-      }
+        function test(){
+            $("#selectEventByDate").empty();
+        }
+      
+        function ajaxQuery(func,value)
+        {
+            return $.ajax({ //return needed for when jquery
+                url : <?=FRONT_ROOT?>+'controllers/Ajax/SeatsByEventManagementAjax.php', // requesting a PHP script
+                type: 'post',
+                dataType : 'json',
+                data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
+                success : function (data) 
+                { // data contains the PHP script output
+                    //$(this).data("isopen", !open);
+                    //data.forEach(loadCalendar); //this line was used here before implementing jquery.done
+                },
+            })
+        }
+      
+        function loadCalendar(p)
+        {
+            $('#selectEventByDate').append($('<option>',{value:p.idEventByDate,text:'Teatro: ' +p.theaterName + ",  Fecha: "+ p.date }));
 
-       function RetriveSeatTypes(path,func,value) // option = id , date , theater. && el claendario set attribute value = id. .
-      {
-          $.ajax({
-          url : path+'SeatsByEventManagementAjax.php', // requesting a PHP script
-          type: 'post',
-          dataType : 'json',
-          data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
-          success : function (data) 
-          { // data contains the PHP script output
-            console.log(data);
-             //alert(data);
-             $(this).data("isopen", !open);
-             data.forEach(loadSeatTypes);
-          },
-      })
-      }
+            /* Alternative method for older browsers 
+            $(option).html("texto");
+            $('#selectEventByDate').append(option);
+            */
+        }
 
         function loadSeatTypes(p)
-      {
-        console.log(p);
-        //$('#selectSeatType').append($('<option>',{value:p.id,text:'Tipo de asiento'}));
-        //$('#selectSeatType').append(new Option('1','Perro'));
-          $('#selectSeatType').append($('<option>',{value:p.idSeatType,text: p.seatTypeName }));
-      }
+        {
+            $('#selectSeatType').append($('<option>',{value:p.idSeatType,text: p.seatTypeName }));
+        }
 
 
            
-
+    //another idea is to load all seat types in lines, and pass to the controller a list of seattype ids, values and quantities as json
 
 
       
