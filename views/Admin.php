@@ -1,7 +1,7 @@
 <body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
 <div class="menuWrapper"> 
 <h2 style="color:white">Administrador</h2>
-<form method="POST">
+<form method="GET">
     <section>
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>ArtistManagement/index">Gestión Artistas</button></div>
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>TheaterManagement/index">Gestión Teatros</button></div>
