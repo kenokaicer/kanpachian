@@ -56,16 +56,13 @@ class AccountController
             {
                 Session::add("userLogged", $user);
                 Session::add("virtualCart", array());
-            }
-            else
-            {
+            }else{
                 echo "<script> alert('Datos ingresados no correctos');</script>";
             }
-            $this->index();
         }catch(Exception $ex){
             echo "<script> alert('No se pudo realizar el loggeo. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
         }
+        $this->index();
     }
 
     public function registerUser()
@@ -84,7 +81,7 @@ class AccountController
                 $user = new User();
                 $client = new Client();
 
-                $password = password_hash($password, PASSWORD_DEFAULT); //hash and salt password
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //hash and salt password
 
                 $userAttributes = $user->getAll();
                 $clientAttributes = $client->getAll();
@@ -103,18 +100,18 @@ class AccountController
                     }
                 }
                 
-                $user->setPassword($password);
+                $user->setPassword($hashedPassword);
                 $user->setRole("Common");
                 $client->setUser($user);
 
                 $this->clientDao->add($client);
 
-                $this->sessionStart($user->getUsername(), $password); //this needs to be done, to get userId in the object
+                $this->sessionStart($username, $password); //this needs to be done, to get userId in the object
             }else {
                 echo "<script> alert('El usuario ya existe');</script>";
                 $this->registerUser();
             }
-        }catch(Excpetion $ex){
+        }catch(Exception $ex){
             echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->registerUser();
         }
@@ -128,7 +125,7 @@ class AccountController
                 window.location.replace('".FRONT_ROOT."Home/index');
             </script>";
             exit;
-        }catch(Excpetion $ex){
+        }catch(Exception $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
@@ -160,8 +157,11 @@ class AccountController
                 $creditCard->__set($attribute,$value);
             }
             
-            $idUser = $_SESSION["userLogger"]->getIdUser();
+            $idUser = $_SESSION["userLogged"]->getIdUser();
 
+            $creditCardList = $this->creditCardDao->getAll();
+
+            
             $idCreditCard = $this->creditCardDao->addReturningId($creditCard);
             $client = $this->clientDao->getByUserId($idUser);
             
@@ -170,8 +170,8 @@ class AccountController
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
 
             echo "<script> alert('Tarjeta de Credito registrada exitosamente, redirigiendo');</script>";
-            echo "<script>window.location.replace('".FRONT_ROOT."Purchase/completePurchase');</script>";
-        }catch(Excpetion $ex){
+            //echo "<script>window.location.replace('".FRONT_ROOT."Purchase/completePurchase');</script>";
+        }catch(Exception $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }

@@ -3,13 +3,22 @@ USE neonlab1_gotoevent;
 /*insert into SeatTypes (name, description)
 values ('Palco', 'Palco');*/
 
-/*alter table SeatTypes
-change name seatTypeName varchar(50) not null unique;*/
+/*alter table Clients
+modify dni int unsigned not null;*/
 
-/*
-alter table Events
-modify description varchar(1020)
-*/
+/*delete from Users where idUser = 7;
+select * from Users;*/
+
+/*reset auto increment*/
+#ALTER TABLE Clients AUTO_INCREMENT = 2;
+
+/*delete column
+ALTER TABLE CreditCards DROP COLUMN creditCardNumber;*/
+
+/*ALTER TABLE CreditCards
+ADD COLUMN creditCardNumber int unsigned not null;*/
+
+describe CreditCards
 
 
 

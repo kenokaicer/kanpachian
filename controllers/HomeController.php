@@ -15,6 +15,7 @@
 		
 		function index()
 		{	
+			Session::printAll();
 			require VIEWS_PATH."home.php";
 		}
 

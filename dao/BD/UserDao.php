@@ -83,9 +83,10 @@ class UserDao extends SingletonDao implements IUserDao
     /**
      * Return even deleted usernames
      */
-    public function getByUsername($username)
+    public function getByUsername($username, $type = "enabled")
     { 
         $parameters = get_defined_vars();
+        array_pop($parameters);
         $user = null;
 
         try {
@@ -93,8 +94,15 @@ class UserDao extends SingletonDao implements IUserDao
 
             $parameters["username"] = $username;
 
-            $query = "SELECT * FROM " . $this->tableName ." 
+            if($type == "enabled"){
+                $query = "SELECT * FROM " . $this->tableName ." 
+                WHERE username = :".key($parameters)." 
+                AND Enabled = 1";
+            }else{
+                $query = "SELECT * FROM " . $this->tableName ." 
                 WHERE username = :".key($parameters);
+            }
+            
         
             $resultSet = $this->connection->Execute($query, $parameters);
 

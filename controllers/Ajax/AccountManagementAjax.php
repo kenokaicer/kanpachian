@@ -28,7 +28,7 @@ if($func == "usernameExist"){
     try{
         $userDao = new UserDao();
         
-        $user = $userDao->getByUsername($var);
+        $user = $userDao->getByUsername($var, "disabled");
 
         if(is_null($user)){
             $exist = false;

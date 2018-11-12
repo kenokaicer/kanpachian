@@ -8,14 +8,14 @@ use Exception as Exception;
 use Dao\Interfaces\IClientDao as IClientDao;
 use Models\Client as Client;
 use Models\User as User;
-use Model\CreditCard as CreditCard;
+use Models\CreditCard as CreditCard;
 
 class ClientDao extends SingletonDao implements IClientDao
 {
     private $connection;
     private $tableName = 'Clients';
     private $tableNameUser = 'Users';
-    private $tableNameCreditCard = 'CreaditCards';
+    private $tableNameCreditCard = 'CreditCards';
 
     public function __construct(){
         $this->connection = Connection::getInstance();
@@ -38,7 +38,7 @@ class ClientDao extends SingletonDao implements IClientDao
             $columns = "";
             $values = "";
             
-            $parameters = array_filter(Client::getAttributes()); //get object attribute names 
+            $parameters = array_filter($client->getAll()); //get object attribute names 
             $parameters["idUser"] = $idUser; 
 
             foreach ($parameters as $key => $value) {
@@ -164,7 +164,8 @@ class ClientDao extends SingletonDao implements IClientDao
                     AND C.enabled = 1";
         
             $resultSet = $this->connection->Execute($query,$parameters);  
-
+            var_dump($resultSet);
+            die();
             if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
             }

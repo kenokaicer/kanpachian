@@ -1,19 +1,22 @@
-<div class="menuWrapper"> 
-<h3>Registro de Tarjeta de Crédito</h3>
+<body style="background-color: #dcdcdc;">
 <form method="POST" onsubmit="return checkLenght();">
-    <section>
-        <table>
-            <tr><td>Numero de Tarjeta: <input id="cardNumber" type="number" pattern="{16,16}" name="creditCardNumber" required></td></tr>
-            <tr><td>Fecha de expiración: <input type="month" name="expirationDate" required></td></tr>
-            <tr><td>Titular de la Tarjeta: <input type="text" name="cardHolder" required></td></tr>
-        </table>
-    </section>
-    <section>
-        <div><button type="submit" formaction="<?=FRONT_ROOT?>Account/registerCreditCard">Registrar</button></div>
-        <div><button type="submit" formnovalidate formaction="<?=FRONT_ROOT?>Home/index">Volver</button></div>
-    </section>
-</form>
+<div class="menuWrapper" style="border:none">
+    <div id="sign-up"> 
+        <h3 class="color-pink">Registro de Tarjeta de Crédito</h3>
+        <hr />
+        <label>Numero de Tarjeta</label>
+        <input id="cardNumber" type="number" name="creditCardNumber" required>
+        <label>Fecha de expiración</label>
+        <input type="month" name="expirationDate" required>
+        <label>Titular de la Tarjeta</label>
+        <input type="text" name="cardHolder" required>
+        <button class="blue-btn" formaction="<?=FRONT_ROOT?>Account/registerCreditCard">Enviar</button>
+        <hr />
+        <button type="submit" formnovalidate formaction="<?=FRONT_ROOT?>Home/index">Volver</button>
+    </div>
 </div>
+
+</form>
 
 <script>
 function checkLenght() {
