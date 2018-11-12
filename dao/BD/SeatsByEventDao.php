@@ -81,7 +81,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             $resultSet = $this->connection->Execute($query,$parameters);
         
             if(sizeof($resultSet)!=1){
-                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
             }
             
             foreach ($resultSet as $row)
@@ -280,7 +280,7 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             $resultSet = $this->connection->Execute($query,$parameters);
 
             if(sizeof($resultSet)!=1){
-                throw new Exception(__METHOD__." error: Query returned more than 1 result, expected 1");
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
             }
             
             foreach ($resultSet as $row)
