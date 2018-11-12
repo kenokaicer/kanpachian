@@ -105,7 +105,7 @@ class ClientDao extends SingletonDao implements IClientDao
                     FROM " . $this->tableName ." C
                     INNER JOIN ".$this->tableNameUser." U 
                     ON C.idUser = U.idUser
-                    INNER JOIN ".$this->tableNameCreditCard." CC 
+                    LEFT JOIN ".$this->tableNameCreditCard." CC 
                     ON C.idCreditCard = CC.idCreditCard
                     WHERE ".$clientAttributes[0]." = :".key($parameters)." 
                     AND C.enabled = 1";
@@ -146,9 +146,13 @@ class ClientDao extends SingletonDao implements IClientDao
         return $client;
     }
 
-    public function getByUserId($idUser)
+    /**
+     * Return only client
+     */
+    public function getByUserId($idUser, $load = "all")
     {   
         $parameters = get_defined_vars();
+        array_pop($parameters);
         $client = null;
 
         try {
@@ -156,16 +160,29 @@ class ClientDao extends SingletonDao implements IClientDao
 
             $creditCardAttributes = array_keys(CreditCard::getAttributes());
 
-            $query = "SELECT *
-                    FROM " . $this->tableName ." C
-                    INNER JOIN ".$this->tableNameCreditCard." CC 
-                    ON C.idCreditCard = CC.idCreditCard
-                    WHERE idUser = :".key($parameters)." 
-                    AND C.enabled = 1";
+            $userAttributes = array_keys(User::getAttributes());
+            
+            if($load != "lazy"){
+                //LEFT JOIN, we want null creditCards also
+                $query = "SELECT *
+                FROM " . $this->tableName ." C
+                INNER JOIN ".$this->tableNameUser." U 
+                ON C.idUser = U.idUser
+                LEFT JOIN ".$this->tableNameCreditCard." CC 
+                ON C.idCreditCard = CC.idCreditCard
+                WHERE C.idUser = :".key($parameters)." 
+                AND C.enabled = 1";
+            }else{
+                //LEFT JOIN, we want null creditCards also
+                $query = "SELECT *
+                FROM " . $this->tableName ." C
+                WHERE C.idUser = :".key($parameters)." 
+                AND C.enabled = 1";
+            }
+            
         
             $resultSet = $this->connection->Execute($query,$parameters);  
-            var_dump($resultSet);
-            die();
+
             if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
             }
@@ -177,7 +194,8 @@ class ClientDao extends SingletonDao implements IClientDao
                     $client->__set($value, $row[$value]);
                 }
 
-                $user = new User();
+                if($load != "lazy"){
+                    $user = new User();
                 foreach ($userAttributes as $value) {
                     $user->__set($value, $row[$value]);
                 }
@@ -190,6 +208,7 @@ class ClientDao extends SingletonDao implements IClientDao
                 }
 
                 $client->setCreditCard($creditCard);
+                }  
             }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
@@ -215,7 +234,7 @@ class ClientDao extends SingletonDao implements IClientDao
                     FROM " . $this->tableName ." C
                     INNER JOIN ".$this->tableNameUser." U 
                     ON C.idUser = U.idUser
-                    INNER JOIN ".$this->tableNameCreditCard." CC 
+                    LEFT JOIN ".$this->tableNameCreditCard." CC 
                     ON C.idCreditCard = CC.idCreditCard
                     WHERE C.enabled = 1";
         
