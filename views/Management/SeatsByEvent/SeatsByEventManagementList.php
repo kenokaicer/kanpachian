@@ -1,44 +1,45 @@
 <body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
 <div class="wrapper">
-    <form method="post">
-        <table id="mainTable" style="padding:0px;margin:0">
-            <tr>
-               <td colspan="3">
-                    <h3>Seleccionar Evento</h3>
-                    <select id="selectEvent" name="idEvent">
-                        <?php
-                            foreach ($eventList as $value) {
-                        ?>
-                            <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName()?></option>      
-                        <?php
-                            }
-                        ?>
-                    </select>
-                </td>
-            </tr>
-            <tr id="trEventByDate" hidden>
-               <td colspan="3">
-                  Calendario:
-                  <select id="selectEventByDate" name="idEventByDate">
-                     <!--onchange loads list-->
-                  </select>
-               </td>
-            </tr>
-            <td id="trTable" hidden>
-                <table id="trTable">
-                    <thead>
-                        <th>Tipo de Asiento</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Remanentes</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+    <table id="mainTable" style="padding:0px;margin:0">
+        <tr>
+            <td colspan="3">
+                <h3>Seleccionar Evento</h3>
+                <select id="selectEvent" name="idEvent">
+                    <?php
+                        foreach ($eventList as $value) {
+                    ?>
+                        <option value="<?=$value->getIdEvent()?>"><?=$value->getEventName()?></option>      
+                    <?php
+                        }
+                    ?>
+                </select>
             </td>
-            <tr id="loading" hidden><td><div><img src="<?=IMG_PATH?>loading.gif" alt="Loading"></div></td></tr>
+        </tr>
+        <tr id="trEventByDate" hidden>
+            <td colspan="3">
+                Calendario:
+                <select id="selectEventByDate" name="idEventByDate">
+                    <!--onchange loads list-->
+                </select>
+            </td>
+        </tr>
+        <td id="trTable" hidden>
+            <table id="seatsByEventTable">
+                <thead>
+                    <th>Tipo de Asiento</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Remanentes</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </td>
+        <tr id="loading" hidden><td><div><img src="<?=IMG_PATH?>loading.gif" alt="Loading"></div></td></tr>
+    </table>
+    <form method="GET"></form>
         <section>
             <button type="submit" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/seatsByEventList2">Continuar</button>
             <button type="submit" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index">Volver</button>
@@ -80,7 +81,8 @@
                 if (ajaxResponse.length == 0){
                     alert('No hay asientos cargados');    
                 }else{
-                    //array llegando bien, cargar lista como se ve en list3.php, borrar esas listas y metodos de la controladora   
+                    $('#seatsByEventTable').empty();
+                    ajaxResponse.forEach(fillTable);  
                     $("#trTable").show(500); //show the select after loading it
                 }
                 $("#loading").hide();
@@ -103,6 +105,12 @@
                     //data.forEach(loadCalendar); //this line was used here before implementing jquery.done
                 },
             })
+        }
+
+        function fillTable(item)
+        {
+            var markup = "<tr><form method='post'><input type='hidden' name='idSeatsByEvent' value='"+item.idSeatsByEvent+"'><td>"+item.seatTypeName+"</td><td>"+item.quantity+"</td><td>"+item.price+"</td><td>"+item.remnants+"</td><td><input type='submit' value='Editar' formaction='<?=FRONT_ROOT?>SeatsByEventManagement/viewEditCategory'></td><td><input type='submit' value='Eliminar' formaction='<?=FRONT_ROOT?>SeatsByEventManagement/deleteCategory'></td></form></tr>";
+            $('#seatsByEventTable').append(markup);
         }
       
         function loadCalendar(p)

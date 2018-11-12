@@ -131,28 +131,6 @@ class SeatsByEventManagementController
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList.php";
     }
 
-    public function seatsByEventList2($idEvent)
-    {
-        try{
-            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);//get by Event
-        }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-        }
-
-        require VIEWS_PATH.$this->folder."SeatsByEventManagementList2.php";
-    }
-
-    public function seatsByEventList3($idEventByDate)
-    {
-        try{
-            $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate);
-        }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Plazas Evento: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-        }
-
-        require VIEWS_PATH.$this->folder."SeatsByEventManagementList3.php";
-    }
-
     public function deleteSeatsByEvent($id)
     {
         $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
