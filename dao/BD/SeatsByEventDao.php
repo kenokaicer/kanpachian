@@ -48,9 +48,8 @@ class SeatsByEventDao extends SingletonDao implements ISeatsByEventDao
             $columns = rtrim($columns, ",");
             $values = rtrim($values, ",");
 
-            $query = "INSERT INTO " . $this->tableName . " (".$columns.",idSeatType,idEventByDate) 
-                    VALUES (".$values.",:idSeatType,:idEventByDate);";
-
+            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
+                    
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
