@@ -75,7 +75,7 @@ USE neonlab1_gotoevent;
 
 /*create table CreditCards(
     idCreditCard int unsigned auto_increment,
-    creditCardNumber int unsigned not null,
+    creditCardNumber varchar(16) not null,
     expirationDate date,
     cardHolder varchar(50),
     enabled bool default '1',
