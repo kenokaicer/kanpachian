@@ -33,13 +33,13 @@
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </thead>
-                <tbody>
+                <tbody id="seatsByEventTableBody">
                 </tbody>
             </table>
         </td>
         <tr id="loading" hidden><td><div><img src="<?=IMG_PATH?>loading.gif" alt="Loading"></div></td></tr>
     </table>
-    <form method="GET"></form>
+    <form method="get">
         <section>
             <button type="submit" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index">Volver</button>
         </section>
@@ -80,7 +80,7 @@
                 if (ajaxResponse.length == 0){
                     alert('No hay asientos cargados');    
                 }else{
-                    $('#seatsByEventTable').empty();
+                    $('#seatsByEventTableBody').empty();
                     ajaxResponse.forEach(fillTable);  
                     $("#trTable").show(500); //show the select after loading it
                 }
@@ -115,11 +115,6 @@
         function loadCalendar(p)
         {
             $('#selectEventByDate').append($('<option>',{value:p.idEventByDate,text:'Teatro: ' +p.theaterName + ",  Fecha: "+ p.date }));
-
-            /* Alternative method for older browsers 
-            $(option).html("texto");
-            $('#selectEventByDate').append(option);
-            */
         }
 
 </script>
