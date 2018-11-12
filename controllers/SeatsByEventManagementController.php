@@ -64,60 +64,69 @@ class SeatsByEventManagementController
     }
 
     /**
-     * almost complete, waiting for ajax of artists in add
+     * Now only adding one seat at a time
      */
     public function addSeatsByEvent($eventByDateId, $seatTypeId, $quantity, $price)
     {
 
-        var_dump(func_get_args());
+        //var_dump(func_get_args());
 
-    /*
         $seatsByEvent = new SeatsByEvent();
+
+        try{ //this isn't necessary if loading all at the same time
+            $seatTypesAlreadyAdded = $this->seatsByEventDao->getIdSeatTypesByEventByDate($eventByDateId);
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar plazas evento ya insertadas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
         
         //-----------------------
-        //deserialize $seatTypeIdList
-        //quantityList
-        //priceList
+        //deserialize:
+        //-seatTypeIdList
+        //-quantityList
+        //-priceList
         //-----------------------
 
         try{
             $eventByDate = $this->eventByDateDao->getById($eventByDateId);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
         }
         
-        foreach ($seatTypeIdList as $seatTypeIdItem) {
-            try{
-                $seatType = $this->seatTypeDao->getById($seatTypeIdItem);
-            }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-                $this->index();
-            }
-            
-            array_push($seatTypeList, $seatType);
+        try{
+            //foreach ($seatTypeIdList as $seatTypeIdItem) { //disabled until method for adding changes to list
+                try{
+                    $seatType = $this->seatTypeDao->getById($seatTypeId);
+                }catch (Exception $ex){
+                    echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+                }
+    
+                foreach ($seatTypesAlreadyAdded as $value) {
+                    if ($value->getIdSeatType() == $seatType->getIdSeatType()){
+                        throw new Exception ("Plaza ya insertada");
+                    }
+                }
+                
+                $seatsByEvent = new SeatsByEvent();
+    
+                $seatsByEvent->setEventByDate($eventByDate);
+                $seatsByEvent->setSeatType($seatType);
+                $seatsByEvent->setQuantity($quantity);
+                $seatsByEvent->setRemnants($quantity);
+                $seatsByEvent->setPrice($price);
+    
+                try{
+                    $this->seatsByEventDao->Add($seatsByEvent);
+                }catch (Exception $ex){
+                    echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+                }
+            //}
+
+            echo "<script> alert('Plaza/s Evento agregada/s exitosamente');</script>";
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
-
-        for ($i=0; $i < count($seatTypeList); $i++) { //count how many SeatByEvent were recieved, and add that many SeatsByEvent
-            $seatsByEvent = new SeatsByEvent();
-
-            $seatsByEvent->setEventByDate($eventByDate);
-            $seatsByEvent->setQuantity($quantityList[$i]);
-            $seatsByEvent->setRemnants($quantityList[$i]);
-            $seatsByEvent->setPrice($priceList[$i]);
-
-            try{
-                $this->seatsByEventDao->Add($seatsByEvent);
-            }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-                $this->index();
-            }
-        }
-
-        echo "<script> alert('Plaza/s Evento agregada/s exitosamente');</script>";
 
         $this->index();
-        */
     }
 
     public function seatsByEventList()
