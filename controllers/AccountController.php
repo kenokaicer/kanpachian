@@ -150,7 +150,8 @@ class AccountController
             $creditCardAttributes = CreditCard::getAttributes();
 
             $artistAttributeList = array_combine(array_keys($creditCardAttributes), $args);
-            var_dump($artistAttributeList);
+
+            $artistAttributeList["expirationDate"] = date("Y-m-d", strtotime($artistAttributeList["expirationDate"])); //transform YYYY-MM into YYYY-MM-DD for database format
 
             $creditCard = new CreditCard();
             foreach ($artistAttributeList as $attribute => $value) {
@@ -159,9 +160,6 @@ class AccountController
             
             $idUser = $_SESSION["userLogged"]->getIdUser();
 
-            $creditCardList = $this->creditCardDao->getAll();
-
-            
             $idCreditCard = $this->creditCardDao->addReturningId($creditCard);
             $client = $this->clientDao->getByUserId($idUser);
             
@@ -170,7 +168,7 @@ class AccountController
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
 
             echo "<script> alert('Tarjeta de Credito registrada exitosamente, redirigiendo');</script>";
-            //echo "<script>window.location.replace('".FRONT_ROOT."Purchase/completePurchase');</script>";
+            echo "<script>window.location.replace('".FRONT_ROOT."Purchase/completePurchase');</script>";
         }catch(Exception $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
