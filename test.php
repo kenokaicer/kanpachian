@@ -12,16 +12,23 @@ use Models\Artist as Artist;
 use Models\User as User;
 use Models\Client as Client;
 use Models\SeatType as SeatType;
+use Models\SeatsByEvent as SeatsByEvent;
 use Dao\BD\EventB as CategoryDao;
 
 Autoload::start();
 
+$obj = new SeatsByEvent();
+
+var_dump($obj->getAll());
+
+/*
 session_start();
 
 $var = array();
 $_SESSION["a"] = $var;
 var_dump($_SESSION["a"]);
 echo isset($_SESSION["a"]);
+*/
 
 /*
 $dao = new SeatsByEventDao();
