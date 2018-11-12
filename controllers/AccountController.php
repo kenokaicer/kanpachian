@@ -79,7 +79,7 @@ class AccountController
         $usernameExists = $this->userDao->getByUsername($username);
 
         try{
-            if(empty($usernameExists) || $usernameExists == null)
+            if(is_null($usernameExists))
             {
                 $user = new User();
                 $client = new Client();
@@ -109,14 +109,14 @@ class AccountController
 
                 $this->clientDao->add($client);
 
-                $this->sessionStart($user->getUsername, $password); //this needs to be done, to get userId in the object
+                $this->sessionStart($user->getUsername(), $password); //this needs to be done, to get userId in the object
             }else {
                 echo "<script> alert('El usuario ya existe');</script>";
-                $this->index();
+                $this->registerUser();
             }
         }catch(Excpetion $ex){
             echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $this->registerUser();
         }
     }
 
