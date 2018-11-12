@@ -63,13 +63,13 @@ class UserManagementController
         require VIEWS_PATH.$this->folder."UserManagementList.php";
     }
 
-    public function deleteUser($id)
+    public function deleteUser($idUser)
     {
         $user = $this->userDao->getById($idUser);
 
         try{
             $this->userDao->Delete($user);
-            echo "<script> alert('Usera eliminado exitosamente');</script>";
+            echo "<script> alert('Usuario eliminado exitosamente');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
