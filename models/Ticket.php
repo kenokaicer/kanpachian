@@ -4,10 +4,8 @@ namespace Models;
 class Ticket extends Attributes
 {
     protected $idTicket;
-    protected $ticketNumber;
+    protected $ticketCode; // uniqid()
     protected $qrCode;
-    protected $date; //Date of purchase. Timestamp
-    private $seatType; //Class SeatType;
 
     public function getIdTicket()
     {
