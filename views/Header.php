@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,9 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.min.css"> 
     <link rel="stylesheet" href="<?=CSS_PATH?>flaticon.css" />  
-    <link rel="stylesheet" href="<?=CSS_PATH?>login-box.css" />   
+    <link rel="stylesheet" href="<?=CSS_PATH?>login-box.css" /> 
+    <link rel="stylesheet" href="<?=CSS_PATH?>product-card.css">  
+    <link rel="stylesheet" href="<?=CSS_PATH?>fade.css">
    <!-- <link rel="stylesheet" href="<?=CSS_PATH?>cart.css" /> <!--Doing a redirect to home on load, braking session-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 

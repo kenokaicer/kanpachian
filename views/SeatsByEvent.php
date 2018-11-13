@@ -1,3 +1,4 @@
+
 <div id="additional-info" style="padding:0;height: 70px;">
     <div class="row" style="padding:0;height: 70px;">
         <div class="large-12 columns" style="padding:0;height: 70px;">
@@ -27,43 +28,29 @@
         <h3 class="text-center color-pink headings"><?=$theater->getTheaterName()?></h2>
     </div>
 
-    <div class="row" style="padding:20px 0px 100px 0px;text-align:center">
+    <div class="row" style="padding:50px 0px 100px 0px">
         <?php 
-        foreach ($eventByDateList as $eventByDate) {
-        ?> 
-        
-        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px">
-            <div class="product-card">
-                <div class="product-card-thumbnail" style="width:50px;display:inline-block">
-                    <img src="<?=IMG_PATH."calendar.png"?>"/>
-                </div>
-                <h2 class="product-card-title"><a href="#">Fecha: <?=date($eventByDate->getDate())?></a></h2>
-                <span class="product-card-desc">Artistas: 
-                <?php 
-                $artistList = $eventByDate->getArtists();
-                $stringArtistas = "";
-                foreach ($artistList as $artist) {
-                    $stringArtistas .= $artist->getName()." ".$artist->getLastname().", "; 
-                }
-                $stringArtistas = rtrim($stringArtistas, ", ");
-                echo $stringArtistas;
-                ?>
-                </span>
-                <div class="product-card-colors">
-                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="post">
-                    <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
-                    <input type="hidden" name="idTheater" value="<?=$theater->getIdTheater()?>">
-                    <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
-                    <button >Ver Asientos</button>
-                    </form>
-                </div>
-            </div> 
-        </div> 
+        foreach ($seatsByEventList as $seatsByEvent) {
+        ?>
+       
+        <div class="large-4 medium-4 small-12 columns">
+            <div class="pricing-title" style="font-size:18px">
+                $<?=$seatsByEvent->getPrice()?>
+            </div>
+            <ul class="pricing-table">
+                <li class="description" style="font-size:18px">Tipo de Asiento: <?=$seatsByEvent->getSeatType()->getSeatTypeName()?></li>
+                <li class="bullet-item">Descripción: <?=$seatsByEvent->getSeatType()->getDescription()?></li>
+                <li class="bullet-item">Disponibilidad: <?=$seatsByEvent->getRemnants()?></li>
+                <form action="<?=FRONT_ROOT?>Purchase/addPurchaseLine" method="post">
+                <input type="hidden" name="idSeatsByEvent" value="<?=$seatsByEvent->getIdSeatsByEvent()?>">
+                <button <?php if($seatsByEvent->getRemnants() <= 0) echo "disabled" ?> style="margin-top:20px">Compre Ahora</button> <!--Check for seat availability-->
+                </form>
+            </ul>
+        </div>
 
         <?php    
         }
         ?>
-        
     </div>
 </div>
 <div id="testimonial">

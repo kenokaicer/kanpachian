@@ -343,12 +343,8 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         try {
             $eventByDateAttributes = array_keys(EventByDate::getAttributes());
 
-            $eventAttributes = array_keys(Event::getAttributes());
-
-            $categoryAttributes = array_keys(Category::getAttributes());
-
             $query = "SELECT * FROM " . $this->tableName . " ED
-                    WHERE ED.".$eventAttributes[0]." = :".key($parameters)." 
+                    WHERE ED.idEvent = :".key($parameters)." 
                     AND ED.enabled = 1";
 
             $resultSet = $this->connection->Execute($query,$parameters);      
@@ -364,6 +360,48 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                 $theater = $this->getTheaterByIdLazy($row["idTheater"]);
                 
                 $eventByDate->setTheater($theater);
+
+                //---Get Artists---//
+
+                $artistsList = $this->getArtistsByEventByDateId($row["idEventByDate"]);
+
+                $eventByDate->setArtists($artistsList);
+
+                array_push($eventByDateList, $eventByDate);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        }
+
+        return $eventByDateList;
+    }
+
+    /**
+     * Omit Event and Category, and Theater
+     */
+    public function getByEventIdAndTheaterIdLazy($idEvent, $idTheater)
+    {
+        $parameters = get_defined_vars();
+        $eventByDateList = array();
+
+        try {
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableName . " ED
+                    WHERE ED.idEvent = :idEvent
+                    AND ED.idTheater = :idTheater 
+                    AND ED.enabled = 1
+                    ORDER BY ED.date";
+
+            $resultSet = $this->connection->Execute($query,$parameters);      
+
+            foreach ($resultSet as $row) {
+                $eventByDate = new EventByDate();
+                foreach ($eventByDateAttributes as $value) {
+                    $eventByDate->__set($value, $row[$value]);
+                }
 
                 //---Get Artists---//
 

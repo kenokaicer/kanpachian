@@ -35,7 +35,7 @@
             <td>
             <form method="post">
                 <input type="hidden" name="indexPurchaseLine" value="<?=$i-1?>">
-                <input type="submit" value="Borrar" formaction="<?=FRONT_ROOT?>Cart/removePurchaseLine">
+                <input type="submit" value="Borrar" formaction="<?=FRONT_ROOT?>Purchase/removePurchaseLine">
             </form>
             </td>
         </tr>

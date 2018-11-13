@@ -5,6 +5,7 @@ namespace Controllers;
 use Models\Theater as Theater;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\SeatTypeDao as SeatTypeDao;
+use Models\File as File;
 
 class TheaterManagementController
 {
@@ -29,28 +30,41 @@ class TheaterManagementController
         require VIEWS_PATH.$this->folder."TheaterManagementAdd.php";
     }
 
-    public function addTheater($name, $location, $image="", $maxCapacity, $seatTypeList="")
+    public function addTheater($name, $location, $maxCapacity, $seatTypeList="")
     {    
-        $theater = new Theater();
-        //$theater = $_SESSION["seatTypesForTheater"]; //seatTypeList no longer by session, should be passed by post
-
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        array_pop($args); //take out serialized list
-
-        ///----
-        //deserialize list
-        ///-----
-
-        array_push($args, $seatTypeList); //$seatTypeList should be an object array now
-
-        $theaterAttributeList = array_combine(array_keys($theater->getAll()),array_values($args));
-
-        foreach ($theaterAttributeList as $attribute => $value) {
-            $theater->__set($attribute,$value);
-        }
-
         try{
+            if (!empty($_FILES['file']['name'])) {
+                $file = $_FILES['file'];
+                $filePath = File::upload($file);
+            } else {
+            $filePath = null;
+            echo "<script> alert('Advertencia, imagen no ingresada');</script>";
+            }
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
+        
+        try{
+            $theater = new Theater();
+            //$theater = $_SESSION["seatTypesForTheater"]; //seatTypeList no longer by session, should be passed by post
+
+            $args = func_get_args();
+            array_unshift($args, null); //put null at first of array for id
+            array_pop($args); //take out serialized list
+
+            ///----
+            //deserialize list
+            ///-----
+
+            array_push($args, $filePath); //push image
+            array_push($args, $seatTypeList); //$seatTypeList should be an object array now
+
+            $theaterAttributeList = array_combine(array_keys($theater->getAll()),array_values($args));
+
+            foreach ($theaterAttributeList as $attribute => $value) {
+                $theater->__set($attribute,$value);
+            }
+
             $this->theaterDao->Add($theater);
             echo "<script> alert('Teatro agregado exitosamente');</script>";
         }catch (Exception $ex) {

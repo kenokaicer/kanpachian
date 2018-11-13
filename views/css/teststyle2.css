@@ -53,3 +53,11 @@ td{
     border-color: black;
 }
 
+.round-image{
+    border-radius: 20px;
+}
+
+.event-top-img{
+    width:60%;
+}
+

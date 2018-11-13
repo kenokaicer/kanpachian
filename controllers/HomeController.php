@@ -10,12 +10,12 @@
 
 		public function __construct()
 		{
-			$this->eventDao = EventDao::getInstance();
+			$this->eventDao = new EventDao();
 		}
 		
 		function index()
 		{	
-			Session::printAll();
+			//Session::printAll();
 			require VIEWS_PATH."home.php";
 		}
 
@@ -33,7 +33,7 @@
 		
 		public function test()
 		{
-			require VIEWS_PATH."/old/login-box.php";
+			require VIEWS_PATH."/Event2.php";
 		}
 	}
 ?>

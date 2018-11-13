@@ -168,7 +168,9 @@ class AccountController
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
 
             echo "<script> alert('Tarjeta de Credito registrada exitosamente, redirigiendo');</script>";
-            echo "<script>window.location.replace('".FRONT_ROOT."Purchase/completePurchase');</script>";
+            //if statement, if coming from account management
+            echo "<script>window.location.replace('".FRONT_ROOT."Purchase/confirmPurchase');</script>";
+            exit;
         }catch(Exception $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();

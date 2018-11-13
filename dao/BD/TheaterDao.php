@@ -86,21 +86,32 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         }
     }
 
-    public function getById($idTheater){
+    /**
+     * lazy load = no seatTypes
+     */
+    public function getById($idTheater, $load = "all"){
         $parameters = get_defined_vars();
+        array_pop($parameters);
 
         try {
             $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
 
             $seatTypeAttributes = array_keys(SeatType::getAttributes());
 
-            $query = "SELECT * FROM " . $this->tableName . " T
+            if($load = "all"){
+                $query = "SELECT * FROM " . $this->tableName . " T
                     INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
                     ON T.idTheater = STT.idTheater
                     INNER JOIN " . $this->tableNameSeatType . " ST
                     ON STT.idSeatType = ST.idSeatType
                     WHERE STT.".$theaterAttributes[0]." = :".key($parameters)." 
                     AND T.enabled = 1";
+            }else{
+                $query = "SELECT * FROM " . $this->tableName . " T
+                    WHERE STT.".$theaterAttributes[0]." = :".key($parameters)." 
+                    AND T.enabled = 1";
+            }
+            
         
             $resultSet = $this->connection->Execute($query, $parameters);
 
@@ -112,16 +123,18 @@ class TheaterDao extends SingletonDao implements ITheaterDao
                     }
                 }
 
-                if($theater->getIdTheater != $row["idTheater"]){
+                if($theater->getIdTheater() != $row["idTheater"]){
                     throw new Exception(__METHOD__."More than one theater returned, expected only one");
                 }
 
-                $seatType = new SeatType();
-                foreach ($seatTypeAttributes as $value) {
-                    $seatType->__set($value, $row[$value]);
-                }
+                if($load = "all"){
+                    $seatType = new SeatType();
+                    foreach ($seatTypeAttributes as $value) {
+                        $seatType->__set($value, $row[$value]);
+                    }
 
-                $theater->addSeatType($seatType);
+                    $theater->addSeatType($seatType);
+                }  
             }
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
