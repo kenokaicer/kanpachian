@@ -33,7 +33,7 @@
 		
 		public function test()
 		{
-			require VIEWS_PATH."/Event2.php";
+			require VIEWS_PATH."Home2.php";
 		}
 	}
 ?>
