@@ -58,10 +58,10 @@ if(isset($_POST["seatTypes"]))
                     </form>
                 </td>
             </tr>
-            <form action="<?=FRONT_ROOT?>TheaterManagement/addTheater" method="post" id="form1">
+            <form action="<?=FRONT_ROOT?>TheaterManagement/addTheater" method="post" id="form1" enctype="multipart/form-data">
             <tr>
                 <td>Nombre: <input type="text" name="name" required></td>
-                <td>Imágen: </td>
+                <td>Imágen: <input id="file" type="file" name="file"></td>
             </tr>
             <tr>
                 <td>Ubicación: <input type="text" name="location" required></td>
