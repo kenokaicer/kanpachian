@@ -53,22 +53,16 @@ class EventByDateManagementController
     {
         $eventByDate = new EventByDate();
         
-        $eventByDate->setDate($date);
-
         try{
-            $theater = $this->theaterDao->getById($idTheater);
-            $event = $this->eventDao->getById($idEvent);
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
-        }
+        $eventByDate->setDate($date);
+        
+        $theater = $this->theaterDao->getById($idTheater);
+        $event = $this->eventDao->getById($idEvent);
 
         $eventByDate->setTheater($theater);
         $eventByDate->setEvent($event);
 
-        //-----------------------
-        //deserialize $idArtistList
-        //-----------------------
+        $idArtistList = json_decode($idArtistList);
 
         foreach ($idArtistList as $idArtist) {
             try{
@@ -80,8 +74,6 @@ class EventByDateManagementController
 
             $eventByDate->addArtist($artist);
         }
-
-        try{
             $this->eventByDateDao->Add($eventByDate);
             echo "<script> alert('Calendario agregado exitosamente');</script>";
         }catch (Exception $ex){
