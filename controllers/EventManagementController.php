@@ -5,7 +5,6 @@ use Dao\BD\EventDao as EventDao;
 use Dao\BD\CategoryDao as CategoryDao;
 use Models\Event as Event;
 use Exception as Exception;
-use Cross\FileUpload as FileUpload;
 use Models\File as File;
 
 class EventManagementController
