@@ -19,42 +19,6 @@ class Ticket extends Attributes
         return $this;
     }
 
-    public function getTicketNumber()
-    {
-        return $this->ticketNumber;
-    }
-
-    public function setTicketNumber($ticketNumber)
-    {
-        $this->ticketNumber = $ticketNumber;
-
-        return $this;
-    }
-
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getSeatType()
-    {
-        return $this->seatType;
-    }
-
-    public function setSeatType(SeatType $seatType)
-    {
-        $this->seatType = $seatType;
-
-        return $this;
-    }
-
     public function getQrCode()
     {
         return $this->qrCode;
@@ -63,6 +27,18 @@ class Ticket extends Attributes
     public function setQrCode($qrCode)
     {
         $this->qrCode = $qrCode;
+
+        return $this;
+    }
+
+	public function getTicketCode()
+	{
+		return $this->ticketCode;
+	}
+
+    public function setTicketCode($ticketCode)
+    {
+        $this->ticketCode = $ticketCode;
 
         return $this;
     }
