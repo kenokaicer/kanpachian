@@ -75,10 +75,20 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
-
     }
 
-    public function showEventByDates($idEvent, $idTheater){
+    public function showEventByDatesByArtist($idArtist)
+    {
+        try{
+            $artist;//hacer un query que devuelva eventbydates por artista
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+        }
+    }
+
+
+    public function showEventByDates($idEvent, $idTheater)
+    {
         try{
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
