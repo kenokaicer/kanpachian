@@ -35,5 +35,9 @@
 		{
 			require VIEWS_PATH."Home2.php";
 		}
+		public function ticket()
+		{
+			require VIEWS_PATH."ticket.php";
+		}
 	}
 ?>
