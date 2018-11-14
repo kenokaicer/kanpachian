@@ -16,8 +16,9 @@
     <button type="submit" formaction="<?=FRONT_ROOT?>Account/viewRegisterCreditCard">Credit Card</button>
 </div>
  <div>
-    <button type="submit" formaction="<?=FRONT_ROOT?>Home/test">test</button>
+    <button type="submit" formaction="<?=FRONT_ROOT?>Home/ticket">ticket</button>
 </div>
+
 </form>
  <div id="additional-info" style="padding-top:5px;height:70px">
         <div class="row">
