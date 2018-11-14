@@ -1,5 +1,7 @@
 
 
+
+
 <div id="additional-info" style="padding-top:5px;height:70px">
    <div class="row">
       <div class="large-12 columns">
@@ -21,7 +23,7 @@
       <div class="row add-people-section">
          <div class="small-12 medium-6 columns about-people" >
             <div class="about-people-avatar">
-               <img class="avatar-image" id="qrCode" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/220px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="Kishore Kumar">
+               <img class="avatar-image" id="qrCode" src="">
             </div>
             <div class="about-people-author">
                <p class="author-name" id="eventName">
@@ -145,4 +147,27 @@
    }
 </style>
 </html>
+
+<script type="text/javascript">
+
+//createQR("qrCode","perro");
+
+function createQR(div,qrstring) 
+{
+    console.log(div,qrstring);
+   var qrcode = new QRCode(document.getElementById(div), {
+    text: qrstring,
+    width: 128,
+    height: 128,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
+
+   console.log(qrCode);
+//qrcode.clear(); // clear the code.
+//qrcode.makeCode("http://naver.com"); // make another code.
+}
+</script>
+
 
