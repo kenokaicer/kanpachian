@@ -22,8 +22,8 @@
        ?>
       <div class="row add-people-section">
          <div class="small-12 medium-6 columns about-people" >
-            <div class="about-people-avatar">
-               <img class="avatar-image" id="qrCode" src="">
+            <div class="about-people-avatar" onload="createQR('asd','asdasdasd')">
+               <img class="avatar-image" id="qrCode">
             </div>
             <div class="about-people-author">
                <p class="author-name" id="eventName">
@@ -148,7 +148,7 @@
 </style>
 </html>
 
-<script type="text/javascript">
+<script>
 
 //createQR("qrCode","perro");
 
@@ -164,7 +164,6 @@ function createQR(div,qrstring)
     correctLevel : QRCode.CorrectLevel.H
 });
 
-   console.log(qrCode);
 //qrcode.clear(); // clear the code.
 //qrcode.makeCode("http://naver.com"); // make another code.
 }
