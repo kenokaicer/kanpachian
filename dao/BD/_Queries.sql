@@ -18,7 +18,11 @@ ALTER TABLE CreditCards DROP COLUMN creditCardNumber;*/
 /*ALTER TABLE CreditCards
 ADD COLUMN creditCardNumber int unsigned not null;*/
 
-describe CreditCards
+
+USE neonlab1_gotoevent;
+select *
+from Artists
+where CONCAT_WS(' ', name, lastname) like '%quijote de la mancha%'
 
 
 

@@ -88,6 +88,38 @@ class ArtistDao extends SingletonDao implements IArtistDao
         return $artist;
     }
 
+    public function getByNameOrAndLastname($nameOrAndLastname)
+    {
+        $artistList = array();
+
+        try{ //doesn't work with parameters
+            $query = "SELECT * FROM ".$this->tableName." 
+                    WHERE CONCAT_WS(' ', name, lastname) like '%".$nameOrAndLastname."%' 
+                    AND enabled = 1";
+
+            $resultSet = $this->connection->Execute($query);
+ 
+            $artistAttributes = array_keys(Artist::getAttributes()); //get attributes names from object for use in __set
+
+            foreach ($resultSet as $row) //loops returned rows
+            {                
+                $artist = new Artist();
+                
+                foreach ($artistAttributes as $value) { //auto fill object with magic function __set
+                    $artist->__set($value, $row[$value]);
+                }
+
+                array_push($artistList, $artist);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $artistList;
+    }
+
     /**
      * Returns all Artists as an array of Artists
      */

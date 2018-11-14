@@ -7,6 +7,7 @@ use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\ClientDao as ClientDao;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\PurchaseDao as PurchaseDao;
+use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\PurchaseLineDao as PurchaseLineDao;
 use Models\Purchase as Purchase;
 use Models\PurchaseLine as PurchaseLine;
@@ -29,6 +30,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         $this->seatsByEventDao = new SeatsByEventDao();
         $this->clientDao = new ClientDao();
         $this->theaterDao = new TheaterDao();
+        $this->artistDao = new ArtistDao();
     }
 
     public function index($idEvent)
@@ -53,6 +55,27 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         }
 
         require VIEWS_PATH."Event.php";
+    }
+
+    public function searchByArtist($artistString)
+    {
+        try{
+            $artistList = $this->artistDao->getByNameOrAndLastname($artistString);
+
+            if(empty($artistList)){
+                echo "<script> alert('No hay coincidencias'); 
+                window.location.replace('".FRONT_ROOT."Home/index');
+                </script>";
+                exit;
+            }else if(sizeof($artistList) > 1){
+                require VIEWS_PATH."artistSearch.php";
+            }else{
+                //show events
+            }
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+        }
+
     }
 
     public function showEventByDates($idEvent, $idTheater){

@@ -29,38 +29,29 @@
 
 <div id="features">
     <div class="wrapper" style="border:none">
-        <?php
-        $pedidos = \controllers\HomeController::getEventList();
-        $cantidadDeColumnas = 3;
-        $boostrapDivision = 12/$cantidadDeColumnas;
-        $contador=0;
-        //var_dump($pedidos);
-        foreach($pedidos as $key => $value) 
-        {
-            if($contador==0){
-        ?>
-                <div class="grid-x grid-padding-x">
-        <?php
-            }
-            $pc =  $value->getEventName();
-        ?>
-        <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
-        <img width="200px" id="<?=$value->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$value->getImage()?>">
-        <div><?=$pc?></div>
-        <form action="<?=FRONT_ROOT?>Purchase/index" method="post">
-        <input type="hidden" name="idEvent" value="<?=$value->getIdEvent()?>">
-        <input type="submit" class="button" value="Ver" id="<?=$value->getIdEvent()?>"></div>
-        </form>
-        <?php      
-            if($contador==$cantidadDeColumnas){
-        ?>
-                </div>  
-        <?php
-                $contador=$cantidadDeColumnas;
-            }
-            $contador++;
-        }
-        ?> 
+        <div class="polls">
+            <h5 class="polls-question">
+                <span class="polls-question-label">O</span>
+                Más de un resultado econtrado, seleccione artista
+            </h5>
+            <div class="polls-options">
+                <form action="" method="post">
+                <?php 
+                $i=0;
+                foreach ($artistList as $artist) {
+                ?>
+                    <div>
+                        <input type="radio" name="artist" id="radio<?=$i?>" value="<?=$artist->getIdArtist()?>" <?php if($i==0)echo "checked='checked'"?> required>
+                        <label for="radio<?=$i?>"> <?=$artist->getName()." ".$artist->getLastname() ?></label>
+                    </div>
+                <?php
+                $i++;
+                }
+                ?>
+                <input style="margin-top:20px" class="button" type="submit" value="Buscar">
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
