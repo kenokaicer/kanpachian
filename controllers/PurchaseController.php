@@ -31,6 +31,17 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         $this->clientDao = new ClientDao();
         $this->theaterDao = new TheaterDao();
         $this->artistDao = new ArtistDao();
+        $this->purchaseDao = new PurchaseDao();
+    }
+
+    protected static $instance = null;
+
+    public static function get() //Added for frontend testing.
+    {
+        if (!isset(static::$instance)) {
+            static::$instance = new static;
+        }
+        return static::$instance;
     }
 
     public function index($idEvent)
@@ -256,5 +267,23 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         }
 
         $this->viewCart();
+    }
+
+    public function getAllPurchases()
+    {   
+
+        if(isset($_SESSION["userLogged"]))
+        {
+            $idUser = $_SESSION["userLogged"]->getIdUser();
+        }
+        else
+        {
+            echo "<script>alert('Sesion caducada')<script>";
+            //go to another view.
+        } 
+    
+         $purchases = $this->purchaseDao->getAllNew();
+
+         //var_dump($purchases);
     }
 }

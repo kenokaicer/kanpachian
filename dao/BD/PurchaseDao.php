@@ -8,10 +8,10 @@ use Dao\Interfaces\IPurchaseDao as IPurchaseDao;
 use Models\Purchase as Purchase;
 use Models\Client as Client;
 
-class EventDao implements IPurchaseDao
+class PurchaseDao implements IPurchaseDao
 {
     private $connection;
-    private $tableName = 'Pruchases';
+    private $tableName = 'Purchases';
     private $tableNameClients = 'Clients';
     private $tableNamePurchaseLines = 'PurchaseLines';
     private $tableNameSeatsByEvent = 'SeatsByEvents';
@@ -150,6 +150,37 @@ class EventDao implements IPurchaseDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
         
+        return $purchaseList;
+    }
+
+    function getAllNew()
+    {
+        $purchaseList = array();
+
+        try{
+            $query = "SELECT * FROM ".$this->tableName." 
+                    WHERE enabled = 1";
+
+            $resultSet = $this->connection->Execute($query);
+       
+            $artistAttributes = array_keys(Purchase::getAttributes()); //get attributes names from object for use in __set
+
+            foreach ($resultSet as $row) //loops returned rows
+            {                
+                $purchase = new Purchase();
+                
+                foreach ($artistAttributes as $value) { //auto fill object with magic function __set
+                    $purchase->__set($value, $row[$value]);
+                }
+
+                array_push($purchaseList, $purchase);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
         return $purchaseList;
     }
 

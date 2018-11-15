@@ -19,16 +19,9 @@
       </div>
 
       <?php
-         if(isset($_SESSION["userLogged"]))
-         {
-            $id =  $_SESSION["userLogged"]->getUsername();
-            echo $id;
-         }
-         else
-           echo 'volver a login';
 
-
-
+      $purch = \controllers\PurchaseController::get()->getAllPurchases();
+      var_dump($purch);
 
        for ($i=0; $i < 5 ; $i++) { 
        ?>

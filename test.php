@@ -13,7 +13,8 @@ use Models\User as User;
 use Models\Client as Client;
 use Models\SeatType as SeatType;
 use Models\SeatsByEvent as SeatsByEvent;
-use Dao\BD\EventB as CategoryDao;
+use
+ Dao\BD\EventB as CategoryDao;
 
 Autoload::start();
 
