@@ -18,7 +18,19 @@
          </h6>
       </div>
 
-      <?php for ($i=0; $i < 5 ; $i++) { 
+      <?php
+         if(isset($_SESSION["userLogged"]))
+         {
+            $id =  $_SESSION["userLogged"]->getUsername();
+            echo $id;
+         }
+         else
+           echo 'volver a login';
+
+
+
+
+       for ($i=0; $i < 5 ; $i++) { 
        ?>
       <div class="row add-people-section">
          <div class="small-12 medium-6 columns about-people" >

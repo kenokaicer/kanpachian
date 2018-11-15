@@ -49,8 +49,15 @@ class AccountController
 
     public function sessionStart($username, $password)
     {   
-        try{
+        try
+        {
             $user = $this->userDao->getByUsername($username);
+            if($user == null) // if null the db didnt find any matches.
+            {
+                echo "<script> alert('Datos ingresados no correctos');</script>";
+            }
+            else
+            {
 
             if(password_verify($password, $user->getPassword())) //check if password provided coincides with hashed and salted one in BD
             {
@@ -59,9 +66,13 @@ class AccountController
             }else{
                 echo "<script> alert('Datos ingresados no correctos');</script>";
             }
-        }catch(Exception $ex){
+            }
+        }
+        catch(Exception $ex){
             echo "<script> alert('No se pudo realizar el loggeo. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
+
+        
         $this->index();
     }
 
