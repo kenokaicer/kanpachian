@@ -1,6 +1,7 @@
 
-
-
+<script type="text/javascript">
+//console.log("https://chart.googleapis.com/chart?cht=qr&chl=swag&chs=160x160&chld=L|0")
+</script>
 
 <div id="additional-info" style="padding-top:5px;height:70px">
    <div class="row">
@@ -17,13 +18,17 @@
          </h6>
       </div>
 
-
       <?php for ($i=0; $i < 5 ; $i++) { 
        ?>
       <div class="row add-people-section">
          <div class="small-12 medium-6 columns about-people" >
-            <div class="about-people-avatar" onload="createQR('asd','asdasdasd')">
-               <img class="avatar-image" id="qrCode">
+            <div class="about-people-avatar">
+               <img class="qr-code img-thumbnail img-responsive" id="content" 
+               <?php
+               $s = "src=https://chart.googleapis.com/chart?cht=qr&chl=$i&chs=160x160&chld=L|0";
+               echo $s;
+              ?> 
+                id="content">
             </div>
             <div class="about-people-author">
                <p class="author-name" id="eventName">

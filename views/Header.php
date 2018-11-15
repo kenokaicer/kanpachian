@@ -23,7 +23,9 @@
     <script src="<?=JS_PATH?>ajaxtoolbox.js"></script>
     <!--<script src="<?=JS_PATH?>nobackbutton.js"></script> <!--Disable browser back button, breaks refresh-->
     <script src="<?=JS_PATH?>foundation.min.js"></script>
-    <script src="<?=JS_PATH?>qrcode.js"></script>
+
+
+   
 
     
 
