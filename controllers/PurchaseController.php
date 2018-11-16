@@ -153,7 +153,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
                 header("location:".FRONT_ROOT."Cart/index");
                 exit;
             }
-
+            var_dump("ID DEL USUARIO: ".$idUser);
             $idUser = $_SESSION["userLogged"]->getIdUser();
             $client = $this->clientDao->getByUserId($idUser);
 
@@ -176,14 +176,25 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         $purchase = new Purchase();
 
         $purchase->setDate(date("Y/m/d-h:i:sa")); // set current date and time, ex: 2018/11/08-01:48:31am (timestamp)
+
+        $idUser = $_SESSION["userLogged"]->getIdUser();
+        $client = $this->clientDao->getByUserId($idUser);
+
         $purchase->setClient($client);
         $purchase->setPurchaseLines($purchaseLines);
-        
-        //print tickets and store them
-
-        //$this->purchaseDao() //store purchase
+   
+        $this->purchaseDao() //store purchase
 
         //deduct form remnants in seats by event
+
+        //call_user_func(array($this, 'addTicket'));
+
+
+    }
+
+    public function addTicket()
+    {
+        var_dump("obligamePerro");
     }
 
     public function viewCart()

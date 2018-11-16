@@ -6,6 +6,17 @@ class Ticket extends Attributes
     protected $idTicket;
     protected $ticketCode; // uniqid()
     protected $qrCode;
+    private $theater; // class
+    private $date;
+
+    public __construct($_idTicket,$_ticketCode,$_qrCode,$_theater,$_date)
+    {
+        $this->idTicket = $_idTicket;
+        $this->ticketCode = $_ticketCode;
+        $this->qrCode = $_qrCode;
+        $this->theater = $_theater;
+        $this->date = $_date;
+    }   
 
     public function getIdTicket()
     {

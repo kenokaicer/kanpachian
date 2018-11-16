@@ -8,6 +8,10 @@ class Attributes
      * Get array with attribute names as key, and attributes values as value.
      * Only return protected attributes, useful for returning only what you want
      * in this case only attributes that are not objects
+     *
+     *    Public members: member_name
+     *    Protected memebers: \0*\0member_name
+     *    Private members: \0Class_name\0member_name
      */
     public function getAll()
     {
