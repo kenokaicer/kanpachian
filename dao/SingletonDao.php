@@ -35,7 +35,7 @@ class SingletonDao
     }
 
 
-     public function lastInsertId()
+     public function lastInsertId() // parent::connection();
     {
         try {
             $query = "SELECT LAST_INSERT_Id()";
