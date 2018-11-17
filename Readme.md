@@ -26,20 +26,22 @@ DONE
 - fix where clause in daos, change to parameters var
 - Typehint models with object
 - fix theaterDao try-catchs (use eventByDate as reference), remake theaterDao with improvementes from eventByDateDao [part of dao code clean up]
+- CreditCard should check if null when making a payment
+- singleton only for connection, remove for every other class
+- userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
 
 
 TO DO
 
-- CreditCard should check if null when making a payment
 - Put methods in interfaces once all daos are complete
-- singleton only for connection, remove for every other class
+- decomment adminLogged in admin and management areas when finished
 - change getall() to getAttributes() where necessary, done in daos, check controllers
-- Test dao methods after dao code clean up
-
-- userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
+- cleanup controllers, set correct try-catch, check for null and empty arrays, and other proper checks
+- Test dao methods after dao code clean up, need a second test after loadtype changes
 
 - Theater Managment add -> transform to javascript (not a priority)
 - Theater Managment list -> javascript that expands seatTypelist
 
 - For events, make a search by event name, by artist name, and by date, and by categories (combobox) (low prority)
+- user menu (+view tickets, view data, modify data, change password, etc)
  
