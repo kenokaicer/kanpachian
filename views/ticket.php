@@ -19,10 +19,6 @@
       </div>
 
       <?php
-
-      $purch = \controllers\PurchaseController::get()->getAllPurchases();
-      var_dump($purch);
-
        for ($i=0; $i < 5 ; $i++) { 
        ?>
       <div class="row add-people-section">

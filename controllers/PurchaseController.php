@@ -34,7 +34,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         $this->purchaseDao = new PurchaseDao();
     }
 
-    protected static $instance = null;
+    /*protected static $instance = null;
 
     public static function get() //Added for frontend testing.
     {
@@ -42,7 +42,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
             static::$instance = new static;
         }
         return static::$instance;
-    }
+    }*/
 
     public function index($idEvent)
     { 
@@ -171,6 +171,9 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
 
     public function completePurchase()
     {
+        Session::userLogged();
+        Session::virtualCartCheck();
+
         $purchaseLines = $_SESSION["virtualCart"];
 
         $purchase = new Purchase();
@@ -183,7 +186,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         $purchase->setClient($client);
         $purchase->setPurchaseLines($purchaseLines);
    
-        $this->purchaseDao() //store purchase
+        //$this->purchaseDao() //store purchase
 
         //deduct form remnants in seats by event
 
@@ -194,18 +197,16 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
 
     public function addTicket()
     {
+        Session::userLogged();
+        Session::virtualCartCheck();
+
         var_dump("obligamePerro");
     }
 
     public function viewCart()
     {
         Session::userLogged();
-
-        if(isset($_SESSION["virtualCart"])){
-            $purchaseLines = $_SESSION["virtualCart"];
-        }else{
-            $purchaseLines = array();
-        }
+        Session::virtualCartCheck();
 
         require VIEWS_PATH."Cart.php";
     }
@@ -280,21 +281,14 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         $this->viewCart();
     }
 
-    public function getAllPurchases()
+    public function showTickets()
     {   
-
-        if(isset($_SESSION["userLogged"]))
-        {
-            $idUser = $_SESSION["userLogged"]->getIdUser();
-        }
-        else
-        {
-            echo "<script>alert('Sesion caducada')<script>";
-            //go to another view.
-        } 
+        Session::userLogged();
     
-         $purchases = $this->purchaseDao->getAllNew();
+        $purchases = $this->purchaseDao->getAllNew(); //this should be a ticket dao, that returns by clientid, and only last purchase (or last two or three, but only one at first)
 
-         //var_dump($purchases);
+        var_dump($purchases);
+
+        require VIEWS_PATH."ticket.php";
     }
 }

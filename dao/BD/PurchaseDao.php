@@ -153,6 +153,9 @@ class PurchaseDao implements IPurchaseDao
         return $purchaseList;
     }
 
+    /**
+     * no client returned, maybe this will be deprecated
+     */
     function getAllNew()
     {
         $purchaseList = array();
