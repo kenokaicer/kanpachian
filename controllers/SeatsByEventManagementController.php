@@ -5,17 +5,15 @@ use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\SeatTypeDao as SeatTypeDao;
 use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\EventDao as EventDao;
-
 use Models\SeatsByEvent as SeatsByEvent;
+use Cross\Session as Session;
 
 use Exception as Exception;
 
 class SeatsByEventManagementController
 {
-    protected $message;
     private $seatsByEventDao;
     private $seatTypeDao;
-
     private $theaterDao;
     private $artistDao;
     private $eventDao;
@@ -23,6 +21,7 @@ class SeatsByEventManagementController
 
     public function __construct()
     {
+        //Session::adminLogged();
         $this->seatsByEventDao = new SeatsByEventDao();
         $this->eventDao = new eventDao();
         $this->seatTypeDao = new SeatTypeDao();
@@ -30,8 +29,7 @@ class SeatsByEventManagementController
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    {
         require VIEWS_PATH.$this->folder."SeatsByEventManagement.php";
     }
 

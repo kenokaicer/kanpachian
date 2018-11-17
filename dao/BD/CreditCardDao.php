@@ -1,14 +1,14 @@
 <?php namespace Dao\BD; //This one doesn't need a controller and views?
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
+use Dao\BD\DaoBD as DaoBD;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ICreditCardDao as ICreditCardDao;
 use Models\CreditCard as CreditCard;
 
-class CreditCardDao extends SingletonDao implements ICreditCardDao
+class CreditCardDao extends DaoBD implements ICreditCardDao
 {
     private $connection;
     private $tableName = 'CreditCards';
@@ -211,25 +211,5 @@ class CreditCardDao extends SingletonDao implements ICreditCardDao
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
-    }
-
-    public function lastInsertId()
-    {
-        try {
-            $query = "SELECT LAST_INSERT_Id()";
-
-            $resultSet = $this->connection->Execute($query);
-
-            $row = reset($resultSet); //gives first object of array
-            $id = reset($row); //get value of previous first object
-        } catch (PDOException $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        }
-
-        return $id;
     }
 }

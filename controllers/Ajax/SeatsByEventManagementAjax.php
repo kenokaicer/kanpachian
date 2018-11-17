@@ -6,6 +6,8 @@ require_once "../../config/Autoload.php";
 use Config\Autoload as Autoload;
 use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
+use Dao\BD\LoadType as LoadType;
+
 Autoload::start();
 
 if(isset($_POST['function'])){
@@ -103,7 +105,7 @@ if($func == "getSeatsByEvents"){
         $seatsByEventDao = new SeatsByEventDao();
         $seatsByEventArray = array();
 
-        $seatsByEventList = $seatsByEventDao->getByEventByDateId($var, "lazy2");
+        $seatsByEventList = $seatsByEventDao->getByEventByDateId($var, LoadType::Lazy2);
 
         foreach ($seatsByEventList as $seatsByEvent) {
             $array = array();

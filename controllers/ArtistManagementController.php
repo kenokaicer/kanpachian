@@ -5,22 +5,22 @@ namespace Controllers;
 use Dao\BD\ArtistDao as ArtistDao;
 use Models\Artist as Artist;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class ArtistManagementController
 {
-    protected $message;
     private $artistDao;
     private $folder = "Management/Artist/";
 
     public function __construct()
     {
+        //Session::adminLogged();
         //$this->ArtistDao = ArtistList::getInstance(); //Json
-        $this->artistDao = ArtistDao::getInstance(); //BD
+        $this->artistDao = new ArtistDao(); //BD
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    { 
         require VIEWS_PATH.$this->folder."ArtistManagement.php";
     }
 

@@ -1,14 +1,13 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ICategoryDao as ICategoryDao;
 use Models\Category as Category;
 
-class CategoryDao extends SingletonDao implements ICategoryDao
+class CategoryDao implements ICategoryDao
 {
     private $connection;
     private $tableName = 'Categories';

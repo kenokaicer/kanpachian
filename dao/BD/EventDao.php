@@ -1,7 +1,6 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
@@ -9,7 +8,7 @@ use Dao\Interfaces\IEventDao as IEventDao;
 use Models\Event as Event;
 use Models\Category as Category;
 
-class EventDao extends SingletonDao implements IEventDao
+class EventDao implements IEventDao
 {
     private $connection;
     private $tableName = 'Events';

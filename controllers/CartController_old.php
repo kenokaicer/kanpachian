@@ -2,11 +2,12 @@
 namespace Controllers;
 
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
+use Dao\BD\LoadType as LoadType;
 use Models\PurchaseLine as PurchaseLine;
 use Exception as Exception;
 use Cross\Session as Session;
 
-class CartController
+class CartController //deprecated class
 {
     private $seatsByEventDao;
 
@@ -51,7 +52,7 @@ class CartController
             if(isset($idSeatsByEvent)){
                 Session::virtualCartCheck();
 
-                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, "lazy");
+                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, LoadType::Lazy1);
                 
                 if($seatsByEvent->getRemnants() > 0){ //Check already done in EventByDate view
                     $purchaseLine = new PurchaseLine();

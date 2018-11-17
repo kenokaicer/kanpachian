@@ -6,6 +6,7 @@ use Models\Theater as Theater;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\SeatTypeDao as SeatTypeDao;
 use Models\File as File;
+use Cross\Session as Session;
 
 class TheaterManagementController
 {
@@ -14,12 +15,12 @@ class TheaterManagementController
 
     public function __construct()
     {
+        //Session::adminLogged();
         $this->theaterDao = TheaterDao::getInstance(); //BD
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    { 
         require VIEWS_PATH.$this->folder."TheaterManagement.php";
     }
 

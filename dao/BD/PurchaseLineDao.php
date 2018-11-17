@@ -94,7 +94,7 @@ class PurchaseLineDao implements IPurchaseLineDao
         return $purchaseLine;
     }
 
-    public function getAll()//not done yet
+    public function getAll()
     {
         $purchaseLineList = array();
         
@@ -131,7 +131,7 @@ class PurchaseLineDao implements IPurchaseLineDao
         return $purchaseLineList;
     }
 
-    public function getAllByPurchaseId($idPurchase)//not done yet
+    public function getAllByIdPurchase($idPurchase)
     {
         $parameters = get_defined_vars();
         $purchaseLineList = array();
@@ -168,9 +168,6 @@ class PurchaseLineDao implements IPurchaseLineDao
         
         return $purchaseLineList;
     }
-
-    public function getAllByIdPurchase($idPurchase)
-    {}
 
     /**
      * Updates values that are diferent from the ones recieved in the object Event

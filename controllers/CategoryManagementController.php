@@ -4,21 +4,21 @@ namespace Controllers;
 use Dao\BD\CategoryDao as CategoryDao;
 use Models\Category as Category;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class CategoryManagementController
 {
-    protected $message;
     private $categoryDao;
     private $folder = "Management/Category/";
 
     public function __construct()
     {
-        $this->categoryDao = CategoryDao::getInstance(); //BD
+        //Session::adminLogged();
+        $this->categoryDao = new CategoryDao(); //BD
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    {
         require VIEWS_PATH.$this->folder."CategoryManagement.php";
     }
 

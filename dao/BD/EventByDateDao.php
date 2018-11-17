@@ -1,8 +1,9 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
+use Dao\BD\DaoBD as DaoBD;
+use Dao\BD\LoadType as LoadType;
 use Dao\Interfaces\IEventByDateDao as IEventByDateDao;
-use Dao\SingletonDao as SingletonDao;
 use Exception as Exception;
 use Models\EventByDate as EventByDate;
 use Models\Category as Category;
@@ -12,7 +13,8 @@ use Models\SeatType as SeatType;
 use Models\Theater as Theater;
 use PDOException as PDOException;
 
-class EventByDateDao extends SingletonDao implements IEventByDateDao
+
+class EventByDateDao extends DaoBD implements IEventByDateDao
 {
     private $connection;
     private $tableName = 'EventByDates';
@@ -248,45 +250,37 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         }
     }
 
-    public function lastInsertId()
-    {
-        try {
-            $query = "SELECT LAST_INSERT_Id()";
-
-            $resultSet = $this->connection->Execute($query);
-
-            $row = reset($resultSet); //gives first object of array
-            $id = reset($row); //get value of previous first object
-        } catch (PDOException $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        }
-
-        return $id;
-    }
-
-    public function getByEventId($idEvent)
+    /**
+     * lazy1: Omit Event and Category, and SeatTypes for Theater
+     */
+    public function getByEventId($idEvent, $load = LoadType::All)
     {
         $parameters = get_defined_vars();
+        array_pop($parameters);
         $eventByDateList = array();
 
         try {
             $eventByDateAttributes = array_keys(EventByDate::getAttributes());
 
-            $eventAttributes = array_keys(Event::getAttributes());
+            if($load == LoadType::All){
+                $eventAttributes = array_keys(Event::getAttributes());
 
-            $categoryAttributes = array_keys(Category::getAttributes());
-
-            $query = "SELECT * FROM " . $this->tableName . " ED
-                    INNER JOIN " . $this->tableNameEvent . " E
-                    ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
-                    ON E.idCategory = C.idCategory
-                    WHERE ED.".$eventAttributes[0]." = :".key($parameters)." 
+                $categoryAttributes = array_keys(Category::getAttributes());
+            }
+            
+            if($load == LoadType::All){
+                $query = "SELECT * FROM " . $this->tableName . " ED
+                        INNER JOIN " . $this->tableNameEvent . " E
+                        ON ED.idEvent = E.idEvent
+                        INNER JOIN " . $this->tableNameCatergory . " C
+                        ON E.idCategory = C.idCategory
+                        WHERE ED.".$eventAttributes[0]." = :".key($parameters)." 
+                        AND ED.enabled = 1";
+            }else{
+                $query = "SELECT * FROM " . $this->tableName . " ED
+                    WHERE ED.idEvent = :".key($parameters)." 
                     AND ED.enabled = 1";
+            }
 
             $resultSet = $this->connection->Execute($query,$parameters);      
 
@@ -296,69 +290,28 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                     $eventByDate->__set($value, $row[$value]);
                 }
 
-                $category = new Category();
-                foreach ($categoryAttributes as $value) {
-                    $category->__set($value, $row[$value]);
-                }
+                if($load == LoadType::All){
+                    $category = new Category();
+                    foreach ($categoryAttributes as $value) {
+                        $category->__set($value, $row[$value]);
+                    }
 
-                $event = new Event();
-                foreach ($eventAttributes as $value) {
-                    $event->__set($value, $row[$value]);
-                }
+                    $event = new Event();
+                    foreach ($eventAttributes as $value) {
+                        $event->__set($value, $row[$value]);
+                    }
 
-                $event->setCategory($category);
-                $eventByDate->setEvent($event);
+                    $event->setCategory($category);
+                    $eventByDate->setEvent($event);
+                }
        
                 //---Get theater and its SeatTypes---//
 
-                $theater = $this->getTheaterById($row["idTheater"]);
-                
-                $eventByDate->setTheater($theater);
-
-                //---Get Artists---//
-
-                $artistsList = $this->getArtistsByEventByDateId($row["idEventByDate"]);
-
-                $eventByDate->setArtists($artistsList);
-
-                array_push($eventByDateList, $eventByDate);
-            }
-        } catch (PDOException $ex) {
-            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
-        }
-
-        return $eventByDateList;
-    }
-
-    /**
-     * Omit Event and Category, and SeatTypes for Theater
-     */
-    public function getByEventIdLazy($idEvent)
-    {
-        $parameters = get_defined_vars();
-        $eventByDateList = array();
-
-        try {
-            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
-
-            $query = "SELECT * FROM " . $this->tableName . " ED
-                    WHERE ED.idEvent = :".key($parameters)." 
-                    AND ED.enabled = 1";
-
-            $resultSet = $this->connection->Execute($query,$parameters);      
-
-            foreach ($resultSet as $row) {
-                $eventByDate = new EventByDate();
-                foreach ($eventByDateAttributes as $value) {
-                    $eventByDate->__set($value, $row[$value]);
+                if($load == LoadType::All){
+                    $theater = $this->getTheaterById($row["idTheater"]);
+                }else{
+                    $theater = $this->getTheaterById($row["idTheater"], LoadType::Lazy1);
                 }
-       
-                //---Get theater only---//
-
-                $theater = $this->getTheaterByIdLazy($row["idTheater"]);
-                
                 $eventByDate->setTheater($theater);
 
                 //---Get Artists---//
@@ -380,6 +333,7 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
 
     /**
      * Omit Event and Category, and Theater
+     * no complete method need, so only this one was written
      */
     public function getByEventIdAndTheaterIdLazy($idEvent, $idTheater)
     {
@@ -420,22 +374,34 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
         return $eventByDateList;
     }
 
-    public function getTheaterById($idTheater)
+    /**
+     * Lazy1: omit SeatTypes
+     */
+    public function getTheaterById($idTheater, $load = LoadType::All)
     {
         $parameters = get_defined_vars();
+        array_pop($parameters);
 
         try {
             $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
 
-            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            if($load == LoadType::All){
+                $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            }
 
-            $query = "SELECT * FROM " . $this->tableNameTheater . " T
+            if($load == LoadType::All){
+                $query = "SELECT * FROM " . $this->tableNameTheater . " T
                     INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
                     ON T.idTheater = STT.idTheater
                     INNER JOIN " . $this->tableNameSeatType . " ST
                     ON STT.idSeatType = ST.idSeatType
                     WHERE STT.".$theaterAttributes[0]." = :".key($parameters)." 
                     AND T.enabled = 1";
+            }else{
+                $query = "SELECT * FROM " . $this->tableNameTheater . " T
+                    WHERE T.".$theaterAttributes[0]." = :".key($parameters)." 
+                    AND T.enabled = 1";
+            }
         
             $resultSet = $this->connection->Execute($query, $parameters);
 
@@ -447,44 +413,13 @@ class EventByDateDao extends SingletonDao implements IEventByDateDao
                     }
                 }
 
-                $seatType = new SeatType();
-                foreach ($seatTypeAttributes as $value) {
-                    $seatType->__set($value, $row[$value]);
-                }
+                if($load == LoadType::All){
+                    $seatType = new SeatType();
+                    foreach ($seatTypeAttributes as $value) {
+                        $seatType->__set($value, $row[$value]);
+                    }
 
-                $theater->addSeatType($seatType);
-            }
-        } catch (PDOException $ex) {
-            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception(__METHOD__ . ",theater query error: " . $ex->getMessage());
-        }
-
-        return $theater;
-    }
-
-    /**
-     * Omit SeatTypes
-     */
-    public function getTheaterByIdLazy($idTheater)
-    {
-        $parameters = get_defined_vars();
-
-        try {
-            $theaterAttributes = array_keys(Theater::getAttributes()); //get attribute names from object for use in __set
-
-            $seatTypeAttributes = array_keys(SeatType::getAttributes());
-
-            $query = "SELECT * FROM " . $this->tableNameTheater . " T
-                    WHERE T.".$theaterAttributes[0]." = :".key($parameters)." 
-                    AND T.enabled = 1";
-        
-            $resultSet = $this->connection->Execute($query, $parameters);
-
-            foreach ($resultSet as $row) {
-                $theater = new Theater();
-                foreach ($theaterAttributes as $value) {
-                    $theater->__set($value, $row[$value]);
+                    $theater->addSeatType($seatType);
                 }
             }
         } catch (PDOException $ex) {

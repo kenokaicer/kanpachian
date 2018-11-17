@@ -258,7 +258,7 @@ class PurchaseDao implements IPurchaseDao
         }
     }
 
-    public function getPurchaseLinesByPurchaseId($idPurchase)//not done yet
+    public function getPurchaseLinesByPurchaseId($idPurchase)
     {
         $parameters = get_defined_vars();
         $purchaseLineList = array();
@@ -436,8 +436,5 @@ class PurchaseDao implements IPurchaseDao
         }
 
         return $theater;
-    }
-
-        
-
+    }  
 }

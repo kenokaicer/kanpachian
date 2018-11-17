@@ -6,23 +6,23 @@ use Dao\BD\CategoryDao as CategoryDao;
 use Models\Event as Event;
 use Exception as Exception;
 use Models\File as File;
+use Cross\Session as Session;
 
 class EventManagementController
 {
-    protected $message;
     private $eventDao;
     private $categoryDao;
     private $folder = "Management/Event/";
 
     public function __construct()
     {
+        //Session::adminLogged();
         $this->eventDao = EventDao::getInstance(); //BD
         $this->categoryDao = CategoryDao::getInstance(); //BD
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    { 
         require VIEWS_PATH.$this->folder."EventManagement.php";
     }
 

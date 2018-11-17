@@ -9,12 +9,13 @@ use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\PurchaseDao as PurchaseDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\PurchaseLineDao as PurchaseLineDao;
+use Dao\BD\LoadType as LoadType;
 use Models\Purchase as Purchase;
 use Models\PurchaseLine as PurchaseLine;
 use Cross\Session as Session;
 use Exception as Exception;
 
-class PurchaseController //migracion de cart controller acá y dejar de usar cart controller
+class PurchaseController
 {
     private $eventDao;
     private $categoryDao;
@@ -53,7 +54,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         }
 
         try{
-            $eventByDateList = $this->eventByDate->getByEventIdLazy($idEvent);
+            $eventByDateList = $this->eventByDate->getByEventId($idEvent, LoadType::Lazy1);
             $theaterArray = array();
 
             foreach ($eventByDateList as $eventByDate) { //get a list of all theater of eventByDate
@@ -107,13 +108,13 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         }
 
         try{
-            $theater = $this->theaterDao->getById($idTheater, "lazy");
+            $theater = $this->theaterDao->getById($idTheater, LoadType::Lazy1);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
 
         try{
-            $eventByDateList = $this->eventByDate->getByEventIdAndTheaterIdLazy($idEvent, $idTheater);  
+            $eventByDateList = $this->eventByDate->getByEventIdAndTheaterIdLazy($idEvent, $idTheater); //no loadType in this one
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar las fechas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
@@ -130,7 +131,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
         }
 
         try{
-            $theater = $this->theaterDao->getById($idTheater, "lazy");
+            $theater = $this->theaterDao->getById($idTheater, LoadType::Lazy1);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
@@ -234,7 +235,7 @@ class PurchaseController //migracion de cart controller acá y dejar de usar car
             if(isset($idSeatsByEvent)){
                 Session::virtualCartCheck();
 
-                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, "lazy");
+                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, LoadType::Lazy1);
                 
                 if($seatsByEvent->getRemnants() > 0){ //Check already done in EventByDate view
                     $purchaseLine = new PurchaseLine();

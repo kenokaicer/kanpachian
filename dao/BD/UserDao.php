@@ -1,14 +1,13 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\IUserDao as IUserDao;
 use Models\User as User;
 
-class UserDao extends SingletonDao implements IUserDao
+class UserDao implements IUserDao
 {
     private $connection;
     private $tableName = 'Users';
@@ -82,6 +81,7 @@ class UserDao extends SingletonDao implements IUserDao
 
     /**
      * Return even deleted usernames
+     * Type: enabled default, disabled, returns logical deleted entries
      */
     public function getByUsername($username, $type = "enabled")
     { 

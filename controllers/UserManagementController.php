@@ -5,21 +5,21 @@ use Dao\BD\UserDao as UserDao;
 use Models\User as User;
 use Models\Role as Role;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class UserManagementController
 {
-    protected $message;
     private $userDao;
     private $folder = "Management/User/";
 
     public function __construct()
     {
+        //Session::adminLogged();
         $this->userDao = UserDao::getInstance(); //BD
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    { 
         require VIEWS_PATH.$this->folder."UserManagement.php";
     }
 

@@ -1,14 +1,13 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\ISeatTypeDao as ISeatTypeDao;
 use Models\SeatType as SeatType;
 
-class SeatTypeDao extends SingletonDao implements ISeatTypeDao
+class SeatTypeDao implements ISeatTypeDao
 {
     private $connection;
     private $tableName = 'SeatTypes';

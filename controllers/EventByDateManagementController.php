@@ -5,13 +5,14 @@ use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\EventDao as EventDao;
+use Dao\BD\LoadType as LoadType;
 use Models\EventByDate as EventByDate;
 use Models\Artist as Artist;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class EventByDateManagementController
 {
-    protected $message;
     private $eventByDateDao;
     private $theaterDao;
     private $artistDao;
@@ -20,6 +21,7 @@ class EventByDateManagementController
 
     public function __construct()
     {
+        //Session::adminLogged();
         $this->eventByDateDao = EventByDateDao::getInstance();
         $this->theaterDao = TheaterDao::getInstance();
         $this->artistDao = ArtistDao::getInstance();
@@ -27,8 +29,7 @@ class EventByDateManagementController
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    {
         require VIEWS_PATH.$this->folder."EventByDateManagement.php";
     }
 
@@ -97,7 +98,7 @@ class EventByDateManagementController
     public function eventByDateList2($idEvent)
     {
         try{
-            $eventByDateList = $this->eventByDateDao->getByEventIdLazy($idEvent);//get by Event, lazy load, omit seatTypes for theater, Event and Category
+            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent, LoadType::Lazy1);//get by Event, lazy load, omit seatTypes for theater, Event and Category
         }catch (Exception $ex) {
             echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }

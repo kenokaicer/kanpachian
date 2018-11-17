@@ -5,18 +5,19 @@ use Dao\BD\ClientDao as ClientDao;
 use Dao\BD\UserDao as UserDao;
 use Models\Client as Client;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class ClientManagementController
 {
-    protected $message;
     private $clientDao;
     private $categoryDao;
     private $folder = "Management/Client/";
 
     public function __construct()
     {
-        $this->clientDao = ClientDao::getInstance(); //BD
-        $this->userDao = UserDao::getInstance();
+        //Session::adminLogged();
+        $this->clientDao = new ClientDao(); //BD
+        $this->userDao = new UserDao();
     }
 
     public function index()

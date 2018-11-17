@@ -1,14 +1,13 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\IArtistDao as IArtistDao;
 use Models\Artist as Artist;
 
-class ArtistDao extends SingletonDao implements IArtistDao
+class ArtistDao implements IArtistDao
 {
     private $connection;
     private $tableName = 'Artists';

@@ -4,21 +4,21 @@ namespace Controllers;
 use Dao\BD\SeatTypeDao as SeatTypeDao;
 use Models\SeatType as SeatType;
 use Exception as Exception;
+use Cross\Session as Session;
 
 class SeatTypeManagementController
 {
-    protected $message;
     private $seatTypeDao;
     private $folder = "Management/SeatType/";
 
     public function __construct()
     {
+        //Session::adminLogged();
         $this->seatTypeDao = SeatTypeDao::getInstance();
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    { 
         require VIEWS_PATH.$this->folder."SeatTypeManagement.php";
     }
 

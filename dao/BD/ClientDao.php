@@ -1,7 +1,8 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
+use Dao\BD\LoadType as LoadType;
+use Dao\BD\DaoBD as DaoBD;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
@@ -10,7 +11,7 @@ use Models\Client as Client;
 use Models\User as User;
 use Models\CreditCard as CreditCard;
 
-class ClientDao extends SingletonDao implements IClientDao
+class ClientDao extends DaoBD implements IClientDao
 {
     private $connection;
     private $tableName = 'Clients';
@@ -147,9 +148,9 @@ class ClientDao extends SingletonDao implements IClientDao
     }
 
     /**
-     * Return only client
+     * Lazy1: Return only client
      */
-    public function getByUserId($idUser, $load = "all")
+    public function getByUserId($idUser, $load = LoadType::All)
     {   
         $parameters = get_defined_vars();
         array_pop($parameters);
@@ -158,11 +159,13 @@ class ClientDao extends SingletonDao implements IClientDao
         try {
             $clientAttributes = array_keys(Client::getAttributes()); //get attribute names from object for use in __set
 
-            $creditCardAttributes = array_keys(CreditCard::getAttributes());
+            if($load = LoadType::All){
+                $creditCardAttributes = array_keys(CreditCard::getAttributes());
 
-            $userAttributes = array_keys(User::getAttributes());
+                $userAttributes = array_keys(User::getAttributes());
+            }
             
-            if($load != "lazy"){
+            if($load == LoadType::All){
                 //LEFT JOIN, we want null creditCards also
                 $query = "SELECT *
                 FROM " . $this->tableName ." C
@@ -194,20 +197,20 @@ class ClientDao extends SingletonDao implements IClientDao
                     $client->__set($value, $row[$value]);
                 }
 
-                if($load != "lazy"){
+                if($load == LoadType::All){
                     $user = new User();
-                foreach ($userAttributes as $value) {
-                    $user->__set($value, $row[$value]);
-                }
+                    foreach ($userAttributes as $value) {
+                        $user->__set($value, $row[$value]);
+                    }
 
-                $client->setUser($user);
+                    $client->setUser($user);
 
-                $creditCard = new CreditCard();
-                foreach ($creditCardAttributes as $value) {
-                    $creditCard->__set($value, $row[$value]);
-                }
+                    $creditCard = new CreditCard();
+                    foreach ($creditCardAttributes as $value) {
+                        $creditCard->__set($value, $row[$value]);
+                    }
 
-                $client->setCreditCard($creditCard);
+                    $client->setCreditCard($creditCard);
                 }  
             }
         } catch (PDOException $ex) {
@@ -298,26 +301,6 @@ class ClientDao extends SingletonDao implements IClientDao
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
-    }
-
-    public function lastInsertId()
-    {
-        try {
-            $query = "SELECT LAST_INSERT_Id()";
-
-            $resultSet = $this->connection->Execute($query);
-
-            $row = reset($resultSet); //gives first object of array
-            $id = reset($row); //get value of previous first object
-        } catch (PDOException $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        }
-
-        return $id;
     }
 
     /**

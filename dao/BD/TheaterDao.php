@@ -2,7 +2,8 @@
 namespace dao\BD; /*Needs testing.*/
 
 use Dao\BD\Connection as Connection;
-use Dao\SingletonDao as SingletonDao;
+use Dao\BD\DaoBD as DaoBD;
+use Dao\BD\LoadType as LoadType;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
@@ -10,7 +11,7 @@ use Dao\Interfaces\ITheaterDao as ITheaterDao;
 use Models\Theater as Theater;
 use Models\SeatType as SeatType;
 
-class TheaterDao extends SingletonDao implements ITheaterDao
+class TheaterDao extends DaoBD implements ITheaterDao
 {
     private $connection;
     private $seatTypeDao;
@@ -89,7 +90,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
     /**
      * lazy load = no seatTypes
      */
-    public function getById($idTheater, $load = "all"){
+    public function getById($idTheater, $load = LoadType::All){
         $parameters = get_defined_vars();
         array_pop($parameters);
 
@@ -98,7 +99,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
 
             $seatTypeAttributes = array_keys(SeatType::getAttributes());
 
-            if($load = "all"){
+            if($load = LoadType::All){
                 $query = "SELECT * FROM " . $this->tableName . " T
                     INNER JOIN " . $this->tableNameSeatTypesTheater . " STT
                     ON T.idTheater = STT.idTheater
@@ -127,7 +128,7 @@ class TheaterDao extends SingletonDao implements ITheaterDao
                     throw new Exception(__METHOD__."More than one theater returned, expected only one");
                 }
 
-                if($load = "all"){
+                if($load = LoadType::All){
                     $seatType = new SeatType();
                     foreach ($seatTypeAttributes as $value) {
                         $seatType->__set($value, $row[$value]);
@@ -240,25 +241,5 @@ class TheaterDao extends SingletonDao implements ITheaterDao
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
-    }
-
-    public function lastInsertId()
-    {
-        try {
-            $query = "SELECT LAST_INSERT_Id()";
-
-            $resultSet = $this->connection->Execute($query);
-
-            $row = reset($resultSet); //gives first object of array
-            $id = reset($row); //get value of previous first object
-        } catch (PDOException $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception(__METHOD__ . ", Error getting last insert id. " . $ex->getMessage());
-            return;
-        }
-
-        return $id;
     }
 }
