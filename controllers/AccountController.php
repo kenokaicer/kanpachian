@@ -97,6 +97,7 @@ class AccountController
                 //more security can be added by encrypting the result with AES before sending it to the database
                 //password for the encriptation would be in the php code, this is preferable to pepper
                 //Standard php-encryption library: https://github.com/defuse/php-encryption
+                //PHP default encryptation function: http://php.net/manual/en/function.openssl-encrypt.php
 
                 $userAttributes = $user->getAll();
                 $clientAttributes = $client->getAll();
