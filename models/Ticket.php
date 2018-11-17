@@ -1,13 +1,14 @@
 <?php
 namespace Models;
 
+use Models\PurchaseLine as PurchaseLine;
+
 class Ticket extends Attributes
 {
     protected $idTicket;
     protected $ticketCode; // uniqid()
     protected $qrCode;
-    private $theater; // class
-    private $date;
+    private $purchaseLine; //Class PurchaseLine
 
 	public function getIdTicket()
 	{
@@ -45,26 +46,14 @@ class Ticket extends Attributes
         return $this;
     }
 
-	public function getTheater()
+	public function getPurchaseLine()
 	{
-		return $this->theater;
+		return $this->purchaseLine;
 	}
 
-    public function setTheater($theater)
+    public function setPurchaseLine(PurchaseLine $purchaseLine)
     {
-        $this->theater = $theater;
-
-        return $this;
-    }
-
-	public function getDate()
-	{
-		return $this->date;
-	}
-
-    public function setDate($date)
-    {
-        $this->date = $date;
+        $this->purchaseLine = $purchaseLine;
 
         return $this;
     }
