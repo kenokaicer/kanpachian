@@ -94,6 +94,10 @@ class AccountController
 
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //hash and salt password
 
+                //more security can be added by encrypting the result with AES before sending it to the database
+                //password for the encriptation would be in the php code, this is preferable to pepper
+                //Standard php-encryption library: https://github.com/defuse/php-encryption
+
                 $userAttributes = $user->getAll();
                 $clientAttributes = $client->getAll();
 
