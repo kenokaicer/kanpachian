@@ -23,6 +23,9 @@ class PurchaseLineDao implements IPurchaseLineDao
         $this->connection = Connection::getInstance();
     }
 
+    /**
+     * Not used, job done by PruchaseDao
+     */
     public function Add(PurchaseLine $purchaseLine)
     {
         $columns = "";
@@ -31,7 +34,7 @@ class PurchaseLineDao implements IPurchaseLineDao
         try {
             $parameters = array_filter($purchaseLine->getAll()); //get object attribute names 
             $parameters["idSeatsByEvent"] = $purchaseLine->getSeatsByEvent()->getIdSeatsByEvent();
-            $parameters["idPurchase"] = $purchaseLine->getPurchase()->getIdPurchase();
+            //$parameters["idPurchase"] = $purchaseLine->getPurchase()->getIdPurchase();
 
             foreach ($parameters as $key => $value) {
                 $columns .= $key.",";
