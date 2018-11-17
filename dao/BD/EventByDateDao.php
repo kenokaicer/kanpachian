@@ -16,7 +16,7 @@ use PDOException as PDOException;
 
 class EventByDateDao extends DaoBD implements IEventByDateDao
 {
-    private $connection;
+    protected $connection;
     private $tableName = 'EventByDates';
     private $tableNameArtist = 'Artists';
     private $tableNameTheater = 'Theaters';

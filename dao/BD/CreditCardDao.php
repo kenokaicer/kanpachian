@@ -10,7 +10,7 @@ use Models\CreditCard as CreditCard;
 
 class CreditCardDao extends DaoBD implements ICreditCardDao
 {
-    private $connection;
+    protected $connection;
     private $tableName = 'CreditCards';
 
     public function __construct(){

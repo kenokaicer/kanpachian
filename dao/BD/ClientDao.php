@@ -13,7 +13,7 @@ use Models\CreditCard as CreditCard;
 
 class ClientDao extends DaoBD implements IClientDao
 {
-    private $connection;
+    protected $connection;
     private $tableName = 'Clients';
     private $tableNameUser = 'Users';
     private $tableNameCreditCard = 'CreditCards';

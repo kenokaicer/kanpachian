@@ -13,7 +13,7 @@ use Models\SeatType as SeatType;
 
 class TheaterDao extends DaoBD implements ITheaterDao
 {
-    private $connection;
+    protected $connection;
     private $seatTypeDao;
     private $tableName = 'Theaters';
     private $tableNameSeatType = 'SeatTypes';
