@@ -206,8 +206,15 @@ class PurchaseController
 
     public function viewCart()
     {
-        Session::userLogged();
-        Session::virtualCartCheck();
+        try{
+            Session::userLogged();
+            Session::virtualCartCheck();
+
+            $purchaseLines = $_SESSION["virtualCart"];
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar el carrito. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            $this->showCart();
+        }
 
         require VIEWS_PATH."Cart.php";
     }

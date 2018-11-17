@@ -21,8 +21,9 @@
         <?php
         $i=0;
         $total=0;
-        foreach ($purchaseLines as $purchaseLine) {
-            $i++
+        if(isset($purchaseLines)){
+            foreach ($purchaseLines as $purchaseLine) {
+                $i++
         ?>
         <tr>
             <td><?=$i?></td>
@@ -41,6 +42,7 @@
         </tr>
         <?php
         $total += $purchaseLine->getPrice();
+            }
         }
         ?>
         <tr>
