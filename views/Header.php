@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>fade.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>search.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>radio.css">
+    <link rel="stylesheet" href="<?=CSS_PATH?>ticket.css">
 
    <!-- <link rel="stylesheet" href="<?=CSS_PATH?>cart.css" /> <!--Doing a redirect to home on load, braking session-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>  
