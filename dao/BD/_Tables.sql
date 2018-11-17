@@ -138,5 +138,15 @@ USE neonlab1_gotoevent;
     constraint fkPurchase foreign key (idPurchase) references Pruchases (idPurchase)
 );*/
 
+/*create table Tickets(
+    idTicket int unsigned auto_increment,
+    ticketCode varchar(255) not null,
+    qrCode varchar(255) not null,
+    idPurchaseLine int unsigned not null,
+    enabled bool default '1',
+    constraint pkTicket primary key (idTicket),
+    constraint fkPurchaseLine foreign key (idPurchaseLine) references PurchaseLines (idPurchaseLine)
+);*/
+
 
 show tables;
