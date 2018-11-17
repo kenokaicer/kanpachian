@@ -103,7 +103,7 @@ class EventDao implements IEventDao
                     FROM " . $this->tableName ." e
                     INNER JOIN ".$this->tableName2." c
                     On e.idCategory = c.idCategory  
-                    AND e.enabled = 1";
+                    WHERE e.enabled = 1";
 
             $resultSet = $this->connection->Execute($query);
         
