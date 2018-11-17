@@ -16,7 +16,7 @@ class TheaterManagementController
     public function __construct()
     {
         //Session::adminLogged();
-        $this->theaterDao = TheaterDao::getInstance(); //BD
+        $this->theaterDao = new TheaterDao(); //BD
     }
 
     public function index()
