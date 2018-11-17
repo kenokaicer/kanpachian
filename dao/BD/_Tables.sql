@@ -22,6 +22,7 @@ USE neonlab1_gotoevent;
     idTheater int unsigned auto_increment,
     theaterName varchar(50) not null,
     location varchar(80),
+    address varchar(80) not null,
     image varchar(150),
     maxCapacity smallint unsigned,
     enabled bool default '1',

@@ -9,6 +9,7 @@ class Theater extends Attributes//Lugar_evento
     protected $idTheater;
     protected $theaterName;
     protected $location;
+    protected $address;
     protected $maxCapacity;
     protected $image;
     private $seatTypes = array(); //to calculate the amount of each type.
@@ -88,5 +89,17 @@ class Theater extends Attributes//Lugar_evento
     public function addSeatType(SeatType $seatType)
     {
         $this->seatTypes[] = $seatType;
+    }
+
+	public function getAddress()
+	{
+		return $this->address;
+	}
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
     }
 }
