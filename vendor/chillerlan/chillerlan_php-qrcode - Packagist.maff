@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>chillerlan/php-qrcode - Packagist</title>
+        <meta name="description" content="A QR code generator. PHP 7.2+" />
+        <meta name="author" content="Jordi Boggiano" />
+            <link rel="canonical" href="https://packagist.org/packages/chillerlan/php-qrcode" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="shortcut icon" href="/favicon.ico?v=1542386461" />
+
+        <link rel="stylesheet" href="/libs/bootstrap-3.3.5/css/bootstrap.min.css?v=1542386461" />
+        <link rel="stylesheet" href="/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css?v=1542386461" />
+        <link rel="stylesheet" href="/bundles/packagistweb/css/main.css?v=1542386461" />
+        <link rel="stylesheet" href="/css/humane/jackedup.css?v=1542386461" />
+        
+            <link rel="alternate" type="application/rss+xml" title="New Releases - chillerlan/php-qrcode" href="https://packagist.org/feeds/package.chillerlan/php-qrcode.rss" />
+    <link rel="alternate" type="application/rss+xml" title="New Releases - chillerlan" href="https://packagist.org/feeds/vendor.chillerlan.rss" />
+            <link rel="alternate" type="application/rss+xml" title="Newly Submitted Packages - Packagist" href="https://packagist.org/feeds/packages.rss" />
+        <link rel="alternate" type="application/rss+xml" title="New Releases - Packagist" href="https://packagist.org/feeds/releases.rss" />
+        
+
+        <link rel="search" type="application/opensearchdescription+xml" href="/search.osd?v=1542386461" title="Packagist" />
+
+            <link rel="stylesheet" href="/css/github/markdown.css?v=1542386461">
+    </head>
+
+    <body>
+    <section class="wrap">
+        <header class="navbar-wrapper navbar-fixed-top">
+            <nav class="container">
+                <div class="navbar" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <h1 class="navbar-brand"><a href="/">Packagist</a> <em class="hidden-sm hidden-xs">The PHP Package Repository</em></h1>
+                    </div>
+
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="/explore/">Browse</a>
+                            </li>
+                            <li>
+                                <a href="/packages/submit">Submit</a>
+                            </li>                            <li>
+                                <a href="/register/">Create account</a>
+                            </li>
+                            <li class="nav-user">
+                                <section class="nav-user-signin">
+                                    <a href="/login/">Sign in</a>
+
+                                    <section class="signin-box">
+                                        <form action="/login_check" method="POST">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" id="_username" name="_username" placeholder="Username">
+                                                <span class="input-group-addon"><span class="icon-user"></span></span>
+                                            </div>
+                                            <div class="input-group">
+                                                <input class="form-control" type="password" id="_password" name="_password" placeholder="Password">
+                                                <span class="input-group-addon"><span class="icon-lock"></span></span>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label for="_remember_me">
+                                                    <input type="checkbox" id="_remember_me" name="_remember_me" value="on" checked="checked" />Remember me
+                                                </label>
+                                            </div>
+                                            <div class="signin-box-buttons">
+                                                <a href="https://packagist.org/login/github" class="pull-right btn btn-primary btn-github"><span class="icon-github"></span>Use Github</a>
+                                                <button type="submit" class="btn btn-success" id="_submit" name="_submit">Log in</button>
+                                            </div>
+                                        </form>
+
+                                        <div class="signin-box-register">
+                                            <a href="/register/">No account yet? Create one now!</a>
+                                        </div>
+                                    </section>
+                                </section>
+                            </li>                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <section class="wrapper wrapper-search">
+    <div class="container ">
+        <form name="search_query" method="get" action="/search/" id="search-form" autocomplete="off">
+    <div class="sortable row">
+        <div class="col-xs-12 js-search-field-wrapper col-md-9">
+            <input type="search" id="search_query_query" name="search_query[query]" required="required" autocomplete="off" placeholder="Search packages..." tabindex="1" class=" form-control" value="" />
+        </div>
+    </div>
+</form>
+    </div>
+</section>
+
+
+                
+        
+        <section class="wrapper">
+            <section class="container content" role="main">
+                                    <div id="search-container" class="hidden">
+                        <div class="row">
+                            <div class="search-list col-md-9"></div>
+
+                            <div class="search-facets col-md-3">
+                                <div class="search-facets-active-filters"></div>
+                                <div class="search-facets-type"></div>
+                                <div class="search-facets-tags"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div id="powered-by">
+                                    Search by <a href="https://www.algolia.com/"><img src="/bundles/packagistweb/img/algolia-logo-light.svg?v=1542386461"></a>
+                                </div>
+                                <div id="pagination-container">
+                                    <div class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+        <div class="col-xs-12 package">
+            <div class="package-header">
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <h2 class="title">
+                                                        <a href="/packages/chillerlan/">chillerlan/</a>php-qrcode
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="requireme"><i class="glyphicon glyphicon-save"></i> <input type="text" readonly="readonly" value="composer require chillerlan/php-qrcode" /></p>
+
+                                        
+                                        
+                    
+                    <p class="description">A QR code generator. PHP 7.2+</p>
+
+                                    </div>
+
+                <div class="col-md-offset-1 col-md-3">
+                    <div class="row package-aside">
+                        <div class="details col-xs-12 col-sm-6 col-md-12">
+                            <h5>Maintainers</h5>
+                            <p class="maintainers">
+                                <a href="/users/codemasher/"><img width="48" height="48" title="codemasher" src="https://www.gravatar.com/avatar/6c2a799231db21558b54cf968c6f4096?s=48&amp;d=identicon" srcset="https://www.gravatar.com/avatar/6c2a799231db21558b54cf968c6f4096?s=96&amp;d=identicon 2x"></a>
+                                                                                            </p>
+
+                            <h5>Details</h5>
+                                                        <p class="canonical">
+                                <a href="https://github.com/chillerlan/php-qrcode" title="Canonical Repository URL">github.com/chillerlan/php-qrcode</a>
+                            </p>
+
+                                                            <p><a rel="nofollow noopener external noindex" href="https://github.com/chillerlan/php-qrcode">Homepage</a></p>
+                                                                                        <p><a rel="nofollow noopener external noindex" href="https://github.com/chillerlan/php-qrcode/tree/master">Source</a></p>
+                                                                                        <p><a rel="nofollow noopener external noindex" href="https://github.com/chillerlan/php-qrcode/issues">Issues</a></p>
+                                                                                                                                                                                                </div>
+
+                        <div class="facts col-xs-12 col-sm-6 col-md-12">
+                            <p>
+                                <span>
+                                    <a href="/packages/chillerlan/php-qrcode/stats" rel="nofollow">Installs</a>:
+                                </span>
+                                113&#8201;015                            </p>
+                                                            <p>
+                                    <span>
+                                        <a href="/packages/chillerlan/php-qrcode/dependents" rel="nofollow">Dependents</a>:
+                                    </span>
+                                    8
+                                </p>
+                                                                                        <p>
+                                    <span>
+                                        <a href="/packages/chillerlan/php-qrcode/suggesters" rel="nofollow">Suggesters</a>:
+                                    </span>
+                                    3
+                                </p>
+                                                                                        <p>
+                                    <span>
+                                        <a href="https://github.com/chillerlan/php-qrcode/stargazers">Stars</a>:
+                                    </span>
+                                    220
+                                </p>
+                                                                                        <p>
+                                    <span>
+                                        <a href="https://github.com/chillerlan/php-qrcode/watchers">Watchers</a>:
+                                    </span> 14
+                                </p>
+                                                                                        <p>
+                                    <span>
+                                        <a href="https://github.com/chillerlan/php-qrcode/network">Forks</a>:
+                                    </span>
+                                    32
+                                </p>
+                                                                                        <p>
+                                    <span>
+                                        <a rel="nofollow noopener external noindex" href="https://github.com/chillerlan/php-qrcode/issues">Open Issues</a>:
+                                    </span>
+                                    0
+                                </p>
+                                                                                                            </div>
+                    </div>
+                </div>
+            </div>
+
+            
+                        <div class="row versions-section">
+                <div class="version-details col-md-9">
+                                            <div class="title">
+    <span class="version-number">3.0.1</span>
+
+    <span class="release-date">2018-10-01 11:36 UTC</span>
+</div>
+
+<div class="clearfix package-links">
+            <div class="row">
+                            <div class="clearfix visible-sm-block"></div>                <div class="clearfix visible-md-block visible-lg-block"></div>                <div class="requires col-sm-6 col-md-4 ">
+                    <p class="link-type">Requires</p>
+                                            <ul><li>php: ^7.2</li><li><a href="/packages/chillerlan/php-settings-container">chillerlan/php-settings-container</a>: ^1.0</li></ul>
+                                    </div>
+                                                            <div class="devRequires col-sm-6 col-md-4 ">
+                    <p class="link-type">Requires (Dev)</p>
+                                            <ul><li><a href="/packages/phpunit/phpunit">phpunit/phpunit</a>: ^7.3</li></ul>
+                                    </div>
+                            <div class="clearfix visible-sm-block"></div>                                <div class="suggests col-sm-6 col-md-4 hidden-xs">
+                    <p class="link-type">Suggests</p>
+                                            <p class="no-links">None</p>
+                                    </div>
+                                            <div class="clearfix visible-md-block visible-lg-block"></div>                <div class="provides col-sm-6 col-md-4 hidden-xs">
+                    <p class="link-type">Provides</p>
+                                            <p class="no-links">None</p>
+                                    </div>
+                            <div class="clearfix visible-sm-block"></div>                                <div class="conflicts col-sm-6 col-md-4 hidden-xs">
+                    <p class="link-type">Conflicts</p>
+                                            <p class="no-links">None</p>
+                                    </div>
+                                                            <div class="replaces col-sm-6 col-md-4 hidden-xs">
+                    <p class="link-type">Replaces</p>
+                                            <p class="no-links">None</p>
+                                    </div>
+                    </div>
+    </div>
+
+<div class="metadata">
+    <p class="license"><i class="glyphicon glyphicon-copyright-mark" title="License"></i> MIT <span class="source-reference"><i class="glyphicon glyphicon-bookmark" title="Source Reference"></i> cdde12f89c46594dc1972db87d93450ac397cb29</span></p>
+
+            <i class="glyphicon glyphicon-user" title="Authors"></i>
+        <ul class="authors">
+                            <li><a rel="nofollow noopener external noindex" href="https://github.com/kazuhikoarase">Kazuhiko Arase</a></li>
+                            <li><a rel="nofollow noopener external noindex" href="https://github.com/codemasher">smiley</a>                        <span class="visible-sm-inline visible-md-inline visible-lg-inline">&lt;smiley<span style="display:none">.woop</span>@chillerlan.net&gt;</span></li>
+                    </ul>
+    
+            <p class="tags">
+            <i class="glyphicon glyphicon-tag" title="Tags"></i>
+            <a href="https://packagist.org/search?tags=qr+code">qr code</a></p>
+    </div>
+                                    </div>
+                <div class="col-md-3 package-aside versions-wrapper">
+    <ul class="versions">
+                                <li class="details-toggler version" data-version-id="dev-master" data-load-more="/versions/615378.json">
+                <a href="#dev-master" class="version-number">dev-master</a>
+
+                            </li>
+                                <li class="details-toggler version open" data-version-id="3.0.1" data-load-more="/versions/2494702.json">
+                <a href="#3.0.1" class="version-number">3.0.1</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="3.0.0" data-load-more="/versions/2494631.json">
+                <a href="#3.0.0" class="version-number">3.0.0</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="v2.0.x-dev" data-load-more="/versions/2472905.json">
+                <a href="#v2.0.x-dev" class="version-number">v2.0.x-dev</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.6" data-load-more="/versions/2041794.json">
+                <a href="#2.0.6" class="version-number">2.0.6</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.5" data-load-more="/versions/2033780.json">
+                <a href="#2.0.5" class="version-number">2.0.5</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.4" data-load-more="/versions/1978561.json">
+                <a href="#2.0.4" class="version-number">2.0.4</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.3" data-load-more="/versions/1859759.json">
+                <a href="#2.0.3" class="version-number">2.0.3</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.2" data-load-more="/versions/1856121.json">
+                <a href="#2.0.2" class="version-number">2.0.2</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.1" data-load-more="/versions/1814611.json">
+                <a href="#2.0.1" class="version-number">2.0.1</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="2.0.0" data-load-more="/versions/1807431.json">
+                <a href="#2.0.0" class="version-number">2.0.0</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="v1.2.x-dev" data-load-more="/versions/1724195.json">
+                <a href="#v1.2.x-dev" class="version-number">v1.2.x-dev</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.2.2" data-load-more="/versions/1724193.json">
+                <a href="#1.2.2" class="version-number">1.2.2</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.2.1" data-load-more="/versions/1685748.json">
+                <a href="#1.2.1" class="version-number">1.2.1</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.2.0" data-load-more="/versions/1685493.json">
+                <a href="#1.2.0" class="version-number">1.2.0</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.1.1" data-load-more="/versions/1254641.json">
+                <a href="#1.1.1" class="version-number">1.1.1</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.1.0" data-load-more="/versions/1225356.json">
+                <a href="#1.1.0" class="version-number">1.1.0</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.8" data-load-more="/versions/1853104.json">
+                <a href="#1.0.8" class="version-number">1.0.8</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.7" data-load-more="/versions/1225121.json">
+                <a href="#1.0.7" class="version-number">1.0.7</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.6" data-load-more="/versions/1142857.json">
+                <a href="#1.0.6" class="version-number">1.0.6</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.5" data-load-more="/versions/741552.json">
+                <a href="#1.0.5" class="version-number">1.0.5</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.4" data-load-more="/versions/718055.json">
+                <a href="#1.0.4" class="version-number">1.0.4</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.3" data-load-more="/versions/710563.json">
+                <a href="#1.0.3" class="version-number">1.0.3</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.2" data-load-more="/versions/690927.json">
+                <a href="#1.0.2" class="version-number">1.0.2</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.1" data-load-more="/versions/644600.json">
+                <a href="#1.0.1" class="version-number">1.0.1</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="1.0.0" data-load-more="/versions/619758.json">
+                <a href="#1.0.0" class="version-number">1.0.0</a>
+
+                            </li>
+                                <li class="details-toggler version" data-version-id="dev-v2.0.x-php5" data-load-more="/versions/1851353.json">
+                <a href="#dev-v2.0.x-php5" class="version-number">dev-v2.0.x-php5</a>
+
+                            </li>
+                                <li class="details-toggler version last" data-version-id="dev-php5" data-load-more="/versions/1225229.json">
+                <a href="#dev-php5" class="version-number">dev-php5</a>
+
+                            </li>
+            </ul>
+    <div class="hidden versions-expander">
+        <i class="glyphicon glyphicon-chevron-down"></i>
+    </div>
+</div>
+                    </div>
+
+                    <hr class="clearfix">
+            <div class="readme markdown-body">
+                <h1>README</h1>
+                
+<p>A PHP7.2+ QR Code library based on the <a href="https://github.com/kazuhikoarase/qrcode-generator" rel="nofollow noindex noopener external">implementation</a> by <a href="https://github.com/kazuhikoarase" rel="nofollow noindex noopener external">Kazuhiko Arase</a>,
+namespaced, cleaned up, improved and other stuff.</p>
+<p><a href="https://packagist.org/packages/chillerlan/php-qrcode" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/637ac4b5383f2432a8d959af5f61f64a01f076e0/68747470733a2f2f696d672e736869656c64732e696f2f7061636b61676973742f762f6368696c6c65726c616e2f7068702d7172636f64652e7376673f7374796c653d666c61742d737175617265" alt="Packagist version"></a>
+<a href="https://github.com/chillerlan/php-qrcode/blob/master/LICENSE" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/bd0c4a65d4deb0564f2249ef896ab016af864c72/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f6368696c6c65726c616e2f7068702d7172636f64652e7376673f7374796c653d666c61742d737175617265" alt="License"></a>
+<a href="https://travis-ci.org/chillerlan/php-qrcode" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/c3b2cb0b74394ca9fc6dcc597c46473a9236c487/68747470733a2f2f696d672e736869656c64732e696f2f7472617669732f6368696c6c65726c616e2f7068702d7172636f64652e7376673f7374796c653d666c61742d737175617265" alt="Travis CI"></a>
+<a href="https://codecov.io/github/chillerlan/php-qrcode" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/b0abb988f430badd7b6d03b9c644140aceb1722f/68747470733a2f2f696d672e736869656c64732e696f2f636f6465636f762f632f6769746875622f6368696c6c65726c616e2f7068702d7172636f64652e7376673f7374796c653d666c61742d737175617265" alt="CodeCov"></a>
+<a href="https://scrutinizer-ci.com/g/chillerlan/php-qrcode" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/b39f52eae12f4ecc859fea8540391aa1f6e7f80d/68747470733a2f2f696d672e736869656c64732e696f2f7363727574696e697a65722f672f6368696c6c65726c616e2f7068702d7172636f64652e7376673f7374796c653d666c61742d737175617265" alt="Scrunitizer CI"></a>
+<a href="https://packagist.org/packages/chillerlan/php-qrcode/stats" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/d0323574e4c2538e7d120d5b48aa91d13a6ff1e8/68747470733a2f2f696d672e736869656c64732e696f2f7061636b61676973742f64742f6368696c6c65726c616e2f7068702d7172636f64652e7376673f7374796c653d666c61742d737175617265" alt="Packagist downloads"></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WLYUNAT9ZTJZ4" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/180bc1ccd8b9d335dc245fc11e78be0bc3b3fdd6/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f646f6e6174652d70617970616c2d6666333361612e7376673f7374796c653d666c61742d737175617265" alt="PayPal donate"></a></p>
+<h2><a id="user-content-documentation" class="anchor" href="#user-content-documentation" rel="nofollow noindex noopener external"></a>Documentation</h2>
+<h3><a id="user-content-installation" class="anchor" href="#user-content-installation" rel="nofollow noindex noopener external"></a>Installation</h3>
+<p><strong>requires <a href="https://getcomposer.org" rel="nofollow noindex noopener external">composer</a></strong></p>
+<p><em>composer.json</em> (note: replace <code>dev-master</code> with a <a href="https://getcomposer.org/doc/articles/versions.md" rel="nofollow noindex noopener external">version boundary</a>)</p>
+<pre>{
+	<span class="pl-s"><span class="pl-pds">"</span>require<span class="pl-pds">"</span></span>: {
+		<span class="pl-s"><span class="pl-pds">"</span>php<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>^7.2<span class="pl-pds">"</span></span>,
+		<span class="pl-s"><span class="pl-pds">"</span>chillerlan/php-qrcode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>dev-master<span class="pl-pds">"</span></span>
+	}
+}</pre>
+<h4><a id="user-content-manual-installation" class="anchor" href="#user-content-manual-installation" rel="nofollow noindex noopener external"></a>Manual installation</h4>
+<p>Download the desired version of the package from <a href="https://github.com/chillerlan/php-qrcode/archive/master.zip" rel="nofollow noindex noopener external">master</a> or
+<a href="https://github.com/chillerlan/php-qrcode/releases" rel="nofollow noindex noopener external">release</a> and extract the contents to your project folder.  After that:</p>
+<ul><li>run <code>composer install</code> to install the required dependencies and generate <code>/vendor/autoload.php</code>.</li>
+<li>if you use a custom autoloader, point the namespace <code>chillerlan\QRCode</code> to the folder <code>src</code> of the package</li>
+</ul><p>Profit!</p>
+<h4><a id="user-content-framework-integration" class="anchor" href="#user-content-framework-integration" rel="nofollow noindex noopener external"></a>Framework Integration</h4>
+<ul><li>Drupal
+<ul><li><a href="https://www.drupal.org/project/ga_login" rel="nofollow noindex noopener external">Google Authenticator Login <code>ga_login</code></a></li>
+</ul></li>
+<li>WordPress
+<ul><li><a href="https://github.com/sjinks/wp-two-factor-auth" rel="nofollow noindex noopener external"><code>wp-two-factor-auth</code></a></li>
+<li><a href="https://wordpress.org/plugins/simple-2fa/" rel="nofollow noindex noopener external">Simple 2FA <code>simple-2fa</code></a></li>
+</ul></li>
+<li>other
+<ul><li><a href="https://github.com/wirecard/paymentSDK-php" rel="nofollow noindex noopener external">Wirecard payment SDK</a></li>
+<li><a href="https://github.com/xutengx/gaara" rel="nofollow noindex noopener external">gaara &#22030;&#21862;</a></li>
+</ul></li>
+</ul><h4><a id="user-content-php-5" class="anchor" href="#user-content-php-5" rel="nofollow noindex noopener external"></a>PHP 5</h4>
+<p>I've dropped PHP &lt; 7.2 support as of August 2018 and PHP 5 support in early 2017 already. PHP 5.6 - 7.1 will be retired in the end of 2018, so there's no reason to stay on these versions and you really should upgrade your server.
+However, if upgrading is not an option for you, you can use the unsupported PHP 5.6 backport of the 2.0 branch. It's available as <a href="https://packagist.org/packages/chillerlan/php-qrcode#1.0.8" rel="nofollow noindex noopener external"><code>1.0.8</code> on Packagist</a>.
+<em>Please let PHP 5 die.</em></p>
+<h3><a id="user-content-usage" class="anchor" href="#user-content-usage" rel="nofollow noindex noopener external"></a>Usage</h3>
+<p>We want to encode this data into a QRcode image:</p>
+<pre><span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> 10 reasons why QR codes are awesome</span></span>
+<span class="pl-s1"><span class="pl-smi">$data</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>https://www.youtube.com/watch?v=DLzxrzFCyOs&amp;t=43s<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> no, for serious, we want to display a QR code for a mobile authenticator</span></span>
+<span class="pl-s1"><span class="pl-smi">$data</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>otpauth://totp/test?secret=B3JX4VCVJDVNXNZ5&amp;issuer=chillerlan.net<span class="pl-pds">'</span></span>;</span></pre>
+<p>Quick and simple:</p>
+<pre><span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;img src="<span class="pl-pds">'</span></span><span class="pl-k">.</span>(<span class="pl-k">new</span> <span class="pl-c1">QRCode</span>)<span class="pl-k">-&gt;</span>render(<span class="pl-smi">$data</span>)<span class="pl-k">.</span><span class="pl-s"><span class="pl-pds">'</span>" /&gt;<span class="pl-pds">'</span></span>;</span></pre>
+<p>
+	<a target="_blank" href="https://raw.githubusercontent.com/chillerlan/php-qrcode/master/examples/example_image.png" rel="nofollow noindex noopener external"><img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/master/examples/example_image.png"></a>
+	<a target="_blank" href="https://raw.githubusercontent.com/chillerlan/php-qrcode/master/examples/example_svg.png" rel="nofollow noindex noopener external"><img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/master/examples/example_svg.png"></a>
+</p>
+<p>Wait, what was that? Please again, slower!</p>
+<h3><a id="user-content-advanced-usage" class="anchor" href="#user-content-advanced-usage" rel="nofollow noindex noopener external"></a>Advanced usage</h3>
+<p>Ok, step by step. First you'll need a <code>QRCode</code> instance, which can be optionally invoked with a <code>QROptions</code> (or a <a href="https://github.com/chillerlan/php-settings-container/blob/master/src/SettingsContainerInterface.php" rel="nofollow noindex noopener external"><code>SettingsContainerInterface</code></a>, respectively) object as the only parameter.</p>
+<pre><span class="pl-s1"><span class="pl-smi">$options</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">QROptions</span>([</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>version<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-c1">5</span>,</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>outputType<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">QRCode</span><span class="pl-k">::</span><span class="pl-c1">OUTPUT_MARKUP_SVG</span>,</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>eccLevel<span class="pl-pds">'</span></span>   <span class="pl-k">=&gt;</span> <span class="pl-c1">QRCode</span><span class="pl-k">::</span><span class="pl-c1">ECC_L</span>,</span>
+<span class="pl-s1">]);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> invoke a fresh QRCode instance</span></span>
+<span class="pl-s1"><span class="pl-smi">$qrcode</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">QRCode</span>(<span class="pl-smi">$options</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> and dump the output</span></span>
+<span class="pl-s1"><span class="pl-smi">$qrcode</span><span class="pl-k">-&gt;</span>render(<span class="pl-smi">$data</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> ...with additional cache file</span></span>
+<span class="pl-s1"><span class="pl-smi">$qrcode</span><span class="pl-k">-&gt;</span>render(<span class="pl-smi">$data</span>, <span class="pl-s"><span class="pl-pds">'</span>/path/to/file.svg<span class="pl-pds">'</span></span>);</span></pre>
+<p>In case you just want the raw QR code matrix, call <code>QRCode::getMatrix()</code> - this method is also called internally from <code>QRCode::render()</code>. See also <a href="#user-content-custom-qroutputinterface" rel="nofollow noindex noopener external">Custom output modules</a>.</p>
+<pre><span class="pl-s1"><span class="pl-smi">$matrix</span> <span class="pl-k">=</span> <span class="pl-smi">$qrcode</span><span class="pl-k">-&gt;</span>getMatrix(<span class="pl-smi">$data</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">foreach</span>(<span class="pl-smi">$matrix</span><span class="pl-k">-&gt;</span>matrix() <span class="pl-k">as</span> <span class="pl-smi">$y</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$row</span>){</span>
+<span class="pl-s1">	<span class="pl-k">foreach</span>(<span class="pl-smi">$row</span> <span class="pl-k">as</span> <span class="pl-smi">$x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$module</span>){</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">		<span class="pl-c"><span class="pl-c">//</span> get a module's value</span></span>
+<span class="pl-s1">		<span class="pl-smi">$value</span> <span class="pl-k">=</span> <span class="pl-smi">$module</span>;</span>
+<span class="pl-s1">		<span class="pl-smi">$value</span> <span class="pl-k">=</span> <span class="pl-smi">$matrix</span><span class="pl-k">-&gt;</span>get(<span class="pl-smi">$x</span>, <span class="pl-smi">$y</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">		<span class="pl-c"><span class="pl-c">//</span> boolean check a module</span></span>
+<span class="pl-s1">		<span class="pl-k">if</span>(<span class="pl-smi">$matrix</span><span class="pl-k">-&gt;</span>check(<span class="pl-smi">$x</span>, <span class="pl-smi">$y</span>)){ <span class="pl-c"><span class="pl-c">//</span> if($module &gt;&gt; 8 &gt; 0)</span></span>
+<span class="pl-s1">			<span class="pl-c"><span class="pl-c">//</span> do stuff, the module is dark</span></span>
+<span class="pl-s1">		}</span>
+<span class="pl-s1">		<span class="pl-k">else</span>{</span>
+<span class="pl-s1">			<span class="pl-c"><span class="pl-c">//</span> do other stuff, the module is light</span></span>
+<span class="pl-s1">		}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">	}</span>
+<span class="pl-s1">}</span></pre>
+<p>Have a look <a href="https://github.com/chillerlan/php-qrcode/tree/master/examples" rel="nofollow noindex noopener external">in this folder</a> for some more usage examples.</p>
+<h4><a id="user-content-custom-module-values" class="anchor" href="#user-content-custom-module-values" rel="nofollow noindex noopener external"></a>Custom module values</h4>
+<p>Previous versions of <code>QRCode</code> held only boolean matrix values that only allowed to determine whether a module was dark or not. Now you can distinguish between different parts of the matrix, namely the several required patterns from the QR Code specification, and use them in different ways.</p>
+<p>The dark value is the module (light) value shifted by 8 bits to the left: <code>$value = $M_TYPE &lt;&lt; ($bool ? 8 : 0);</code>, where <code>$M_TYPE</code> is one of the <code>QRMatrix::M_*</code> constants.
+You can check the value for a type explicitly like...</p>
+<pre><span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> for true (dark)</span></span>
+<span class="pl-s1"><span class="pl-smi">$value</span> <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">8</span> <span class="pl-k">===</span> <span class="pl-smi">$M_TYPE</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span>for false (light)</span></span>
+<span class="pl-s1"><span class="pl-smi">$value</span> <span class="pl-k">===</span> <span class="pl-smi">$M_TYPE</span>;</span></pre>
+<p>...or you can perform a loose check, ignoring the module value</p>
+<pre><span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> for true</span></span>
+<span class="pl-s1"><span class="pl-smi">$value</span> <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">8</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> for false</span></span>
+<span class="pl-s1"><span class="pl-smi">$value</span> <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">8</span> <span class="pl-k">===</span> <span class="pl-c1">0</span></span></pre>
+<p>See also <code>QRMatrix::set()</code>, <code>QRMatrix::check()</code> and <a href="#user-content-qrmatrix-constants" rel="nofollow noindex noopener external"><code>QRMatrix</code> constants</a>.</p>
+<p>To map the values and properly render the modules for the given <code>QROutputInterface</code>, it's necessary to overwrite the default values:</p>
+<pre><span class="pl-s1"><span class="pl-smi">$options</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">QROptions</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> for HTML and SVG</span></span>
+<span class="pl-s1"><span class="pl-smi">$options</span><span class="pl-k">-&gt;</span><span class="pl-smi">moduleValues</span> <span class="pl-k">=</span> [</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> finder</span></span>
+<span class="pl-s1">	<span class="pl-c1">1536</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#A71111<span class="pl-pds">'</span></span>, <span class="pl-c"><span class="pl-c">//</span> dark (true)</span></span>
+<span class="pl-s1">	<span class="pl-c1">6</span>    <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#FFBFBF<span class="pl-pds">'</span></span>, <span class="pl-c"><span class="pl-c">//</span> light (false)</span></span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> alignment</span></span>
+<span class="pl-s1">	<span class="pl-c1">2560</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#A70364<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c1">10</span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#FFC9C9<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> timing</span></span>
+<span class="pl-s1">	<span class="pl-c1">3072</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#98005D<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c1">12</span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#FFB8E9<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> format</span></span>
+<span class="pl-s1">	<span class="pl-c1">3584</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#003804<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c1">14</span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#00FB12<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> version</span></span>
+<span class="pl-s1">	<span class="pl-c1">4096</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#650098<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c1">16</span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#E0B8FF<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> data</span></span>
+<span class="pl-s1">	<span class="pl-c1">1024</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#4A6000<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c1">4</span>    <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#ECF9BE<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> darkmodule</span></span>
+<span class="pl-s1">	<span class="pl-c1">512</span>  <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#080063<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> separator</span></span>
+<span class="pl-s1">	<span class="pl-c1">8</span>    <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#AFBFBF<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> quietzone</span></span>
+<span class="pl-s1">	<span class="pl-c1">18</span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#FFFFFF<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">];</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> for the image output types</span></span>
+<span class="pl-s1"><span class="pl-smi">$options</span><span class="pl-k">-&gt;</span><span class="pl-smi">moduleValues</span> <span class="pl-k">=</span> [</span>
+<span class="pl-s1">	<span class="pl-c1">512</span>  <span class="pl-k">=&gt;</span> [<span class="pl-c1">0</span>, <span class="pl-c1">0</span>, <span class="pl-c1">0</span>],</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> ...</span></span>
+<span class="pl-s1">];</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> for string/text output</span></span>
+<span class="pl-s1"><span class="pl-smi">$options</span><span class="pl-k">-&gt;</span><span class="pl-smi">moduleValues</span> <span class="pl-k">=</span> [</span>
+<span class="pl-s1">	<span class="pl-c1">512</span>  <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> ...</span></span>
+<span class="pl-s1">];</span></pre>
+<p>Combined with a custom output interface and your imagination you can create some cool effects that way!</p>
+<h4><a id="user-content-custom-qroutputinterface" class="anchor" href="#user-content-custom-qroutputinterface" rel="nofollow noindex noopener external"></a>Custom <code>QROutputInterface</code></h4>
+<p>Instead of bloating your code you can simply create your own output interface by extending <code>QROutputAbstract</code>. Have a look at the <a href="https://github.com/chillerlan/php-qrcode/tree/master/src/Output" rel="nofollow noindex noopener external">built-in output modules</a>.</p>
+<pre><span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">MyCustomOutput</span> <span class="pl-k">extends</span> <span class="pl-e">QROutputAbstract</span>{</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> inherited from QROutputAbstract</span></span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-smi">$matrix</span>;      <span class="pl-c"><span class="pl-c">//</span> QRMatrix</span></span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-smi">$moduleCount</span>; <span class="pl-c"><span class="pl-c">//</span> modules QRMatrix::size()</span></span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-smi">$options</span>;     <span class="pl-c"><span class="pl-c">//</span> MyCustomOptions or QROptions</span></span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-smi">$scale</span>;       <span class="pl-c"><span class="pl-c">//</span> scale factor from options</span></span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-smi">$length</span>;      <span class="pl-c"><span class="pl-c">//</span> length of the matrix ($moduleCount * $scale)</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> ...check/set default module values (abstract method, called by the constructor)</span></span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-k">function</span> <span class="pl-en">setModuleValues</span>():<span class="pl-k">void</span>{</span>
+<span class="pl-s1">		<span class="pl-c"><span class="pl-c">//</span> $this-&gt;moduleValues = ...</span></span>
+<span class="pl-s1">	}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> QROutputInterface::dump()</span></span>
+<span class="pl-s1">	<span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">dump</span>(<span class="pl-k">string</span> <span class="pl-smi">$file</span> <span class="pl-k">=</span> <span class="pl-c1">null</span>):<span class="pl-k">string</span>{</span>
+<span class="pl-s1">		<span class="pl-smi">$output</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">		<span class="pl-k">for</span>(<span class="pl-smi">$row</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>; <span class="pl-smi">$row</span> <span class="pl-k">&lt;</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">moduleCount</span>; <span class="pl-smi">$row</span><span class="pl-k">++</span>){</span>
+<span class="pl-s1">			<span class="pl-k">for</span>(<span class="pl-smi">$col</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>; <span class="pl-smi">$col</span> <span class="pl-k">&lt;</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">moduleCount</span>; <span class="pl-smi">$col</span><span class="pl-k">++</span>){</span>
+<span class="pl-s1">				<span class="pl-smi">$output</span> <span class="pl-k">.=</span> (<span class="pl-k">int</span>)<span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">matrix</span><span class="pl-k">-&gt;</span>check(<span class="pl-smi">$col</span>, <span class="pl-smi">$row</span>);</span>
+<span class="pl-s1">			}</span>
+<span class="pl-s1">		}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">		<span class="pl-k">return</span> <span class="pl-smi">$output</span>;</span>
+<span class="pl-s1">	}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">}</span></pre>
+<p>In case you need additional settings for your output module, just extend <code>QROptions</code>...</p>
+<pre><code>class MyCustomOptions extends QROptions{
+	protected $myParam = 'defaultValue';
+
+	// ...
+}
+</code></pre>
+<p>...or use the <a href="https://github.com/chillerlan/php-settings-container/blob/master/src/SettingsContainerInterface.php" rel="nofollow noindex noopener external"><code>SettingsContainerInterface</code></a>, which is the more flexible approach.</p>
+<pre><span class="pl-s1"><span class="pl-k">trait</span> <span class="pl-en">MyCustomOptionsTrait</span>{</span>
+<span class="pl-s1">	<span class="pl-k">protected</span> <span class="pl-smi">$myParam</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>defaultValue<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> ...</span></span>
+<span class="pl-s1">}</span></pre>
+<p>set the options:</p>
+<pre><span class="pl-s1"><span class="pl-smi">$myOptions</span> <span class="pl-k">=</span> [</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>version<span class="pl-pds">'</span></span>         <span class="pl-k">=&gt;</span> <span class="pl-c1">5</span>,</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>eccLevel<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-c1">QRCode</span><span class="pl-k">::</span><span class="pl-c1">ECC_L</span>,</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>outputType<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">QRCode</span><span class="pl-k">::</span><span class="pl-c1">OUTPUT_CUSTOM</span>,</span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>outputInterface<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">MyCustomOutput</span><span class="pl-k">::</span><span class="pl-c1">class</span>,</span>
+<span class="pl-s1">	<span class="pl-c"><span class="pl-c">//</span> your custom settings</span></span>
+<span class="pl-s1">	<span class="pl-s"><span class="pl-pds">'</span>myParam<span class="pl-pds">'</span></span>         <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>whatever value<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1"> ];</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> extends QROptions</span></span>
+<span class="pl-s1"><span class="pl-smi">$myCustomOptions</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">MyCustomOptions</span>(<span class="pl-smi">$myOptions</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> using the SettingsContainerInterface</span></span>
+<span class="pl-s1"><span class="pl-smi">$myCustomOptions</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">class</span>(<span class="pl-smi">$myOptions</span>) <span class="pl-k">extends</span> <span class="pl-c1">SettingsContainerAbstract</span>{</span>
+<span class="pl-s1">	<span class="pl-k">use</span> <span class="pl-c1">QROptions</span>, <span class="pl-c1">MyCustomOptionsTrait</span>;</span>
+<span class="pl-s1">};</span>
+<span class="pl-s1"></span></pre>
+<p>You can then call <code>QRCode</code> with the custom modules...</p>
+<pre><span class="pl-s1">(<span class="pl-k">new</span> <span class="pl-c1">QRCode</span>(<span class="pl-smi">$myCustomOptions</span>))<span class="pl-k">-&gt;</span>render(<span class="pl-smi">$data</span>);</span></pre>
+<p>...or invoke the <code>QROutputInterface</code> manually.</p>
+<pre><span class="pl-s1"><span class="pl-smi">$qrOutputInterface</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">MyCustomOutput</span>(<span class="pl-smi">$myCustomOptions</span>, (<span class="pl-k">new</span> <span class="pl-c1">QRCode</span>(<span class="pl-smi">$myCustomOptions</span>))<span class="pl-k">-&gt;</span>getMatrix(<span class="pl-smi">$data</span>));</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span>dump the output, which is equivalent to QRCode::render()</span></span>
+<span class="pl-s1"><span class="pl-smi">$qrOutputInterface</span><span class="pl-k">-&gt;</span>dump();</span></pre>
+<h3><a id="user-content-api" class="anchor" href="#user-content-api" rel="nofollow noindex noopener external"></a>API</h3>
+<h4><a id="user-content-qrcode-methods" class="anchor" href="#user-content-qrcode-methods" rel="nofollow noindex noopener external"></a><code>QRCode</code> methods</h4>
+<table><thead><tr><th>method</th>
+<th>return</th>
+<th>description</th>
+</tr></thead><tbody><tr><td><code>__construct(QROptions $options = null)</code></td>
+<td>-</td>
+<td>see <a href="https://github.com/chillerlan/php-settings-container/blob/master/src/SettingsContainerInterface.php" rel="nofollow noindex noopener external"><code>SettingsContainerInterface</code></a></td>
+</tr><tr><td><code>render(string $data, string $file = null)</code></td>
+<td>mixed, <code>QROutputInterface::dump()</code></td>
+<td>renders a QR Code for the given <code>$data</code> and <code>QROptions</code>, saves <code>$file</code> optional</td>
+</tr><tr><td><code>getMatrix(string $data)</code></td>
+<td><code>QRMatrix</code></td>
+<td>returns a <code>QRMatrix</code> object for the given <code>$data</code> and current <code>QROptions</code></td>
+</tr><tr><td><code>initDataInterface(string $data)</code></td>
+<td><code>QRDataInterface</code></td>
+<td>returns a fresh <code>QRDataInterface</code> for the given <code>$data</code></td>
+</tr><tr><td><code>isNumber(string $string)</code></td>
+<td>bool</td>
+<td>checks if a string qualifies for <code>Number</code></td>
+</tr><tr><td><code>isAlphaNum(string $string)</code></td>
+<td>bool</td>
+<td>checks if a string qualifies for <code>AlphaNum</code></td>
+</tr><tr><td><code>isKanji(string $string)</code></td>
+<td>bool</td>
+<td>checks if a string qualifies for <code>Kanji</code></td>
+</tr></tbody></table><h4><a id="user-content-qrcode-constants" class="anchor" href="#user-content-qrcode-constants" rel="nofollow noindex noopener external"></a><code>QRCode</code> constants</h4>
+<table><thead><tr><th>name</th>
+<th>description</th>
+</tr></thead><tbody><tr><td><code>VERSION_AUTO</code></td>
+<td><code>QROptions::$version</code></td>
+</tr><tr><td><code>MASK_PATTERN_AUTO</code></td>
+<td><code>QROptions::$maskPattern</code></td>
+</tr><tr><td><code>OUTPUT_MARKUP_SVG</code>, <code>OUTPUT_MARKUP_HTML</code></td>
+<td><code>QROptions::$outputType</code> markup</td>
+</tr><tr><td><code>OUTPUT_IMAGE_PNG</code>, <code>OUTPUT_IMAGE_JPG</code>, <code>OUTPUT_IMAGE_GIF</code></td>
+<td><code>QROptions::$outputType</code> image</td>
+</tr><tr><td><code>OUTPUT_STRING_JSON</code>, <code>OUTPUT_STRING_TEXT</code></td>
+<td><code>QROptions::$outputType</code> string</td>
+</tr><tr><td><code>OUTPUT_IMAGICK</code></td>
+<td><code>QROptions::$outputType</code> ImageMagick</td>
+</tr><tr><td><code>OUTPUT_CUSTOM</code></td>
+<td><code>QROptions::$outputType</code>, requires <code>QROptions::$outputInterface</code></td>
+</tr><tr><td><code>ECC_L</code>, <code>ECC_M</code>, <code>ECC_Q</code>, <code>ECC_H</code>,</td>
+<td>ECC-Level: 7%, 15%, 25%, 30%  in <code>QROptions::$eccLevel</code></td>
+</tr><tr><td><code>DATA_NUMBER</code>, <code>DATA_ALPHANUM</code>, <code>DATA_BYTE</code>, <code>DATA_KANJI</code></td>
+<td><code>QRDataInterface::$datamode</code></td>
+</tr></tbody></table><h4><a id="user-content-qroptions-properties" class="anchor" href="#user-content-qroptions-properties" rel="nofollow noindex noopener external"></a><code>QROptions</code> properties</h4>
+<table><thead><tr><th>property</th>
+<th>type</th>
+<th>default</th>
+<th>allowed</th>
+<th>description</th>
+</tr></thead><tbody><tr><td><code>$version</code></td>
+<td>int</td>
+<td><code>QRCode::VERSION_AUTO</code></td>
+<td>1...40</td>
+<td>the <a href="http://www.qrcode.com/en/about/version.html" rel="nofollow noindex noopener external">QR Code version number</a></td>
+</tr><tr><td><code>$versionMin</code></td>
+<td>int</td>
+<td>1</td>
+<td>1...40</td>
+<td>Minimum QR version (if <code>$version = QRCode::VERSION_AUTO</code>)</td>
+</tr><tr><td><code>$versionMax</code></td>
+<td>int</td>
+<td>40</td>
+<td>1...40</td>
+<td>Maximum QR version (if <code>$version = QRCode::VERSION_AUTO</code>)</td>
+</tr><tr><td><code>$eccLevel</code></td>
+<td>int</td>
+<td><code>QRCode::ECC_L</code></td>
+<td><code>QRCode::ECC_X</code></td>
+<td>Error correct level, where X = L (7%), M (15%), Q (25%), H (30%)</td>
+</tr><tr><td><code>$maskPattern</code></td>
+<td>int</td>
+<td><code>QRCode::MASK_PATTERN_AUTO</code></td>
+<td>0...7</td>
+<td>Mask Pattern to use</td>
+</tr><tr><td><code>$addQuietzone</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>-</td>
+<td>Add a "quiet zone" (margin) according to the QR code spec</td>
+</tr><tr><td><code>$quietzoneSize</code></td>
+<td>int</td>
+<td>4</td>
+<td>clamped to 0 ... <code>$matrixSize / 2</code></td>
+<td>Size of the quiet zone</td>
+</tr><tr><td><code>$outputType</code></td>
+<td>string</td>
+<td><code>QRCode::OUTPUT_IMAGE_PNG</code></td>
+<td><code>QRCode::OUTPUT_*</code></td>
+<td>built-in output type</td>
+</tr><tr><td><code>$outputInterface</code></td>
+<td>string</td>
+<td><code>null</code></td>
+<td>*</td>
+<td>FQCN of the custom <code>QROutputInterface</code> if <code>QROptions::$outputType</code> is set to <code>QRCode::OUTPUT_CUSTOM</code></td>
+</tr><tr><td><code>$cachefile</code></td>
+<td>string</td>
+<td><code>null</code></td>
+<td>*</td>
+<td>optional cache file path</td>
+</tr><tr><td><code>$eol</code></td>
+<td>string</td>
+<td><code>PHP_EOL</code></td>
+<td>*</td>
+<td>newline string (HTML, SVG, TEXT)</td>
+</tr><tr><td><code>$scale</code></td>
+<td>int</td>
+<td>5</td>
+<td>*</td>
+<td>size of a QR code pixel (SVG, IMAGE_*), HTML -&gt; via CSS</td>
+</tr><tr><td><code>$cssClass</code></td>
+<td>string</td>
+<td><code>null</code></td>
+<td>*</td>
+<td>a common css class</td>
+</tr><tr><td><code>$textDark</code></td>
+<td>string</td>
+<td>'&#128308;'</td>
+<td>*</td>
+<td>string substitute for dark</td>
+</tr><tr><td><code>$textLight</code></td>
+<td>string</td>
+<td>'&#11093;'</td>
+<td>*</td>
+<td>string substitute for light</td>
+</tr><tr><td><code>$markupDark</code></td>
+<td>string</td>
+<td>'#000'</td>
+<td>*</td>
+<td>markup substitute for dark (CSS value)</td>
+</tr><tr><td><code>$markupLight</code></td>
+<td>string</td>
+<td>'#fff'</td>
+<td>*</td>
+<td>markup substitute for light (CSS value)</td>
+</tr><tr><td><code>$imageBase64</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>-</td>
+<td>whether to return the image data as base64 or raw like from <code>file_get_contents()</code></td>
+</tr><tr><td><code>$imageTransparent</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>-</td>
+<td>toggle transparency (no jpeg support)</td>
+</tr><tr><td><code>$imageTransparencyBG</code></td>
+<td>array</td>
+<td><code>[255, 255, 255]</code></td>
+<td><code>[R, G, B]</code></td>
+<td>the RGB values for the transparent color, see <a href="http://php.net/manual/function.imagecolortransparent.php" rel="nofollow noindex noopener external"><code>imagecolortransparent()</code></a></td>
+</tr><tr><td><code>$pngCompression</code></td>
+<td>int</td>
+<td>-1</td>
+<td>-1 ... 9</td>
+<td><code>imagepng()</code> compression level, -1 = auto</td>
+</tr><tr><td><code>$jpegQuality</code></td>
+<td>int</td>
+<td>85</td>
+<td>0 - 100</td>
+<td><code>imagejpeg()</code> quality</td>
+</tr><tr><td><code>$imagickFormat</code></td>
+<td>string</td>
+<td>'png'</td>
+<td>*</td>
+<td>ImageMagick output type, see <code>Imagick::setType()</code></td>
+</tr><tr><td><code>$imagickBG</code></td>
+<td>string</td>
+<td><code>null</code></td>
+<td>*</td>
+<td>ImageMagick background color, see <code>ImagickPixel::__construct()</code></td>
+</tr><tr><td><code>$moduleValues</code></td>
+<td>array</td>
+<td><code>null</code></td>
+<td>*</td>
+<td>Module values map, see <a href="#user-content-custom-qroutputinterface" rel="nofollow noindex noopener external">Custom output modules</a> and <code>QROutputInterface::DEFAULT_MODULE_VALUES</code></td>
+</tr></tbody></table><h4><a id="user-content-qrmatrix-methods" class="anchor" href="#user-content-qrmatrix-methods" rel="nofollow noindex noopener external"></a><code>QRMatrix</code> methods</h4>
+<table><thead><tr><th>method</th>
+<th>return</th>
+<th>description</th>
+</tr></thead><tbody><tr><td><code>__construct(int $version, int $eclevel)</code></td>
+<td>-</td>
+<td>-</td>
+</tr><tr><td><code>matrix()</code></td>
+<td>array</td>
+<td>the internal matrix representation as a 2 dimensional array</td>
+</tr><tr><td><code>version()</code></td>
+<td>int</td>
+<td>the current QR Code version</td>
+</tr><tr><td><code>eccLevel()</code></td>
+<td>int</td>
+<td>current ECC level</td>
+</tr><tr><td><code>maskPattern()</code></td>
+<td>int</td>
+<td>the used mask pattern</td>
+</tr><tr><td><code>size()</code></td>
+<td>int</td>
+<td>the absoulute size of the matrix, including quiet zone (if set). <code>$version * 4 + 17 + 2 * $quietzone</code></td>
+</tr><tr><td><code>get(int $x, int $y)</code></td>
+<td>int</td>
+<td>returns the value of the module</td>
+</tr><tr><td><code>set(int $x, int $y, bool $value, int $M_TYPE)</code></td>
+<td><code>QRMatrix</code></td>
+<td>sets the <code>$M_TYPE</code> value for the module</td>
+</tr><tr><td><code>check(int $x, int $y)</code></td>
+<td>bool</td>
+<td>checks whether a module is true (dark) or false (light)</td>
+</tr></tbody></table><h4><a id="user-content-qrmatrix-constants" class="anchor" href="#user-content-qrmatrix-constants" rel="nofollow noindex noopener external"></a><code>QRMatrix</code> constants</h4>
+<table><thead><tr><th>name</th>
+<th>light (false)</th>
+<th>dark (true)</th>
+<th>description</th>
+</tr></thead><tbody><tr><td><code>M_NULL</code></td>
+<td>0</td>
+<td>-</td>
+<td>module not set (should never appear. if so, there's an error)</td>
+</tr><tr><td><code>M_DARKMODULE</code></td>
+<td>- (2)</td>
+<td>512</td>
+<td>once per matrix at <code>$xy = [8, 4 * $version + 9]</code></td>
+</tr><tr><td><code>M_DATA</code></td>
+<td>4</td>
+<td>1024</td>
+<td>the actual encoded data</td>
+</tr><tr><td><code>M_FINDER</code></td>
+<td>6</td>
+<td>1536</td>
+<td>the 7x7 finder patterns</td>
+</tr><tr><td><code>M_SEPARATOR</code></td>
+<td>8</td>
+<td>-</td>
+<td>separator lines around the finder patterns</td>
+</tr><tr><td><code>M_ALIGNMENT</code></td>
+<td>10</td>
+<td>2560</td>
+<td>the 5x5 alignment patterns</td>
+</tr><tr><td><code>M_TIMING</code></td>
+<td>12</td>
+<td>3072</td>
+<td>the timing pattern lines</td>
+</tr><tr><td><code>M_FORMAT</code></td>
+<td>14</td>
+<td>3584</td>
+<td>format information pattern</td>
+</tr><tr><td><code>M_VERSION</code></td>
+<td>16</td>
+<td>4096</td>
+<td>version information pattern</td>
+</tr><tr><td><code>M_QUIETZONE</code></td>
+<td>18</td>
+<td>-</td>
+<td>margin around the QR Code</td>
+</tr><tr><td><code>M_LOGO</code></td>
+<td>20</td>
+<td>-</td>
+<td>space for a logo image (not used yet)</td>
+</tr><tr><td><code>M_TEST</code></td>
+<td>255</td>
+<td>65280</td>
+<td>test value</td>
+</tr></tbody></table><h3><a id="user-content-notes" class="anchor" href="#user-content-notes" rel="nofollow noindex noopener external"></a>Notes</h3>
+<p>The QR encoder, especially the subroutines for mask pattern testing, can cause high CPU load on increased matrix size.
+You can avoid a part of this load by choosing a fast output module, like <code>OUTPUT_IMAGE_*</code> and setting the mask pattern manually (which may result in unreadable QR Codes).
+Oh hey and don't forget to sanitize any user input!</p>
+<h3><a id="user-content-disclaimer" class="anchor" href="#user-content-disclaimer" rel="nofollow noindex noopener external"></a>Disclaimer!</h3>
+<p>I don't take responsibility for molten CPUs, misled applications, failed log-ins etc.. Use at your own risk!</p>
+<h4><a id="user-content-trademark-notice" class="anchor" href="#user-content-trademark-notice" rel="nofollow noindex noopener external"></a>Trademark Notice</h4>
+<p>The word "QR Code" is registered trademark of <em>DENSO WAVE INCORPORATED</em><br><a href="http://www.denso-wave.com/qrcode/faqpatent-e.html" rel="nofollow noindex noopener external">http://www.denso-wave.com/qrcode/faqpatent-e.html</a></p>
+            </div>
+            </div>
+            </section>
+        </section>
+    </section>
+
+        <footer class="wrapper-footer">
+            <nav class="container">
+                <div class="row">
+                    <ul class="social col-xs-7 col-sm-4 col-md-2 pull-right">
+                        <li><a href="http://github.com/composer/packagist" title="GitHub"><span class="icon-github"></span></a></li>
+                        <li><a href="https://twitter.com/packagist" title="Follow @packagist"><span class="icon-twitter"></span></a></li>
+                        <li><a href="mailto:contact@packagist.org" title="Contact"><span class="icon-mail"></span></a></li>
+                    </ul>
+
+                    <ul class="col-xs-4 col-md-2">
+                        <li><a href="/about">About Packagist</a></li>
+                        <li><a href="/feeds/" rel="nofollow">Atom/RSS Feeds</a></li>
+                    </ul>
+
+                    <div class="clearfix visible-xs-block"></div>
+
+                    <ul class="col-xs-3 col-md-2">
+                        <li><a href="/statistics" rel="nofollow">Statistics</a></li>
+                        <li><a href="/explore/">Browse Packages</a></li>
+                    </ul>
+
+                    <div class="clearfix visible-xs-block"></div>
+
+                    <ul class="col-xs-3 col-md-2">
+                        <li><a href="/apidoc">API</a></li>
+                        <li><a href="/mirrors">Mirrors</a></li>
+                    </ul>
+
+                </div>
+
+                <div class="row">
+                    <p class="toran col-xs-12">Packagist maintenance and hosting is supported by <a href="https://packagist.com/">Private Packagist</a></p>
+                </div>
+            </nav>
+        </footer>
+
+        <script>
+            var algoliaConfig = {"app_id":"M58222SH95","search_key":"5ae4d03c98685bd7364c2e0fd819af05","index_name":"packagist"};
+        </script>
+
+        <script src="/libs/jquery-2.1.4.min.js?v=1542386461"></script>
+        <script src="/libs/humane-3.2.2.min.js?v=1542386461"></script>
+        <script src="/bundles/packagistweb/js/layout.js?v=1542386461"></script>
+        <script src="/libs/bootstrap-3.3.5/js/bootstrap.min.js?v=1542386461"></script>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.4/dist/instantsearch.min.js"></script>
+        <script src="/bundles/packagistweb/js/search.js?v=1542386461"></script>        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('set', 'anonymizeIp', true);
+            ga('create', 'UA-26723099-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+            <script src="/bundles/packagistweb/js/view.js?v=1542386461"></script>
+    </body>
+</html>

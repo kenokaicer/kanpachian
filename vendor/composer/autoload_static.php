@@ -6,14 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9
 {
-    public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'c' => 
         array (
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'chillerlan\\Settings\\' => 20,
+            'chillerlan\\QRCode\\' => 18,
         ),
         'K' => 
         array (
@@ -22,30 +19,17 @@ class ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'chillerlan\\Settings\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+            0 => __DIR__ . '/..' . '/chillerlan/php-settings-container/src',
+        ),
+        'chillerlan\\QRCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/chillerlan/php-qrcode/src',
         ),
         'Karriere\\JsonDecoder\\' => 
         array (
             0 => __DIR__ . '/..' . '/karriere/json-decoder/src',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'T' => 
-        array (
-            'Twig_' => 
-            array (
-                0 => __DIR__ . '/..' . '/twig/twig/lib',
-            ),
-        ),
-        'B' => 
-        array (
-            'Bramus' => 
-            array (
-                0 => __DIR__ . '/..' . '/bramus/router/src',
-            ),
         ),
     );
 
@@ -54,7 +38,6 @@ class ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
