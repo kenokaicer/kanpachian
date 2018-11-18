@@ -30,6 +30,8 @@
 </div>
 </form>
 
+<?php require VIEWS_PATH."FooterUserView.php";?>
+
 <script language='javascript' type='text/javascript'>
     function checkPassword() {
     var pass1 = document.getElementById("pass1").value;

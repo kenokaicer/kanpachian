@@ -105,7 +105,7 @@ button, .button {
 
 #testimonial {
     width: 100%;
-    min-height: 260px;
+    min-height: 200px;
     background: url(../img/testi.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -113,17 +113,17 @@ button, .button {
     background-size: cover;
     color: #fff;
     text-align: center;
-    padding: 40px;
+    /*padding: 40px;*/
 }
 
-    #testimonial h6:before {
-        content: '- ';
-    }
+#testimonial h6:before {
+    content: '- ';
+}
 
-    #testimonial li div {
-        width: 70%;
-        margin: auto;
-    }
+#testimonial li div {
+    width: 70%;
+    margin: auto;
+}
 
 #intro {
     width: 100%;

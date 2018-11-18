@@ -93,6 +93,8 @@ use chillerlan\QRCode\QRCode as QRCode;
    </div>
 </div>
 
+<?php require VIEWS_PATH."FooterUserView.php";?>
+
 <script>
 
 //createQR("qrCode","perro");

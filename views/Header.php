@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>search.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>radio.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>ticket.css">
+    <link rel="stylesheet" href="<?=CSS_PATH?>footerPosition.css">
 
    <!-- <link rel="stylesheet" href="<?=CSS_PATH?>cart.css" /> <!--Doing a redirect to home on load, braking session-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>  
@@ -25,10 +26,9 @@
     <!--<script src="<?=JS_PATH?>nobackbutton.js"></script> <!--Disable browser back button, breaks refresh-->
     <script src="<?=JS_PATH?>foundation.min.js"></script>
 
+<style>
 
-   
-
-    
+</style>
 
 
     <!--       
@@ -40,3 +40,5 @@
     
      
 </head>
+<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
+<main class="Site-content">

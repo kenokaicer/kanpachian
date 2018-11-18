@@ -25,3 +25,5 @@
   <button type="submit" formnovalidate formaction="<?=FRONT_ROOT?>Home/index">Volver</button>
 </div>
 </form>
+
+<?php require VIEWS_PATH."FooterUserView.php";?>

@@ -35,6 +35,11 @@
 		{
 			require VIEWS_PATH."Home2.php";
 		}
+
+		public function test2()
+		{
+			require VIEWS_PATH."confirmPurchase.php";
+		}
 		
 	}
 ?>

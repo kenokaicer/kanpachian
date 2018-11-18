@@ -32,3 +32,5 @@ function checkLenght() {
     return ok;
     }
 </script>
+
+<?php require VIEWS_PATH."FooterUserView.php";?>

@@ -18,6 +18,9 @@
  <div>
     <button type="submit" formaction="<?=FRONT_ROOT?>Purchase/showTickets">ticket</button>
 </div>
+<div>
+    <button type="submit" formaction="<?=FRONT_ROOT?>Home/test2">confirm purchase</button>
+</div>
 
 </form>
  <div id="additional-info" style="padding-top:5px;height:70px">
@@ -77,46 +80,4 @@
     </div>
 </div>
 
-
-    <div id="testimonial">
-        <div class="row">
-            <div class="large-12 columns">
-                <ul class="example-orbit-content" data-orbit>
-                    <li data-orbit-slide="headline-1">
-                        <div class="text-center">
-                            <h6 class="color-white">Detalles</h6>
-                            <p class="color-white">Un Texto para agregar cuerpo</p>
-                        </div>
-                    </li>
-                    <li data-orbit-slide="headline-2">
-                        <div>
-                            <h6 class="color-white">Detalles2</h6>
-                            <p class="color-white">Un Texto para agregar cuerpo2</p>
-                        </div>
-                    </li>
-                    <li data-orbit-slide="headline-3">
-                        <div>
-                            <h6 class="color-white">Detalles3</h6>
-                            <p class="color-white">Un texto para agregar cuerpo3</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-<!--
-<script src="js/vendor/jquery.js"></script>
-<script src="js/foundation.min.js"></script>
-<script>
- //   $(document).foundation();
-</script>
--->
-
-<script>
-function doSomething(id)
-{
-    console.log(id);
-}
-</script>
-</html>
+<?php require VIEWS_PATH."FooterUserView.php";?>
