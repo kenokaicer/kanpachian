@@ -22,10 +22,10 @@ class EventByDateManagementController
     public function __construct()
     {
         //Session::adminLogged();
-        $this->eventByDateDao = EventByDateDao::getInstance();
-        $this->theaterDao = TheaterDao::getInstance();
-        $this->artistDao = ArtistDao::getInstance();
-        $this->eventDao = EventDao::getInstance();
+        $this->eventByDateDao = new EventByDateDao();
+        $this->theaterDao = new TheaterDao();
+        $this->artistDao = new ArtistDao();
+        $this->eventDao = new EventDao();
     }
 
     public function index()

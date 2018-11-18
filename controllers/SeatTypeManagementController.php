@@ -14,7 +14,7 @@ class SeatTypeManagementController
     public function __construct()
     {
         //Session::adminLogged();
-        $this->seatTypeDao = SeatTypeDao::getInstance();
+        $this->seatTypeDao = new SeatTypeDao();
     }
 
     public function index()

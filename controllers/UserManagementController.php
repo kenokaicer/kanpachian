@@ -15,7 +15,7 @@ class UserManagementController
     public function __construct()
     {
         //Session::adminLogged();
-        $this->userDao = UserDao::getInstance(); //BD
+        $this->userDao = new UserDao(); //BD
     }
 
     public function index()
