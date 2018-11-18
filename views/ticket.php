@@ -1,3 +1,6 @@
+<?php
+use chillerlan\QRCode\QRCode as QRCode;
+?>
 <div id="additional-info" style="padding-top:5px;height:70px">
    <div class="row">
       <div class="large-12 columns">
@@ -19,11 +22,12 @@
          <div class="row" style="text-align: left;">
             <div class="small-4 large-2 columns about-people" >
                <div class="about-people-avatar">
-                  <img class="qr-code img-thumbnail img-responsive" id="content"
+                  <img class="qr-code img-thumbnail img-responsive" id="content" src="
                   <?php
-                  $s = "src=https://chart.googleapis.com/chart?cht=qr&chl=$i&chs=160x160&chld=L|0";
-                  echo $s;
-               ?> 
+                  $data = $ticket->getQrCode();
+                  echo (new QRCode)->render($data);
+                  ?> 
+                  "
                   id="content">
                </div>
             </div>

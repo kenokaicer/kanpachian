@@ -25,7 +25,23 @@ where CONCAT_WS(' ', name, lastname) like '%quijote de la mancha%'*/
 
 USE neonlab1_gotoevent;
 select *
-from SeatsByEvents
+from Purchases
+
+delete from Purchases
+where idPurchase = 10
+
+select *
+from PurchaseLines
+
+delete from PurchaseLines
+where idPurchase = 10
+
+select *
+from Tickets
+
+delete from Tickets
+where idTicket = 5
+
 
 
 

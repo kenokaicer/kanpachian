@@ -20,9 +20,11 @@ use Exception as Exception;
 class PurchaseController
 {
     private $eventDao;
-    private $categoryDao;
-    private $clientDao;
+    private $eventByDateDao;
     private $seatsByEventDao;
+    private $clientDao;
+    private $theaterDao;
+    private $artistDao;
     private $purchaseDao;
     private $purchaseLineDao;
     private $ticketDao;
@@ -30,24 +32,15 @@ class PurchaseController
     public function __construct()
     {
         $this->eventDao = new EventDao();
-        $this->eventByDate = new EventByDateDao();
+        $this->eventByDateDao = new EventByDateDao();
         $this->seatsByEventDao = new SeatsByEventDao();
         $this->clientDao = new ClientDao();
         $this->theaterDao = new TheaterDao();
         $this->artistDao = new ArtistDao();
         $this->purchaseDao = new PurchaseDao();
+        $this->purchaseLineDao = new PurchaseLineDao();
         $this->ticketDao = new TicketDao();
     }
-
-    /*protected static $instance = null;
-
-    public static function get() //Added for frontend testing.
-    {
-        if (!isset(static::$instance)) {
-            static::$instance = new static;
-        }
-        return static::$instance;
-    }*/
 
     public function index($idEvent = null)
     { 
@@ -63,7 +56,7 @@ class PurchaseController
         }
 
         try{
-            $eventByDateList = $this->eventByDate->getByEventId($idEvent, LoadType::Lazy1);
+            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent, LoadType::Lazy1);
             $theaterArray = array();
 
             foreach ($eventByDateList as $eventByDate) { //get a list of all theater of eventByDate
@@ -123,7 +116,7 @@ class PurchaseController
         }
 
         try{
-            $eventByDateList = $this->eventByDate->getByEventIdAndTheaterIdLazy($idEvent, $idTheater); //no loadType in this one
+            $eventByDateList = $this->eventByDateDao->getByEventIdAndTheaterIdLazy($idEvent, $idTheater); //no loadType in this one
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar las fechas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
         }
@@ -184,50 +177,63 @@ class PurchaseController
         Session::userLogged();
         Session::virtualCartCheck();
 
-        $purchaseLines = $_SESSION["virtualCart"];
+        try{
+            $purchaseLines = $_SESSION["virtualCart"];
 
-        if(empty($purchaseLines)){
-            throw new Exception("purchaseLines array empty");
+            if(empty($purchaseLines)){
+                throw new Exception("purchaseLines array empty");
+            }
+
+            $purchase = new Purchase();
+
+            $purchase->setDate(date("Y/m/d-h:i:sa")); // set current date and time, ex: 2018/11/08-01:48:31am (timestamp)
+
+            $idUser = $_SESSION["userLogged"]->getIdUser();
+            $client = $this->clientDao->getByUserId($idUser);
+
+            $purchase->setClient($client);
+            $purchase->setPurchaseLines($purchaseLines);
+
+            $idPurchase = $this->purchaseDao->add($purchase); //store purchase
+
+            foreach ($purchaseLines as $purchaseLine) {
+                //store PurchaseLine
+                $idPurchaseLine = $this->purchaseLineDao->add($purchaseLine, $idPurchase);
+
+                //store Ticket
+                $ticket = new Ticket();
+
+                $ticket->setTicketCode(uniqid());
+                $purchaseLine->setIdPurchaseLine($idPurchaseLine);
+                $ticket->setPurchaseLine($purchaseLine);
+
+                $idTicket = $this->ticketDao->add($ticket); //add ticket returning id
+                $ticket->setIdTicket($idTicket);
+                $oldTicket = clone $ticket;
+                $ticket->setQrCode(FRONT_ROOT."Account/viewTicket?idTicket=".$idTicket); //set qrCode with ticket id
+
+                $this->ticketDao->update($oldTicket, $ticket); //update ticket with qrCode
+
+                //deduct form remnants in seats by event 
+                //this could have been done with a dao method
+
+                $newSeatsByEvent = clone $purchaseLine->getSeatsByEvent();
+                $remnants = $newSeatsByEvent->getRemnants();
+                $remnants--;
+                $newSeatsByEvent->setRemnants($remnants);
+
+                $this->seatsByEventDao->update($purchaseLine->getSeatsByEvent(),$newSeatsByEvent);
+            }
+
+            //empty cart
+
+            $_SESSION["virtualCart"] = array();
+        }catch (Exception $ex){
+            echo "<script> alert('Hubo un problema al cerrar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            //$this->viewCart();
         }
 
-        $purchase = new Purchase();
-
-        $purchase->setDate(date("Y/m/d-h:i:sa")); // set current date and time, ex: 2018/11/08-01:48:31am (timestamp)
-
-        $idUser = $_SESSION["userLogged"]->getIdUser();
-        $client = $this->clientDao->getByUserId($idUser);
-
-        $purchase->setClient($client);
-        $purchase->setPurchaseLines($purchaseLines);
-
-        $this->purchaseDao->add($purchase); //store purchase
-
-        foreach ($purchaseLines as $purchaseLine) {
-            $ticket = new Ticket();
-
-            $ticket->setQrCode(uniqid());
-            $ticket->setPurchaseLine($purchaseLine->getIdPurchaseLine());
-
-            $idTicket = $this->ticketDao->add($ticket); //add ticket returning id
-            
-            $ticket->setQrCode(FRONT_ROOT."Account/viewTicket?idTicket=".$idTicket); //set qrCode with ticket id
-
-            $this->ticketDao->update($ticket); //update ticket with qrCode
-        }
-
-        //deduct form remnants in seats by event
-
-        //empty cart
-
-        $this->index();
-    }
-
-    public function addTicket()
-    {
-        Session::userLogged();
-        Session::virtualCartCheck();
-
-        var_dump("obligamePerro");
+        $this->showTickets($idPurchase);
     }
 
     public function viewCart()
@@ -315,15 +321,12 @@ class PurchaseController
         $this->viewCart();
     }
 
-    public function showTickets()
+    public function showTickets($idPurchase)
     {   
         Session::userLogged();
-    
-        //$purchases = $this->purchaseDao->getAllNew(); //this should be a ticket dao, that returns by clientid, and only last purchase (or last two or three, but only one at first)
-        //var_dump($purchases);
 
         try{
-            $ticketList = $this->ticketDao->getAll();
+            $ticketList = $this->ticketDao->getAllByPurchase($idPurchase);
             setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
         }catch (Exception $ex){
             echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";

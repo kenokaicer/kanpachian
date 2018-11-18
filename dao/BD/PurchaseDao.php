@@ -49,37 +49,15 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
+
+            $idPurchase = $this->lastInsertId();
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
 
-        $idPurchase = $this->lastInsertId();
-
-        try {
-            foreach ($purchase->getPurchaseLines() as $purchaseLine) {
-                $query = "INSERT INTO ".$this->tableNamePurchaseLines." (price, idSeatsByEvent, idPurchase) 
-                        VALUES (:price,:idSeatsByEvent,:idPurchase);";
-                
-                $parameters = array();
-                $parameters["price"] = $purchaseLine->getPrice();
-                $parameters["idSeatsByEvent"] = $purchaseLine->getSeatsByEvent()->getIdSeatsByEvent();
-                $parameters["idPurchase"] = $idPurchase;
-
-                $addedRows = $this->connection->executeNonQuery($query, $parameters);
-
-                if($addedRows!=1){
-                    throw new Exception("Number of rows added ".$addedRows.", expected 1, in PurchaseLine");
-                }
-            }
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__.", Error inserting PurchaseLine. ".$ex->getMessage());
-            return;
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__.", Error inserting PurchaseLine. ".$ex->getMessage());
-            return;
-        }
+        return $idPurchase;
     }
 
     public function getById($idPurchase)

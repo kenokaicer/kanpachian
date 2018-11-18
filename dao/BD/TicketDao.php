@@ -157,8 +157,6 @@ class TicketDao extends DaoBD implements ITicketDao
                 }
 
                 $ticket->setPurchaseLine($purchaseLine);
-
-                array_push($ticketList, $ticket);
             }
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
@@ -283,7 +281,102 @@ class TicketDao extends DaoBD implements ITicketDao
                     ON ed.idEvent = e.idEvent 
                     INNER JOIN ".$this->tableNameTheaters." t 
                     ON ed.idTheater = t.idTheater 
-                    WHERE idClient = :".key($parameters)." 
+                    WHERE cl.idClient = :".key($parameters)." 
+                    AND ti.enabled = 1
+                    AND pu.enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            $theaterAttributes = array_keys(Theater::getAttributes());
+            $eventAttributes = array_keys(Event::getAttributes());
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+            $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            $purchaseLineAttributes = array_keys(PurchaseLine::getAttributes());
+            $ticketAttributes = array_keys(Ticket::getAttributes());
+            
+
+            foreach ($resultSet as $row)
+            {
+                $theater = new Theater();
+                foreach ($theaterAttributes as $value) {
+                    $theater->__set($value, $row[$value]);
+                }
+
+                $event = new Event();
+                foreach ($eventAttributes as $value) {
+                    $event->__set($value, $row[$value]);
+                }
+
+                $eventByDate = new EventByDate();
+                foreach ($eventByDateAttributes as $value) {
+                    $eventByDate->__set($value, $row[$value]);
+                }
+
+                $eventByDate->setEvent($event);
+                $eventByDate->setTheater($theater);
+
+                $seatsByEvent = new SeatsByEvent();
+                foreach ($seatsByEventAttributes as $value) {
+                    $seatsByEvent->__set($value, $row[$value]);
+                }
+
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                $seatsByEvent->setEventByDate($eventByDate);
+                $seatsByEvent->setSeatType($seatType);
+
+                $purchaseLine = new PurchaseLine();
+                foreach ($purchaseLineAttributes as $value) {
+                    $purchaseLine->__set($value, $row[$value]);
+                }
+
+                $purchaseLine->setSeatsByEvent($seatsByEvent);
+
+                $ticket = new Ticket();    
+                foreach ($ticketAttributes as $value) {
+                    $ticket->__set($value, $row[$value]);
+                }
+
+                $ticket->setPurchaseLine($purchaseLine);
+
+                array_push($ticketList, $ticket);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+        
+        return $ticketList;
+    }
+
+    public function getAllByPurchase($idPurchase)
+    {
+        $parameters = get_defined_vars();
+        $ticketList = array();
+        
+        try {
+            $query = "SELECT *
+                    FROM " . $this->tableName ." ti 
+                    INNER JOIN ".$this->tableNamePurchaseLines." pl 
+                    ON ti.idPurchaseLine = pl.idPurchaseLine 
+                    INNER JOIN ".$this->tableNamePurchases." pu
+                    ON pl.idPurchase = pu.idPurchase
+                    INNER JOIN ".$this->tableNameSeatsByEvents." se 
+                    ON pl.idSeatsByEvent = se.idSeatsByEvent 
+                    INNER JOIN ".$this->tableNameSeatsTypes." st 
+                    ON se.idSeatType = st.idSeatType 
+                    INNER JOIN ".$this->tableNameEventByDates." ed 
+                    ON se.idEventByDate = ed.idEventByDate 
+                    INNER JOIN ".$this->tableNameEvents." e 
+                    ON ed.idEvent = e.idEvent 
+                    INNER JOIN ".$this->tableNameTheaters." t 
+                    ON ed.idTheater = t.idTheater 
+                    WHERE pu.idPurchase = :".key($parameters)." 
                     AND ti.enabled = 1
                     AND pu.enabled = 1";
 
@@ -364,7 +457,9 @@ class TicketDao extends DaoBD implements ITicketDao
        
         try {
             $oldTicketArray = $oldTicket->getAll(); //convert object to array of values
+            $oldTicketArray["idPurchaseLine"] = $oldTicket->getPurchaseLine()->getIdPurchaseLine();
             $ticketArray = $newTicket->getAll();
+            $ticketArray["idPurchaseLine"] = $newTicket->getPurchaseLine()->getIdPurchaseLine();
             $parameters["idTicket"] = $oldTicket->getIdTicket();
 
             /**

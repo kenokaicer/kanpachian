@@ -1,6 +1,7 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
+use Dao\BD\DaoBD as DaoBD;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
@@ -8,9 +9,9 @@ use Dao\Interfaces\IPurchaseLineDao as IPurchaseLineDao;
 use Models\PurchaseLine as PurchaseLine;
 use Models\Category as Category;
 
-class PurchaseLineDao implements IPurchaseLineDao
+class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
 {
-    private $connection;
+    protected $connection;
     private $tableName = 'PurchaseLines';
     private $tableNameSeatsByEvent = 'SeatsByEvents';
     private $tableNameSeatType = 'SeatTypes';
@@ -23,38 +24,34 @@ class PurchaseLineDao implements IPurchaseLineDao
         $this->connection = Connection::getInstance();
     }
 
-    /**
-     * Not used, job done by PruchaseDao
-     */
-    public function Add(PurchaseLine $purchaseLine)
+    public function Add(PurchaseLine $purchaseLine, $idPurchase)
     {
         $columns = "";
         $values = "";
         
         try {
-            $parameters = array_filter($purchaseLine->getAll()); //get object attribute names 
+            $query = "INSERT INTO ".$this->tableName." (price, idSeatsByEvent, idPurchase) 
+                        VALUES (:price,:idSeatsByEvent,:idPurchase);";
+                
+            $parameters = array();
+            $parameters["price"] = $purchaseLine->getPrice();
             $parameters["idSeatsByEvent"] = $purchaseLine->getSeatsByEvent()->getIdSeatsByEvent();
-            //$parameters["idPurchase"] = $purchaseLine->getPurchase()->getIdPurchase();
+            $parameters["idPurchase"] = $idPurchase;
 
-            foreach ($parameters as $key => $value) {
-                $columns .= $key.",";
-                $values .= ":".$key.",";
-            }
-            $columns = rtrim($columns, ",");
-            $values = rtrim($values, ",");
-
-            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
- 
             $addedRows = $this->connection->executeNonQuery($query, $parameters);
 
             if($addedRows!=1){
-                throw new Exception("Number of rows added ".$addedRows.", expected 1");
+                throw new Exception("Number of rows added ".$addedRows.", expected 1, in PurchaseLine");
             }
+
+            $idPurchaseLine = $this->lastInsertId();
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         }
+
+        return $idPurchaseLine;
     }
 
     public function getById($idPurchaseLine)

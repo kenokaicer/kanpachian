@@ -243,7 +243,53 @@ class SeatsByEventDao implements ISeatsByEventDao
     /**
      * Updates values that are diferent from the ones recieved in the object SeatsByEvent
      */
-    public function Update(SeatsByEvent $oldSeatsByEvent, SeatsByEvent $newSeatsByEvent){}
+    public function Update(SeatsByEvent $oldSeatsByEvent, SeatsByEvent $newSeatsByEvent){
+        $valuesToModify = "";
+       
+        try {
+            $oldSeatsByEventArray = $oldSeatsByEvent->getAll(); //convert object to array of values
+            $oldSeatsByEventArray["idSeatType"] = $oldSeatsByEvent->getSeatType()->getIdSeatType();
+            $seatsByEventArray = $newSeatsByEvent->getAll();
+            $seatsByEventArray["idSeatType"] = $newSeatsByEvent->getSeatType()->getIdSeatType();
+            $parameters["idSeatsByEvent"] = $oldSeatsByEvent->getIdSeatsByEvent();
+
+            /**
+             * Check if a value is different from the one on the database, if different, sets the column and
+             * value for the SET query
+             */
+            foreach ($oldSeatsByEventArray as $key => $value) {
+                if ($key != "idSeatsByEvent") {
+                    if ($oldSeatsByEventArray[$key] != $seatsByEventArray[$key]) {
+                        $valuesToModify .= $key . " = " . ":".$key.", ";
+                        $parameters[$key] = $seatsByEventArray[$key];
+                    }
+                }
+            }
+
+            if($valuesToModify != '')
+            {
+                $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+
+                $query = "UPDATE ".$this->tableName." 
+                    SET ".$valuesToModify." 
+                    WHERE idSeatsByEvent = :idSeatsByEvent";
+            
+                $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+                
+                if($modifiedRows!=1){
+                    throw new Exception("Number of rows added ".$modifiedRows.", expected 1");
+                }
+            }else{
+                throw new Exception("No hay datos para modificar, ningún campo nuevo ingresado");
+            }
+        } catch (PDOException $ex) {
+            echo "update pdo";
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            echo "update ex";
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    }
 
     /**
      * Logical Delete

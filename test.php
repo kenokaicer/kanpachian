@@ -6,6 +6,7 @@ use Config\Autoload as Autoload;
 use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\ArtistDao as ArtistDao;
+use Dao\BD\TicketDao as TicketDao;
 use Exception as Exception;
 use Models\Role as Role;
 use Models\Artist as Artist;
@@ -13,14 +14,37 @@ use Models\User as User;
 use Models\Client as Client;
 use Models\SeatType as SeatType;
 use Models\SeatsByEvent as SeatsByEvent;
-use
- Dao\BD\EventB as CategoryDao;
+use Models\Ticket as Ticket;
+use chillerlan\QRCode\QRCode as QRCode;
 
 Autoload::start();
 
-$obj = new SeatsByEvent();
 
-var_dump($obj->getAll());
+$dao = new TicketDao();
+$ticket = $dao->getById(6);
+$oldTicket = clone $ticket;
+$ticket->setQrCode(FRONT_ROOT."Account/viewTicket?idTicket=2");
+var_dump($ticket);
+var_dump($oldTicket);
+$dao->Update($oldTicket,$ticket);
+$ticket = $dao->getById(6);
+var_dump($ticket);
+
+/*
+$dao = new TicketDao();
+
+try{
+    $list = $dao->getAll();
+    var_dump($list);
+}catch(Exception $ex){
+    echo $ex->getMessage();
+}
+*/
+
+/*QR code test
+$data = "texto lala";
+echo '<img src="'.(new QRCode)->render($data).'" />';
+*/
 
 /*
 session_start();
@@ -29,17 +53,6 @@ $var = array();
 $_SESSION["a"] = $var;
 var_dump($_SESSION["a"]);
 echo isset($_SESSION["a"]);
-*/
-
-/*
-$dao = new SeatsByEventDao();
-
-try{
-    $list = $dao->getIdSeatTypesByEventByDate(1);
-    var_dump($list);
-}catch(Exception $ex){
-    echo $ex->getMessage();
-}
 */
 
 //var_dump($list[2]->getSeatTypes());
@@ -98,3 +111,4 @@ foreach ($var as $key => $value) {
     echo key($value);
 }
 */
+
