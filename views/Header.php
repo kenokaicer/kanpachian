@@ -40,5 +40,3 @@
     
      
 </head>
-<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
-<main class="Site-content">

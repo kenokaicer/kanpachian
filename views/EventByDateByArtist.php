@@ -1,3 +1,6 @@
+<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
+<main class="Site-content">
+
 <div id="additional-info" style="padding:0;height: 70px;">
     <div class="row" style="padding:0;height: 70px;">
         <div class="large-12 columns" style="padding:0;height: 70px;">
