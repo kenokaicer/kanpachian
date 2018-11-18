@@ -129,11 +129,13 @@ class ClientDao extends DaoBD implements IClientDao
                     $user->__set($value, $row[$value]);
                 }
     
-                $client->setUser($user);
-                
-                $creditCard = new CreditCard();
-                foreach ($creditCardAttributes as $value) {
-                    $creditCard->__set($value, $row[$value]);
+                if(!is_null($row["idCreditCard"])){
+                    $creditCard = new CreditCard();
+                    foreach ($creditCardAttributes as $value) {
+                        $creditCard->__set($value, $row[$value]);
+                    }
+
+                    $client->setCreditCard($creditCard);
                 }
     
                 $client->setCreditCard($creditCard);
@@ -189,7 +191,7 @@ class ClientDao extends DaoBD implements IClientDao
             if(sizeof($resultSet)!=1){
                 throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
             }
-            
+
             foreach ($resultSet as $row)
             {
                 $client = new Client();
@@ -205,12 +207,14 @@ class ClientDao extends DaoBD implements IClientDao
 
                     $client->setUser($user);
 
-                    $creditCard = new CreditCard();
-                    foreach ($creditCardAttributes as $value) {
-                        $creditCard->__set($value, $row[$value]);
-                    }
+                    if(!is_null($row["idCreditCard"])){
+                        $creditCard = new CreditCard();
+                        foreach ($creditCardAttributes as $value) {
+                            $creditCard->__set($value, $row[$value]);
+                        }
 
-                    $client->setCreditCard($creditCard);
+                        $client->setCreditCard($creditCard);
+                    }
                 }  
             }
         } catch (PDOException $ex) {
@@ -256,12 +260,14 @@ class ClientDao extends DaoBD implements IClientDao
 
                 $client->setUser($user);
 
-                $creditCard = new CreditCard();
-                foreach ($creditCardAttributes as $value) {
-                    $creditCard->__set($value, $row[$value]);
-                }
+                if(!is_null($row["idCreditCard"])){
+                    $creditCard = new CreditCard();
+                    foreach ($creditCardAttributes as $value) {
+                        $creditCard->__set($value, $row[$value]);
+                    }
 
-                $client->setCreditCard($creditCard);
+                    $client->setCreditCard($creditCard);
+                }
 
                 array_push($clientList, $client);
             }
