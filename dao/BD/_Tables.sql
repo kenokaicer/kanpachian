@@ -142,7 +142,7 @@ USE neonlab1_gotoevent;
 /*create table Tickets(
     idTicket int unsigned auto_increment,
     ticketCode varchar(255) not null,
-    qrCode varchar(255) not null,
+    qrCode varchar(255),
     idPurchaseLine int unsigned not null,
     enabled bool default '1',
     constraint pkTicket primary key (idTicket),

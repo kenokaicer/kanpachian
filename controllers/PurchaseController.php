@@ -9,9 +9,11 @@ use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\PurchaseDao as PurchaseDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\PurchaseLineDao as PurchaseLineDao;
+use Dao\BD\TicketDao as TicketDao;
 use Dao\BD\LoadType as LoadType;
 use Models\Purchase as Purchase;
 use Models\PurchaseLine as PurchaseLine;
+use Models\Ticket as Ticket;
 use Cross\Session as Session;
 use Exception as Exception;
 
@@ -23,6 +25,7 @@ class PurchaseController
     private $seatsByEventDao;
     private $purchaseDao;
     private $purchaseLineDao;
+    private $ticketDao;
 
     public function __construct()
     {
@@ -33,6 +36,7 @@ class PurchaseController
         $this->theaterDao = new TheaterDao();
         $this->artistDao = new ArtistDao();
         $this->purchaseDao = new PurchaseDao();
+        $this->ticketDao = new TicketDao();
     }
 
     /*protected static $instance = null;
@@ -45,9 +49,14 @@ class PurchaseController
         return static::$instance;
     }*/
 
-    public function index($idEvent)
+    public function index($idEvent = null)
     { 
         try{
+            if(is_null($idEvent))
+            {
+                header("location:".FRONT_ROOT."Home/index");
+                exit;
+            }
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
@@ -170,12 +179,16 @@ class PurchaseController
         }
     }
 
-    public function completePurchase()
+    public function completePurchase() //add try-catch
     {
         Session::userLogged();
         Session::virtualCartCheck();
 
         $purchaseLines = $_SESSION["virtualCart"];
+
+        if(empty($purchaseLines)){
+            throw new Exception("purchaseLines array empty");
+        }
 
         $purchase = new Purchase();
 
@@ -186,14 +199,27 @@ class PurchaseController
 
         $purchase->setClient($client);
         $purchase->setPurchaseLines($purchaseLines);
-   
-        //$this->purchaseDao() //store purchase
+
+        $this->purchaseDao->add($purchase); //store purchase
+
+        foreach ($purchaseLines as $purchaseLine) {
+            $ticket = new Ticket();
+
+            $ticket->setQrCode(uniqid());
+            $ticket->setPurchaseLine($purchaseLine->getIdPurchaseLine());
+
+            $idTicket = $this->ticketDao->add($ticket); //add ticket returning id
+            
+            $ticket->setQrCode(FRONT_ROOT."Account/viewTicket?idTicket=".$idTicket); //set qrCode with ticket id
+
+            $this->ticketDao->update($ticket); //update ticket with qrCode
+        }
 
         //deduct form remnants in seats by event
 
-        //call_user_func(array($this, 'addTicket'));
+        //empty cart
 
-
+        $this->index();
     }
 
     public function addTicket()
@@ -293,10 +319,16 @@ class PurchaseController
     {   
         Session::userLogged();
     
-        $purchases = $this->purchaseDao->getAllNew(); //this should be a ticket dao, that returns by clientid, and only last purchase (or last two or three, but only one at first)
+        //$purchases = $this->purchaseDao->getAllNew(); //this should be a ticket dao, that returns by clientid, and only last purchase (or last two or three, but only one at first)
+        //var_dump($purchases);
 
-        var_dump($purchases);
-
+        try{
+            $ticketList = $this->ticketDao->getAll();
+            setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
+        }catch (Exception $ex){
+            echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
+        
         require VIEWS_PATH."ticket.php";
     }
 }

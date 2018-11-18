@@ -1,6 +1,7 @@
 <?php namespace Dao\BD;
 
 use Dao\BD\Connection as Connection;
+use Dao\BD\DaoBD as DaoBD;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
@@ -8,9 +9,9 @@ use Dao\Interfaces\IPurchaseDao as IPurchaseDao;
 use Models\Purchase as Purchase;
 use Models\Client as Client;
 
-class PurchaseDao implements IPurchaseDao
+class PurchaseDao extends DaoBD implements IPurchaseDao
 {
-    private $connection;
+    protected $connection;
     private $tableName = 'Purchases';
     private $tableNameClients = 'Clients';
     private $tableNamePurchaseLines = 'PurchaseLines';
@@ -32,7 +33,7 @@ class PurchaseDao implements IPurchaseDao
         
         try {
             $parameters["date"] = $purchase->getDate();
-            $parameters["idCategory"] = $purchase->getClient()->getIdClient();
+            $parameters["idClient"] = $purchase->getClient()->getIdClient();
 
             foreach ($parameters as $key => $value) {
                 $columns .= $key.",";
@@ -52,6 +53,32 @@ class PurchaseDao implements IPurchaseDao
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        $idPurchase = $this->lastInsertId();
+
+        try {
+            foreach ($purchase->getPurchaseLines() as $purchaseLine) {
+                $query = "INSERT INTO ".$this->tableNamePurchaseLines." (price, idSeatsByEvent, idPurchase) 
+                        VALUES (:price,:idSeatsByEvent,:idPurchase);";
+                
+                $parameters = array();
+                $parameters["price"] = $purchaseLine->getPrice();
+                $parameters["idSeatsByEvent"] = $purchaseLine->getSeatsByEvent()->getIdSeatsByEvent();
+                $parameters["idPurchase"] = $idPurchase;
+
+                $addedRows = $this->connection->executeNonQuery($query, $parameters);
+
+                if($addedRows!=1){
+                    throw new Exception("Number of rows added ".$addedRows.", expected 1, in PurchaseLine");
+                }
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__.", Error inserting PurchaseLine. ".$ex->getMessage());
+            return;
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__.", Error inserting PurchaseLine. ".$ex->getMessage());
+            return;
         }
     }
 

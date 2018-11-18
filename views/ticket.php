@@ -8,7 +8,9 @@
 <div class="wrapper" style="border:none">
    <div class="people-you-might-know">
       <?php
-      for ($i=0; $i < 5 ; $i++) { 
+      if(isset($ticketList)){
+         $i=0;
+         foreach ($ticketList as $ticket) {
       ?>
       <div id="ticket<?=$i?>">
       <div  class="row add-people-section">
@@ -28,20 +30,24 @@
             <div class="small-4 large-4 columns about-people" >
                <div id="ticket-2nd-column" class="about-people-author">
                   <p class="author-name" id="eventName" style="">
-                     <strong>Evento aaaa aaaaa aaaaa aaaaaa</strong>
+                     <strong><?=$ticket->getPurchaseLine()->getSeatsByEvent()->getEventByDate()->getEvent()->getEventName()?></strong>
                   </p>
                   <p class="author-mutual" id="date">
-                     10 de Diciembre, de 2077
+                     <?php
+                     $date = $ticket->getPurchaseLine()->getSeatsByEvent()->getEventByDate()->getDate();
+                     $date = strftime("%d de %B, de %G",strtotime($date));
+                     echo $date;
+                     ?>
                   </p>
                   <p class="author-location">
                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                     Teatro Colon
+                     <?=$ticket->getPurchaseLine()->getSeatsByEvent()->getEventByDate()->getTheater()->getTheaterName()?>
                   </p>
                   <p class="author-mutual" id="localidad">
-                     Buenos Aires
+                     <?=$ticket->getPurchaseLine()->getSeatsByEvent()->getEventByDate()->getTheater()->getLocation()?>
                   </p>
                   <p class="author-mutual" id="address" style="margin-bottom:10px">
-                     Disney 54345
+                     <?=$ticket->getPurchaseLine()->getSeatsByEvent()->getEventByDate()->getTheater()->getAddress()?>
                   </p>
                   
                   
@@ -49,15 +55,18 @@
             </div>  
             <div class="small-4 large-3 columns about-people">
                <div class="about-people-author">
-               <p class="author-mutual" id="seatType" style="font-size: 16px">
-                     <strong>Asiento</strong>
+                  <p class="author-mutual" id="seatType1" style="font-size: 16px">
+                     Asiento:
+                  </p>
+                  <p class="author-mutual" id="seatType2" style="font-size: 16px">
+                     <strong><?=$ticket->getPurchaseLine()->getSeatsByEvent()->getSeatType()->getSeatTypeName()?></strong>
                   </p>
                   <p class="author-mutual" id="ticketNumber">
-                     Ticket nº: 123456
+                     Ticket nº: <?=$ticket->getTicketCode()?>
                   </p>
                   
                   <p class="author-mutual" id="price">
-                     $2100
+                     $<?=$ticket->getPurchaseLine()->getPrice()?>
                   </p>
                </div>
             </div>
@@ -72,7 +81,11 @@
          </div>
       </div>
       </div>
-      <?php } ?>
+      <?php 
+         $i++;
+         }
+      }
+      ?>
    </div>
 </div>
 
@@ -107,7 +120,7 @@ function PrintElem(elem)
     mywindow.document.write("<link rel='stylesheet' href='<?=CSS_PATH?>foundation.min.css'>");
     mywindow.document.write("<link rel='stylesheet' href='<?=CSS_PATH?>ticket.css'>");
     mywindow.document.write('</head><body >');    
-    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write('<h1>Ticket</h1>');
     mywindow.document.write(elem.innerHTML);
     mywindow.document.write('</body></html>');
     mywindow.document.getElementById("div-print-button").style.display = "none"; 
