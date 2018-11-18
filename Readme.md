@@ -29,6 +29,7 @@ DONE
 - CreditCard should check if null when making a payment
 - singleton only for connection, remove for every other class
 - userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
+- purchase process ready
 
 
 TO DO
