@@ -156,7 +156,7 @@ class PurchaseController
                 header("location:".FRONT_ROOT."Cart/index");
                 exit;
             }
-            var_dump("ID DEL USUARIO: ".$idUser);
+
             $idUser = $_SESSION["userLogged"]->getIdUser();
             $client = $this->clientDao->getByUserId($idUser);
 
@@ -164,8 +164,15 @@ class PurchaseController
                 header("location:".FRONT_ROOT."Account/viewRegisterCreditCard");
                 exit;
             }
-//view to confirm sale, client and card data, and a total price
-            require VIEWS_PATH.".php";
+
+            $total = 0;
+            foreach ($_SESSION["virtualCart"] as $purchaseLine) {
+                $total += $purchaseLine->getPrice();
+            }
+
+            $creditCardLast4Digits = substr($client->getCreditCard()->getCreditCardNumber(), -4);
+
+            require VIEWS_PATH."confirmPurchase.php";
         }catch (Exception $ex){
             echo "<script> alert('No se pudo generar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
             $this->showCart();

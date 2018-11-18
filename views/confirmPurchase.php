@@ -9,18 +9,25 @@
     </div>
     
 </div>
-<div style="display: inline-block;border-style: none" id="intro">
+<div style="display: inline-block;border-style: none;text-align:center" id="intro">
 
-<div class="wrapper" style="border:none">
-    <ul class="pricing-table">
-        <li class="title">Enterprise</li>
-        <li class="price">$99.99</li>
-        <li class="description">An awesome description</li>
-        <li>42 Rad Features</li>
-        <li>7GB of Power</li>
-        <li><a class="button" href="#">Buy Now</a></li>
+<div class="wrapper" style="border:none;display: inline-block;margin-top:100px;width:500px;min-height:47vh;">
+
+    <ul class="pricing-table" style="display: inline-block">
+        <li class="title">Compra de Tickets</li>
+        <li class="price">$<?=$total?></li>
+        <li class="description" style="font-size:15px"><?=$client->getName()." ".$client->getLastName()?></li>
+        <li>DNI: <?=$client->getDni()?></li>
+        <li>Tajeta terminada en: <?=$creditCardLast4Digits?></li>
+        <form method="get">
+        <li><button type="submit" formaction="<?=FRONT_ROOT?>Purchase/completePurchase">Confirme Compra</button></li>
+        </form>
     </ul>
 </div>
+</div>
+</div>
+
+
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
 

@@ -52,8 +52,8 @@
                 <td style="text-align:center;font-weight:bold;border-color: black;border-style: solid;border-width: 2px 1px 1px 1px;">$<?=$total?></td>
             </tr>
         </table>
-        <form method="post">
-        <button type="submit" formaction="<?=FRONT_ROOT?>Purchase/CompletePurchase" <?php if($i==0) echo "disabled" ?>>Comprar</button>
+        <form method="get">
+        <button type="submit" formaction="<?=FRONT_ROOT?>Purchase/confirmPurchase" <?php if($i==0) echo "disabled" ?>>Comprar</button>
         <button type="submit" formaction="<?=FRONT_ROOT?>Home/index">Volver</button>
         </form>
 
