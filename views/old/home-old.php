@@ -1,64 +1,74 @@
-<!doctype html>
-<html class="no-js" lang="en" dir="ltr">
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Foundation for Sites</title>
-      <link rel="stylesheet" href="css/foundation.css">
-      <link rel="stylesheet" href="css/app.css">
-   </head>
-   <body>
-      <div class="grid-container">
-                
-     <?php
-/*
-      $pedidos = kappa();
-     // $pedidos = \controllers\pedidosController::get()->todos();
-      $cantidadDeColumnas = 3;
-      $boostrapDivision = 12/$cantidadDeColumnas;
-      $contador=0;
+<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
+<main class="Site-content">
 
-      //var_dump($pedidos);
-     
-      foreach($pedidos as $x => $x_value) 
-      {
-       if($contador==0)
-       {
-        echo'<div class="large-12 cell">';
-        echo'<div class="grid-x grid-padding-x">';
-       }
-      $pc =  $x_value["post_title"];
-       echo'<div class="large-'.$boostrapDivision.' medium-6 cell">';
-      // echo'<div class="md-wishlist" mbsc-form>';
-         //Chocolatechocolate amargoFrutilla
-        //echo'<div mbsc-page class="demo-wishlist">';
-        //echo'<div class="md-wishlist" mbsc-form>';
-       // echo'<img src=class="md-wishlist-img">';
-       // print("<center>");
-        print($x_value["post_title"]);
-        print("</ceneter>");
-        print("<center>".$x_value['post_content']."</center>");
-       // echo'<div class="md-title">'.$x_value["post_title"].'</div>';
-        //print('<button id="'.$pc.'" class="mbsc-btn mbsc-btn-block md-wish" "data-icon="plus" onClick="reply_click(this.id)"> <span class="md-wish-text">Agregar gusto</span></button>');
-             echo'</div>';//end row
-        if($contador==$cantidadDeColumnas)
+<div id="additional-info" style="padding-top:5px;height:70px">
+    <div class="row">
+        <div class="large-12 columns">
+            <h2 class="color-white headings text-center">Go To Event</h2>
+        </div>
+    </div>
+</div>
+
+<div id="intro">
+    <div class="row" style="text-align:center">
+        <div class="wrapper" style="border:none;display:inline-block">
+            <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="post">
+                <div class="input-group-rounded" style="display:inline-block">
+                    <div style="float:left">
+                        <input style="min-width:200px" class="animated-search-form input-group-field" name="q" type="search" placeholder="Busque por Artista..">
+                    </div> 
+                    <div class="input-group-button" style="float:left;height:37px">
+                        <input type="submit" class="button secondary" value="Buscar">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+    <div class="wrapper" style="border:none">
+        <?php
+        $columnQuantity = 3;
+        $boostrapDivision = 12/$columnQuantity;
+        $i=0;
+        //var_dump($eventList);
+        foreach($eventList as $event) 
         {
-           echo'</div>';//end row
-             echo'</div>';//end large-12 cell
-            $contador=$cantidadDeColumnas;
-        }
-        $contador++;
+            if($i==0){
+        ?>
+            <div class="grid-x grid-padding-x">
+        <?php
+            }
+        ?>
         
-      }
-      
-      */
-      ?> 
+        <div style="border:solid black" class="large-<?=$boostrapDivision?> medium-6 cell">
+        <a id="a<?=$i?>" href=""><img width="200px" id="<?=$event->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$event->getImage()?>"></a>
+        <div><?=$event->getEventName()?></div>
+        <form action="<?=FRONT_ROOT?>Purchase/index" method="post">
+        <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
+        <input  type="submit" class="button" value="Ver" id="<?=$event->getIdEvent()?>">
+        </div>
+        
+        </form>
+        <?php      
+            if($i==$columnQuantity){
+        ?>
+                </div>  
+                
+        <?php
+                $i=$columnQuantity;
+            }
+            $i++;
+        }
+        ?> 
+    </div>
+    </div>
+</div>
 
-       </div>
-      <script src="js/vendor/jquery.js"></script>
-      <script src="js/vendor/what-input.js"></script>
-      <script src="js/vendor/foundation.js"></script>
-      <script src="js/app.js"></script>
-   </body>
-</html>
+<div id="features">
+    
+</div>
+
+<?php require VIEWS_PATH."FooterUserView.php";?>
+
+<style>
+</style>

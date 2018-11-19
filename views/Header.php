@@ -5,7 +5,7 @@
 
     <title>Kanpachian!</title>
 
-    <link rel="stylesheet" href="<?=CSS_PATH?>teststyle2.css">
+    <link rel="stylesheet" href="<?=CSS_PATH?>custom-styles.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>style.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>foundation.min.css"> 

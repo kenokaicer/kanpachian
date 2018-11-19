@@ -1,61 +1,56 @@
 <body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
 <main class="Site-content">
 
-<form method="get">
-<div>
-    <button type="submit" formaction="<?=FRONT_ROOT?>Admin/index">ADMIN</button>
-</div>
-<div>
-    <button type="submit" formaction="<?=FRONT_ROOT?>Home/test">SEARCH</button>
-</div>
-</form>
- <div id="additional-info" style="padding-top:5px;height:70px">
-        <div class="row">
-            <div class="large-12 columns">
-                <h2 class="color-white headings text-center">Kanpachian!</h2>
-            </div>
+<div id="additional-info" style="padding-top:5px;height:70px">
+    <div class="row">
+        <div class="large-12 columns">
+            <h2 class="shadow-header color-white headings text-center">Go To Event</h2>
         </div>
     </div>
+</div>
 
-    <div id="intro">
-        <div class="row">
-            <div class="wrapper" style="border:none">
-                <img src="<?=IMG_PATH?>kappa.png" width="200"  alt="logo" />
-                <h3 class="color-white">Buscador</h3>
-                <h6 class="color-white" style="line-height: 27px;">Buscador
-                </h6>
-            </div>
-            
+<div id="intro">
+    <div class="row" style="text-align:center">
+        <div class="wrapper" style="border:none;display:inline-block">
+            <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="post">
+                <div class="input-group-rounded" style="display:inline-block">
+                    <div style="float:left">
+                        <input style="min-width:200px" class="animated-search-form input-group-field" name="q" type="search" placeholder="Busque por Artista..">
+                    </div> 
+                    <div class="input-group-button" style="float:left;height:37px">
+                        <input type="submit" class="button secondary" value="Buscar">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
-<div id="features">
-    <div class="wrapper" style="border:none">
+    <div class="row">
+    <div class="wrapper" style="border:none;width:960px">
         <?php
         $columnQuantity = 3;
-        $boostrapDivision = 12/$columnQuantity;
+        $boostrapDivision = 1./$columnQuantity;
         $i=0;
         //var_dump($eventList);
         foreach($eventList as $event) 
         {
             if($i==0){
         ?>
-                <div class="grid-x grid-padding-x">
+            <div class="grid-x grid-padding-x">
         <?php
             }
-            $pc =  $event->getEventName();
         ?>
-        <div style="align:center" class="large-<?=$boostrapDivision?> medium-6 cell">
-        <img width="200px" id="<?=$event->getIdEvent()?>" onclick="doSomething(this.id)" src="<?=IMG_PATH.$event->getImage()?>">
-        <div><?=$pc?></div>
-        <form action="<?=FRONT_ROOT?>Purchase/index" method="post">
-        <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
-        <input type="submit" class="button" value="Ver" id="<?=$event->getIdEvent()?>"></div>
+        <div style="background: url(<?=IMG_PATH.$event->getImage()?>) 50% 50% no-repeat;" class="event-image large-<?=$boostrapDivision?> medium-6 cell">
+        <div class="event-title" ><strong><?=$event->getEventName()?></strong></div>
+        <a id="a<?=$i?>" href="<?=FRONT_ROOT."Purchase/index?idEvent=".$event->getIdEvent()?>">
+        <div class="event-clickable-area"></div></a>
+        </div>
+        
         </form>
         <?php      
             if($i==$columnQuantity){
         ?>
                 </div>  
+                
         <?php
                 $i=$columnQuantity;
             }
@@ -63,6 +58,8 @@
         }
         ?> 
     </div>
+    </div>
 </div>
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
+
