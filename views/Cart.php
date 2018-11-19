@@ -63,8 +63,8 @@
 <?php require VIEWS_PATH."FooterUserView.php";?>
 
 <script>
-    $("#cart-number").data("count",8);
-    $("#ex4").data("count",8);
+    //$("#cart-number").data("count",<?php //echo sizeof($_SESSION["virtualCart"])?>); //Set current cart lenght, not working
+    //$("#ex4").data("count",<?php //echo sizeof($_SESSION["virtualCart"])?>);
 </script>
 
 
