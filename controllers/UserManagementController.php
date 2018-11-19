@@ -29,22 +29,20 @@ class UserManagementController
         require VIEWS_PATH.$this->folder."UserManagementAdd.php";
     }
 
-    public function addUser($userName)
+    public function addUser($userName,$password,$email="",$role)
     {
-        $user = new User();
-        
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        
-        $userAttributeList = array_combine(array_keys($user->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-        
-        foreach ($userAttributeList as $attribute => $value) {
-            $user->__set($attribute,$value);
-        }
-
         try{
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            
+            $user = new User();
+            
+            $user->setUsername($userName);
+            $user->setPassword($hashedPassword);
+            $user->setEmail($email);
+            $user->setRole($role);
+        
             $this->userDao->Add($user);
-            echo "<script> alert('Usuario agregada exitosamente');</script>";
+            echo "<script> alert('Usuario agregado exitosamente');</script>";
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
@@ -65,9 +63,8 @@ class UserManagementController
 
     public function deleteUser($idUser)
     {
-        $user = $this->userDao->getById($idUser);
-
         try{
+            $user = $this->userDao->getById($idUser);
             $this->userDao->Delete($user);
             echo "<script> alert('Usuario eliminado exitosamente');</script>";
         } catch (Exception $ex) {
@@ -83,8 +80,13 @@ class UserManagementController
      */
     public function viewEditUser($idUser)
     {   
-        $oldUser = $this->userDao->getById($idUser);
-        $roles = Role::getConstants();
+        try{
+            $oldUser = $this->userDao->getById($idUser);
+            $roles = Role::getConstants();
+        } catch (Exception $ex) {
+            echo "<script> alert('No se pudo cargar el usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        } 
 
         require VIEWS_PATH.$this->folder."UserManagementEdit.php";
     }
@@ -93,19 +95,22 @@ class UserManagementController
      * Recieve modified attributes for object User
      * and old object by id, call dao update
      */
-    public function editUser($oldIdUser, $user)
+    public function editUser($oldIdUser, $user, $email="", $role)
     {
-        $oldUser = $this->userDao->getById($oldIdUser);
-        $newUser = new User();
-
-        $args = func_get_args();
-        $userAttributeList = array_combine(array_keys($newUser->getAll()),array_values($args)); 
-
-        foreach ($userAttributeList as $attribute => $value) {
-            $newUser->__set($attribute,$value);
-        }
-
         try{
+            $oldUser = $this->userDao->getById($oldIdUser);
+            $newUser = new User();
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            
+            $newUser = new User();
+
+            $newUser->setIdUser($oldIdUser);
+            $newUser->setUsername($userName);
+            $newUser->setPassword($hashedPassword);
+            $newUser->setEmail($email);
+            $newUser->setRole($role);
+
             $this->userDao->Update($oldUser, $newUser);
             echo "<script> alert('Usuario modificado exitosamente');</script>";
         }catch (Exception $ex) {

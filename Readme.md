@@ -8,6 +8,10 @@ Passwords Hashed and Salted
 
 - hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/
 
+Navar collapse
+
+- https://www.w3schools.com/howto/howto_js_topnav_responsive.asp
+
 DONE
 
 - ArtistDaoBD does Add, getAll, Update(edit) and Delete, exception handling working
@@ -30,6 +34,7 @@ DONE
 - singleton only for connection, remove for every other class
 - userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
 - purchase process ready
+- user menu (+view tickets, view data, modify data, change password, etc)
 
 
 TO DO
@@ -44,5 +49,5 @@ TO DO
 - Theater Managment list -> javascript that expands seatTypelist
 
 - For events, make a search by event name, by artist name, and by date, and by categories (combobox) (low prority)
-- user menu (+view tickets, view data, modify data, change password, etc)
+
  

@@ -12,8 +12,5 @@
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index">Gestión Asiento por Evento</button></div>
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>UserManagement/index">Gestión Usuarios</button></div>
     </section>
-    <section>
-        <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>Home/index">Volver (temp)</button></div>
-    </section>
 </form>
 </div>

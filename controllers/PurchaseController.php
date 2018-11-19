@@ -217,12 +217,11 @@ class PurchaseController
             $purchase = new Purchase();
 
             $total = 0;
-            foreach ($_SESSION["virtualCart"] as $purchaseLine) {
+            foreach ($purchaseLines as $purchaseLine) {
                 $total += $purchaseLine->getPrice();
             }
 
             $purchase->setTotalPrice($total);
-
             $purchase->setDate(date("Y/m/d-h:i:sa")); // set current date and time, ex: 2018/11/08-01:48:31am (timestamp)
 
             $idUser = $_SESSION["userLogged"]->getIdUser();

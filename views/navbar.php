@@ -1,74 +1,116 @@
-<nav id="navbar" class="sticky" style="background-image: url('<?=IMG_PATH?>navbar.png');height:50px">
-  <a href="<?=FRONT_ROOT?>Home"><div style="width:300px;height:50px;float:left" ></div></a>
-  <ul class="right medium-horizontal menu">
+<nav id="navbar" class="sticky" style="background-image: url('<?=IMG_PATH?>navbar.png');">
+  <a href="<?=FRONT_ROOT?>Home">
+    <div id="navbar-home"></div>
+  </a>
+  <div id="topbar-responsive" class="topbar-responsive-links topbar-responsive">
     <?php
-    if(isset($_SESSION["userLogged"])){
-      echo "<li><span><a>Usuario: " . $_SESSION["userLogged"]->getUsername()."</a></span></li>";
-    }
+      if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole()=="Admin"){
+      }else{
     ?>
-    <li><a href="<?=FRONT_ROOT?>Admin"><i class="fi-list"></i> <span>Admin</span></a></li>
-    <li><a href="<?=FRONT_ROOT?>Account/sessionClose"><i class="fi-list"></i> <span>Session Close</span></a></li>
-    <li><a href="<?=FRONT_ROOT?>Purchase/viewCart"><i class="fi-list"></i> <span>Carrito</span></a></li>
-    <li><a href="<?=FRONT_ROOT?>Account/viewRegisterCreditCard"><i class="fi-list"></i> <span>Four</span></a></li>
-  </ul>
+      <div class="top-bar-left left" >
+        <ul class="menu simple vertical medium-horizontal">
+          <?php
+            $eventsByCategory = \controllers\PurchaseController::getCategoryList();
+            if(isset($eventsByCategory) && !empty($eventsByCategory)){
+              foreach ($eventsByCategory as $category => $eventArray) {              
+          ?>
+            <li>
+              <div class="dropdown">
+                <button type="input" class="dropdown-category-button button hollow topbar-responsive-button"><?=$category?></button>
+                <div class="dropdown-content" style="background-image: url('<?=IMG_PATH?>navbar-menu-middle-left.jpg');">
+                  <?php
+                  foreach ($eventArray as $event) {
+                  ?>
+                    <a class="a-dropdown" href="<?=FRONT_ROOT."Purchase/index/?idEvent=".$event->getIdEvent() ?>"><?=$event->getEventName()?></a>
+                  <?php
+                  }
+                  ?>
+            </div>
+              </div>
+            </li>
+          <?php
+              }
+            }else{
+          ?>
+            <li><a href="#">Categorías</a></li>
+          <?php
+            }
+          ?>
+        </ul>
+      </div>
+    <?php
+      }
+    ?>
+    <div class="top-bar-right right">
+      <form method="get">
+        <ul class="menu vertical medium-horizontal" data-responsive-menu="drilldown medium-dropdown">
+          <?php
+          if(!isset($_SESSION["userLogged"])){
+          ?>
+          <li>
+            <button type="input" formaction="<?=FRONT_ROOT?>Account/registerUser" class="button hollow topbar-responsive-button">Registrarse</button>
+          </li>
+          <li>
+            <button type="input" formaction="<?=FRONT_ROOT?>Account/index" class="button hollow topbar-responsive-button" style="margin-left:0.8em">Acceder</button>
+          </li>
+          <?php
+          }else if($_SESSION["userLogged"]->getRole()=="Admin"){
+          ?>
+          <li>
+            <button type="input" formaction="<?=FRONT_ROOT?>Admin/index" class="button hollow topbar-responsive-button">Admin
+              Menu</button>
+          </li>
+          <li>
+            <button type="input" formaction="<?=FRONT_ROOT?>Account/sessionClose" class="button hollow topbar-responsive-button">Cerrar
+              Sesión</button>
+          </li>
+          <?php
+          }else{
+          ?>
+          <li><a id="user-name"><?php if(isset($_SESSION["clientName"])) echo $_SESSION["clientName"]; ?></a></li>
+          <li>
+            <div id="ex4"><span id="cart-number" class="p1 fa-2x has-badge" data-count="<?=sizeof($_SESSION["virtualCart"])?>"></span></div>
+                <i id="cart-icon-navbar" class="fa fa-shopping-cart icon-button" aria-hidden="true"></i>
+                <button formaction="<?=FRONT_ROOT?>Purchase/viewCart" type="input" id="cart-button" class="button hollow topbar-responsive-button">Ver Carrito</button>
+          </li>
+          <li>
+            <div class="dropdown" style="margin-left:0.8em">
+              <button type="button" class="button hollow topbar-responsive-button">Menú de Usuario</button>
+              <div class="dropdown-content" style="background-image: url('<?=IMG_PATH?>navbar-menu-right.jpg');">
+                  <a class="a-dropdown" href="<?=FRONT_ROOT?>Account/accountView?">Cuenta</a>
+                  <a class="a-dropdown" href="<?=FRONT_ROOT?>Account/viewPurchases?">Ver Compras</a>
+                  <a class="a-dropdown" href="<?=FRONT_ROOT?>Account/sessionClose?">Cerrar Sesión</a>
+              </div>
+            </div>
+          </li>
+          <?php
+          }
+          ?>
+        </ul>
+      </form>
+    </div>
+  </div>
 </nav>
 
-<style type="text/css">	
-	 /* Style the navbar */
 
-body { padding-top: 50px; }
+<script>
+  window.onscroll = function () { myFunction() };
 
-#navbar {
-  overflow: hidden;
-  background-color: #333;
-}
+  var navbar = document.getElementById("navbar");
 
-/* Navbar links */
-#navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-}
+  var sticky = navbar.offsetTop;
 
-/* Page content */
-.content {
-  padding: 16px;
-}
-
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 99;
-}
-
-/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
-  padding-top: 60px;
-
-} 
-</style>
-
-<script type="text/javascript">
-    
-    window.onscroll = function() {myFunction()};
-
-// Get the navbar
-var navbar = document.getElementById("navbar");
-
-// Get the offset position of the navbar
-var sticky = navbar.offsetTop;
-
-// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("sticky")
-  } else {
-    navbar.classList.remove("sticky");
+  function myFunction() {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add("sticky")
+    } else {
+      navbar.classList.remove("sticky");
+    }
   }
-} 
+
+  /*Set correct position to cart icon*/
+  var userWidth = document.getElementById('user-name').clientWidth;
+  userWidth += 6;
+  
+  document.getElementById('cart-icon-navbar').style.left = userWidth+"px";
 </script>

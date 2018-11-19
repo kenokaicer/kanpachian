@@ -2,12 +2,20 @@
 
 use Dao\BD\Connection as Connection;
 use Dao\BD\DaoBD as DaoBD;
+use Dao\BD\LoadType as LoadType;
 use PDO as PDO;
 use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\IPurchaseDao as IPurchaseDao;
 use Models\Purchase as Purchase;
+use Models\PurchaseLine as PurchaseLine;
 use Models\Client as Client;
+use Models\SeatsByEvent as SeatsByEvent;
+use Models\SeatType as SeatType;
+use Models\EventByDate as EventByDate;
+use Models\Category as Category;
+use Models\Event as Event;
+use Models\Theater as Theater;
 
 class PurchaseDao extends DaoBD implements IPurchaseDao
 {
@@ -32,7 +40,7 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
         $values = "";
         
         try {
-            $parameters["date"] = $purchase->getDate();
+            $parameters = array_filter($purchase->getAll());
             $parameters["idClient"] = $purchase->getClient()->getIdClient();
 
             foreach ($parameters as $key => $value) {
@@ -146,6 +154,61 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
 
                 $purchase->setClient($client);
                 $purchase->setPurchaseLines($purchaseLines);
+
+                array_push($purchaseList, $purchase);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+        
+        return $purchaseList;
+    }
+
+    /**
+     * lazy1: only purchase object
+     */
+    public function getAllByIdClient($idClient, $load = LoadType::All)
+    {
+        $parameters = get_defined_vars();
+        array_pop($parameters);
+        $purchaseList = array();
+
+        try {
+            $purchaseAttributes = array_keys(Purchase::getAttributes());
+
+            if($load == LoadType::All){
+                $clientAttributes = array_keys(Client::getAttributes());
+            }
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." P
+                    INNER JOIN ".$this->tableNameClients." C
+                    ON P.idClient = C.idClient 
+                    WHERE C.idClient = :".key($parameters)." 
+                    AND P.enabled = 1";
+            
+            $resultSet = $this->connection->Execute($query,$parameters);  
+            
+            foreach ($resultSet as $row)
+            {
+                $purchase = new Purchase();
+                foreach ($purchaseAttributes as $value) { //auto fill object with magic function __set
+                    $purchase->__set($value, $row[$value]);
+                }
+
+                if($load == LoadType::All){
+                    $client = new Client();
+                    foreach ($clientAttributes as $value) {
+                        $client->__set($value, $row[$value]);
+                    }
+
+                    $purchaseLines = $this->getPurchaseLinesByPurchaseId($row["idPurchase"]);
+
+                    $purchase->setClient($client);
+                    $purchase->setPurchaseLines($purchaseLines);
+                }
 
                 array_push($purchaseList, $purchase);
             }

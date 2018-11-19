@@ -15,6 +15,13 @@
         <input type="text" name="cardHolder" required>
         <button class="blue-btn" formaction="<?=FRONT_ROOT?>Account/registerCreditCard">Enviar</button>
         <hr />
+        <?php 
+        if(!empty($redirect)){
+        ?>
+            <input type="hidden" name="redirect" value="noredirect">
+        <?php
+        }
+        ?>
         <button type="submit" formnovalidate formaction="<?=FRONT_ROOT?>Home/index">Volver</button>
     </div>
 </div>

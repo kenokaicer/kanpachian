@@ -1,0 +1,97 @@
+
+#creditCardFields{
+    width:15em;
+    margin:0;
+}
+
+#buttonCreditCard{
+    background-color: transparent;
+    color: black;
+    margin-top:1em;
+}
+
+.app-feature-section {
+  background-color: #e6e6e6;
+  padding: 1rem;
+}
+
+@media print, screen and (min-width: 40em) {
+  .app-feature-section {
+    padding: 2rem;
+  }
+}
+
+.app-feature-section-main-header {
+  font-weight: 700;
+}
+
+@media screen and (max-width: 63.9375em) {
+  .app-feature-section-main-header {
+    font-size: 30px;
+  }
+}
+
+.app-feature-section-sub-header {
+  font-weight: 300;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 63.9375em) {
+  .app-feature-section-sub-header {
+    font-size: 24px;
+  }
+}
+
+.app-feature-section-features {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+
+.app-feature-section-features-block {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1rem 0;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.app-feature-section-features-block .fa {
+  margin-right: 1rem;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 39.9375em) {
+  .app-feature-section-features-block {
+    -webkit-flex: 1 0 50%;
+        -ms-flex: 1 0 50%;
+            flex: 1 0 50%;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
+@media screen and (max-width: 25.9375em) {
+  .app-feature-section-features-block {
+    -webkit-flex: 1 0 100%;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}

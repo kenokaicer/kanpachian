@@ -5,17 +5,17 @@
             <table>
                 <tr>
                     <td>Username: <input type="text" name="user" required></td>
-                    <td>Password: <input type="password" name="password"></td>
+                    <td>Password: <input type="password" name="password" required></td>
                 </tr>
                 <tr>
-                    <td>Email: <input type="email" name="email"></td>
+                    <td>Email: <input type="email" name="email" ></td>
                     <td>Rol: 
                         <select name="role">
                             <?php
                                 
                                 foreach ($roles as $key => $role) {
                             ?>
-                                <option value="<?=$key?>"><?=$role?></option>      
+                                <option value="<?=$key?>" <?php if($role=="Admin")echo "selected"?>><?=$role?></option>      
                             <?php
                                 }
                             ?>
@@ -23,10 +23,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <div>
-                            <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>UserManagement/index" formnovalidate>
+                            <button type="submit" class="button" >Agregar</button>
+                            <input type="submit"  class="button" value="Volver" formaction="<?=FRONT_ROOT?>UserManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

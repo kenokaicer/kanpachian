@@ -122,7 +122,7 @@ class Session
             exit;
         } else {
             if($_SESSION["userLogged"]->getRole() == "admin"){
-                header("location:" . FRONT_ROOT . "Admin/index");
+                echo "<script>window.location.replace('".FRONT_ROOT. "Admin/index');</script>";
                 exit;
             }
         }
@@ -130,11 +130,11 @@ class Session
 
     public static function adminLogged(){
         if (!isset($_SESSION["userLogged"])) {
-            header("location:" . FRONT_ROOT . "Account/index");
+            echo "<script>window.location.replace('". FRONT_ROOT . "Account/index');</script>";
             exit;
         } else {
             if($_SESSION["userLogged"]->getRole() != "admin"){
-                header("location:" . FRONT_ROOT . "Home/index");
+                echo "<script>window.location.replace('". FRONT_ROOT . "Home/index');</script>";
                 exit;
             }
         }

@@ -61,3 +61,11 @@ td{
     width:60%;
 }
 
+button:focus { 
+    outline: none !important; 
+}
+
+button:active:focus{
+    outline: none !important; 
+}
+

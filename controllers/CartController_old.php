@@ -39,7 +39,7 @@ class CartController //deprecated class
                 }else{
                     throw new Exception("idSeatsByEvent not set");
                 }
-                header("location:".FRONT_ROOT."Account/index");
+                echo "<script>window.location.replace('".FRONT_ROOT."Account/index');</script>";
                 exit;
             }
 

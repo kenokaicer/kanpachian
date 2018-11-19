@@ -31,7 +31,7 @@ use chillerlan\QRCode\QRCode as QRCode;
                   echo (new QRCode)->render($data);
 
                   /*Alternative version, with Google API*/
-                  /*https://chart.googleapis.com/chart?cht=qr&chl=".$data."&chs=160x160&chld=L|0*/
+                  /*echo "https://chart.googleapis.com/chart?cht=qr&chl=".$data."&chs=160x160&chld=L|0";*/
                   ?> 
                   "
                   id="content">

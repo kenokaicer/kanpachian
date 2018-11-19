@@ -3,6 +3,8 @@
 use Dao\BD\UserDao as UserDao;
 use Dao\BD\ClientDao as ClientDao;
 use Dao\BD\CreditCardDao as CreditCardDao;
+use Dao\BD\PurchaseDao as PurchaseDao;
+use Dao\BD\LoadType as LoadType;
 use Models\User as User;
 use Models\Client as Client;
 use Models\Role as Role;
@@ -20,6 +22,7 @@ class AccountController
         $this->userDao = new UserDao();
         $this->clientDao = new ClientDao();
         $this->creditCardDao = new CreditCardDao();
+        $this->purchaseDao = new PurchaseDao();
     }
 
     public function index()
@@ -29,11 +32,11 @@ class AccountController
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
                 require VIEWS_PATH."Login.php"; 
             }else if($_SESSION["userLogged"]->getRole()=="Admin"){ //Check if user is admin
-                header("location:".FRONT_ROOT."Admin/index");
+                echo "<script>window.location.replace('".FRONT_ROOT."Admin/index');</script>";
                 exit; 
             }
             else if(isset($_SESSION["lastLocation"])){ // return to logged event start view
-                header("location:".FRONT_ROOT."Cart/addPurchaseLine"); 
+                echo "<script>window.location.replace('".FRONT_ROOT."Cart/addPurchaseLine');</script>";
                 exit;
             }else{
                 echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
@@ -56,16 +59,18 @@ class AccountController
             {
                 echo "<script> alert('Datos ingresados no correctos');</script>";
             }
-            else
-            {
-
-            if(password_verify($password, $user->getPassword())) //check if password provided coincides with hashed and salted one in BD
-            {
+            else if(password_verify($password, $user->getPassword())){
+             //check if password provided coincides with hashed and salted one in BD
+            
                 Session::add("userLogged", $user);
                 Session::add("virtualCart", array());
+                
+                $client = $this->clientDao->getByUserId($user->getIdUser());
+                $clientName = $client->getName()." ".$client->getLastName();
+                
+                Session::add("clientName", $clientName);
             }else{
                 echo "<script> alert('Datos ingresados no correctos');</script>";
-            }
             }
         }
         catch(Exception $ex){
@@ -139,7 +144,7 @@ class AccountController
             //use script to redirect otherwise doesn't show alert
             echo "<script> alert('Sesión Cerrada'); 
                 window.location.replace('".FRONT_ROOT."Home/index');
-            </script>";
+                </script>";
             exit;
         }catch(Exception $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
@@ -148,19 +153,20 @@ class AccountController
         
     }
 
-    public function viewRegisterCreditCard()
+    public function viewRegisterCreditCard($redirect="")
     {
         Session::userLogged();
 
         require VIEWS_PATH."CreditCard.php"; 
     }
 
-    public function registerCreditCard($creditCardNumber,$expirationDate,$cardHolder)
+    public function registerCreditCard($creditCardNumber,$expirationDate,$cardHolder,$redirect="yes")
     {
         Session::userLogged();
 
         try{
             $args = func_get_args();
+            array_pop($args);
             array_unshift($args, null);
 
             $creditCardAttributes = CreditCard::getAttributes();
@@ -184,12 +190,98 @@ class AccountController
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
 
             echo "<script> alert('Tarjeta de Credito registrada exitosamente, redirigiendo');</script>";
-            //if statement, if coming from account management
-            echo "<script>window.location.replace('".FRONT_ROOT."Purchase/confirmPurchase');</script>";
-            exit;
+            if($redirect == "yes"){
+                echo "<script>window.location.replace('".FRONT_ROOT."Purchase/confirmPurchase');</script>";
+                exit;
+            }else{
+                $this->accountView();
+            }    
         }catch(Exception $ex){
             echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
+    }
+
+    public function viewPurchases()
+    {
+        Session::userLogged();
+
+        try{
+            $idUser = $_SESSION["userLogged"]->getIdUser();
+
+            $client = $this->clientDao->getByUserId($idUser);
+            $idClient = $client->getIdClient();
+
+            $purchaseList = $this->purchaseDao->getAllByIdClient($idClient, LoadType::Lazy1);
+        }catch(Exception $ex){
+            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        }
+
+        require VIEWS_PATH."viewPurchases.php"; 
+    }
+
+    public function accountView()
+    {
+        Session::userLogged();
+
+        try{
+            $user = $_SESSION["userLogged"];
+            $client = $this->clientDao->getByUserId($user->getIdUser());
+        }catch(Exception $ex){
+            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
+        }
+
+        require VIEWS_PATH."accountView.php"; 
+    }
+
+    public function changePassword($password, $newPassword)
+    {
+        Session::userLogged();
+
+        try{
+            $user = $_SESSION["userLogged"];
+
+            if(password_verify($password, $user->getPassword())){
+                $newUser = clone $user;
+
+                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+                $newUser->setPassword($hashedPassword);
+
+                echo "<script> alert('Contraseña cambiada con éxito');</script>";
+                $this->userDao->update($user,$newUser);
+
+                $_SESSION["userLogged"] = $newUser;
+            }
+            else{
+                echo "<script> alert('Contraseña ingresada no es válida');</script>";
+            }   
+        }catch(Exception $ex){
+            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
+
+        $this->accountView();
+    }
+
+    public function changeEmail($newEmail)
+    {
+        Session::userLogged();
+
+        try{
+            $user = $_SESSION["userLogged"];
+            $newUser = clone $user;
+
+            $newUser->setEmail($newEmail);
+
+            echo "<script> alert('Email cambiado con éxito');</script>";
+            $this->userDao->update($user,$newUser);
+
+            $_SESSION["userLogged"] = $newUser;
+        }catch(Exception $ex){
+            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
+
+        $this->accountView();
     }
 }

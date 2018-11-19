@@ -62,4 +62,9 @@
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
 
+<script>
+    $("#cart-number").data("count",8);
+    $("#ex4").data("count",8);
+</script>
+
 
