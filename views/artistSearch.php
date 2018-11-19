@@ -1,5 +1,5 @@
-<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
-<main class="Site-content">
+<!--<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
+<!--<main class="Site-content">-->
     
 <div id="additional-info" style="padding-top:5px;height:70px">
         <div class="row">

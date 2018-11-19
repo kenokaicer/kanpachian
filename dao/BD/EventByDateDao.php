@@ -218,6 +218,73 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
 
         return $eventByDateList;
     }
+    public function getAllByArtist($idArtist)
+    {
+        $parameters = get_defined_vars();
+        $eventByDateList = array();
+
+        try {
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes()); //get attribute names from object for use in __set
+
+            $eventAttributes = array_keys(Event::getAttributes());
+
+            $categoryAttributes = array_keys(Category::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableName . " ED
+                    INNER JOIN " . $this->tableNameEvent . " E
+                    ON ED.idEvent = E.idEvent
+                    INNER JOIN " . $this->tableNameCatergory . " C
+                    ON E.idCategory = C.idCategory
+                    INNER JOIN ".$this->tableNameArtistEventByDate. " AED
+                    ON ED.idEventByDate = AED.idEventByDate
+                    INNER JOIN ".$this->tableNameArtist." A
+                    ON AED.idArtist = A.idArtist
+                    WHERE AED.idArtist = :".key($parameters)." 
+                    AND ED.enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+        
+            foreach ($resultSet as $row) {
+                $eventByDate = new EventByDate();
+                foreach ($eventByDateAttributes as $value) {
+                    $eventByDate->__set($value, $row[$value]);
+                }
+
+                $category = new Category();
+                foreach ($categoryAttributes as $value) {
+                    $category->__set($value, $row[$value]);
+                }
+
+                $event = new Event();
+                foreach ($eventAttributes as $value) {
+                    $event->__set($value, $row[$value]);
+                }
+
+                $event->setCategory($category);
+                $eventByDate->setEvent($event);
+
+                //---Get theater and its SeatTypes---//
+
+                $theater = $this->getTheaterById($row["idTheater"], LoadType::Lazy1);
+                
+                $eventByDate->setTheater($theater);
+
+                //---Get Artists---//
+
+                $artistsList = $this->getArtistsByEventByDateId($row["idEventByDate"]);
+
+                $eventByDate->setArtists($artistsList);
+
+                array_push($eventByDateList, $eventByDate);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        }
+
+        return $eventByDateList;
+    }
 
     /**
      * Updates values that are diferent from the ones recieved in the object EventByDate

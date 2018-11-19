@@ -53,6 +53,7 @@ class PurchaseController
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         try{
@@ -66,6 +67,7 @@ class PurchaseController
             $theaterArray =  array_unique($theaterArray, SORT_REGULAR); //leave only a list of note repeated theaters
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         require VIEWS_PATH."Event.php";
@@ -107,20 +109,26 @@ class PurchaseController
             }else if(sizeof($artistList) > 1){
                 require VIEWS_PATH."artistSearch.php";
             }else{
-                //show events
+                $artist = reset($artistList);
+                $this->showEventByDatesByArtist($artist->getIdArtist());
             }
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
     }
 
     public function showEventByDatesByArtist($idArtist)
     {
         try{
-            $artist;//hacer un query que devuelva eventbydates por artista
+            $eventByDateList = $this->eventByDateDao->getAllByArtist($idArtist);
+            $artist = $this->artistDao->getById($idArtist);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
+
+        require VIEWS_PATH."EventByDateByArtist.php";
     }
 
 
@@ -130,18 +138,21 @@ class PurchaseController
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         try{
             $theater = $this->theaterDao->getById($idTheater, LoadType::Lazy1);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         try{
             $eventByDateList = $this->eventByDateDao->getByEventIdAndTheaterIdLazy($idEvent, $idTheater); //no loadType in this one
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar las fechas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         require VIEWS_PATH."EventByDate.php";
@@ -153,18 +164,21 @@ class PurchaseController
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         try{
             $theater = $this->theaterDao->getById($idTheater, LoadType::Lazy1);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         try{
             $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el evento por fecha. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
         require VIEWS_PATH."SeatsByEvent.php";
     }
@@ -266,7 +280,7 @@ class PurchaseController
             $_SESSION["virtualCart"] = array();
         }catch (Exception $ex){
             echo "<script> alert('Hubo un problema al cerrar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            //$this->viewCart();
+            $this->viewCart();
         }
 
         $this->showTickets($idPurchase);
@@ -281,7 +295,7 @@ class PurchaseController
             $purchaseLines = $_SESSION["virtualCart"];
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar el carrito. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            $this->showCart();
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
 
         require VIEWS_PATH."Cart.php";
@@ -331,9 +345,8 @@ class PurchaseController
                 throw new Exception("idSeatsByEvent not set");
             }
         }catch(Exception $ex){
-            echo "<script> alert('Error al agregar linea de compra. ".$ex->getMessage()."'); 
-                window.location.replace('".FRONT_ROOT."Home/index');
-            </script>";
+            echo "<script> alert('Error al agregar linea de compra. ".$ex->getMessage()."');</script>"; 
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
             exit;
         } 
     }  
@@ -366,6 +379,7 @@ class PurchaseController
             setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
         }catch (Exception $ex){
             echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
         }
         
         require VIEWS_PATH."ticket.php";
