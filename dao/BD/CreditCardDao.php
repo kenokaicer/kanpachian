@@ -91,7 +91,7 @@ class CreditCardDao extends DaoBD implements ICreditCardDao
         
             $resultSet = $this->connection->Execute($query);
 
-            if(sizeof($resultSet)!=1){
+            if(sizeof($resultSet)>1){
                 throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
             }
             

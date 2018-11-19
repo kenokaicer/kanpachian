@@ -67,7 +67,7 @@ class EventDao implements IEventDao
             
             $resultSet = $this->connection->Execute($query,$parameters);  
 
-            if(sizeof($resultSet)!=1){
+            if(sizeof($resultSet)>1){
                 throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
             }
             
