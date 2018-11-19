@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>ticket.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>footerPosition.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>customer-menu.css">
+    <link rel="stylesheet" href="<?=CSS_PATH?>account-menu.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>navbar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
