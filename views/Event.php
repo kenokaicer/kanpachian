@@ -4,7 +4,7 @@
 <div id="additional-info" style="padding:0;height: 70px;">
     <div class="row" style="padding:0;height: 70px;">
         <div class="large-12 columns" style="padding:0;height: 70px;">
-            <h1 class="color-white headings text-center"><?=$event->getEventName()?></h2>
+            <h1 class="shadow-header color-white headings text-center"><?=$event->getEventName()?></h2>
         </div>
     </div>
     

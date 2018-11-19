@@ -7,7 +7,7 @@ use chillerlan\QRCode\QRCode as QRCode;
 <div id="additional-info" style="padding-top:5px;height:70px">
    <div class="row">
       <div class="large-12 columns">
-         <h2 class="color-white headings text-center">Tickets</h2>
+         <h2 class="shadow-header color-white headings text-center">Tickets</h2>
       </div>
    </div>
 </div>
