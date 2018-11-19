@@ -108,7 +108,8 @@ USE neonlab1_gotoevent;
 
 /*create table Purchases(
     idPurchase int unsigned auto_increment,
-    date date,
+    date date not null,
+    totalPrice double unsigned not null,
     idClient int unsigned not null,
     enabled bool default '1',
     constraint pfPurchase primary key (idPurchase),

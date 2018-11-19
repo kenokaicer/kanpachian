@@ -10,6 +10,7 @@ class Purchase extends Attributes// Compra - Carrito
 {
     protected $idPurchase;
     protected $date;
+    protected $totalPrice;
     private $client; //Class Client
     private $purchaseLines = array(); //Array of Class PurcahseLine
 
@@ -64,5 +65,17 @@ class Purchase extends Attributes// Compra - Carrito
     public function addPurchaseLines(PurchaseLine $purchaseLine)
     {
         $this->purchaseLines[] = $purchaseLine;
+    }
+
+	public function getTotalPrice()
+	{
+		return $this->totalPrice;
+	}
+
+    public function setTotalPrice($totalPrice)
+    {
+        $this->totalPrice = $totalPrice;
+
+        return $this;
     }
 }

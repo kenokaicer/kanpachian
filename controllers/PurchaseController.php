@@ -47,7 +47,7 @@ class PurchaseController
         try{
             if(is_null($idEvent))
             {
-                header("location:".FRONT_ROOT."Home/index");
+                echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
                 exit;
             }
             $event = $this->eventDao->getById($idEvent);
@@ -69,6 +69,29 @@ class PurchaseController
         }
 
         require VIEWS_PATH."Event.php";
+    }
+
+    public static function getCategoryList()
+    {
+        try{
+            $eventList = (new EventDao)->getAll();
+            $eventsByCategory = array();
+            
+            /**
+             * Create an array with categories as key and events as value
+             */
+            foreach ($eventList as $event) {
+                if(!array_key_exists($event->getCategory()->getCategoryName(),$eventsByCategory)) //check if a category is already set in the array
+                {
+                    $eventsByCategory[$event->getCategory()->getCategoryName()] = array(); //if it's no, set that position in the array as an array
+                }
+                array_push($eventsByCategory[$event->getCategory()->getCategoryName()], $event); //push event into it's category
+            }
+            
+            return $eventsByCategory;
+        }catch(Exception $ex){
+            echo "<script> alert('Error al listar por categoría: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
     }
 
     public function searchByArtist($artistString)
@@ -153,7 +176,7 @@ class PurchaseController
             Session::virtualCartCheck();
             
             if(empty($_SESSION["virtualCart"])){ //There's a check in the view already
-                header("location:".FRONT_ROOT."Cart/index");
+                echo "<script>window.location.replace('".FRONT_ROOT."Cart/index');</script>";
                 exit;
             }
 
@@ -161,7 +184,7 @@ class PurchaseController
             $client = $this->clientDao->getByUserId($idUser);
 
             if(is_null($client->getCreditCard())){
-                header("location:".FRONT_ROOT."Account/viewRegisterCreditCard");
+                echo "<script>window.location.replace('".FRONT_ROOT."Account/viewRegisterCreditCard');</script>";
                 exit;
             }
 
@@ -192,6 +215,13 @@ class PurchaseController
             }
 
             $purchase = new Purchase();
+
+            $total = 0;
+            foreach ($_SESSION["virtualCart"] as $purchaseLine) {
+                $total += $purchaseLine->getPrice();
+            }
+
+            $purchase->setTotalPrice($total);
 
             $purchase->setDate(date("Y/m/d-h:i:sa")); // set current date and time, ex: 2018/11/08-01:48:31am (timestamp)
 
@@ -268,7 +298,7 @@ class PurchaseController
                 }else{
                     throw new Exception("idSeatsByEvent not set");
                 }
-                header("location:".FRONT_ROOT."Account/index");
+                echo "<script>window.location.replace('".FRONT_ROOT."Account/index');</script>";
                 exit;
             }
 
