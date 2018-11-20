@@ -1,36 +1,20 @@
-<?php
-if(isset($_POST["seatTypes"]))
-{   
-    $var = true;
-    foreach ($_SESSION["seatTypesForTheater"] as $value) {
-        if ($value->getIdSeatType() == $_POST["seatTypes"])
-            $var = false;
-    }
-
-    if($var){
-        foreach ($seatTypeList as $key => $value) {
-            if($value->getIdSeatType() == $_POST["seatTypes"]){
-                array_push($_SESSION["seatTypesForTheater"], $value);
-            }
-        }
-    }else{
-        echo "<script>alert('Plaza ya agregada');</script>";
-    }
-
-}else{
-    $_SESSION["seatTypesForTheater"] = array();
-}
-?>
-
 <body style="background-image: url('<?=IMG_PATH?>adminBackground.jpg');">
-<div class="wrapper">
-    <section>
-        <table>
-            <tr>
-                <td colspan="2">
-                    <form action="" method="post">
-                        Tipo/s de Plaza:
-                        <select name="seatTypes">
+<div class="wrapper" style="max-width:900px">
+    <form onsubmit="return send()" action="<?=FRONT_ROOT?>TheaterManagement/addTheater" method="post" id="form1" enctype="multipart/form-data">
+        <section>
+            <table>
+                <th style="width:33%"></th>
+                <th style="width:33%"></th>
+                <th style="width:33%"></th>
+                <tr>
+                    <td>Nombre: <input type="text" name="name" required></td>
+                    <td>Ubicación: <input type="text" name="location" required></td>
+                    <td>Dirección: <input type="text" name="address" required></td>
+                </tr>
+                <tr>
+                    <td>Capacidad Máxima: <input type="number" name="maxCapacity" required></td>
+                    <td>
+                        <select style="margin-top:18px" name="seatTypes" id="seatTypesSelect">
                             <?php
                                 foreach ($seatTypeList as $value) {
                             ?>
@@ -39,40 +23,65 @@ if(isset($_POST["seatTypes"]))
                                 }
                             ?>
                         </select>
-                        <button type="submit">Agregar Plaza</button><br>
+                    </td> 
+                    <td>Imágen: <input id="file" type="file" name="file"></td>    
+                </tr>
+                <tr>
+                    <td colspan="3">
                         <h5>Plazas Agregadas:</h5>
                         <table>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <?php
-                            foreach ($_SESSION["seatTypesForTheater"] as $value) {        
-                        ?>
-                            <tr>
-                                <td><?=$value->getSeatTypeName()?></td>
-                                <td><?=$value->getDescription()?></td>
-                            </tr>
-                        <?php
-                            }
-                        ?>
+                            <thead>
+                                <th>Tipo</th>
+                            </thead>
+                            <tbody id="seatTypesTable">
+
+                            </tbody>
                         </table>
-                    </form>
-                </td>
-            </tr>
-            <form action="<?=FRONT_ROOT?>TheaterManagement/addTheater" method="post" id="form1" enctype="multipart/form-data">
-            <tr>
-                <td>Nombre: <input type="text" name="name" required></td>
-                <td>Imágen: <input id="file" type="file" name="file"></td>
-            </tr>
-            <tr>
-                <td>Ubicación: <input type="text" name="location" required></td>
-                <td>Capacidad Máxima: <input type="number" name="maxCapacity" required></td>     
-            </tr>
-            </form>
-        </table>
-    </section> 
-    <section>
-        <form action="<?=FRONT_ROOT?>TheaterManagement/index" method="post" id="form2"></form>
-        <button type="submit" form="form1">Agregar</button>
-        <button type="submit" form="form2">Volver</button>
-    </section>
+                    </td>
+                </tr>
+            </table>
+        </section> 
+        <section>
+            <div id="seatTypeHidden">
+                <button class="button" type="submit">Agregar</button>
+                <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>TheaterManagement/index" formnovalidate>
+            </div>
+        </section>
+    </form>
 </div>
+
+<script>
+
+var seatTypeList = [];
+
+$("#seatTypesSelect").mouseup(function() { //This is for events. //Is triggered when option changed.
+    var open = $(this).data("isopen");
+
+    if(open) {
+        seatTypeList.push(this.value);
+        var optionText = this.options[this.selectedIndex].text;
+        $('option:selected', this).remove();
+        $('#seatTypesTable').append('<tr><td>'+optionText+'</td></tr>'); 
+    }
+
+    $(this).data("isopen", !open);
+});
+
+
+function send()
+{
+    var ok = false;
+
+    if(seatTypeList.length != 0){
+        seatTypeListJson = JSON.stringify(seatTypeList);
+        $('#seatTypeHidden').append("<input type='hidden' value='"+seatTypeListJson+"' name='seatTypeList'>");
+        document.getElementById("seatTypesSelect").disabled = true;
+        ok = true;
+    }else{
+        alert('Seleccione al menos un tipo de asiento');
+    }
+
+    return ok;
+}
+
+</script>

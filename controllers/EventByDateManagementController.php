@@ -47,9 +47,6 @@ class EventByDateManagementController
         require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
     }
 
-    /**
-     * Not complete, waiting for ajax of artists in add
-     */
     public function addEventByDate($idEvent, $date, $idTheater, $idArtistList)
     {
         $eventByDate = new EventByDate();
@@ -66,15 +63,10 @@ class EventByDateManagementController
         $idArtistList = json_decode($idArtistList);
 
         foreach ($idArtistList as $idArtist) {
-            try{
-                $artist = $this->artistDao->getById($idArtist);
-            }catch (Exception $ex){
-                echo "<script> alert('No se pudo agregar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-                $this->index();
-            }
-
+            $artist = $this->artistDao->getById($idArtist);
             $eventByDate->addArtist($artist);
         }
+
             $this->eventByDateDao->Add($eventByDate);
             echo "<script> alert('Calendario agregado exitosamente');</script>";
         }catch (Exception $ex){

@@ -21,7 +21,7 @@
                     <td><?= $theater->getTheaterName() ?></td>
                     <td><?= $theater->getLocation() ?></td>
                     <td><?= $theater->getMaxCapacity() ?></td>
-                    <td><div style="align:center"><button onclick="showTable(tr<?=$i?>,table<?=$i?>)">Ver/Esconder</button></div></td>
+                    <td><div style="align:center"><button style="margin:0" onclick="showTable(tr<?=$i?>,table<?=$i?>)">Ver/Esconder</button></div></td>
                     <td>
                         <form method="post">
                             <input type="hidden" name="id" value="<?=$theater->getIdTheater()?>">

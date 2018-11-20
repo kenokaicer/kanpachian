@@ -65,7 +65,7 @@ class TheaterDao extends DaoBD implements ITheaterDao
 
         try {
             foreach ($theater->getSeatTypes() as $value) {
-                $query = "INSERT INTO ".$this->tableName2." (idSeatType, idTheater) 
+                $query = "INSERT INTO ".$this->tableNameSeatTypesTheater." (idSeatType, idTheater) 
                         VALUES (:idSeatType,:idTheater);";
                 
                 $parameters = array();
@@ -217,7 +217,104 @@ class TheaterDao extends DaoBD implements ITheaterDao
         return $theaterList;
     }
 
-    public function Update(Theater $oldTheater, Theater $newTheater){}
+    public function Update(Theater $oldTheater, Theater $newTheater)
+    {
+        $valuesToModify = "";
+       
+        try {
+            $oldTheaterArray = $oldTheater->getAll(); //convert object to array of values
+            $theaterArray = $newTheater->getAll();
+            $parameters["idTheater"] = $oldTheater->getIdTheater();
+
+            if(is_null($theaterArray["image"])){ //if image is null don't change it
+                unset($theaterArray["image"]);
+                unset($oldTheaterArray["image"]);
+            }
+
+            /**
+             * Check if a value is different from the one on the database, if different, sets the column and
+             * value for the SET query
+             */
+            foreach ($oldTheaterArray as $key => $value) {
+                if ($key != "idTheater") {
+                    if ($oldTheaterArray[$key] != $theaterArray[$key]) {
+                        $valuesToModify .= $key . " = " . ":".$key.", ";
+                        $parameters[$key] = $theaterArray[$key];
+                    }
+                }
+            }
+
+            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+
+            if($valuesToModify != '')
+            {
+                $query = "UPDATE ".$this->tableName." 
+                    SET ".$valuesToModify." 
+                    WHERE idTheater = :idTheater";
+
+                $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+            }
+
+            $this->updateSeatTypes($oldTheater,$newTheater);
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    }
+
+    /**
+     * Checks difference in seatTypes, adds, and removes if neccesary
+     */
+    public function updateSeatTypes(Theater $oldTheater, Theater $newTheater)
+    {
+        try {
+            $newSeatTypeArr = array();
+            $oldSeatTypeArr = array();
+            $idTheater = $oldTheater->getIdTheater();
+
+            foreach ($newTheater->getSeatTypes() as $seatType) {
+                $newSeatTypeArr[] = $seatType->getIdSeatType();
+            }
+
+            foreach ($oldTheater->getSeatTypes() as $seatType) {
+                $oldSeatTypeArr[] = $seatType->getIdSeatType();
+            }
+            
+            foreach ($newSeatTypeArr as $value) {
+                if(!in_array($value,$oldSeatTypeArr)){ //if new entry is not in old array add it to database
+                    $query = "INSERT INTO ".$this->tableNameSeatTypesTheater." (idSeatType, idTheater) 
+                        VALUES (:idSeatType,:idTheater);";
+                    
+                    $parameters2 = array();
+                    $parameters2["idSeatType"] = $value;
+                    $parameters2["idTheater"] = $idTheater;
+
+                    $this->connection->executeNonQuery($query, $parameters2);
+                }
+            }
+
+            foreach ($oldSeatTypeArr as $value) {
+                if(!in_array($value,$newSeatTypeArr)){  //if old entry is not in new array delete it from database
+                    $query = "DELETE FROM ".$this->tableNameSeatTypesTheater." 
+                    WHERE idSeatType = :idSeatType 
+                    AND idTheater = :idTheater";
+                    
+                    $parameters2 = array();
+                    $parameters2["idSeatType"] = $value;
+                    $parameters2["idTheater"] = $idTheater;
+
+                    $this->connection->executeNonQuery($query, $parameters2);
+                }
+            }
+
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    
+    }
 
     /**
      * Logical Delete
