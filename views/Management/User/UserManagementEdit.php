@@ -26,8 +26,8 @@
                 <tr>
                     <td>
                         <div>
-                            <button type="submit">Modificar</button>
-                            <input type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>UserManagement/index" formnovalidate>
+                            <button class="button" type="submit">Modificar</button>
+                            <input type="submit" class="button" value="Cancelar" formaction="<?=FRONT_ROOT?>UserManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

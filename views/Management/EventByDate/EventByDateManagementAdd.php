@@ -58,7 +58,7 @@
                 <tr>
                     <td colspan="2">
                         <div id="artistHidden">
-                            <button type="submit">Agregar</button>
+                            <button class="button" type="submit">Agregar</button>
                             <input class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>EventByDateManagement/index" formnovalidate>
                         </div>
                     </td>

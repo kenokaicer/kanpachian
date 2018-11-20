@@ -10,8 +10,8 @@
                 <tr>
                     <td>
                         <div>
-                            <button type="submit">Modificar</button>
-                            <input type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>CategoryManagement/index" formnovalidate>
+                            <button class="button" type="submit">Modificar</button>
+                            <input class="button" type="submit" class="button" value="Cancelar" formaction="<?=FRONT_ROOT?>CategoryManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

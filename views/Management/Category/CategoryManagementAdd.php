@@ -9,8 +9,8 @@
                 <tr>
                     <td>
                         <div>
-                            <button type="submit">Agregar</button>
-                            <input type="submit" value="Volver" formaction="<?=FRONT_ROOT?>CategoryManagement/index" formnovalidate>
+                            <button class="button" type="submit">Agregar</button>
+                            <input class="button" type="submit" class="button" value="Volver" formaction="<?=FRONT_ROOT?>CategoryManagement/index" formnovalidate>
                         </div>
                     </td>
                 </tr>

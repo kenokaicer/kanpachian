@@ -11,7 +11,7 @@
                 <tr>
                     <td colspan="2">
                         <div>
-                            <button type="submit">Modificar</button>
+                            <button class="button" type="submit">Modificar</button>
                             <input class="button" type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>ArtistManagement/index" formnovalidate>
                         </div>
                     </td>

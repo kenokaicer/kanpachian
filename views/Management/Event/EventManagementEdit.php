@@ -31,7 +31,7 @@
                 <tr>
                     <td>
                         <div>
-                            <button type="submit">Modificar</button>
+                            <button class="button" type="submit">Modificar</button>
                             <input class="button" type="submit" value="Cancelar" formaction="<?=FRONT_ROOT?>EventManagement/index" formnovalidate>
                         </div>
                     </td>

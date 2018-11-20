@@ -14,8 +14,8 @@
             </select>
         </section>
         <section>
-            <button type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/eventByDateList2">Continuar</button>
-            <button type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/index">Volver</button>
+            <button class="button" type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/eventByDateList2">Continuar</button>
+            <button class="button" type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/index">Volver</button>
         </section>
     </form>
 </div>
