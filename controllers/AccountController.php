@@ -63,12 +63,21 @@ class AccountController
              //check if password provided coincides with hashed and salted one in BD
             
                 Session::add("userLogged", $user);
-                Session::add("virtualCart", array());
                 
-                $client = $this->clientDao->getByUserId($user->getIdUser());
-                $clientName = $client->getName()." ".$client->getLastName();
+                if($user->getRole() == "Common"){
+                    Session::add("virtualCart", array());
                 
-                Session::add("clientName", $clientName);
+                    $client = $this->clientDao->getByUserId($user->getIdUser());
+                    $clientName = $client->getName()." ".$client->getLastName();
+                    
+                    Session::add("clientName", $clientName);
+                }else if($user->getRole() == "Admin"){
+                    echo "<script>window.location.replace('".FRONT_ROOT."Admin/index');</script>";
+                    exit; 
+                }else{
+                    Session::remove();
+                    throw new Exception ("Role not defined");
+                }
             }else{
                 echo "<script> alert('Datos ingresados no correctos');</script>";
             }

@@ -16,7 +16,7 @@ class EventManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->eventDao = new EventDao(); //BD
         $this->categoryDao = new CategoryDao(); //BD
     }

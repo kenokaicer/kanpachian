@@ -13,7 +13,7 @@ class SeatTypeManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->seatTypeDao = new SeatTypeDao();
     }
 

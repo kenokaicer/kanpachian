@@ -121,7 +121,7 @@ class Session
         </script>";
             exit;
         } else {
-            if($_SESSION["userLogged"]->getRole() == "admin"){
+            if($_SESSION["userLogged"]->getRole() == "Admin"){
                 echo "<script>window.location.replace('".FRONT_ROOT. "Admin/index');</script>";
                 exit;
             }
@@ -133,7 +133,7 @@ class Session
             echo "<script>window.location.replace('". FRONT_ROOT . "Account/index');</script>";
             exit;
         } else {
-            if($_SESSION["userLogged"]->getRole() != "admin"){
+            if($_SESSION["userLogged"]->getRole() != "Admin"){
                 echo "<script>window.location.replace('". FRONT_ROOT . "Home/index');</script>";
                 exit;
             }

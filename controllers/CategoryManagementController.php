@@ -13,7 +13,7 @@ class CategoryManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->categoryDao = new CategoryDao(); //BD
     }
 

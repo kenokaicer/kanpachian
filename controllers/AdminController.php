@@ -7,7 +7,7 @@
 
 		public function __construct()
 		{
-			//Session::adminLogged();
+			Session::adminLogged();
 		}
 		
 		public function index()

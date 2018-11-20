@@ -15,7 +15,7 @@ class TheaterManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->theaterDao = new TheaterDao(); //BD
     }
 

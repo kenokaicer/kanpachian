@@ -14,7 +14,7 @@ class UserManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->userDao = new UserDao(); //BD
     }
 

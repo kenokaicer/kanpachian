@@ -14,7 +14,7 @@ class ArtistManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         //$this->ArtistDao = ArtistList::getInstance(); //Json
         $this->artistDao = new ArtistDao(); //BD
     }

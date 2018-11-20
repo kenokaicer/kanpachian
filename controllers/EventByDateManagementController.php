@@ -21,7 +21,7 @@ class EventByDateManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->eventByDateDao = new EventByDateDao();
         $this->theaterDao = new TheaterDao();
         $this->artistDao = new ArtistDao();

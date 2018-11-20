@@ -15,7 +15,7 @@ class ClientManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->clientDao = new ClientDao(); //BD
         $this->userDao = new UserDao();
     }

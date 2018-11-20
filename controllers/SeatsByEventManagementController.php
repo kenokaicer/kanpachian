@@ -21,7 +21,7 @@ class SeatsByEventManagementController
 
     public function __construct()
     {
-        //Session::adminLogged();
+        Session::adminLogged();
         $this->seatsByEventDao = new SeatsByEventDao();
         $this->eventDao = new eventDao();
         $this->seatTypeDao = new SeatTypeDao();
