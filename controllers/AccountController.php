@@ -36,7 +36,7 @@ class AccountController
                 exit; 
             }
             else if(isset($_SESSION["lastLocation"])){ // return to logged event start view
-                echo "<script>window.location.replace('".FRONT_ROOT."Cart/addPurchaseLine');</script>";
+                echo "<script>window.location.replace('".FRONT_ROOT."Purchase/addPurchaseLine');</script>";
                 exit;
             }else{
                 echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";

@@ -75,9 +75,9 @@ class SeatsByEventDao implements ISeatsByEventDao
         try {
             $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
 
-            if($load == LoadType::All){
-                $seatTypeAttributes = array_keys(SeatType::getAttributes());
-            }
+            
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            
 
             if($load != LoadType::Lazy3)
             {
