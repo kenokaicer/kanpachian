@@ -63,7 +63,8 @@ class SeatsByEventDao implements ISeatsByEventDao
 
     /**
      * lazy1: Theater without SeatTypes
-     * lazy2: omit eventByDate
+     * lazy2: omit EventByDate
+     * lazy3: SeatsByEvent only
      */
     public function getById($idSeatsByEvent, $load = LoadType::All)
     {   
@@ -74,14 +75,23 @@ class SeatsByEventDao implements ISeatsByEventDao
         try {
             $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
 
-            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            if($load == LoadType::All){
+                $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            }
 
-            $query = "SELECT * FROM " . $this->tableName." SE 
+            if($load != LoadType::Lazy3)
+            {
+                $query = "SELECT * FROM " . $this->tableName." SE 
                     INNER JOIN ".$this->tableNameSeatType." ST
                     ON SE.idSeatType = ST.idSeatType
                     WHERE SE.".$seatsByEventAttributes[0]." = :".key($parameters)." 
                     AND SE.Enabled = 1";
-                    
+            }else{
+                $query = "SELECT * FROM " . $this->tableName." SE 
+                    WHERE SE.".$seatsByEventAttributes[0]." = :".key($parameters)." 
+                    AND SE.Enabled = 1";
+            }
+                  
             $resultSet = $this->connection->Execute($query,$parameters);
         
             if(sizeof($resultSet)>1){
@@ -95,25 +105,28 @@ class SeatsByEventDao implements ISeatsByEventDao
                     $seatsByEvent->__set($value, $row[$value]);
                 }
 
-                $seatType = new SeatType();
-                foreach ($seatTypeAttributes as $value) {
-                    $seatType->__set($value, $row[$value]);
-                }
+                if($load != LoadType::Lazy3)
+                {
+                    $seatType = new SeatType();
+                    foreach ($seatTypeAttributes as $value) {
+                        $seatType->__set($value, $row[$value]);
+                    }
 
-                $seatsByEvent->setSeatType($seatType);
+                    $seatsByEvent->setSeatType($seatType);
+                }
 
                 //Get EventByDate
 
                 if($load == LoadType::Lazy1)
                 {
                     $eventByDate = $this->getEventByDateById($row["idEventByDate"], LoadType::Lazy1);
-                }else if ($load == LoadType::Lazy2){
-                    $eventByDate = $this->getEventByDateById($row["idEventByDate"], LoadType::Lazy2);
+                    $seatsByEvent->setEventByDate($eventByDate);
+                }else if ($load == LoadType::Lazy2 || $load == LoadType::Lazy3){
+                    //don't load
                 }else{
                     $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
+                    $seatsByEvent->setEventByDate($eventByDate);
                 }
-
-                $seatsByEvent->setEventByDate($eventByDate);
             }
         } catch (PDOException $ex) {
             throw new Exception(__METHOD__ . ",seatsByEvent, seatType query error: " . $ex->getMessage());
@@ -248,9 +261,16 @@ class SeatsByEventDao implements ISeatsByEventDao
        
         try {
             $oldSeatsByEventArray = $oldSeatsByEvent->getAll(); //convert object to array of values
-            $oldSeatsByEventArray["idSeatType"] = $oldSeatsByEvent->getSeatType()->getIdSeatType();
             $seatsByEventArray = $newSeatsByEvent->getAll();
-            $seatsByEventArray["idSeatType"] = $newSeatsByEvent->getSeatType()->getIdSeatType();
+
+            /**
+             * Check if object is complete, otherwise lazy load would give error here
+             */
+            if(!is_null($oldSeatsByEvent->getSeatType()) && !is_null($newSeatsByEvent->getSeatType())){
+                $oldSeatsByEventArray["idSeatType"] = $oldSeatsByEvent->getSeatType()->getIdSeatType();
+                $seatsByEventArray["idSeatType"] = $oldSeatsByEvent->getSeatType()->getIdSeatType();
+            }
+
             $parameters["idSeatsByEvent"] = $oldSeatsByEvent->getIdSeatsByEvent();
 
             /**

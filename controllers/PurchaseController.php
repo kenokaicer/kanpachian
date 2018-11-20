@@ -267,23 +267,27 @@ class PurchaseController
                 //deduct form remnants in seats by event 
                 //this could have been done with a dao method
 
-                $newSeatsByEvent = clone $purchaseLine->getSeatsByEvent();
+                    //This is needed if more than one ticket is bought from the same eventByDate
+                    $oldSeatsByEvent = $this->seatsByEventDao->getById($purchaseLine->getSeatsByEvent()->getidSeatsByEvent(), LoadType::Lazy3); //minimal load
+                    $newSeatsByEvent = clone $oldSeatsByEvent;
+                    
                 $remnants = $newSeatsByEvent->getRemnants();
                 $remnants--;
+                $remnants = (string)$remnants;
                 $newSeatsByEvent->setRemnants($remnants);
-
+  
                 $this->seatsByEventDao->update($purchaseLine->getSeatsByEvent(),$newSeatsByEvent);
             }
 
             //empty cart
 
             $_SESSION["virtualCart"] = array();
+
+            $this->showTickets($idPurchase);
         }catch (Exception $ex){
             echo "<script> alert('Hubo un problema al cerrar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
             $this->viewCart();
         }
-
-        $this->showTickets($idPurchase);
     }
 
     public function viewCart()
