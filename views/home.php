@@ -12,7 +12,7 @@
 <div id="intro" style="min-height:67.25vh">
     <div class="row" style="text-align:center">
         <div class="wrapper" style="border:none;display:inline-block">
-            <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="post">
+            <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="get">
                 <div class="input-group-rounded" style="display:inline-block">
                     <div style="float:left">
                         <input style="min-width:200px" class="animated-search-form input-group-field" name="q" type="search" placeholder="Busque por Artista..">

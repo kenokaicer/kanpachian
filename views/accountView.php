@@ -41,7 +41,7 @@
                                         <?php 
                                         }else{
                                         ?>
-                                        <form action="<?=FRONT_ROOT?>Account/viewRegisterCreditCard" method="post">
+                                        <form action="<?=FRONT_ROOT?>Account/viewRegisterCreditCard" method="get">
                                         <input type="hidden" name="redirect" value="noredirect">
                                         <button class="app-feature-section-features-block" id="buttonCreditCard">Agregar Tarjeta de Crédito</button></span> 
                                         </form>

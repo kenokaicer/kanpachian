@@ -35,7 +35,7 @@
                 ?>
                 </span>
                 <div class="product-card-colors">
-                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="post">
+                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="get">
                     <input type="hidden" name="idEvent" value="<?=$eventByDate->getEvent()->getIdEvent()?>">
                     <input type="hidden" name="idTheater" value="<?=$eventByDate->getTheater()->getIdTheater()?>">
                     <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
