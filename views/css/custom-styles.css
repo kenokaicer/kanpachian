@@ -90,4 +90,8 @@ button:active:focus{
     text-shadow: black 4px 3px 10px;
 }
 
+.event-title{
+    text-shadow: -0.5px 0 #acacac, 0 1px #acacac, 1px 0 #acacac, 0 -1px #acacac;
+}
+
 

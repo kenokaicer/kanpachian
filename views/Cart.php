@@ -10,7 +10,7 @@
     
 </div>
 <div style="display: inline-block;border-style: none" id="intro">
-    <div class="wrapper" style="border-style: none;min-height:57vh;">
+    <div class="wrapper" style="border-style: none;min-height:57.2vh;">
         <table style="border: 1px solid black;box-shadow:1px 2px 3px 5px hsl(0, 0%, 80%);">
             <th style="border-color: black;border-style: solid;border-width: 1px 1px 2px 1px;">Item</th>
             <th width="30%" style="border-color: black;border-style: solid;border-width: 1px 1px 2px 1px;">Evento</th>
@@ -63,8 +63,7 @@
 <?php require VIEWS_PATH."FooterUserView.php";?>
 
 <script>
-    //$("#cart-number").data("count",<?php //echo sizeof($_SESSION["virtualCart"])?>); //Set current cart lenght, not working
-    //$("#ex4").data("count",<?php //echo sizeof($_SESSION["virtualCart"])?>);
+    $('#cart-number').attr("data-count","<?php echo sizeof($_SESSION["virtualCart"])?>"); //set proper cart lenght, as navbar is loaded before the new purchaseLine
 </script>
 
 

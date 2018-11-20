@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<div id="intro">
+<div id="intro" style="min-height:67.25vh">
     <div class="row" style="text-align:center">
         <div class="wrapper" style="border:none;display:inline-block">
             <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="post">
@@ -62,4 +62,5 @@
 </div>
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
+
 

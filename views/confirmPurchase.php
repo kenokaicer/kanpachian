@@ -11,7 +11,7 @@
 </div>
 <div style="display: inline-block;border-style: none;text-align:center" id="intro">
 
-<div class="wrapper" style="border:none;display: inline-block;margin-top:100px;width:500px;min-height:47vh;">
+<div class="wrapper" style="border:none;display: inline-block;margin-top:100px;width:500px;min-height:48.1vh;">
 
     <ul class="pricing-table" style="display: inline-block">
         <li class="title">Compra de Tickets</li>

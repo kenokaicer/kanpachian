@@ -10,25 +10,7 @@
     
 </div>
 
-<div style="display: inline-block;" id="intro">
-    <div class="large-12 columns">
-        <img class="event-top-img round-image" src="<?=IMG_PATH.$event->getImage()?>" alt="mockup" />
-    </div>
-</div>
-
-<div id="pricing">
-    <div class="login-box" style="background-color: #f6f6f6;width:65%;margin:0 auto;padding-bottom:25px">
-        <div class="row">
-            <div class="large-12 columns">
-                <h2 class="text-center color-pink headings" style="padding:0px;margin:0"><?=$event->getEventName()?></h2>
-                <h5 class="color-pink" style="margin-bottom:15px"><?=$event->getCategory()->getCategoryName()?></h5>
-            </div>
-            <div class="large-12 columns"><p><?=$event->getDescription()?></p></div>
-        </div>
-    </div>
-    <div class="login-box" style="background-color: #f6f6f6;width:30%;margin:0 auto;padding:0px;margin-top:15px;overflow: visible">     
-        <h3 class="text-center color-pink headings"><?=$theater->getTheaterName()?></h2>
-    </div>
+<?php require VIEWS_PATH."eventHeader.php" ?>
 
     <div class="row" style="padding:20px 0px 100px 0px;text-align:center">
         <?php 
@@ -53,7 +35,7 @@
                 ?>
                 </span>
                 <div class="product-card-colors">
-                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="post">
+                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="get">
                     <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
                     <input type="hidden" name="idTheater" value="<?=$theater->getIdTheater()?>">
                     <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">

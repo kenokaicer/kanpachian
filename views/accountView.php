@@ -1,5 +1,5 @@
-<!--<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
-<!--<main class="Site-content">-->
+<body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
+
 
 <div id="additional-info" style="padding:0;height: 70px;">
     <div class="row" style="padding:0;height: 70px;">
@@ -10,7 +10,7 @@
 
 </div>
 <div style="display: inline-block;border-style: none" id="intro">
-    <div class="wrapper" style="border-style:none;min-height:57vh;width:800px">
+    <div class="wrapper" style="border-style:none;min-height:58vh;width:800px">
         <section class="app-feature-section">
             <div class="row align-middle">
 

@@ -7,7 +7,7 @@
       if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole()=="Admin"){
       }else{
     ?>
-      <div class="top-bar-left left" >
+      <div style="max-width: 80vw;max-height:50px" class="top-bar-left left" > <!--style for if bar is longer than screen not working-->
         <ul class="menu simple vertical medium-horizontal">
           <?php
             $eventsByCategory = \controllers\PurchaseController::getCategoryList();
