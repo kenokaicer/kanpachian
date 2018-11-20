@@ -27,7 +27,7 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
     private $tableNameSeatType = 'SeatTypes';
     private $tableNameEventByDate = 'EventByDates';
     private $tableNameEvent = 'Events';
-    private $tableNameCatergory = 'Categories';
+    private $tableNameCategory = 'Categories';
     private $tableNameTheater = 'Theaters';
 
     public function __construct(){
@@ -117,26 +117,31 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
         return $purchase;
     }
 
-    public function getAll()
+    /**
+     * lazy1: only purchase object
+     */
+    public function getAll($load = LoadType::Lazy1)
     {
         $purchaseList = array();
 
         try {
             $purchaseAttributes = array_keys(Purchase::getAttributes());
 
-            $clientAttributes = array_keys(Client::getAttributes());
+            if($load == LoadType::All){
+                $clientAttributes = array_keys(Client::getAttributes());
 
             $query = "SELECT *
                     FROM " . $this->tableName ." P
                     INNER JOIN ".$this->tableNameClients." C
                     ON P.idClient = C.idClient  
                     WHERE P.enabled = 1";
-            
-            $resultSet = $this->connection->Execute($query,$parameters);  
-
-            if(sizeof($resultSet)>1){
-                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
+            }else{
+                $query = "SELECT *
+                    FROM " . $this->tableName ." P 
+                    WHERE P.enabled = 1";
             }
+            
+            $resultSet = $this->connection->Execute($query);  
             
             foreach ($resultSet as $row)
             {
@@ -145,16 +150,17 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
                     $purchase->__set($value, $row[$value]);
                 }
 
-                $client = new Client();
-                foreach ($clientAttributes as $value) {
-                    $client->__set($value, $row[$value]);
+                if($load == LoadType::All){
+                    $client = new Client();
+                    foreach ($clientAttributes as $value) {
+                        $client->__set($value, $row[$value]);
+                    }
+
+                    $purchaseLines = $this->getPurchaseLinesByPurchaseId($row["idPurchase"]);
+
+                    $purchase->setClient($client);
+                    $purchase->setPurchaseLines($purchaseLines);
                 }
-
-                $purchaseLines = $this->getPurchaseLinesByPurchaseId($row["idPurchase"]);
-
-                $purchase->setClient($client);
-                $purchase->setPurchaseLines($purchaseLines);
-
                 array_push($purchaseList, $purchase);
             }
         } catch (PDOException $ex) {
@@ -430,7 +436,7 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
             $query = "SELECT * FROM " . $this->tableNameEventByDate . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
                     ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
+                    INNER JOIN " . $this->tableNameCategory . " C
                     ON E.idCategory = C.idCategory
                     WHERE ED.".$eventByDateAttributes[0]." = :".key($parameters)." 
                     AND ED.enabled = 1";

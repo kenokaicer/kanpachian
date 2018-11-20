@@ -49,7 +49,7 @@ $("#selectEvent").mouseup(function() { //This is for events. //Is triggered when
         $("#table-body").empty();//empty table if it was full
         $.when(ajaxQuery('getByEventId',this.value)).done(function(ajaxResponse){ //waits for ajax call to be done
             if (ajaxResponse.length == 0){
-                alert('No hay Calendarios cargados para este evento');
+                alert('No hay Calendarios o Plazas Evento cargadas para este evento');
             }else{
                 ajaxResponse.forEach(loadTable);
             }

@@ -24,7 +24,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
     private $tableNameSeatTypesTheater = 'SeatTypes_x_Theater';
     private $tableNameArtistEventByDate = 'Artists_x_EventByDate';
     private $tableNameEvent = 'Events';
-    private $tableNameCatergory = 'Categories';
+    private $tableNameCategory = 'Categories';
 
     public function __construct()
     {
@@ -109,7 +109,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
             $query = "SELECT * FROM " . $this->tableName . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
                     ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
+                    INNER JOIN " . $this->tableNameCategory . " C
                     ON E.idCategory = C.idCategory
                     WHERE ED." . $eventByDateAttributes[0] . " = :".key($parameters)." 
                     AND ED.enabled = 1";
@@ -171,7 +171,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
             $query = "SELECT * FROM " . $this->tableName . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
                     ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
+                    INNER JOIN " . $this->tableNameCategory . " C
                     ON E.idCategory = C.idCategory
                     WHERE ED.enabled = 1";
 
@@ -233,7 +233,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
             $query = "SELECT * FROM " . $this->tableName . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
                     ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
+                    INNER JOIN " . $this->tableNameCategory . " C
                     ON E.idCategory = C.idCategory
                     INNER JOIN ".$this->tableNameArtistEventByDate. " AED
                     ON ED.idEventByDate = AED.idEventByDate
@@ -339,7 +339,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
                 $query = "SELECT * FROM " . $this->tableName . " ED
                         INNER JOIN " . $this->tableNameEvent . " E
                         ON ED.idEvent = E.idEvent
-                        INNER JOIN " . $this->tableNameCatergory . " C
+                        INNER JOIN " . $this->tableNameCategory . " C
                         ON E.idCategory = C.idCategory
                         WHERE ED.".$eventAttributes[0]." = :".key($parameters)." 
                         AND ED.enabled = 1";

@@ -25,7 +25,7 @@ class SeatsByEventDao implements ISeatsByEventDao
     private $tableNameSeatTypesTheater = 'SeatTypes_x_Theater';
     private $tableNameArtistEventByDate = 'Artists_x_EventByDate';
     private $tableNameEvent = 'Events';
-    private $tableNameCatergory = 'Categories';
+    private $tableNameCategory = 'Categories';
 
     public function __construct(){
         $this->connection = Connection::getInstance();
@@ -354,7 +354,7 @@ class SeatsByEventDao implements ISeatsByEventDao
             $query = "SELECT * FROM " . $this->tableNameEventByDate . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
                     ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
+                    INNER JOIN " . $this->tableNameCategory . " C
                     ON E.idCategory = C.idCategory
                     WHERE ED.".$eventByDateAttributes[0]." = :".key($parameters)." 
                     AND ED.enabled = 1";

@@ -7,7 +7,13 @@ use PDOException as PDOException;
 use Exception as Exception;
 use Dao\Interfaces\IPurchaseLineDao as IPurchaseLineDao;
 use Models\PurchaseLine as PurchaseLine;
+use Models\Client as Client;
+use Models\SeatsByEvent as SeatsByEvent;
+use Models\SeatType as SeatType;
+use Models\EventByDate as EventByDate;
 use Models\Category as Category;
+use Models\Event as Event;
+use Models\Theater as Theater;
 
 class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
 {
@@ -17,7 +23,7 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
     private $tableNameSeatType = 'SeatTypes';
     private $tableNameEventByDate = 'EventByDates';
     private $tableNameEvent = 'Events';
-    private $tableNameCatergory = 'Categories';
+    private $tableNameCategory = 'Categories';
     private $tableNameTheater = 'Theaters';
 
     public function __construct(){
@@ -94,18 +100,42 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
         return $purchaseLine;
     }
 
-    public function getAll()
+    /**
+     * default: no theater seatTypes
+     * lazy1: no theater, no artists
+     */
+    public function getAll($load = LoadType::All)
     {
         $purchaseLineList = array();
         
         try {
             $purchaseLineAttributes = array_keys(PurchaseLine::getAttributes());
 
-            $query = "SELECT *
-                    FROM " . $this->tableName ."  
-                    WHERE enabled = 1";
+            if($load == LoadType::All){
+                $query = "SELECT *
+                FROM " . $this->tableName ."  
+                WHERE enabled = 1";
+            }else{
+                $query = "SELECT *
+                FROM " . $this->tableName ." PL
+                INNER JOIN ".$this->tableNameSeatsByEvent." SE 
+                ON PL.idSeatsByEvent = SE.idSeatsByEvent
+                INNER JOIN ".$this->tableNameEventByDate." ED
+                ON SE.idEventByDate = ED.idEventByDate
+                INNER JOIN ".$this->tableNameEvent." E
+                ON ED.idEvent = E.idEvent
+                INNER JOIN ".$this->tableNameCategory." C
+                ON E.idCategory = C.idCategory
+                WHERE PL.enabled = 1";
+
+                $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
+                $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+                $eventAttributes = array_keys(Event::getAttributes());
+                $categoryAttributes = array_keys(Category::getAttributes());
+            }
             
-            $resultSet = $this->connection->Execute($query,$parameters);  
+            
+            $resultSet = $this->connection->Execute($query);  
 
             
             foreach ($resultSet as $row)
@@ -115,10 +145,37 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
                     $purchaseLine->__set($value, $row[$value]);
                 }
 
-                //Get seatsByEvent, lazy
+                if($load == LoadType::All){
+                    //Get seatsByEvent, lazy
 
-                $SeatsByEvent = $this->getSeatsByEventById($row["idSeatsByEvent"]);
-                $purchaseLine->setSeatsByEvent($SeatsByEvent);
+                    $SeatsByEvent = $this->getSeatsByEventById($row["idSeatsByEvent"]);
+                    $purchaseLine->setSeatsByEvent($SeatsByEvent);
+                }else{
+                    $category = new Category();
+                    foreach ($categoryAttributes as $value) {
+                        $category->__set($value, $row[$value]);
+                    } 
+                    
+                    $event = new Event();
+                    foreach ($eventAttributes as $value) {
+                        $event->__set($value, $row[$value]);
+                    } 
+                    
+                    $eventByDate = new EventByDate();
+                    foreach ($eventByDateAttributes as $value) {
+                        $eventByDate->__set($value, $row[$value]);
+                    } 
+                    
+                    $seatsByEvent = new SeatsByEvent();
+                    foreach ($seatsByEventAttributes as $value) {
+                        $seatsByEvent->__set($value, $row[$value]);
+                    }
+
+                    $event->setCategory($category);
+                    $eventByDate->setEvent($event);
+                    $seatsByEvent->setEventByDate($eventByDate); 
+                    $purchaseLine->setSeatsByEvent($seatsByEvent);   
+                }
             
                 array_push($purchaseLineList, $purchaseLine);
             }
@@ -306,7 +363,7 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
             $query = "SELECT * FROM " . $this->tableNameEventByDate . " ED
                     INNER JOIN " . $this->tableNameEvent . " E
                     ON ED.idEvent = E.idEvent
-                    INNER JOIN " . $this->tableNameCatergory . " C
+                    INNER JOIN " . $this->tableNameCategory . " C
                     ON E.idCategory = C.idCategory
                     WHERE ED.".$eventByDateAttributes[0]." = :".key($parameters)." 
                     AND ED.enabled = 1";
