@@ -61,7 +61,7 @@
               Menu</button>
           </li>
           <li>
-            <button type="input" formaction="<?=FRONT_ROOT?>Account/sessionClose" class="button hollow topbar-responsive-button">Cerrar
+            <button style="margin-left:0.8em" type="input" formaction="<?=FRONT_ROOT?>Account/sessionClose" class="button hollow topbar-responsive-button">Cerrar
               Sesión</button>
           </li>
           <?php

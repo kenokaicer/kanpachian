@@ -1,18 +1,17 @@
 <?php
-	namespace Controllers;
-	
-	use Cross\Session as Session;
+namespace Controllers;
 
-	class AdminController{
+use Cross\Session as Session;
 
-		public function __construct()
-		{
-			Session::adminLogged();
-		}
-		
-		public function index()
-		{	
-			require "Views/admin.php";
-		}
-	}
-?>
+class AdminController
+{
+    public function __construct()
+    {
+        Session::adminLogged();
+    }
+
+    public function index()
+    {
+        require VIEWS_PATH."admin.php";
+    }
+}

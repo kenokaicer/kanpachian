@@ -11,6 +11,7 @@
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>EventByDateManagement/index">Gestión Calendarios</button></div>
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index">Gestión Asiento por Evento</button></div>
         <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>UserManagement/index">Gestión Usuarios</button></div>
+        <div class="menu"><button class="menuButton" type="submit" formaction="<?=FRONT_ROOT?>CheckSalesByEvent/index">Ventas por Evento</button></div>
     </section>
 </form>
 </div>
