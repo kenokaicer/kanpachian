@@ -218,6 +218,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
 
         return $eventByDateList;
     }
+
     public function getAllByArtist($idArtist)
     {
         $parameters = get_defined_vars();
@@ -290,7 +291,95 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
      * Updates values that are diferent from the ones recieved in the object EventByDate
      */
     public function Update(EventByDate $oldEventByDate, EventByDate $newEventByDate)
-    {}
+    {
+        $valuesToModify = "";
+       
+        try {
+            $oldEventByDateArray = $oldEventByDate->getAll(); //convert object to array of values
+            $eventByDateArray = $newEventByDate->getAll();
+            $parameters["idEventByDate"] = $oldEventByDate->getIdEventByDate();
+
+            /**
+             * Check if a value is different from the one on the database, if different, sets the column and
+             * value for the SET query
+             */
+            foreach ($oldEventByDateArray as $key => $value) {
+                if ($key != "idEventByDate") {
+                    if ($oldEventByDateArray[$key] != $eventByDateArray[$key]) {
+                        $valuesToModify .= $key . " = " . ":".$key.", ";
+                        $parameters[$key] = $eventByDateArray[$key];
+                    }
+                }
+            }
+
+            $valuesToModify = rtrim($valuesToModify, ", "); //strip ", " from last character
+
+            if($valuesToModify != '')
+            {
+                $query = "UPDATE ".$this->tableName." 
+                    SET ".$valuesToModify." 
+                    WHERE idEventByDate = :idEventByDate";
+
+                $modifiedRows = $this->connection->executeNonQuery($query, $parameters);
+            }
+
+            $this->updateArtists($oldEventByDate,$newEventByDate);
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    }
+
+    private function updateArtists(EventByDate $oldEventByDate, EventByDate $newEventByDate)
+    {
+        try {
+            $newArtistArr = array();
+            $oldArtistArr = array();
+            $idEventByDate = $oldEventByDate->getIdEventByDate();
+
+            foreach ($newEventByDate->getArtists() as $artist) {
+                $newArtistArr[] = $artist->getIdArtist();
+            }
+
+            foreach ($oldEventByDate->getArtists() as $artist) {
+                $oldArtistArr[] = $artist->getIdArtist();
+            }
+            
+            foreach ($newArtistArr as $value) {
+                if(!in_array($value,$oldArtistArr)){ //if new entry is not in old array add it to database
+                    $query = "INSERT INTO ".$this->tableNameArtistEventByDate." (idArtist, idEventByDate) 
+                        VALUES (:idArtist,:idEventByDate);";
+                    
+                    $parameters2 = array();
+                    $parameters2["idArtist"] = $value;
+                    $parameters2["idEventByDate"] = $idEventByDate;
+
+                    $this->connection->executeNonQuery($query, $parameters2);
+                }
+            }
+
+            foreach ($oldArtistArr as $value) {
+                if(!in_array($value,$newArtistArr)){  //if old entry is not in new array delete it from database
+                    $query = "DELETE FROM ".$this->tableNameArtistEventByDate." 
+                    WHERE idArtist = :idArtist 
+                    AND idEventByDate = :idEventByDate";
+                    
+                    $parameters2 = array();
+                    $parameters2["idArtist"] = $value;
+                    $parameters2["idEventByDate"] = $idEventByDate;
+
+                    $this->connection->executeNonQuery($query, $parameters2);
+                }
+            }
+
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+    
+    }
 
     /**
      * Logical Delete
@@ -444,7 +533,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
     /**
      * Lazy1: omit SeatTypes
      */
-    public function getTheaterById($idTheater, $load = LoadType::All)
+    private function getTheaterById($idTheater, $load = LoadType::All)
     {
         $parameters = get_defined_vars();
         array_pop($parameters);
@@ -498,7 +587,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
         return $theater;
     }
 
-    public function getArtistsByEventByDateId($idEventByDate)
+    private function getArtistsByEventByDateId($idEventByDate)
     {
         $parameters = get_defined_vars();
         $artistsList = array();
@@ -532,7 +621,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
         return $artistsList;
     }
 
-    public function getTeatherByEventByDateId($idEventByDate){
+    private function getTeatherByEventByDateId($idEventByDate){
         $parameters = get_defined_vars();
         $theater = null;
 

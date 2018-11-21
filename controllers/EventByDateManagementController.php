@@ -109,7 +109,10 @@ class EventByDateManagementController
     public function viewEditEventByDate($idEventByDate)
     {   
         try{
-            $oldEventByDate = $this->eventByDateDao->getById($idEventByDate);
+            $eventByDate = $this->eventByDateDao->getById($idEventByDate);
+            $theaterList = $this->theaterDao->getAll();
+            $artistList = $this->artistDao->getAll();
+            $eventList = $this->eventDao->getAll();
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo cargar calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
@@ -121,21 +124,30 @@ class EventByDateManagementController
      * Recieve modified attributes for object EventByDate
      * and old object by id, call dao update
      */
-    public function editEventByDate($oldIdEventByDate, $eventByDate)
+    public function editEventByDate($oldIdEventByDate, $idEvent, $date, $idTheater, $idArtistList)
     {
         try{
             $oldEventByDate = $this->eventByDateDao->getById($oldIdEventByDate);
-            $newEventByDate = new EventByDate();
+            
+            $eventByDate = new EventByDate();
+ 
+            $eventByDate->setDate($date);
+            
+            $theater = $this->theaterDao->getById($idTheater);
+            $event = $this->eventDao->getById($idEvent);
 
-            $args = func_get_args();
-            $eventByDateAttributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
+            $eventByDate->setTheater($theater);
+            $eventByDate->setEvent($event);
 
-            foreach ($eventByDateAttributeList as $attribute => $value) {
-                $newEventByDate->__set($attribute,$value);
+            $idArtistList = json_decode($idArtistList);
+
+            foreach ($idArtistList as $idArtist) {
+                $artist = $this->artistDao->getById($idArtist);
+                $eventByDate->addArtist($artist);
             }
 
-            $this->eventByDateDao->Update($oldEventByDate, $newEventByDate);
-            echo "<script> alert('Calendario modificada exitosamente');</script>";
+            $this->eventByDateDao->Update($oldEventByDate, $eventByDate);
+            echo "<script> alert('Calendario modificado exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el calendario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
