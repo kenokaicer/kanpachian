@@ -28,7 +28,7 @@
                   <img class="qr-code img-thumbnail img-responsive" id="content" src="
                   <?php
                   $data = $ticket->getQrCode();
-                  if(phpversion() > 7.2){
+                  if(phpversion() > "7.2"){
                      echo (new QRCode)->render($data);
                   }else{
                      /*Alternative version, with Google API*/
