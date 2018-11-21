@@ -27,6 +27,9 @@
                 <li class="bullet-item">Disponibilidad: <?=$seatsByEvent->getRemnants()?></li>
                 <li class="bullet-item">
                 <form action="<?=FRONT_ROOT?>Purchase/addPurchaseLine" method="get">
+                <input type="number" name="quantity" value="1" max="<?=$seatsByEvent->getRemnants()?>" required style="max-width:100px;display:inline-block">
+                </li>
+                <li class="bullet-item">
                 <input type="hidden" name="idSeatsByEvent" value="<?=$seatsByEvent->getIdSeatsByEvent()?>">
                 <button <?php if($seatsByEvent->getRemnants() <= 0) echo "disabled" ?> style="margin-top:20px">Compre Ahora</button> <!--Check for seat availability-->
                 </form>

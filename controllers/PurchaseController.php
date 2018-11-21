@@ -305,13 +305,16 @@ class PurchaseController
         require VIEWS_PATH."Cart.php";
     }
 
-    public function addPurchaseLine($idSeatsByEvent=null)
+    public function addPurchaseLine($quantity=null, $idSeatsByEvent=null)
     {
         try{
             if(!isset($_SESSION["userLogged"]))
             {   
                 if(isset($idSeatsByEvent)){
-                    Session::add("lastLocation", $idSeatsByEvent);
+                    $arr = array();
+                    $arr[] = $idSeatsByEvent;
+                    $arr[] = $quantity;
+                    Session::add("lastLocation", $arr);
                 }else{
                     throw new Exception("idSeatsByEvent not set");
                 }
@@ -321,8 +324,10 @@ class PurchaseController
 
             if(isset($_SESSION["lastLocation"]))
             {
-                $idSeatsByEvent = $_SESSION["lastLocation"];
+                $arr = $_SESSION["lastLocation"];
                 Session::remove("lastLocation");
+                $idSeatsByEvent = $arr[0];
+                $quantity = $arr[1];
             }
 
             if(isset($idSeatsByEvent)){
@@ -330,20 +335,29 @@ class PurchaseController
 
                 $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, LoadType::Lazy1);
                 
-                if($seatsByEvent->getRemnants() > 0){ //Check already done in EventByDate view
-                    $purchaseLine = new PurchaseLine();
+                if(!is_null($seatsByEvent))
+                {
+                    if($seatsByEvent->getRemnants() > $quantity){ //Check already done in EventByDate view
+                        
+                        $purchaseLine = new PurchaseLine();
 
-                    $purchaseLine->setPrice($seatsByEvent->getPrice());
-                    $purchaseLine->setSeatsByEvent($seatsByEvent);
+                        $purchaseLine->setPrice($seatsByEvent->getPrice());
+                        $purchaseLine->setSeatsByEvent($seatsByEvent);
 
-                    $array = $_SESSION["virtualCart"];
-                    array_push($array, $purchaseLine);
+                        $array = $_SESSION["virtualCart"];
 
-                    $_SESSION["virtualCart"] = $array;
+                        for ($i=0; $i < $quantity; $i++) { 
+                            array_push($array, clone $purchaseLine);
+                        }
+
+                        $_SESSION["virtualCart"] = $array;
+                       
+                    }else{
+                        echo "<script> alert('No hay asientos disponibles'<script>;";
+                    }
                 }else{
-                    echo "<script> alert('No hay asientos disponibles'<script>;";
+                    throw new Exception("SeatsByEvent null");
                 }
-
                 $this->viewCart();
             }else{
                 throw new Exception("idSeatsByEvent not set");
