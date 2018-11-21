@@ -142,9 +142,9 @@ class SeatsByEventManagementController
      * Recieve id of SeatsByEvent to edit, retrieve by DAO for diplaying in the forms,
      * then after the modifications sends them to this->editSeatsByEvent
      */
-    public function viewEditSeatsByEvent($idSeatsByEvent)
+    public function viewEditSeatsByEvent($eventName, $theaterData, $idSeatsByEvent)
     {   
-        $oldSeatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
+        $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
 
         require VIEWS_PATH.$this->folder."SeatsByEventManagementEdit.php";
     }
@@ -167,7 +167,7 @@ class SeatsByEventManagementController
 
         try{
             $this->seatsByEventDao->Update($oldSeatsByEvent, $newSeatsByEvent);
-            echo "<script> alert('Calendario modificada exitosamente');</script>";
+            echo "<script> alert('Calendario modificado exitosamente');</script>";
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el calendario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }

@@ -108,7 +108,11 @@
 
         function fillTable(item)
         {
-            var markup = "<tr><td>"+item.seatTypeName+"</td><td>"+item.quantity+"</td><td>"+item.price+"</td><td>"+item.remnants+"</td><td><a href='<?=FRONT_ROOT?>SeatsByEventManagement/viewEditSeatsByEvent?idSeatsByEvent="+item.idSeatsByEvent+"'>Editar</a></td><td><a href='<?=FRONT_ROOT?>SeatsByEventManagement/deleteSeatsByEvent?idSeatsByEvent="+item.idSeatsByEvent+"'>Eliminar</a></td></tr>";
+            var selectEventElem = document.getElementById("selectEvent");
+            var selectEventByDateElem = document.getElementById("selectEventByDate");
+            var eventName = selectEventElem.options[selectEventElem.selectedIndex].text;
+            var theaterData = selectEventByDateElem.options[selectEventByDateElem.selectedIndex].text;
+            var markup = "<tr><td>"+item.seatTypeName+"</td><td>"+item.quantity+"</td><td>"+item.price+"</td><td>"+item.remnants+"</td><td><a href='<?=FRONT_ROOT?>SeatsByEventManagement/viewEditSeatsByEvent?eventName="+eventName+"&theaterData="+theaterData+"&idSeatsByEvent="+item.idSeatsByEvent+"'>Editar</a></td><td><a href='<?=FRONT_ROOT?>SeatsByEventManagement/deleteSeatsByEvent?idSeatsByEvent="+item.idSeatsByEvent+"'>Eliminar</a></td></tr>";
             $('#seatsByEventTable').append(markup);
         }
       
