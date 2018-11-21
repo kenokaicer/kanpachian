@@ -621,7 +621,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
         return $artistsList;
     }
 
-    private function getTeatherByEventByDateId($idEventByDate){
+    public function getTeatherByEventByDateId($idEventByDate){
         $parameters = get_defined_vars();
         $theater = null;
 

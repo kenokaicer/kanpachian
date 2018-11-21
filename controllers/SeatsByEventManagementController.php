@@ -82,9 +82,9 @@ class SeatsByEventManagementController
                 }catch (Exception $ex){
                     echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
                 }
-    
+
                 foreach ($seatTypesAlreadyAdded as $value) {
-                    if ($value->getIdSeatType() == $seatType->getIdSeatType()){
+                    if ($value == $seatType->getIdSeatType()){
                         throw new Exception ("Plaza ya insertada");
                     }
                 }

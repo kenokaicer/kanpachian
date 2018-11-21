@@ -88,7 +88,7 @@ class EventByDateManagementController
     }
 
 
-    public function deleteEventByDate($id)
+    public function deleteEventByDate($idEventByDate)
     {
         try{
             $eventByDate = $this->eventByDateDao->getById($idEventByDate);

@@ -503,7 +503,7 @@ class SeatsByEventDao implements ISeatsByEventDao
         return $artistsList;
     }
 
-    private function getIdSeatTypesByEventByDate($idEventByDate)
+    public function getIdSeatTypesByEventByDate($idEventByDate)
     {
         $parameters = get_defined_vars();
         $seatTypes = array();

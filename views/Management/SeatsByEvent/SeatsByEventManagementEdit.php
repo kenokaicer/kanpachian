@@ -44,6 +44,7 @@ function checkMax() {
     var ok = true;
 
     console.log(remnants,quantity);
+    print 
     if (remnants > quantity) {
         alert("La cantidad de remanentes no puede ser superior a la cantidad disponible");
         document.getElementById("remnants").style.borderColor = "#E34234";

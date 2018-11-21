@@ -17,14 +17,15 @@
         foreach ($theaterArray as $theater) {
         ?> 
 
-        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px">
+        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px;">
             <div class="product-card">
                 <div class="product-card-thumbnail">
                     <span class="faded faded-all">
                         <a><img class="round-image" src="<?=IMG_PATH.$theater->getImage()?>"/></a>
                     </span>
                 </div>
-                <h2 class="product-card-title"><a>Ubicación: <?=$theater->getTheaterName()?></a></h2>
+                <a class="product-card-title" style="margin-top:5px">Ubicación:</a>
+                <h2 class="product-card-title" style="margin-top:0"><a><?=$theater->getTheaterName()?></a></h2>
                 <span class="product-card-desc">Localidad <?=$theater->getLocation()?></span>
                 <div class="product-card-colors">
                     <form action="<?=FRONT_ROOT?>Purchase/showEventByDates" method="get">
