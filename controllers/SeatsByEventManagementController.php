@@ -124,7 +124,7 @@ class SeatsByEventManagementController
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList.php";
     }
 
-    public function deleteSeatsByEvent($id)
+    public function deleteSeatsByEvent($idSeatsByEvent)
     {
         $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
 
