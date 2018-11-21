@@ -32,6 +32,11 @@
 				echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
 			}
 			require VIEWS_PATH."home.php";
-		}	
+		}
+
+		function notFound()
+		{
+			require VIEWS_PATH."404.php";
+		}
 	}
 ?>
