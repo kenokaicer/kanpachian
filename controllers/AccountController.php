@@ -201,7 +201,7 @@ class AccountController
                     $creditCard->__set($attribute,$value);
                 }
 
-                $idCreditCard = $this->creditCardDao->addReturningId($creditCard);
+                $idCreditCard = $this->creditCardDao->Add($creditCard);
             }else{
                 $idCreditCard = $creditCard->getIdCreditCard();
             }

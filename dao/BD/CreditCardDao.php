@@ -38,34 +38,6 @@ class CreditCardDao extends DaoBD implements ICreditCardDao
             if($addedRows!=1){
                 throw new Exception("Number of rows added ".$addedRows.", expected 1");
             }
-        } catch (PDOException $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        } catch (Exception $ex) {
-            throw new Exception (__METHOD__." error: ".$ex->getMessage());
-        }
-    }
-
-    public function addReturningId(CreditCard $creditCard)
-    {
-        $columns = "";
-        $values = "";
-        
-        try { 
-            $parameters = array_filter($creditCard->getAll()); //get object attribute names 
-
-            foreach ($parameters as $key => $value) {
-                $columns .= $key.",";
-                $values .= ":".$key.",";
-            }
-            $columns = rtrim($columns, ",");
-            $values = rtrim($values, ",");
-
-            $query = "INSERT INTO " . $this->tableName . " (".$columns.") VALUES (".$values.");";
-        
-            $addedRows = $this->connection->executeNonQuery($query, $parameters);
-            if($addedRows!=1){
-                throw new Exception("Number of rows added ".$addedRows.", expected 1");
-            }
 
             $idCreditCard = $this->lastInsertId(); 
         } catch (PDOException $ex) {

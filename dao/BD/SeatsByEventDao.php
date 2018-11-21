@@ -338,7 +338,7 @@ class SeatsByEventDao implements ISeatsByEventDao
     /**
      * Lazy1: Theater without SeatTypes
      */
-    public function getEventByDateById($idEventByDate, $load = LoadType::All)
+    private function getEventByDateById($idEventByDate, $load = LoadType::All)
     {
         $parameters = get_defined_vars();
         array_pop($parameters);
@@ -415,7 +415,7 @@ class SeatsByEventDao implements ISeatsByEventDao
      /**
      * Lazy1: omit SeatTypes
      */
-    public function getTheaterById($idTheater, $load = LoadType::All)
+    private function getTheaterById($idTheater, $load = LoadType::All)
     {
         $parameters = get_defined_vars();
         array_pop($parameters);
@@ -469,7 +469,7 @@ class SeatsByEventDao implements ISeatsByEventDao
         return $theater;
     }
 
-    public function getArtistsByEventByDateId($idEventByDate)
+    private function getArtistsByEventByDateId($idEventByDate)
     {
         $parameters = get_defined_vars();
         $artistsList = array();
@@ -503,7 +503,7 @@ class SeatsByEventDao implements ISeatsByEventDao
         return $artistsList;
     }
 
-    public function getIdSeatTypesByEventByDate($idEventByDate)
+    private function getIdSeatTypesByEventByDate($idEventByDate)
     {
         $parameters = get_defined_vars();
         $seatTypes = array();

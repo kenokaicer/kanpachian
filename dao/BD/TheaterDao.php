@@ -266,7 +266,7 @@ class TheaterDao extends DaoBD implements ITheaterDao
     /**
      * Checks difference in seatTypes, adds, and removes if neccesary
      */
-    public function updateSeatTypes(Theater $oldTheater, Theater $newTheater)
+    private function updateSeatTypes(Theater $oldTheater, Theater $newTheater)
     {
         try {
             $newSeatTypeArr = array();

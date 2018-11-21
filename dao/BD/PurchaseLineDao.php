@@ -297,7 +297,7 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
         }
     }
 
-    public function getSeatsByEventById($idSeatsByEvent)
+    private function getSeatsByEventById($idSeatsByEvent)
     {   
         $parameters = get_defined_vars();
         $seatsByEvent = null;
@@ -348,7 +348,7 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
         return $seatsByEvent;
     }
 
-    public function getEventByDateById($idEventByDate)
+    private function getEventByDateById($idEventByDate)
     {
         $parameters = get_defined_vars();
         $eventByDate = null;
@@ -409,7 +409,7 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
         return $eventByDate;
     }
 
-    public function getTheaterByIdLazy($idTheater)
+    private function getTheaterByIdLazy($idTheater)
     {
         $parameters = get_defined_vars();
 

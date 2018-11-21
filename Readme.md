@@ -35,19 +35,22 @@ DONE
 - userLogged checks in controller constructor for admin pages, and check for sensitive areas in user zone
 - purchase process ready
 - user menu (+view tickets, view data, modify data, change password, etc)
-
+- decomment adminLogged in admin and management areas when finished
+- cleanup controllers, set correct try-catch, check for null and empty arrays, and other proper checks
+- Theater Managment add -> transform to javascript (not a priority)
+- Theater Managment list -> javascript that expands seatTypelist
+- For events, make a search by event name, by artist name, and by date, and by categories (combobox) (low prority)
+- change getall() to getAttributes() where necessary, done in daos, check controllers
+- Put methods in interfaces once all daos are complete
+- Test dao methods after dao code clean up, need a second test after loadtype changes
 
 TO DO
 
-- Put methods in interfaces once all daos are complete
-- decomment adminLogged in admin and management areas when finished
-- change getall() to getAttributes() where necessary, done in daos, check controllers
-- cleanup controllers, set correct try-catch, check for null and empty arrays, and other proper checks
-- Test dao methods after dao code clean up, need a second test after loadtype changes
+- Last test for management clases
+- add edit to SeatsByEvent
 
-- Theater Managment add -> transform to javascript (not a priority)
-- Theater Managment list -> javascript that expands seatTypelist
 
-- For events, make a search by event name, by artist name, and by date, and by categories (combobox) (low prority)
+
+
 
  
