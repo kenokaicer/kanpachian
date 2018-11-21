@@ -73,6 +73,10 @@ class PurchaseController
         require VIEWS_PATH."Event.php";
     }
 
+    /**
+     * Returns array with events by category, used in navbar
+     * categories as key
+     */
     public static function getCategoryList()
     {
         try{
@@ -99,7 +103,7 @@ class PurchaseController
     public function searchByArtist($artistString)
     {
         try{
-            $artistList = $this->artistDao->getByNameOrAndLastname($artistString);
+            $artistList = $this->artistDao->getByNameOrAndLastname($artistString); //using BD like
 
             if(empty($artistList)){
                 echo "<script> alert('No hay coincidencias'); 
@@ -183,13 +187,19 @@ class PurchaseController
         require VIEWS_PATH."SeatsByEvent.php";
     }
 
+    /**
+     * Shows view with purchase data
+     * checks if theres a creditCard asosiated with client
+     */
     public function confirmPurchase()
     {
         try{
             Session::userLogged();
             Session::virtualCartCheck();
             
-            if(empty($_SESSION["virtualCart"])){ //There's a check in the view already
+            //Check if there are PurchaseLines
+            //There is a check in the view already
+            if(empty($_SESSION["virtualCart"])){ 
                 echo "<script>window.location.replace('".FRONT_ROOT."Cart/index');</script>";
                 exit;
             }
@@ -216,7 +226,10 @@ class PurchaseController
         }
     }
 
-    public function completePurchase() //add try-catch
+    /**
+     * store purchase, purchaseLines, and tickets
+     */
+    public function completePurchase()
     {
         Session::userLogged();
         Session::virtualCartCheck();
@@ -305,12 +318,15 @@ class PurchaseController
         require VIEWS_PATH."Cart.php";
     }
 
+    /**
+     * Checks if user is logged, if it's not asks to login, redirecting back to this method
+     */
     public function addPurchaseLine($quantity=null, $idSeatsByEvent=null)
     {
         try{
-            if(!isset($_SESSION["userLogged"]))
+            if(!isset($_SESSION["userLogged"])) //if not logged
             {   
-                if(isset($idSeatsByEvent)){
+                if(isset($idSeatsByEvent)){ //store data for redirect
                     $arr = array();
                     $arr[] = $idSeatsByEvent;
                     $arr[] = $quantity;
@@ -322,7 +338,7 @@ class PurchaseController
                 exit;
             }
 
-            if(isset($_SESSION["lastLocation"]))
+            if(isset($_SESSION["lastLocation"])) //if comming from redirect set stored data
             {
                 $arr = $_SESSION["lastLocation"];
                 Session::remove("lastLocation");
@@ -330,14 +346,16 @@ class PurchaseController
                 $quantity = $arr[1];
             }
 
-            if(isset($idSeatsByEvent)){
+            if(isset($idSeatsByEvent)){ //check for something that could have been wrong in the redirect
                 Session::virtualCartCheck();
 
                 $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent, LoadType::Lazy1);
                 
-                if(!is_null($seatsByEvent))
+                if(!is_null($seatsByEvent)) //this should never be null
                 {
-                    if($seatsByEvent->getRemnants() > $quantity){ //Check already done in EventByDate view
+                    //Check there's availability of seats 
+                    //Check already done in EventByDate view
+                    if($seatsByEvent->getRemnants() > $quantity){ 
                         
                         $purchaseLine = new PurchaseLine();
 

@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Dao\BD\UserDao as UserDao;
+use Dao\BD\ClientDao as ClientDao;
 use Models\User as User;
 use Models\Role as Role;
 use Exception as Exception;
@@ -15,7 +16,8 @@ class UserManagementController
     public function __construct()
     {
         Session::adminLogged();
-        $this->userDao = new UserDao(); //BD
+        $this->userDao = new UserDao();
+        $this->clientDao = new ClientDao();
     }
 
     public function index()
@@ -32,7 +34,7 @@ class UserManagementController
     public function addUser($userName,$password,$email="",$role)
     {
         try{
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // hash and salt password
             
             $user = new User();
             
@@ -64,9 +66,12 @@ class UserManagementController
     public function deleteUser($idUser)
     {
         try{
-            $user = $this->userDao->getById($idUser);
+            $client = $this->clientDao->getByUserId($idUser);
+            $user = $client->getUser();
+
             $this->userDao->Delete($user);
-            echo "<script> alert('Usuario eliminado exitosamente');</script>";
+            $this->clientDao->Delete($client);
+            echo "<script> alert('Usuario y Cliente eliminado exitosamente');</script>";
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 

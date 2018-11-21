@@ -68,7 +68,6 @@
     </section> 
 </div>
 
-                            <button onclick="sendx()">probar</button>
 
 <script>
 
@@ -98,6 +97,8 @@ function send()
         $('#artistHidden').append("<input type='hidden' value='"+artistListJson+"' name='artistList'>");
         document.getElementById("artistSelect").disabled = true;
         ok = true;
+    }else{
+        alert('Agrege al menos un artista');
     }
 
     return ok;

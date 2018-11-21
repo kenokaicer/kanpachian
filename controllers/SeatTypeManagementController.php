@@ -29,21 +29,26 @@ class SeatTypeManagementController
 
     public function addSeatType($name, $description)
     {
-        $seatType = new SeatType();
-        
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        
-        $seatTypeAttributeList = array_combine(array_keys($seatType->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-        
-        foreach ($seatTypeAttributeList as $attribute => $value) {
-            $seatType->__set($attribute,$value);
-        }
-
         try{
-            $this->seatTypeDao->Add($seatType);
-            echo "<script> alert('Tipo de asiento agregado exitosamente');</script>";
-        }catch (Exception $ex){
+            if(is_null($this->seatTypeDao->getBySeatTypeName($name)))
+            {
+                $seatType = new SeatType();
+                
+                $args = func_get_args();
+                array_unshift($args, null); //put null at first of array for id
+                
+                $seatTypeAttributeList = array_combine(array_keys($seatType->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+                
+                foreach ($seatTypeAttributeList as $attribute => $value) {
+                    $seatType->__set($attribute,$value);
+                }
+
+                $this->seatTypeDao->Add($seatType);
+                echo "<script> alert('Tipo de asiento agregado exitosamente');</script>";
+            }else{
+                echo "<script> alert('Tipo de asiento ya existente');</script>";
+            }
+            }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar el tipo de asiento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
         
@@ -62,10 +67,10 @@ class SeatTypeManagementController
     }
 
     public function deleteSeatType($idSeatType)
-    {
-        $seatType = $this->seatTypeDao->getById($idSeatType);
-
+    {   
         try{
+            $seatType = $this->seatTypeDao->getById($idSeatType);
+
             $this->seatTypeDao->Delete($seatType);
             echo "<script> alert('Tipo de asiento eliminado exitosamente');</script>";
         } catch (Exception $ex) {
@@ -96,19 +101,24 @@ class SeatTypeManagementController
      */
     public function editSeatType($oldIdSeatType, $name, $description)
     {
-        $oldSeatType = $this->seatTypeDao->getById($oldIdSeatType);
-        $newSeatType = new SeatType();
-
-        $args = func_get_args();
-        $seatTypeAttributeList = array_combine(array_keys($newSeatType->getAll()),array_values($args)); 
-
-        foreach ($seatTypeAttributeList as $attribute => $value) {
-            $newSeatType->__set($attribute,$value);
-        }
-
         try{
-            $this->seatTypeDao->Update($oldSeatType, $newSeatType);
-            echo "<script> alert('Tipo de asiento modificado exitosamente');</script>";
+            if(is_null($this->seatTypeDao->getBySeatTypeName($name)))
+            {
+                $oldSeatType = $this->seatTypeDao->getById($oldIdSeatType);
+                $newSeatType = new SeatType();
+
+                $args = func_get_args();
+                $seatTypeAttributeList = array_combine(array_keys($newSeatType->getAll()),array_values($args)); 
+
+                foreach ($seatTypeAttributeList as $attribute => $value) {
+                    $newSeatType->__set($attribute,$value);
+                }
+
+                $this->seatTypeDao->Update($oldSeatType, $newSeatType);
+                echo "<script> alert('Tipo de asiento modificado exitosamente');</script>";
+            }else{
+                echo "<script> alert('Tipo de asiento ya existente');</script>";
+            }
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el tipo de asiento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }

@@ -28,10 +28,18 @@ class EventManagementController
 
     public function viewAddEvent()
     {
-        $categoryList = $this->categoryDao->getAll();
+        try{
+            $categoryList = $this->categoryDao->getAll();
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar categorías. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+        }
+
         require VIEWS_PATH.$this->folder."EventManagementAdd.php";
     }
 
+    /**
+     * Not using exist check, on purpose
+     */
     public function addEvent($eventName, $description, $idCategory)
     {
         try{
@@ -59,20 +67,11 @@ class EventManagementController
             foreach ($eventAttributeList as $attribute => $value) {
                 $event->__set($attribute,$value);
             }
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-        }
-
-        try{
+        
             $category = $this->categoryDao->getById($idCategory);
 
             $event->setCategory($category);
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
-        }
-
-        try{
+        
             $this->eventDao->Add($event);
             echo "<script> alert('Evento agregado exitosamente');</script>";
         }catch (Exception $ex){
@@ -94,9 +93,9 @@ class EventManagementController
 
     public function deleteEvent($id)
     {
-        $event = $this->eventDao->getById($id);
-
         try{
+            $event = $this->eventDao->getById($id);
+
             $this->eventDao->Delete($event);
             echo "<script> alert('Eventa eliminado exitosamente');</script>";
         } catch (Exception $ex) {

@@ -96,9 +96,9 @@ class TheaterManagementController
 
     public function deleteTheater($id)
     {
-        $theater = $this->theaterDao->getById($id);
-
         try{
+            $theater = $this->theaterDao->getById($id);
+
             $this->theaterDao->Delete($theater);
             echo "<script> alert('Teatro eliminado exitosamente');</script>";
         } catch (Exception $ex) {
@@ -122,8 +122,6 @@ class TheaterManagementController
 
     public function editTheater($oldIdTheater, $theaterName, $location, $address, $maxCapacity, $idSeatTypeList)
     {
-        $oldTheater = $this->theaterDao->getById($oldIdTheater);
-
         try{
             if (!empty($_FILES['file']['name'])) {
                 $file = $_FILES['file'];
@@ -136,6 +134,8 @@ class TheaterManagementController
         }
         
         try{
+            $oldTheater = $this->theaterDao->getById($oldIdTheater);
+
             $theater = new Theater();
 
             $args = func_get_args();

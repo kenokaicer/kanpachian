@@ -28,21 +28,27 @@ class CategoryManagementController
     }
 
     public function addCategory($categoryName)
-    {
-        $category = new Category();
-        
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        
-        $categoryAttributeList = array_combine(array_keys($category->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-        
-        foreach ($categoryAttributeList as $attribute => $value) {
-            $category->__set($attribute,$value);
-        }
-
+    {   
         try{
-            $this->categoryDao->Add($category);
-            echo "<script> alert('Categoría agregada exitosamente');</script>";
+            if(is_null($this->categoryDao->getByCategoryName($categoryName)))
+            {
+                $category = new Category();
+            
+                $args = func_get_args();
+                array_unshift($args, null); //put null at first of array for id
+                
+                $categoryAttributeList = array_combine(array_keys($category->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+                
+                foreach ($categoryAttributeList as $attribute => $value) {
+                    $category->__set($attribute,$value);
+                }
+            
+                $this->categoryDao->Add($category);
+                echo "<script> alert('Categoría agregada exitosamente');</script>";
+            }else{
+                echo "<script> alert('Categoría ya existente');</script>";
+            }
+            
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
@@ -63,9 +69,9 @@ class CategoryManagementController
 
     public function deleteCategory($idCategory)
     {
-        $category = $this->categoryDao->getById($idCategory);
-
         try{
+            $category = $this->categoryDao->getById($idCategory);
+
             $this->categoryDao->Delete($category);
             echo "<script> alert('Categoría eliminada exitosamente');</script>";
         } catch (Exception $ex) {
@@ -81,8 +87,12 @@ class CategoryManagementController
      */
     public function viewEditCategory($idCategory)
     {   
-        $oldCategory = $this->categoryDao->getById($idCategory);
-
+        try{
+            $oldCategory = $this->categoryDao->getById($idCategory);
+        } catch (Exception $ex) {
+            echo "<script> alert('Error al buscar categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
+        
         require VIEWS_PATH.$this->folder."CategoryManagementEdit.php";
     }
 
@@ -92,19 +102,24 @@ class CategoryManagementController
      */
     public function editCategory($oldIdCategory, $category)
     {
-        $oldCategory = $this->categoryDao->getById($oldIdCategory);
-        $newCategory = new Category();
-
-        $args = func_get_args();
-        $categoryAttributeList = array_combine(array_keys($newCategory->getAll()),array_values($args)); 
-
-        foreach ($categoryAttributeList as $attribute => $value) {
-            $newCategory->__set($attribute,$value);
-        }
-
         try{
-            $this->categoryDao->Update($oldCategory, $newCategory);
-            echo "<script> alert('Categoría modificada exitosamente');</script>";
+            if(is_null($this->categoryDao->getByCategoryName($category)))
+            {
+                $oldCategory = $this->categoryDao->getById($oldIdCategory);
+                $newCategory = new Category();
+
+                $args = func_get_args();
+                $categoryAttributeList = array_combine(array_keys($newCategory->getAll()),array_values($args)); 
+
+                foreach ($categoryAttributeList as $attribute => $value) {
+                    $newCategory->__set($attribute,$value);
+                }
+
+                $this->categoryDao->Update($oldCategory, $newCategory);
+                echo "<script> alert('Categoría modificada exitosamente');</script>";
+            }else{
+                echo "<script> alert('Categoría ya existente');</script>";
+            }
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo modificar el categoría " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }

@@ -53,7 +53,41 @@ class CategoryDao implements ICategoryDao
             $categoryAttributes = array_keys(Category::getAttributes()); //get attribute names from object for use in __set
 
             $query = "SELECT * FROM " . $this->tableName .
-                " WHERE ".$categoryAttributes[0]." = :".key($parameters);
+                " WHERE ".$categoryAttributes[0]." = :".key($parameters)."
+                AND enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query,$parameters);
+            
+            if(sizeof($resultSet)>1){
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
+            }
+            
+            foreach ($resultSet as $row) //loops returned rows
+            {   
+                $category =  new Category();            
+                foreach ($categoryAttributes as $value) { //auto fill object with magic function __set
+                    $category->__set($value, $row[$value]);
+                }
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $category;
+    }
+
+    public function getByCategoryName($categoryName)
+    {   
+        $parameters = get_defined_vars();
+        $category = null;
+
+        try {
+            $categoryAttributes = array_keys(Category::getAttributes()); //get attribute names from object for use in __set
+
+            $query = "SELECT * FROM " . $this->tableName .
+                " WHERE categoryName = :".key($parameters);
         
             $resultSet = $this->connection->Execute($query,$parameters);
             

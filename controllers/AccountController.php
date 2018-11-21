@@ -4,6 +4,7 @@ use Dao\BD\UserDao as UserDao;
 use Dao\BD\ClientDao as ClientDao;
 use Dao\BD\CreditCardDao as CreditCardDao;
 use Dao\BD\PurchaseDao as PurchaseDao;
+use Dao\BD\TicketDao as TicketDao;
 use Dao\BD\LoadType as LoadType;
 use Models\User as User;
 use Models\Client as Client;
@@ -23,6 +24,7 @@ class AccountController
         $this->clientDao = new ClientDao();
         $this->creditCardDao = new CreditCardDao();
         $this->purchaseDao = new PurchaseDao();
+        $this->ticketDao = new TicketDao();
     }
 
     public function index()
@@ -59,9 +61,7 @@ class AccountController
             {
                 echo "<script> alert('Datos ingresados no correctos');</script>";
             }
-            else if(password_verify($password, $user->getPassword())){
-             //check if password provided coincides with hashed and salted one in BD
-            
+            else if(password_verify($password, $user->getPassword())){ //check if password provided coincides with hashed and salted one in BD
                 Session::add("userLogged", $user);
                 
                 if($user->getRole() == "Common"){
@@ -169,6 +169,9 @@ class AccountController
         require VIEWS_PATH."CreditCard.php"; 
     }
 
+    /**
+     * This in the future should have an api that validates credit cards
+     */
     public function registerCreditCard($creditCardNumber,$expirationDate,$cardHolder,$redirect="yes")
     {
         Session::userLogged();
@@ -178,22 +181,33 @@ class AccountController
             array_pop($args);
             array_unshift($args, null);
 
-            $creditCardAttributes = CreditCard::getAttributes();
+            $creditCard = $this->creditCardDao->getByCreditCardNumber($creditCardNumber);
 
-            $artistAttributeList = array_combine(array_keys($creditCardAttributes), $args);
+            /**
+             * check if creditCard is already in the database
+             * if it's not, add it
+             * if it is link that one to the client
+             */
+            if(is_null($creditCard)) 
+            {
+                $creditCardAttributes = CreditCard::getAttributes();
 
-            $artistAttributeList["expirationDate"] = date("Y-m-d", strtotime($artistAttributeList["expirationDate"])); //transform YYYY-MM into YYYY-MM-DD for database format
+                $artistAttributeList = array_combine(array_keys($creditCardAttributes), $args);
 
-            $creditCard = new CreditCard();
-            foreach ($artistAttributeList as $attribute => $value) {
-                $creditCard->__set($attribute,$value);
+                $artistAttributeList["expirationDate"] = date("Y-m-d", strtotime($artistAttributeList["expirationDate"])); //transform YYYY-MM into YYYY-MM-DD for database format
+
+                $creditCard = new CreditCard();
+                foreach ($artistAttributeList as $attribute => $value) {
+                    $creditCard->__set($attribute,$value);
+                }
+
+                $idCreditCard = $this->creditCardDao->addReturningId($creditCard);
+            }else{
+                $idCreditCard = $creditCard->getIdCreditCard();
             }
-            
-            $idUser = $_SESSION["userLogged"]->getIdUser();
 
-            $idCreditCard = $this->creditCardDao->addReturningId($creditCard);
+            $idUser = $_SESSION["userLogged"]->getIdUser();
             $client = $this->clientDao->getByUserId($idUser);
-            
             $idClient = $client->getIdClient();
 
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
@@ -292,5 +306,23 @@ class AccountController
         }
 
         $this->accountView();
+    }
+
+    /**
+     * This should have some kind of obscuration, as giving anyone the chance to input any id in the address is not secure
+     */
+    public function viewTicket($idTicket)
+    {
+        try{
+            $ticket = $this->ticketDao->getById($idTicket);
+            $ticketList = array();
+            $ticketList[] = $ticket;
+            setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
+        }catch (Exception $ex){
+            echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+        }
+        
+        require VIEWS_PATH."ticket.php";
     }
 }

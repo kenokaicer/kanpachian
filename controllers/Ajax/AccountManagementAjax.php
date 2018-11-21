@@ -1,5 +1,4 @@
 <?php namespace Controllers\Ajax; 
-//To do : errors.
 
 require_once "../../config/Config.php";
 require_once "../../config/Autoload.php";

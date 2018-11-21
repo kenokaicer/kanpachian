@@ -80,6 +80,39 @@ class SeatTypeDao implements ISeatTypeDao
         return $seatType;
     }
 
+    public function getBySeatTypeName($seatTypeName)
+    {   
+        $parameters = get_defined_vars();
+        $seatType = null;
+        
+        try {
+            $seatTypeAttributes = array_keys(SeatType::getAttributes()); //get attribute names from object for use in __set
+
+            $query = "SELECT * FROM " . $this->tableName ." 
+                WHERE seatTypeName = :".key($parameters);
+            
+            $resultSet = $this->connection->Execute($query,$parameters);
+            
+            if(sizeof($resultSet)>1){
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) { //auto fill object with magic function __set
+                    $seatType->__set($value, $row[$value]);
+                }
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $seatType;
+    }
+
     public function getAll()
     {
         $seatTypeList = array();

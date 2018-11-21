@@ -21,44 +21,44 @@ class ClientManagementController
     }
 
     public function index()
-    { //agregar validaciones aca (ej userLogged)
-
+    { 
         require VIEWS_PATH.$this->folder."ClientManagement.php";
     }
 
-    public function viewAddClient()
+    /**
+     * Not used
+     */
+    /*public function viewAddClient()
     {
         $categoryList = $this->categoryDao->getAll();
         require VIEWS_PATH.$this->folder."ClientManagementAdd.php";
-    }
+    }*/
 
-    public function addClient($name, $lastname, $dni, $idUser)
+    /**
+     * Not used
+     */
+    /*public function addClient($name, $lastname, $dni, $idUser)
     {
-        $client = new Client();
-
-        $clientAttributes = $client->getAll();
-        array_pop($clientAttributes);
-        
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        array_pop($args);
-        
-        $clientAttributeList = array_combine(array_keys($clientAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-
-        foreach ($clientAttributeList as $attribute => $value) {
-            $client->__set($attribute,$value);
-        }
-
         try{
+
+            $client = new Client();
+
+            $clientAttributes = $client->getAll();
+            
+            $args = func_get_args();
+            array_unshift($args, null); //put null at first of array for id
+            array_pop($args);
+            
+            $clientAttributeList = array_combine(array_keys($clientAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+
+            foreach ($clientAttributeList as $attribute => $value) {
+                $client->__set($attribute,$value);
+            }
+
             $user = $this->userDao->getById($idUser);
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
-        }
 
-        $client->setUser($user);
+            $client->setUser($user);
 
-        try{
             $this->clientDao->Add($client);
             echo "<script> alert('Cliente agregado exitosamente');</script>";
         }catch (Exception $ex){
@@ -66,7 +66,7 @@ class ClientManagementController
         }
         
         $this->index();
-    }
+    }*/
 
     public function clientList()
     {
@@ -79,35 +79,34 @@ class ClientManagementController
     }
 
     public function deleteClient($id)
-    {
-        $client = $this->clientDao->getById($id);
-
+    {   
         try{
+            $client = $this->clientDao->getById($id);
+
+            $this->userDao->Delete($client->getUser());
             $this->clientDao->Delete($client);
-            echo "<script> alert('Clienta eliminado exitosamente');</script>";
+            echo "<script> alert('Cliente y usuario eliminado exitosamente');</script>";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el cliente. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->clientList();
     }
 
     /**
-     * Recieve id of Client to edit, retrieve by DAO for diplaying in the forms,
-     * then after the modifications sends them to this->editClient
+     * Not Used
      */
-    public function viewEditClient($idClient)
+    /*public function viewEditClient($idClient)
     {   
         $oldClient = $this->clientDao->getById($idClient);
 
         require VIEWS_PATH.$this->folder."ClientManagementEdit.php";
-    }
+    }*/
 
     /**
-     * Recieve modified attributes for object Client
-     * and old object by id, call dao update
+     * Not Used
      */
-    public function editClient($oldIdClient, $client)
+    /*public function editClient($oldIdClient, $client)
     {
         $oldClient = $this->clientDao->getById($oldIdClient);
         $newClient = new Client();
@@ -127,6 +126,6 @@ class ClientManagementController
         }
 
         $this->clientList();
-    }
+    }*/
 
 }

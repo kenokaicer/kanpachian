@@ -31,18 +31,18 @@ class ArtistManagementController
 
     public function addArtist($name, $lastname)
     {
-        $artist = new Artist();
-        
-        $args = func_get_args();
-        array_unshift($args, null); //put null at first of array for id
-        
-        $artistAttributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-        
-        foreach ($artistAttributeList as $attribute => $value) {
-            $artist->__set($attribute,$value);
-        }
-
         try{
+            $artist = new Artist();
+            
+            $args = func_get_args();
+            array_unshift($args, null); //put null at first of array for id
+            
+            $artistAttributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+            
+            foreach ($artistAttributeList as $attribute => $value) {
+                $artist->__set($attribute,$value);
+            }
+
             $this->artistDao->Add($artist);
             echo "<script> alert('Artista agregado exitosamente');</script>";
         }catch (Exception $ex){
@@ -65,9 +65,9 @@ class ArtistManagementController
 
     public function deleteArtist($idArtist)
     {
-        $artist = $this->artistDao->getById($idArtist);
-
         try{
+            $artist = $this->artistDao->getById($idArtist);
+ 
             $this->artistDao->Delete($artist);
             echo "<script> alert('Artista eliminado exitosamente');</script>";
         } catch (Exception $ex) {
@@ -83,8 +83,12 @@ class ArtistManagementController
      */
     public function viewEditArtist($idArtist)
     {   
-        $oldArtist = $this->artistDao->getById($idArtist);
-
+        try{
+            $oldArtist = $this->artistDao->getById($idArtist);
+        }catch (Exception $ex) {
+            echo "<script> alert('Error al intentar buscar Artista: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        }
+        
         require VIEWS_PATH.$this->folder."ArtistManagementEdit.php";
     }
 
@@ -94,17 +98,17 @@ class ArtistManagementController
      */
     public function editArtist($oldIdArtist, $name, $lastname)
     {
-        $oldArtist = $this->artistDao->getById($oldIdArtist);
-        $newArtist = new Artist();
-
-        $args = func_get_args();
-        $artistAttributeList = array_combine(array_keys($newArtist->getAll()),array_values($args)); 
-
-        foreach ($artistAttributeList as $attribute => $value) {
-            $newArtist->__set($attribute,$value);
-        }
-
         try{
+            $oldArtist = $this->artistDao->getById($oldIdArtist);
+            $newArtist = new Artist();
+
+            $args = func_get_args();
+            $artistAttributeList = array_combine(array_keys($newArtist->getAll()),array_values($args)); 
+
+            foreach ($artistAttributeList as $attribute => $value) {
+                $newArtist->__set($attribute,$value);
+            }
+
             $this->artistDao->Update($oldArtist, $newArtist);
             echo "<script> alert('Artista modificado exitosamente');</script>";
         }catch (Exception $ex) {

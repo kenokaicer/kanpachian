@@ -108,7 +108,7 @@
 
         function fillTable(item)
         {
-            var markup = "<tr><form method='post'><input type='hidden' name='idSeatsByEvent' value='"+item.idSeatsByEvent+"'><td>"+item.seatTypeName+"</td><td>"+item.quantity+"</td><td>"+item.price+"</td><td>"+item.remnants+"</td><td><input type='submit' value='Editar' formaction='<?=FRONT_ROOT?>SeatsByEventManagement/viewEditCategory'></td><td><input type='submit' value='Eliminar' formaction='<?=FRONT_ROOT?>SeatsByEventManagement/deleteCategory'></td></form></tr>";
+            var markup = "<tr><td>"+item.seatTypeName+"</td><td>"+item.quantity+"</td><td>"+item.price+"</td><td>"+item.remnants+"</td><td><a href='<?=FRONT_ROOT?>SeatsByEventManagement/viewEditSeatsByEvent?idSeatsByEvent="+item.idSeatsByEvent+"'>Editar</a></td><td><a href='<?=FRONT_ROOT?>SeatsByEventManagement/deleteSeatsByEvent?idSeatsByEvent="+item.idSeatsByEvent+"'>Eliminar</a></td></tr>";
             $('#seatsByEventTable').append(markup);
         }
       

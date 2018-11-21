@@ -52,20 +52,20 @@ class EventByDateManagementController
         $eventByDate = new EventByDate();
         
         try{
-        $eventByDate->setDate($date);
-        
-        $theater = $this->theaterDao->getById($idTheater);
-        $event = $this->eventDao->getById($idEvent);
+            $eventByDate->setDate($date);
+            
+            $theater = $this->theaterDao->getById($idTheater);
+            $event = $this->eventDao->getById($idEvent);
 
-        $eventByDate->setTheater($theater);
-        $eventByDate->setEvent($event);
+            $eventByDate->setTheater($theater);
+            $eventByDate->setEvent($event);
 
-        $idArtistList = json_decode($idArtistList);
+            $idArtistList = json_decode($idArtistList);
 
-        foreach ($idArtistList as $idArtist) {
-            $artist = $this->artistDao->getById($idArtist);
-            $eventByDate->addArtist($artist);
-        }
+            foreach ($idArtistList as $idArtist) {
+                $artist = $this->artistDao->getById($idArtist);
+                $eventByDate->addArtist($artist);
+            }
 
             $this->eventByDateDao->Add($eventByDate);
             echo "<script> alert('Calendario agregado exitosamente');</script>";
@@ -87,22 +87,12 @@ class EventByDateManagementController
         require VIEWS_PATH.$this->folder."EventByDateManagementList.php";
     }
 
-    public function eventByDateList2($idEvent)
-    {
-        try{
-            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent, LoadType::Lazy1);//get by Event, lazy load, omit seatTypes for theater, Event and Category
-        }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Calendarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-        }
-
-        require VIEWS_PATH.$this->folder."EventByDateManagementList2.php";
-    }
 
     public function deleteEventByDate($id)
     {
-        $eventByDate = $this->eventByDateDao->getById($idEventByDate);
-
         try{
+            $eventByDate = $this->eventByDateDao->getById($idEventByDate);
+
             $this->eventByDateDao->Delete($eventByDate);
             echo "<script> alert('Calendario eliminado exitosamente');</script>";
         } catch (Exception $ex) {
@@ -118,7 +108,11 @@ class EventByDateManagementController
      */
     public function viewEditEventByDate($idEventByDate)
     {   
-        $oldEventByDate = $this->eventByDateDao->getById($idEventByDate);
+        try{
+            $oldEventByDate = $this->eventByDateDao->getById($idEventByDate);
+        } catch (Exception $ex) {
+            echo "<script> alert('No se pudo cargar calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+        } 
 
         require VIEWS_PATH.$this->folder."EventByDateManagementEdit.php";
     }
@@ -129,17 +123,17 @@ class EventByDateManagementController
      */
     public function editEventByDate($oldIdEventByDate, $eventByDate)
     {
-        $oldEventByDate = $this->eventByDateDao->getById($oldIdEventByDate);
-        $newEventByDate = new EventByDate();
-
-        $args = func_get_args();
-        $eventByDateAttributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
-
-        foreach ($eventByDateAttributeList as $attribute => $value) {
-            $newEventByDate->__set($attribute,$value);
-        }
-
         try{
+            $oldEventByDate = $this->eventByDateDao->getById($oldIdEventByDate);
+            $newEventByDate = new EventByDate();
+
+            $args = func_get_args();
+            $eventByDateAttributeList = array_combine(array_keys($newEventByDate->getAll()),array_values($args)); 
+
+            foreach ($eventByDateAttributeList as $attribute => $value) {
+                $newEventByDate->__set($attribute,$value);
+            }
+
             $this->eventByDateDao->Update($oldEventByDate, $newEventByDate);
             echo "<script> alert('Calendario modificada exitosamente');</script>";
         }catch (Exception $ex) {

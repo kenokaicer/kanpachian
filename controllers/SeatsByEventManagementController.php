@@ -45,40 +45,24 @@ class SeatsByEventManagementController
         require VIEWS_PATH.$this->folder."SeatsByEventManagementAdd.php";
     }
 
-    public function ajaxGetEventByDates($idEvent) //doesn't work as it returns header and footer in response (router problem)
-    {
-        try{
-            $eventByDateList = $this->eventByDateDao->getByEventId($idEvent);
-            echo json_encode($eventByDateList);
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
-        }
-    }
-
-    public function test($var)
-    {
-
-    }
-
     /**
      * Now only adding one seat at a time
      */
     public function addSeatsByEvent($eventByDateId, $seatTypeId, $quantity, $price)
     {
-
-        //var_dump(func_get_args());
-
         $seatsByEvent = new SeatsByEvent();
 
-        try{ //this isn't necessary if loading all at the same time
+        //get already inserted SeatsByEvent
+        //this isn't necessary if loading all at the same time
+        try{ 
             $seatTypesAlreadyAdded = $this->seatsByEventDao->getIdSeatTypesByEventByDate($eventByDateId);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar plazas evento ya insertadas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
         }
         
         //-----------------------
-        //deserialize:
+        //deserialize: This is done only if recieving all seatTypes at the same time, currently not done this way.
         //-seatTypeIdList
         //-quantityList
         //-priceList
@@ -88,6 +72,7 @@ class SeatsByEventManagementController
             $eventByDate = $this->eventByDateDao->getById($eventByDateId);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $this->index();
         }
         
         try{
@@ -116,6 +101,7 @@ class SeatsByEventManagementController
                     $this->seatsByEventDao->Add($seatsByEvent);
                 }catch (Exception $ex){
                     echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+                    $this->index();
                 }
             //}
 

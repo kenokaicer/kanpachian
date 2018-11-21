@@ -89,7 +89,44 @@ class CreditCardDao extends DaoBD implements ICreditCardDao
                 " WHERE ".$creditCardAttributes[0]." = :".key($parameters)." 
                 AND Enabled = 1";
         
-            $resultSet = $this->connection->Execute($query);
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            if(sizeof($resultSet)>1){
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $creditCard = new CreditCard();
+                foreach ($creditCardAttributes as $value) { //auto fill object with magic function __set
+                    $creditCard->__set($value, $row[$value]);
+                }
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $creditCard;
+    }
+
+    /**
+     * used to check if there's a card already in BD
+     */
+    public function getByCreditCardNumber($creditCardNumber)
+    {   
+        $parameters = get_defined_vars();
+        $creditCard = null;
+
+        try {
+            $creditCardAttributes = array_keys(CreditCard::getAttributes()); //get attribute names from object for use in __set
+
+            $query = "SELECT * FROM " . $this->tableName ." 
+                WHERE creditCardNumber = :".key($parameters)." 
+                AND Enabled = 1";
+        
+            $resultSet = $this->connection->Execute($query,$parameters);
 
             if(sizeof($resultSet)>1){
                 throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");

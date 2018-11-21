@@ -4,8 +4,8 @@
         <table>
             <thead>
                 <th>Categoría</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th style="width:15%">Editar</th>
+                <th style="width:15%">Eliminar</th>
             </thead>
             <tbody>
             <?php
