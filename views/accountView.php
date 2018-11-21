@@ -1,5 +1,5 @@
 <body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
-
+<main class="Site-content">
 
 <div id="additional-info" style="padding:0;height: 70px;">
     <div class="row" style="padding:0;height: 70px;">
@@ -9,8 +9,8 @@
     </div>
 
 </div>
-<div style="display: inline-block;border-style: none" id="intro">
-    <div class="wrapper" style="border-style:none;min-height:58vh;width:800px">
+<div style="border-style: none" id="intro">
+    <div class="wrapper" style="border-style:none;min-height:57.74vh;width:800px">
         <section class="app-feature-section">
             <div class="row align-middle">
 
@@ -94,7 +94,7 @@
 <script language='javascript' type='text/javascript'>
 function showCreditCard(){
     if($("#creditCardFields").is(":hidden")){
-        jQuery("#creditCardFields").show(1000); //$() is the same as jQuery()
+        $("#creditCardFields").show(1000);
     }else{
         $("#creditCardFields").hide(1000);
     }   
