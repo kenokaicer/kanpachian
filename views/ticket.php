@@ -1,5 +1,5 @@
 <?php
-   use chillerlan\QRCode\QRCode as QRCode;
+use chillerlan\QRCode\QRCode as QRCode;
 ?>
 <body class="Site"> <!--These two classes are needed for the footer to stick to the bottom of the page-->
 <main class="Site-content">
@@ -28,12 +28,10 @@
                   <img class="qr-code img-thumbnail img-responsive" id="content" src="
                   <?php
                   $data = $ticket->getQrCode();
-                  if(phpversion() > "7.2"){
-                     echo (new QRCode)->render($data);
-                  }else{
-                     /*Alternative version, with Google API*/
-                     echo "https://chart.googleapis.com/chart?cht=qr&chl=".$data."&chs=160x160&chld=L|0";
-                  }
+                  echo (new QRCode)->render($data);
+
+                  /*Alternative version, with Google API*/
+                  /*echo "https://chart.googleapis.com/chart?cht=qr&chl=".$data."&chs=160x160&chld=L|0";*/
                   ?> 
                   "
                   id="content">
