@@ -71,7 +71,7 @@ class TicketDao extends DaoBD implements ITicketDao
     }
 
     /**
-     * Used by qrCode
+     * used in old version of qrCode
      */
     public function getById($idTicket)
     {
@@ -96,6 +96,103 @@ class TicketDao extends DaoBD implements ITicketDao
                     INNER JOIN ".$this->tableNameTheaters." t 
                     ON ed.idTheater = t.idTheater 
                     WHERE ".$ticketAttributes[0]." = :".key($parameters)." 
+                    AND ti.enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            if(sizeof($resultSet)>1){
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
+            }
+
+            $theaterAttributes = array_keys(Theater::getAttributes());
+            $eventAttributes = array_keys(Event::getAttributes());
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+            $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
+            $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            $purchaseLineAttributes = array_keys(PurchaseLine::getAttributes());
+            
+            foreach ($resultSet as $row)
+            {
+                $theater = new Theater();
+                foreach ($theaterAttributes as $value) {
+                    $theater->__set($value, $row[$value]);
+                }
+
+                $event = new Event();
+                foreach ($eventAttributes as $value) {
+                    $event->__set($value, $row[$value]);
+                }
+
+                $eventByDate = new EventByDate();
+                foreach ($eventByDateAttributes as $value) {
+                    $eventByDate->__set($value, $row[$value]);
+                }
+
+                $eventByDate->setEvent($event);
+                $eventByDate->setTheater($theater);
+
+                $seatsByEvent = new SeatsByEvent();
+                foreach ($seatsByEventAttributes as $value) {
+                    $seatsByEvent->__set($value, $row[$value]);
+                }
+
+                $seatType = new SeatType();
+                foreach ($seatTypeAttributes as $value) {
+                    $seatType->__set($value, $row[$value]);
+                }
+
+                $seatsByEvent->setEventByDate($eventByDate);
+                $seatsByEvent->setSeatType($seatType);
+
+                $purchaseLine = new PurchaseLine();
+                foreach ($purchaseLineAttributes as $value) {
+                    $purchaseLine->__set($value, $row[$value]);
+                }
+
+                $purchaseLine->setSeatsByEvent($seatsByEvent);
+
+                $ticket = new Ticket();    
+                foreach ($ticketAttributes as $value) {
+                    $ticket->__set($value, $row[$value]);
+                }
+
+                $ticket->setPurchaseLine($purchaseLine);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $ticket;
+    }
+
+    /**
+     * Used for qrCode
+     */
+    public function getByTicketCode($ticketCode)
+    {
+        $parameters = get_defined_vars();
+        $ticket = null;  
+        
+        try {
+            $ticketAttributes = array_keys(Ticket::getAttributes());
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." ti 
+                    INNER JOIN ".$this->tableNamePurchaseLines." pl 
+                    ON ti.idPurchaseLine = pl.idPurchaseLine 
+                    INNER JOIN ".$this->tableNameSeatsByEvents." se 
+                    ON pl.idSeatsByEvent = se.idSeatsByEvent 
+                    INNER JOIN ".$this->tableNameSeatsTypes." st 
+                    ON se.idSeatType = st.idSeatType 
+                    INNER JOIN ".$this->tableNameEventByDates." ed 
+                    ON se.idEventByDate = ed.idEventByDate 
+                    INNER JOIN ".$this->tableNameEvents." e 
+                    ON ed.idEvent = e.idEvent 
+                    INNER JOIN ".$this->tableNameTheaters." t 
+                    ON ed.idTheater = t.idTheater 
+                    WHERE ticketCode = :".key($parameters)." 
                     AND ti.enabled = 1";
 
             $resultSet = $this->connection->Execute($query,$parameters);

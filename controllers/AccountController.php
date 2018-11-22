@@ -308,13 +308,10 @@ class AccountController
         $this->accountView();
     }
 
-    /**
-     * This should have some kind of obscuration, as giving anyone the chance to input any id in the address is not secure
-     */
-    public function viewTicket($idTicket)
+    public function viewTicket($ticketCode)
     {
         try{
-            $ticket = $this->ticketDao->getById($idTicket);
+            $ticket = $this->ticketDao->getByTicketCode($ticketCode);
             $ticketList = array();
             $ticketList[] = $ticket;
             setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success

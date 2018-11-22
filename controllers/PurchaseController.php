@@ -267,16 +267,12 @@ class PurchaseController
                 $ticket = new Ticket();
 
                 $ticket->setTicketCode(uniqid());
+                $ticket->setQrCode(FRONT_ROOT."Account/viewTicket?ticketCode=".$ticket->getTicketCode()); //set qrCode with ticket code
                 $purchaseLine->setIdPurchaseLine($idPurchaseLine);
                 $ticket->setPurchaseLine($purchaseLine);
 
-                $idTicket = $this->ticketDao->add($ticket); //add ticket returning id
-                $ticket->setIdTicket($idTicket);
-                $oldTicket = clone $ticket;
-                $ticket->setQrCode(FRONT_ROOT."Account/viewTicket?idTicket=".$idTicket); //set qrCode with ticket id
-
-                $this->ticketDao->update($oldTicket, $ticket); //update ticket with qrCode
-
+                $this->ticketDao->add($ticket);
+                
                 //deduct form remnants in seats by event 
                 //this could have been done with a dao method
 
