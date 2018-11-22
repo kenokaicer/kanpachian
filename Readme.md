@@ -52,7 +52,9 @@ TO DO
 
 - busqueda eventos por fecha
 - email
-- 
+- update checks future
+- creditCard error
+- lolapalooza, add calendar thats a sale, various dates
 
 
  
