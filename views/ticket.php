@@ -19,7 +19,7 @@ use chillerlan\QRCode\QRCode as QRCode;
          foreach ($ticketList as $ticket) {
       ?>
       <div id="ticket<?=$i?>">
-      <div  class="row add-people-section">
+      <div id="ticket" class="row add-people-section">
          <div id="ticket-padding-top" class="row">
          </div>
          <div class="row" style="text-align: left;">
@@ -131,14 +131,17 @@ function PrintElem(elem)
     mywindow.document.write("<link rel='stylesheet' href='<?=CSS_PATH?>foundation.css'>");
     mywindow.document.write("<link rel='stylesheet' href='<?=CSS_PATH?>foundation.min.css'>");
     mywindow.document.write("<link rel='stylesheet' href='<?=CSS_PATH?>ticket.css'>");
-    mywindow.document.write('</head><body >');    
+    mywindow.document.write("</head><body style='text-align:center'>");  
+    mywindow.document.write("<div id='print'>");  
     mywindow.document.write('<h1>Ticket</h1>');
     mywindow.document.write(elem.innerHTML);
+    mywindow.document.write("</div>"); 
     mywindow.document.write('</body></html>');
     mywindow.document.getElementById("div-print-button").style.display = "none"; 
+    mywindow.document.getElementById("print").style.display = "inline-block"; 
+    mywindow.document.getElementById("print").style.width = "75vw";
     mywindow.document.close(); // necessary for IE >= 10
     mywindow.focus(); // necessary for IE >= 10*/
-
     //mywindow.print();
     //mywindow.close();
 
