@@ -207,7 +207,7 @@ class AccountController
             }
 
             $idUser = $_SESSION["userLogged"]->getIdUser();
-            $client = $this->clientDao->getByUserId($idUser);
+            $client = $this->clientDao->getByUserId($idUser, LoadType::Lazy1);
             $idClient = $client->getIdClient();
 
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
