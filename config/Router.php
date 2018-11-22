@@ -14,9 +14,13 @@
 
                 $methodParameters = $request->getparameters();          
 
-                $controllerClassName = "Controllers\\". $controllerName;      
+                $controllerClassName = "Controllers\\". $controllerName;   
 
-            if(class_exists($controllerClassName)) //Checks if there is a controller or method with that name //dispaying php autoload warning, that should go away in a server
+            /**
+             * Checks if there is a controller or method with that name, otherwise go to 404 page
+             * @ is to suppress the autoload warning
+             */
+            if(@class_exists($controllerClassName))
             {
                 $controller = new $controllerClassName;
 
