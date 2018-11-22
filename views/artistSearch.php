@@ -9,36 +9,17 @@
         </div>
     </div>
 
-    <div id="intro"> <!-- https://foundation.zurb.com/building-blocks/index.html -->
-        <div class="row">
-            <div class="wrapper" style="border:none">
-            <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="post">
-            <div class="input-group-rounded">
-                <div style="float:left">
-                    <input class="animated-search-form input-group-field" name="q" type="search" placeholder="Busque por Artista..">
-                </div> 
-                <div class="input-group-button" style="float:left;height:37px">
-                    <input type="submit" class="button secondary" value="Buscar">
-                </div>
-            </div>
-            </form>
-                <img src="<?=IMG_PATH?>kappa.png" width="200"  alt="logo" />
-                <h3 class="color-white">Buscador</h3>
-                <h6 class="color-white" style="line-height: 27px;">Buscador
-                </h6>
-            </div>
-        </div>
-    </div>
-
-<div id="features">
-    <div class="wrapper" style="border:none">
+<div id="intro" style="min-height:67.25vh">
+    <div class="row" style="text-align:center">
+        <div class="wrapper" style="border:none;display:inline-block">
+        <section class="app-feature-section" style="border:none;border-radius: 25px;">
         <div class="polls">
             <h5 class="polls-question">
-                <span class="polls-question-label">O</span>
+                <span class="polls-question-label">o</span>
                 Más de un resultado econtrado, seleccione artista
             </h5>
             <div class="polls-options">
-                <form action="" method="post">
+                <form action="<?=FRONT_ROOT?>Purchase/showEventByDatesByArtist" method="post">
                 <?php 
                 $i=0;
                 foreach ($artistList as $artist) {
@@ -54,6 +35,8 @@
                 <input style="margin-top:20px" class="button" type="submit" value="Buscar">
                 </form>
             </div>
+        </div>
+        </section>
         </div>
     </div>
 </div>
