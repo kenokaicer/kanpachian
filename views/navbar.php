@@ -109,10 +109,9 @@
   }
 
   <?php
-  if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole() == "Admin")
-  {}else{
-  ?>
+  if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole() == "Common"){
   /*Set correct position to cart icon*/
+  ?>
   var userWidth = document.getElementById('user-name').clientWidth;
   userWidth += 6;
   document.getElementById('cart-icon-navbar').style.left = userWidth+"px";
