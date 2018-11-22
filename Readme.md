@@ -50,7 +50,9 @@ TO DO
 - add edit to SeatsByEvent
 
 
-
+- busqueda eventos por fecha
+- email
+- 
 
 
  
