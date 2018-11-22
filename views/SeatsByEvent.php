@@ -14,6 +14,7 @@
 
     <div class="row" style="padding:25px 0px 10px 0px;max-width:70vw">
         <?php 
+        $i=0;
         foreach ($seatsByEventList as $seatsByEvent) {
         ?>
        
@@ -28,17 +29,17 @@
                 <li class="bullet-item" style="display:inline-block;padding-bottom:0;padding-top:0">
                 <form action="<?=FRONT_ROOT?>Purchase/addPurchaseLine" method="get">
                     <div class="input-group plus-minus-input" style="margin: 0 auto">
-                    <div class="input-group-button">
-                        <button type="button" class="btn-minus-plus button hollow circle" data-quantity="minus" data-field="quantity">
-                        <i class="fa fa-minus" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <input style="width:80px;margin-top:15px"class="input-group-field" type="number" name="quantity" value="1" max="<?=$seatsByEvent->getRemnants()?>" required>
-                    <div class="input-group-button">
-                        <button type="button" class="btn-minus-plus button hollow circle" data-quantity="plus" data-field="quantity">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                    </div>
+                        <div class="input-group-button">
+                            <button type="button" class="btn-minus-plus button hollow circle" data-quantity="minus" data-field="quantity<?=$i?>">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <input style="width:80px;margin-top:15px" class="input-group-field" type="number" name="quantity<?=$i?>" value="1" max="<?=$seatsByEvent->getRemnants()?>" required>
+                        <div class="input-group-button">
+                            <button type="button" class="btn-minus-plus button hollow circle" data-quantity="plus" data-field="quantity<?=$i?>">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                 </li>
                 <li class="bullet-item" style="padding-top:0px;padding-bottom:0px">
@@ -49,7 +50,8 @@
             </ul>
         </div>
 
-        <?php    
+        <?php
+        $i++;  
         }
         ?>
     </div>
@@ -108,7 +110,7 @@ jQuery(document).ready(function(){
             $('input[name='+fieldName+']').val(0);
         }
     });
-    // This button will decrement the value till 0
+    // This button will decrement the value till 1
     $('[data-quantity="minus"]').click(function(e) {
         // Stop acting like a button
         e.preventDefault();
@@ -116,13 +118,13 @@ jQuery(document).ready(function(){
         fieldName = $(this).attr('data-field');
         // Get its current value
         var currentVal = parseInt($('input[name='+fieldName+']').val());
-        // If it isn't undefined or its greater than 0
-        if (!isNaN(currentVal) && currentVal > 0) {
+        // If it isn't undefined or its greater than 1
+        if (!isNaN(currentVal) && currentVal > 1) {
             // Decrement one
             $('input[name='+fieldName+']').val(currentVal - 1);
         } else {
-            // Otherwise put a 0 there
-            $('input[name='+fieldName+']').val(0);
+            // Otherwise put a 1 there
+            $('input[name='+fieldName+']').val(1);
         }
     });
 });
