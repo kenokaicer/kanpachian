@@ -26,9 +26,9 @@
     </div>
     <div class="row">
     <div class="wrapper" style="border:none;width:960px">
-        <?php
-        $columnQuantity = 3;
-        $boostrapDivision = 1./$columnQuantity;
+        <?php //Responsive columns not working right, use responsive element sorting of event, or evenyByDate views
+        $columnQuantity = 4;
+        $boostrapDivision = 12/$columnQuantity;
         $i=0;
         //var_dump($eventList);
         foreach($eventList as $event) 
