@@ -122,6 +122,20 @@ class PurchaseController
         }
     }
 
+    public function showEventByDate($date)
+    {
+        try{
+            $eventByDateList = $this->eventByDateDao->getAllByDate($date);
+            
+            setlocale(LC_TIME, array("ES","esl","spa"));
+        }catch (Exception $ex){
+            echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+        }
+
+        require VIEWS_PATH."EventByDateByDate.php";
+    }
+
     public function showEventByDatesByArtist($idArtist)
     {
         try{

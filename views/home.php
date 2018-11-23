@@ -15,13 +15,22 @@
             <form action="<?=FRONT_ROOT?>Purchase/searchByArtist" method="get">
                 <div class="input-group-rounded" style="display:inline-block">
                     <div style="float:left">
-                        <input style="min-width:200px" class="animated-search-form input-group-field" name="q" type="search" placeholder="Busque por Artista..">
+                        <input style="min-width:200px" class="animated-search-form input-group-field" name="q" type="search" placeholder="Busque por Artista.." required>
                     </div> 
                     <div class="input-group-button" style="float:left;height:37px">
                         <input type="submit" class="button secondary" value="Buscar">
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="wrapper" style="border:none;display:inline-block">
+            <div class="date-picker">
+	            <div class="input">
+                <form action="<?=FRONT_ROOT?>Purchase/showEventByDate" method="get">
+                  <input class="result" id="myDate" placeholder="Busque por Fecha" class="textbox-n" type="text" onfocus="(this.type='date')" name="date" required>
+                  <button type="submit"><i class="fa fa-calendar"></i></button>
+                </form>
+	            </div>
         </div>
     </div>
     <div class="row">
@@ -63,4 +72,8 @@
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
 
+<style>
+
+
+</style>
 

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?=CSS_PATH?>product-card.css">  
     <link rel="stylesheet" href="<?=CSS_PATH?>fade.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>search.css">
+    <link rel="stylesheet" href="<?=CSS_PATH?>date-home.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>radio.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>ticket.css">
     <link rel="stylesheet" href="<?=CSS_PATH?>footerPosition.css">
