@@ -62,6 +62,20 @@
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
 
+<style>
+table {
+  
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+
+}
+
+
+
+</style>
 <script>
     $('#cart-number').attr("data-count","<?php echo sizeof($_SESSION["virtualCart"])?>"); //set proper cart lenght, as navbar is loaded before the new purchaseLine
 </script>
