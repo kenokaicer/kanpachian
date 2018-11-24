@@ -36,7 +36,7 @@
     <div class="row">
     <div class="wrapper" style="border:none;width:960px">
         <?php //Responsive columns not working right, use responsive element sorting of event, or evenyByDate views
-        $columnQuantity = 4;
+        $columnQuantity = sizeof($eventList); 
         $boostrapDivision = 12/$columnQuantity;
         $i=0;
         //var_dump($eventList);
