@@ -2,10 +2,12 @@
 namespace Controllers;
 
 use Dao\BD\EventByDateDao as EventByDateDao;
+use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\EventDao as EventDao;
 use Dao\BD\LoadType as LoadType;
+use Dao\BD\PurchaseLineDao as PurchaseLineDao;
 use Models\EventByDate as EventByDate;
 use Models\Artist as Artist;
 use Exception as Exception;
@@ -14,18 +16,22 @@ use Cross\Session as Session;
 class EventByDateManagementController
 {
     private $eventByDateDao;
+    private $seatsByEventDao;
     private $theaterDao;
     private $artistDao;
     private $eventDao;
+    private $purchaseLineDao;
     private $folder = "Management/EventByDate/";
 
     public function __construct()
     {
         Session::adminLogged();
         $this->eventByDateDao = new EventByDateDao();
+        $this->seatsByEventDao = new SeatsByEventDao();
         $this->theaterDao = new TheaterDao();
         $this->artistDao = new ArtistDao();
         $this->eventDao = new EventDao();
+        $this->purchaseLineDao = new PurchaseLineDao();
     }
 
     public function index()
@@ -92,9 +98,24 @@ class EventByDateManagementController
     {
         try{
             $eventByDate = $this->eventByDateDao->getById($idEventByDate);
+            $empty = true;
 
-            $this->eventByDateDao->Delete($eventByDate);
-            echo "<script> alert('Calendario eliminado exitosamente');</script>";
+            if(date("Y-m-d") < $eventByDate->getDate()){ //check if eventByDate has expired, if not, do the rest of the check
+                $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate,LoadType::Lazy3);
+
+                foreach ($seatsByEventList as $seatsByEvent) {
+                    if(!empty($this->purchaseLineDao->getAllPastNowBySeatsByEvent($seatsByEvent->getIdSeatsByEvent()))){ //check if there are tickes sold for each seatsByEvent
+                        $empty = false;
+                    }
+                }
+            }
+            
+            if($empty){ //if empty wasn't modified by past checks, delete
+                $this->eventByDateDao->Delete($eventByDate);
+                echo "<script> alert('Calendario eliminado exitosamente');</script>";
+            }else{
+                echo "<script> alert('Calendario no puede ser borrado, ya que hay entradas vendidas para el mismo');</script>";
+            }  
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 

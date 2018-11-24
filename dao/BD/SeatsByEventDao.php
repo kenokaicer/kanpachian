@@ -140,6 +140,7 @@ class SeatsByEventDao implements ISeatsByEventDao
     /**
      * Lazy1: Theater without SeatTypes
      * Lazy2: omit eventByDate
+     * Lazy3: single object only
      */
     public function getByEventByDateId($idEventByDate, $load = LoadType::All)
     {
@@ -150,13 +151,19 @@ class SeatsByEventDao implements ISeatsByEventDao
         try {
             $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
 
-            $seatTypeAttributes = array_keys(SeatType::getAttributes());
-
-            $query = "SELECT * FROM " . $this->tableName." SE 
-                    INNER JOIN ".$this->tableNameSeatType." ST
-                    ON SE.idSeatType = ST.idSeatType
-                    WHERE SE.idEventByDate = :".key($parameters)." 
-                    AND SE.enabled = 1";
+            if($load != LoadType::Lazy3){
+                $seatTypeAttributes = array_keys(SeatType::getAttributes());
+            
+                $query = "SELECT * FROM " . $this->tableName." SE 
+                        INNER JOIN ".$this->tableNameSeatType." ST
+                        ON SE.idSeatType = ST.idSeatType
+                        WHERE SE.idEventByDate = :".key($parameters)." 
+                        AND SE.enabled = 1";
+            }else{
+                $query = "SELECT * FROM " . $this->tableName." SE 
+                        WHERE SE.idEventByDate = :".key($parameters)." 
+                        AND SE.enabled = 1";
+            }
         
             $resultSet = $this->connection->Execute($query,$parameters);
         
@@ -168,11 +175,13 @@ class SeatsByEventDao implements ISeatsByEventDao
                     $seatsByEvent->__set($value, $row[$value]);
                 }
 
-                foreach ($seatTypeAttributes as $value) {
-                    $seatType->__set($value, $row[$value]);
-                }
+                if($load != LoadType::Lazy3){
+                    foreach ($seatTypeAttributes as $value) {
+                        $seatType->__set($value, $row[$value]);
+                    }
 
-                $seatsByEvent->setSeatType($seatType);
+                    $seatsByEvent->setSeatType($seatType);
+                }
 
                 //Get EventByDate
 
@@ -180,7 +189,7 @@ class SeatsByEventDao implements ISeatsByEventDao
                 {
                     $eventByDate = $this->getEventByDateById($row["idEventByDate"], LoadType::Lazy1);
                     $seatsByEvent->setEventByDate($eventByDate);
-                }else if($load == LoadType::Lazy2){
+                }else if($load == LoadType::Lazy2 || $load == LoadType::Lazy3){
                     //don't load eventByDate
                 }else{
                     $eventByDate = $this->getEventByDateById($row["idEventByDate"]);
@@ -241,6 +250,84 @@ class SeatsByEventDao implements ISeatsByEventDao
                 }
 
                 $seatsByEvent->setEventByDate($eventByDate);
+
+                array_push($seatByEventList, $seatsByEvent);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",seatsByEvent, seatType query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",seatsByEvent, seatType query error: " . $ex->getMessage());
+        }
+
+        return $seatByEventList;
+    }
+
+    /**
+     * Used for delete check
+     */
+    public function getAllPastNowBySeatType($idSeatType)
+    {
+        $parameters = get_defined_vars();
+        $seatByEventList = array();
+
+        try {
+            $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes()); 
+
+            $query = "SELECT * FROM " . $this->tableName." SE 
+                    INNER JOIN ".$this->tableNameEventByDate." ED
+                    ON SE.idEventByDate = ED.idEventByDate
+                    WHERE SE.Enabled = 1 
+                    AND ED.date > now()
+                    AND SE.idSeatType = :".key($parameters);
+        
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            foreach ($resultSet as $row) {
+                $seatsByEvent = new SeatsByEvent();
+
+                foreach ($seatsByEventAttributes as $value) { 
+                    $seatsByEvent->__set($value, $row[$value]);
+                }
+
+                array_push($seatByEventList, $seatsByEvent);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",seatsByEvent, seatType query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",seatsByEvent, seatType query error: " . $ex->getMessage());
+        }
+
+        return $seatByEventList;
+    }
+
+    /**
+     * Used for delete check
+     */
+    public function getAllPastNowByTheater($idTheater)
+    {
+        $parameters = get_defined_vars();
+        $seatByEventList = array();
+
+        try {
+            $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes()); 
+
+            $query = "SELECT * FROM " . $this->tableName." SE 
+                    INNER JOIN ".$this->tableNameEventByDate." ED
+                    ON SE.idEventByDate = ED.idEventByDate
+                    INNER JOIN ".$this->tableNameTheater." T
+                    ON ED.idTheater = T.idTheater
+                    WHERE SE.Enabled = 1 
+                    AND ED.date > now()
+                    AND T.idTheater = :".key($parameters);
+        
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            foreach ($resultSet as $row) {
+                $seatsByEvent = new SeatsByEvent();
+
+                foreach ($seatsByEventAttributes as $value) { 
+                    $seatsByEvent->__set($value, $row[$value]);
+                }
 
                 array_push($seatByEventList, $seatsByEvent);
             }

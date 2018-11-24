@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
+use Dao\BD\PurchaseLineDao as PurchaseLineDao;
 use Dao\BD\SeatTypeDao as SeatTypeDao;
 use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\EventDao as EventDao;
@@ -17,6 +18,7 @@ class SeatsByEventManagementController
     private $theaterDao;
     private $artistDao;
     private $eventDao;
+    private $purchaseLineDao;
     private $folder = "Management/SeatsByEvent/";
 
     public function __construct()
@@ -26,6 +28,7 @@ class SeatsByEventManagementController
         $this->eventDao = new eventDao();
         $this->seatTypeDao = new SeatTypeDao();
         $this->eventByDateDao = new EventByDateDao();
+        $this->purchaseLineDao = new PurchaseLineDao();
     }
 
     public function index()
@@ -126,11 +129,15 @@ class SeatsByEventManagementController
 
     public function deleteSeatsByEvent($idSeatsByEvent)
     {
-        $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
-
         try{
-            $this->seatsByEventDao->Delete($seatsByEvent);
-            echo "<script> alert('Asiento por Evento eliminado exitosamente');</script>";
+            if(empty($this->purchaseLineDao->getAllPastNowBySeatsByEvent($idSeatsByEvent))){
+                $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
+
+                $this->seatsByEventDao->Delete($seatsByEvent);
+                echo "<script> alert('Asiento por Evento eliminado exitosamente');</script>";
+            }else{
+                echo "<script> alert('Existen tickets vendidos futuros para este asiento, no se permite el borrado');</script>";
+            }
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el Asiento por Evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 

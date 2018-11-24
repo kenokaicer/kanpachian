@@ -3,6 +3,7 @@ namespace Controllers;
 
 //use Dao\Json\ArtistList as ArtistList;
 use Dao\BD\ArtistDao as ArtistDao;
+use Dao\BD\EventByDateDao as EventByDateDao;
 use Models\Artist as Artist;
 use Exception as Exception;
 use Cross\Session as Session;
@@ -10,6 +11,7 @@ use Cross\Session as Session;
 class ArtistManagementController
 {
     private $artistDao;
+    private $eventByDateDao;
     private $folder = "Management/Artist/";
 
     public function __construct()
@@ -17,6 +19,7 @@ class ArtistManagementController
         Session::adminLogged();
         //$this->ArtistDao = ArtistList::getInstance(); //Json
         $this->artistDao = new ArtistDao(); //BD
+        $this->eventByDateDao = new EventByDateDao();
     }
 
     public function index()
@@ -66,10 +69,16 @@ class ArtistManagementController
     public function deleteArtist($idArtist)
     {
         try{
-            $artist = $this->artistDao->getById($idArtist);
+            if(empty($this->eventByDateDao->getAllPastNowByArtist($idArtist))){ //check if there are future eventByDates with this artist
+                $artist = $this->artistDao->getById($idArtist);
  
-            $this->artistDao->Delete($artist);
-            echo "<script> alert('Artista eliminado exitosamente');</script>";
+                $this->artistDao->Delete($artist);
+                echo "<script> alert('Artista eliminado exitosamente');</script>";
+            }else{
+                echo "<script> alert('Artista existe en un calendario futuro, no se permite el borrado');</script>";
+                //you could actually tell here which eventByDates are locking this
+            }
+            
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 

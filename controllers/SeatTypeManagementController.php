@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Dao\BD\SeatTypeDao as SeatTypeDao;
+use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Models\SeatType as SeatType;
 use Exception as Exception;
 use Cross\Session as Session;
@@ -9,12 +10,14 @@ use Cross\Session as Session;
 class SeatTypeManagementController
 {
     private $seatTypeDao;
+    private $seatsByEventDao;
     private $folder = "Management/SeatType/";
 
     public function __construct()
     {
         Session::adminLogged();
         $this->seatTypeDao = new SeatTypeDao();
+        $this->seatsByEventDao = new SeatsByEventDao();
     }
 
     public function index()
@@ -69,10 +72,16 @@ class SeatTypeManagementController
     public function deleteSeatType($idSeatType)
     {   
         try{
-            $seatType = $this->seatTypeDao->getById($idSeatType);
+            if(empty($this->seatsByEventDao->getAllPastNowBySeatType($idSeatType)))
+            {
+                $seatType = $this->seatTypeDao->getById($idSeatType);
 
-            $this->seatTypeDao->Delete($seatType);
-            echo "<script> alert('Tipo de asiento eliminado exitosamente');</script>";
+                $this->seatTypeDao->Delete($seatType);
+                echo "<script> alert('Tipo de asiento eliminado exitosamente');</script>";
+            }else{
+                echo "<script> alert('No se puede eliminar el tipo de asiento, ya que es usado en Calendarios aún no expirados');</script>";
+            }
+            
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el tipo de asiento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 

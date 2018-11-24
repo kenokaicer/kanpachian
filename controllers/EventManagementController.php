@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Dao\BD\EventDao as EventDao;
 use Dao\BD\CategoryDao as CategoryDao;
+use Dao\BD\PurchaseLineDao as PurchaseLineDao;
 use Models\Event as Event;
 use Exception as Exception;
 use Models\File as File;
@@ -12,6 +13,7 @@ class EventManagementController
 {
     private $eventDao;
     private $categoryDao;
+    private $purchaseLineDao;
     private $folder = "Management/Event/";
 
     public function __construct()
@@ -19,6 +21,7 @@ class EventManagementController
         Session::adminLogged();
         $this->eventDao = new EventDao(); //BD
         $this->categoryDao = new CategoryDao(); //BD
+        $this->purchaseLineDao = new PurchaseLineDao();
     }
 
     public function index()
@@ -91,15 +94,21 @@ class EventManagementController
         require VIEWS_PATH.$this->folder."EventManagementList.php";
     }
 
-    public function deleteEvent($id)
+    public function deleteEvent($idEvent)
     {
         try{
-            $event = $this->eventDao->getById($id);
+            $event = $this->eventDao->getById($idEvent);
 
-            $this->eventDao->Delete($event);
-            echo "<script> alert('Eventa eliminado exitosamente');</script>";
+            if(empty($this->purchaseLineDao->getAllPastNowByEvent($idEvent)))
+            {
+                $this->eventDao->Delete($event);
+                echo "<script> alert('Evento eliminado exitosamente');</script>";
+            }else{
+                echo "<script> alert('no se puede borrar el evento ya que tiene entradas vendidas a futuro');</script>";
+            }
+
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script> alert('No se pudo eliminar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
 
         $this->eventList();

@@ -19,6 +19,7 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
 {
     protected $connection;
     private $tableName = 'PurchaseLines';
+    private $tableNamePurchases = 'Purchases';
     private $tableNameSeatsByEvent = 'SeatsByEvents';
     private $tableNameSeatType = 'SeatTypes';
     private $tableNameEventByDate = 'EventByDates';
@@ -215,6 +216,91 @@ class PurchaseLineDao extends DaoBD implements IPurchaseLineDao
                 $SeatsByEvent = $this->getSeatsByEventById($row["idSeatsByEvent"]);
                 $purchaseLine->setSeatsByEvent($SeatsByEvent);
             
+                array_push($purchaseLineList, $purchaseLine);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+        
+        return $purchaseLineList;
+    }
+
+    public function getAllPastNowBySeatsByEvent($idSeatsByEvent)
+    {
+        $parameters = get_defined_vars();
+        $purchaseLineList = array();
+        
+        try {
+            $purchaseLineAttributes = array_keys(PurchaseLine::getAttributes());
+            $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." PL
+                    INNER JOIN ".$this->tableNameSeatsByEvent." SE
+                    ON PL.idSeatsByEvent = SE.idSeatsByEvent
+                    INNER JOIN ".$this->tableNameEventByDate." ED
+                    ON SE.idEventByDate = ED.idEventByDate
+                    WHERE SE.idSeatsByEvent = :".key($parameters)." 
+                    AND ED.date > now()
+                    AND PL.enabled = 1";
+            
+            $resultSet = $this->connection->Execute($query,$parameters);  
+            
+            foreach ($resultSet as $row)
+            {
+                $purchaseLine = new PurchaseLine();
+                foreach ($purchaseLineAttributes as $value) { //auto fill object with magic function __set
+                    $purchaseLine->__set($value, $row[$value]);
+                }
+
+                $seatsByEvent = new SeatsByEvent();
+                foreach ($seatsByEventAttributes as $value) { //auto fill object with magic function __set
+                    $seatsByEvent->__set($value, $row[$value]);
+                }
+                $purchaseLine->setSeatsByEvent($seatsByEvent);
+
+                array_push($purchaseLineList, $purchaseLine);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+        
+        return $purchaseLineList;
+    }
+
+    public function getAllPastNowByEvent($idEvent)
+    {
+        $parameters = get_defined_vars();
+        $purchaseLineList = array();
+        
+        try {
+            $purchaseLineAttributes = array_keys(PurchaseLine::getAttributes());
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." PL
+                    INNER JOIN ".$this->tableNameSeatsByEvent." SE
+                    ON PL.idSeatsByEvent = SE.idSeatsByEvent
+                    INNER JOIN ".$this->tableNameEventByDate." ED
+                    ON SE.idEventByDate = ED.idEventByDate
+                    INNER JOIN ".$this->tableNameEvent." E
+                    ON ED.idEvent = E.idEvent
+                    WHERE E.idEvent = :".key($parameters)." 
+                    AND ED.date > now()
+                    AND PL.enabled = 1";
+            
+            $resultSet = $this->connection->Execute($query,$parameters);  
+            
+            foreach ($resultSet as $row)
+            {
+                $purchaseLine = new PurchaseLine();
+                foreach ($purchaseLineAttributes as $value) { //auto fill object with magic function __set
+                    $purchaseLine->__set($value, $row[$value]);
+                }
+
                 array_push($purchaseLineList, $purchaseLine);
             }
         } catch (PDOException $ex) {

@@ -356,6 +356,92 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
     }
 
     /**
+     * Used for checking on delete artists
+     */
+    public function getAllPastNowByArtist($idArtist)
+    {
+        $parameters = get_defined_vars();
+        $eventByDateList = array();
+
+        try {
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+            $artitstAttributes = array_keys(Artist::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableName . " ED
+                INNER JOIN ".$this->tableNameArtistEventByDate." AED
+                ON ED.idEventByDate = AED.idEventByDate
+                INNER JOIN ".$this->tableNameArtist." A
+                ON AED.idArtist = A.idArtist
+                WHERE ED.date > now()
+                AND A.idArtist = :".key($parameters)." 
+                AND ED.enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            $i=0;
+            foreach ($resultSet as $row) {
+                if (!isset($eventByDateList[0]) || ($eventByDateList[$i-1]->getIdEventByDate() != $row["idEventByDate"])){
+                    $eventByDate = new EventByDate();
+                    foreach ($eventByDateAttributes as $value) {
+                        $eventByDate->__set($value, $row[$value]);
+                    }
+
+                    $eventByDateList[$i] = $eventByDate;
+                    $i++;
+                }
+            }
+
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        }
+
+        return $eventByDateList;
+    }
+
+    /**
+     * Used for checking on delete categories
+     */
+    public function getAllPastNowByCategory($idCategory)
+    {
+        $parameters = get_defined_vars();
+        $eventByDateList = array();
+
+        try {
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+            $artitstAttributes = array_keys(Artist::getAttributes());
+
+            $query = "SELECT * FROM " . $this->tableName . " ED
+                INNER JOIN ".$this->tableNameEvent." E
+                ON ED.idEvent = E.idEvent
+                INNER JOIN ".$this->tableNameCategory." C
+                ON E.idCategory = C.idCategory
+                WHERE ED.date > now()
+                AND C.idCategory = :".key($parameters)." 
+                AND ED.enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+
+            foreach ($resultSet as $row) {
+                $eventByDate = new EventByDate();
+                foreach ($eventByDateAttributes as $value) {
+                    $eventByDate->__set($value, $row[$value]);
+                }
+
+                $eventByDateList[] = $eventByDate;
+            }
+
+        } catch (PDOException $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception(__METHOD__ . ",eventByDate query error: " . $ex->getMessage());
+        }
+
+        return $eventByDateList;
+    }
+
+    /**
      * Updates values that are diferent from the ones recieved in the object EventByDate
      */
     public function Update(EventByDate $oldEventByDate, EventByDate $newEventByDate)

@@ -7,6 +7,8 @@ use Dao\BD\EventByDateDao as EventByDateDao;
 use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\TicketDao as TicketDao;
+use Dao\BD\LoadType as LoadType;
+use Dao\BD\PurchaseLineDao as PurchaseLineDao;
 use Exception as Exception;
 use Models\Role as Role;
 use Models\Artist as Artist;
@@ -20,6 +22,7 @@ use chillerlan\QRCode\QRCode as QRCode;
 Autoload::start();
 
 
+/*
 $dao = new TicketDao();
 $ticket = $dao->getById(6);
 $oldTicket = clone $ticket;
@@ -28,18 +31,25 @@ var_dump($ticket);
 var_dump($oldTicket);
 $dao->Update($oldTicket,$ticket);
 $ticket = $dao->getById(6);
-var_dump($ticket);
+var_dump($ticket);3
+*/
 
-/*
-$dao = new TicketDao();
+
+$dao = new EventByDateDao();
 
 try{
-    $list = $dao->getAll();
-    var_dump($list);
+    $list = $dao->getById(1);
+    
+    $a = $list->getDate();
+    var_dump(date("Y-m-d"));
+    var_dump($a);
+    if(date("Y-m-d") < $a){
+        echo "enrte";
+    }
 }catch(Exception $ex){
     echo $ex->getMessage();
 }
-*/
+
 
 /*QR code test
 $data = "texto lala";

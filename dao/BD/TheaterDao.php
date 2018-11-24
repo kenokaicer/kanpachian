@@ -160,7 +160,8 @@ class TheaterDao extends DaoBD implements ITheaterDao
                     ON T.idTheater = STT.idTheater
                     INNER JOIN " . $this->tableNameSeatType . " ST
                     ON STT.idSeatType = ST.idSeatType
-                    WHERE T.enabled = 1";
+                    WHERE T.enabled = 1 
+                    ORDER BY STT.idTheater, STT.idSeatType";
         
             $resultSet = $this->connection->Execute($query);
 
@@ -171,7 +172,7 @@ class TheaterDao extends DaoBD implements ITheaterDao
                     foreach ($theaterAttributes as $value) {
                         $theaterList[$i]->__set($value, $row[$value]);
                     }   
-                    $i++;  
+                    $i++;     
                 }
 
                 $seatType = new SeatType();

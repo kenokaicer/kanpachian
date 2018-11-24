@@ -2,9 +2,10 @@
 
 namespace Controllers;
 
-use Models\Theater as Theater;
 use Dao\BD\TheaterDao as TheaterDao;
 use Dao\BD\SeatTypeDao as SeatTypeDao;
+use Dao\BD\SeatsByEventDao as SeatsByEventDao;
+use Models\Theater as Theater;
 use Models\File as File;
 use Cross\Session as Session;
 use Exception as Exception;
@@ -13,6 +14,7 @@ class TheaterManagementController
 {
     private $theaterDao;
     private $seatTypeDao; 
+    private $seatsByEventDao;
     private $folder = "Management/Theater/";
 
     public function __construct()
@@ -20,6 +22,7 @@ class TheaterManagementController
         Session::adminLogged();
         $this->theaterDao = new TheaterDao();
         $this->seatTypeDao = new SeatTypeDao();
+        $this->seatsByEventDao = new SeatsByEventDao();
     }
 
     public function index()
@@ -87,6 +90,7 @@ class TheaterManagementController
     {
         try{
             $theaterList = $this->theaterDao->getAll();
+            
         }catch (Exception $ex) {
             echo "<script> alert('No se pudo listar los teatros. " . str_replace("'","",$ex->getMessage()) . "');</script>";
         }
@@ -94,13 +98,18 @@ class TheaterManagementController
         require VIEWS_PATH.$this->folder."TheaterManagementList.php";
     }
 
-    public function deleteTheater($id)
+    public function deleteTheater($idTheater)
     {
         try{
-            $theater = $this->theaterDao->getById($id);
+            if(empty($this->seatsByEventDao->getAllPastNowByTheater($idTheater))){
+                $theater = $this->theaterDao->getById($idTheater);
 
-            $this->theaterDao->Delete($theater);
-            echo "<script> alert('Teatro eliminado exitosamente');</script>";
+                $this->theaterDao->Delete($theater);
+                echo "<script> alert('Teatro eliminado exitosamente');</script>";
+            }else{
+                echo "<script> alert('No se puede eliminar el teatro, ya que hay calendarios no expirados en dicho teatro');</script>";
+            }
+            
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 

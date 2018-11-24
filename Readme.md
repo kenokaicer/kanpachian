@@ -43,17 +43,15 @@ DONE
 - change getall() to getAttributes() where necessary, done in daos, check controllers
 - Put methods in interfaces once all daos are complete
 - Test dao methods after dao code clean up, need a second test after loadtype changes
+- busqueda eventos por fecha
+- update checks future
+- Last test for management clases
 
 TO DO
 
-- Last test for management clases
 - add edit to SeatsByEvent
 
-
-- busqueda eventos por fecha
 - email
-- update checks future
-- creditCard error
 - lolapalooza, add calendar thats a sale, various dates
 
 

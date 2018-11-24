@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Dao\BD\CategoryDao as CategoryDao;
+use Dao\BD\EventByDateDao as EventByDateDao;
 use Models\Category as Category;
 use Exception as Exception;
 use Cross\Session as Session;
@@ -9,12 +10,14 @@ use Cross\Session as Session;
 class CategoryManagementController
 {
     private $categoryDao;
+    private $eventByDateDao;
     private $folder = "Management/Category/";
 
     public function __construct()
     {
         Session::adminLogged();
         $this->categoryDao = new CategoryDao(); //BD
+        $this->eventByDateDao = new EventByDateDao();
     }
 
     public function index()
@@ -70,10 +73,15 @@ class CategoryManagementController
     public function deleteCategory($idCategory)
     {
         try{
-            $category = $this->categoryDao->getById($idCategory);
+            if(empty($this->eventByDateDao->getAllPastNowByCategory($idCategory))){
+                $category = $this->categoryDao->getById($idCategory);
 
-            $this->categoryDao->Delete($category);
-            echo "<script> alert('Categoría eliminada exitosamente');</script>";
+                $this->categoryDao->Delete($category);
+                echo "<script> alert('Categoría eliminada exitosamente');</script>";
+            }else{
+                echo "<script> alert('Categoría existe en un calendario futuro, no se permite el borrado');</script>";
+                //you could actually tell here which eventByDates are locking this
+            }
         } catch (Exception $ex) {
             echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         } 
