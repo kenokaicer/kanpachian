@@ -312,9 +312,15 @@ class AccountController
     {
         try{
             $ticket = $this->ticketDao->getByTicketCode($ticketCode);
-            $ticketList = array();
-            $ticketList[] = $ticket;
-            setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
+            
+            if(!is_null($ticket)){
+                $ticketList = array();
+                $ticketList[] = $ticket;
+                setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
+            }else{
+                echo "<script>alert('Código de ticket inexistente');</script>";
+                echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            }
         }catch (Exception $ex){
             echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
