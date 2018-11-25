@@ -94,6 +94,44 @@ class EventDao implements IEventDao
         return $event;
     }
 
+    /**
+     * Simple load by default, used for checks
+     */
+    public function getByEventName($eventName)
+    {   
+        $parameters = get_defined_vars();
+        $event = null;
+
+        try {
+            $eventAttributes = array_keys(Event::getAttributes());
+
+            $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.categoryName
+                    FROM " . $this->tableName ." e
+                    WHERE eventName = :".key($parameters)." 
+                    AND e.enabled = 1";
+            
+            $resultSet = $this->connection->Execute($query,$parameters);  
+
+            if(sizeof($resultSet)>1){
+                throw new Exception(__METHOD__." error: Query returned ".sizeof($resultSet)." result/s, expected 1");
+            }
+            
+            foreach ($resultSet as $row)
+            {
+                $event = new Event();
+                foreach ($eventAttributes as $value) { //auto fill object with magic function __set
+                    $event->__set($value, $row[$value]);
+                }
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $event;
+    }
+
     public function getAll()
     {
         $eventList = array();
