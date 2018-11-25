@@ -45,40 +45,60 @@ class EventManagementController
      */
     public function addEvent($eventName, $description, $idCategory)
     {
+        $exist = false;
         try{
-            if (!empty($_FILES['file']['name'])) {
-                $file = $_FILES['file'];
-                $filePath = File::upload($file);
-            } else {
-            $filePath = null;
-            echo "<script> alert('Advertencia, imagen no ingresada');</script>";
+            if(!is_null($this->eventDao->getByEventName($eventName)))
+            {
+                echo "<script> alert('Evento con mismo nombre ya existente');</script>";
+                $exist = true;
+            }
+        }
+        catch (Exception $ex){
+                echo "<script> alert('Error al confirmar Evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+        }
+
+        try{
+            if(!$exist){
+                if (!empty($_FILES['file']['name'])) {
+                    $file = $_FILES['file'];
+                    $filePath = File::upload($file);
+                } else {
+                $filePath = null;
+                echo "<script> alert('Advertencia, imagen no ingresada');</script>";
+                }
             }
         }catch (Exception $ex) {
             echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }
 
         try{
-            $args = array();
+            if(!$exist){
+                $args = array();
 
-            $eventAttributes = Event::getAttributes();
+                $eventAttributes = Event::getAttributes();
+                
+                array_push($args, null, $eventName, $filePath, $description);
+
+                $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+
+                $event = new Event();
+                foreach ($eventAttributeList as $attribute => $value) {
+                    $event->__set($attribute,$value);
+                }
             
-            array_push($args, null, $eventName, $filePath, $description);
+                $category = $this->categoryDao->getById($idCategory);
 
-            $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-
-            $event = new Event();
-            foreach ($eventAttributeList as $attribute => $value) {
-                $event->__set($attribute,$value);
+                $event->setCategory($category);
+            
+                $this->eventDao->Add($event);
+                echo "<script> alert('Evento agregado exitosamente');</script>";
             }
-        
-            $category = $this->categoryDao->getById($idCategory);
-
-            $event->setCategory($category);
-        
-            $this->eventDao->Add($event);
-            echo "<script> alert('Evento agregado exitosamente');</script>";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            if (strpos($ex->getMessage(), 'Duplicate') !== false) { //check on unique contraint in DB
+                echo "<script> alert('Evento con mismo nombre ya existente');</script>";  
+            }else{
+                echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            }
         }
 
         $this->index();

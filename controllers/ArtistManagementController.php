@@ -35,19 +35,24 @@ class ArtistManagementController
     public function addArtist($name, $lastname)
     {
         try{
-            $artist = new Artist();
+            if(empty($this->artistDao->getByNameAndLastname($name,$lastname)))
+            {
+                $artist = new Artist();
             
-            $args = func_get_args();
-            array_unshift($args, null); //put null at first of array for id
-            
-            $artistAttributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
-            
-            foreach ($artistAttributeList as $attribute => $value) {
-                $artist->__set($attribute,$value);
-            }
+                $args = func_get_args();
+                array_unshift($args, null); //put null at first of array for id
+                
+                $artistAttributeList = array_combine(array_keys($artist->getAll()),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
+                
+                foreach ($artistAttributeList as $attribute => $value) {
+                    $artist->__set($attribute,$value);
+                }
 
-            $this->artistDao->Add($artist);
-            echo "<script> alert('Artista agregado exitosamente');</script>";
+                $this->artistDao->Add($artist);
+                echo "<script> alert('Artista agregado exitosamente');</script>";
+            }else{
+                echo "<script> alert('Artista ya existente en el sistema, si es otra persona agregue un alias');</script>";
+            }
         }catch (Exception $ex){
             echo "<script> alert('No se pudo agregar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
         }

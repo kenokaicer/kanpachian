@@ -119,6 +119,41 @@ class ArtistDao implements IArtistDao
         return $artistList;
     }
 
+    public function getByNameAndLastname($name, $lastname)
+    {
+        $parameters = get_defined_vars();
+        $par_key = array_keys($parameters);
+        $artistList = array();
+
+        try{ 
+            $query = "SELECT * FROM ".$this->tableName." 
+                    WHERE name = :".$par_key[0]." 
+                    AND lastname = :".$par_key[1]." 
+                    AND enabled = 1";
+
+            $resultSet = $this->connection->Execute($query,$parameters);
+ 
+            $artistAttributes = array_keys(Artist::getAttributes()); //get attributes names from object for use in __set
+
+            foreach ($resultSet as $row) //loops returned rows
+            {                
+                $artist = new Artist();
+                
+                foreach ($artistAttributes as $value) { //auto fill object with magic function __set
+                    $artist->__set($value, $row[$value]);
+                }
+
+                array_push($artistList, $artist);
+            }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+
+        return $artistList;
+    }
+
     /**
      * Returns all Artists as an array of Artists
      */

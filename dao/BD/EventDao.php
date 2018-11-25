@@ -105,7 +105,7 @@ class EventDao implements IEventDao
         try {
             $eventAttributes = array_keys(Event::getAttributes());
 
-            $query = "SELECT e.idEvent, eventName, image, description, c.idCategory, c.categoryName
+            $query = "SELECT *
                     FROM " . $this->tableName ." e
                     WHERE eventName = :".key($parameters)." 
                     AND e.enabled = 1";

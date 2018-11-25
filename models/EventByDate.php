@@ -11,6 +11,7 @@ class EventByDate extends Attributes//Calendario
 {
     protected $idEventByDate;
     protected $date;
+    protected $isSale;
     private $event; //Class Event
     private $theater; //Class Theater
     private $artists = array(); //Array of Class Artist
