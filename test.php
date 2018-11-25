@@ -18,9 +18,11 @@ use Models\SeatType as SeatType;
 use Models\SeatsByEvent as SeatsByEvent;
 use Models\Ticket as Ticket;
 use chillerlan\QRCode\QRCode as QRCode;
+use Models\Mail as Mail;
 
 Autoload::start();
 
+(new Mail)->test();
 
 /*
 $dao = new TicketDao();
@@ -34,7 +36,7 @@ $ticket = $dao->getById(6);
 var_dump($ticket);3
 */
 
-
+/*
 $dao = new EventByDateDao();
 
 try{
@@ -49,7 +51,7 @@ try{
 }catch(Exception $ex){
     echo $ex->getMessage();
 }
-
+*/
 
 /*QR code test
 $data = "texto lala";

@@ -8,9 +8,9 @@ Passwords Hashed and Salted
 
 - hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/
 
-Navar collapse
+Packages and APIs
 
-- https://www.w3schools.com/howto/howto_js_topnav_responsive.asp
+- PHPMailer (https://github.com/PHPMailer/PHPMailer)
 
 DONE
 
@@ -53,6 +53,7 @@ TO DO
 
 - email
 - lolapalooza, add calendar thats a sale, various dates
+- finish admin check sales by category AND date
 
 
  

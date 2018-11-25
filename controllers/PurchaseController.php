@@ -14,8 +14,10 @@ use Dao\BD\LoadType as LoadType;
 use Models\Purchase as Purchase;
 use Models\PurchaseLine as PurchaseLine;
 use Models\Ticket as Ticket;
+use Models\Mail as Mail;
 use Cross\Session as Session;
 use Exception as Exception;
+use PHPMailer\PHPMailer\Exception as PHPMailerExcpetion;
 
 class PurchaseController
 {
@@ -272,6 +274,7 @@ class PurchaseController
             $purchase->setPurchaseLines($purchaseLines);
 
             $idPurchase = $this->purchaseDao->add($purchase); //store purchase
+            $ticketCodeList = array(); //array used to send tickets to email
 
             foreach ($purchaseLines as $purchaseLine) {
                 //store PurchaseLine
@@ -282,6 +285,7 @@ class PurchaseController
 
                 $ticket->setTicketCode(uniqid());
                 $ticket->setQrCode(FRONT_ROOT."Account/viewTicket?ticketCode=".$ticket->getTicketCode()); //set qrCode with ticket code
+                $ticketCodeList[] = $ticket->getQrCode(); //set ticket address in array for email
                 $purchaseLine->setIdPurchaseLine($idPurchaseLine);
                 $ticket->setPurchaseLine($purchaseLine);
 
@@ -302,12 +306,22 @@ class PurchaseController
                 $this->seatsByEventDao->update($purchaseLine->getSeatsByEvent(),$newSeatsByEvent);
             }
 
-            //empty cart
+            //Empty cart
 
             $_SESSION["virtualCart"] = array();
 
+            //Send Email
+
+            $email = $_SESSION["userLogged"]->getEmail();
+            $client = $this->clientDao->getByUserId($idUser);
+            (new Mail)->send($email, $client, $purchase->getDate(), $ticketCodeList);
+
             $this->showTickets($idPurchase);
-        }catch (Exception $ex){
+        }catch (PHPMailerExcpetion $ex){
+            echo "<script> alert('Email no pudo ser enviado, pero la compra se realizó con éxito: ".str_replace(array("\r","\n","'"), "", $mail->ErrorInfo) . "');</script>";  
+            $this->viewCart();
+        }
+        catch (Exception $ex){
             echo "<script> alert('Hubo un problema al cerrar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
             $this->viewCart();
         }
