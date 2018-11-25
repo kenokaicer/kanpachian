@@ -149,5 +149,12 @@ function PrintElem(elem)
 }
 </script>
 
-
-
+<?php
+if(isset($_SESSION["userLogged"])){
+?>
+<script>
+    $('#cart-number').attr("data-count","<?php echo sizeof($_SESSION["virtualCart"])?>"); //set proper cart lenght, as navbar is loaded before the new purchaseLine
+</script>
+<?php
+}
+?>
