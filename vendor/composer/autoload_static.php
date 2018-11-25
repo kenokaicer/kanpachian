@@ -12,6 +12,10 @@ class ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9
             'chillerlan\\Settings\\' => 20,
             'chillerlan\\QRCode\\' => 18,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'K' => 
         array (
             'Karriere\\JsonDecoder\\' => 21,
@@ -26,6 +30,10 @@ class ComposerStaticInitd1cf9eac936987b2d733f47a4cb30ae9
         'chillerlan\\QRCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/chillerlan/php-qrcode/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Karriere\\JsonDecoder\\' => 
         array (
