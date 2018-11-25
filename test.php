@@ -8,7 +8,7 @@ use Dao\BD\SeatsByEventDao as SeatsByEventDao;
 use Dao\BD\ArtistDao as ArtistDao;
 use Dao\BD\TicketDao as TicketDao;
 use Dao\BD\LoadType as LoadType;
-use Dao\BD\PurchaseLineDao as PurchaseLineDao;
+use Dao\BD\PurchaseDao as PurchaseDao;
 use Exception as Exception;
 use Models\Role as Role;
 use Models\Artist as Artist;
@@ -22,7 +22,6 @@ use Models\Mail as Mail;
 
 Autoload::start();
 
-(new Mail)->test();
 
 /*
 $dao = new TicketDao();
@@ -36,22 +35,18 @@ $ticket = $dao->getById(6);
 var_dump($ticket);3
 */
 
-/*
-$dao = new EventByDateDao();
+
+$dao = new PurchaseDao();
 
 try{
-    $list = $dao->getById(1);
+    $list = $dao->getAllByDate(date("Y-m-d"));
+
+    var_dump($list);
     
-    $a = $list->getDate();
-    var_dump(date("Y-m-d"));
-    var_dump($a);
-    if(date("Y-m-d") < $a){
-        echo "enrte";
-    }
 }catch(Exception $ex){
     echo $ex->getMessage();
 }
-*/
+
 
 /*QR code test
 $data = "texto lala";

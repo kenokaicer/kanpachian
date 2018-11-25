@@ -46,14 +46,14 @@ DONE
 - busqueda eventos por fecha
 - update checks future
 - Last test for management clases
+- email
+- finish admin check sales by category AND date
 
 TO DO
 
 - add edit to SeatsByEvent
 
-- email
 - lolapalooza, add calendar thats a sale, various dates
-- finish admin check sales by category AND date
 
 
  

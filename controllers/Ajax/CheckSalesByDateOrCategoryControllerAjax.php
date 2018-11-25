@@ -26,9 +26,17 @@ if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole() == "Admi
         //error
         echo "error, value not set";
     }
+
+    if(isset($_POST['value2'])){
+        $var2 = $_POST['value2'];
+    }
+    else {
+        //error
+        echo "error, value2 not set";
+    }
     
     /**
-     * Returns all event dates, with all its seatTypes
+     * Returns total sales by date
      */
     if($func == "getTotalByDate"){
         try{
@@ -41,6 +49,35 @@ if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole() == "Admi
             foreach ($purchaseList as $purchase) {
                 if($purchase->getDate() == $var)
                 $total += $purchase->getTotalPrice();
+            }
+    
+            echo json_encode($total);
+        }catch (Exception $ex){
+            //echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            //I think this alert won't work here, how to pass an error in ajax?
+            echo $ex->getMessage();
+        }
+    }
+
+    /**
+     * Returns total sales by date and category
+     */
+    if($func == "getTotalByDateAndCategory"){
+        try{
+            $purchaseDao = new PurchaseDao();
+
+            $purchaseList = $purchaseDao->getAllByDate($var);
+    
+            $total = 0;
+    
+            foreach ($purchaseList as $purchase) {
+                foreach ($purchase->getPurchaseLines() as $purchaseLine) {
+                    $catName = $purchaseLine->getSeatsByEvent()->getEventByDate()->getEvent()->getCategory()->getCategoryName();
+                    
+                    if($catName == $var2){
+                        $total += $purchaseLine->getPrice();
+                    }
+                }
             }
     
             echo json_encode($total);

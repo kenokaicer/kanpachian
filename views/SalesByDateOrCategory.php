@@ -22,6 +22,7 @@
                 <h3 class="app-feature-section-main-header">Seleccione Fecha de la Categoría</h3>    
                 <div>
                 <input type="date" name="date2" id="date2">
+                <div id="loading2" style="position:absolute;left:48%" hidden><img src="<?=IMG_PATH?>loading.gif" alt="Loading"></div>
                     <table id="main-table">
                         <thead>
                             <th>Categoría</th>
@@ -37,11 +38,12 @@
                             ?>
                                 <tr>
                                     <td style="width:40%" id="catName<?=$i?>"><?=$cat?></td>
-                                    <td style="width:20%">$<?=$price?></td>
-                                    <td style="width:20%"><div style="margin: 0 auto"><input type="button" onclick="getTotalCat(<?php echo 'catName'.$i.',totalPriceCat'.$i?>)" value="ver"></div></td>
-                                    <td style="width:20%" id="catTotal<?=$i?>"><input style="margin:0" type="number" id="totalPriceCat" readonly></td>
+                                    <td style="width:20%" id="catTotal<?=$i?>">$<?=$price?></td>
+                                    <td style="width:20%"><div style="margin: 0 auto"><input type="button" onclick="getTotalCat(<?=$i?>)" value="ver"></div></td>
+                                    <td style="width:20%"><input id="totalPriceCat<?=$i?>" style="margin:0" type="text" readonly></td>
                                 </tr>
                             <?php
+                                $i++;
                                 }
                             }
                             ?>
@@ -61,7 +63,7 @@ function getTotal()
     var date1 = document.getElementById("date").value;
 
     $("#loading").show();
-    $.when(ajaxQuery('getTotalByDate',date1)).done(function(ajaxResponse){ //waits for ajax call to be done
+    $.when(ajaxQuery('getTotalByDate',date1,0)).done(function(ajaxResponse){ //waits for ajax call to be done
         ajaxResponse = "$" + ajaxResponse;
         document.getElementById("totalSale").value = ajaxResponse;
         $("#loading").hide();
@@ -70,27 +72,33 @@ function getTotal()
     return false
 }
 
-function getTotalCat(idCatName,idTotalPrice)
+function getTotalCat(i)
 {
-    var catName = document.getElementById ( "idCatName" ).innerText;
+    var totalPrice = "totalPriceCat"+i;
+    var catName = "catName"+i;
     var date2 = document.getElementById("date2").value;
+    var cat = document.getElementById(catName).innerText
 
-    console.log(date2);
-    /*$("#loading").show();
-    $.when(ajaxQuery('getTotalByDate',date1)).done(function(ajaxResponse){ //waits for ajax call to be done
-        ajaxResponse = "$" + ajaxResponse;
-        document.getElementById("totalSale").value = ajaxResponse;
-        $("#loading").hide();
-    }); */
+    if(date2 == ""){
+        alert('Debe seleccionar una fecha primero');
+    }else{
+        $("#loading2").show();
+
+        $.when(ajaxQuery('getTotalByDateAndCategory',date2, cat)).done(function(ajaxResponse){ //waits for ajax call to be done
+            ajaxResponse = "$" + ajaxResponse;
+            $('#'+totalPrice).val(ajaxResponse);
+            $("#loading2").hide();
+        });
+    }
 }
 
-function ajaxQuery(func,value)
+function ajaxQuery(func,value,value2)
 {
     return $.ajax({ //return needed for when jquery
         url : <?=FRONT_ROOT?>+'controllers/Ajax/CheckSalesByDateOrCategoryControllerAjax.php', // requesting a PHP script
         type: 'post',
         dataType : 'json',
-        data: {"function": func, "value": value}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
+        data: {"function": func, "value": value, "value2": value2}, //name of function to call in php file (this is a string passed by post and then checked in an if statement)
         success : function (data) 
         { // data contains the PHP script output
             //can do something here with the returned data

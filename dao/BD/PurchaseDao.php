@@ -120,7 +120,7 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
     /**
      * lazy1: only purchase object
      */
-    public function getAll($load = LoadType::Lazy1)
+    public function getAll($load = LoadType::All)
     {
         $purchaseList = array();
 
@@ -163,6 +163,92 @@ class PurchaseDao extends DaoBD implements IPurchaseDao
                 }
                 array_push($purchaseList, $purchase);
             }
+        } catch (PDOException $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        } catch (Exception $ex) {
+            throw new Exception (__METHOD__." error: ".$ex->getMessage());
+        }
+        
+        return $purchaseList;
+    }
+
+    /**
+     * Used in total price
+     */
+    public function getAllByDate($date)
+    {
+        $parameters = get_defined_vars();
+        $purchaseList = array();
+
+        try {
+            $purchaseAttributes = array_keys(Purchase::getAttributes());
+            $categoryAttributes = array_keys(Category::getAttributes());
+            $eventAttributes = array_keys(Event::getAttributes());
+            $eventByDateAttributes = array_keys(EventByDate::getAttributes());
+            $seatsByEventAttributes = array_keys(SeatsByEvent::getAttributes());
+            $purchaseLineAttributes = array_keys(PurchaseLine::getAttributes());
+
+
+            $query = "SELECT *
+                    FROM " . $this->tableName ." P
+                    INNER JOIN ".$this->tableNamePurchaseLines." PL
+                    ON P.idPurchase = PL.idPurchase
+                    INNER JOIN ".$this->tableNameSeatsByEvent." SE
+                    ON PL.idSeatsByEvent = SE.idSeatsByEvent
+                    INNER JOIN ".$this->tableNameEventByDate." ED
+                    ON SE.idEventByDate = ED.idEventByDate
+                    INNER JOIN ".$this->tableNameEvent." E
+                    ON ED.idEvent = E.idEvent
+                    INNER JOIN ".$this->tableNameCategory." C
+                    ON E.idCategory = C.idCategory
+                    WHERE P.enabled = 1 
+                    AND P.date =  :".key($parameters);
+
+            $resultSet = $this->connection->Execute($query, $parameters);  
+            
+            $i=0;
+            foreach ($resultSet as $row) {
+                if (!isset($purchaseList[0]) || ($purchaseList[$i-1]->getIdPurchase() != $row["idPurchase"])) { 
+                    $purchaseList[$i] = new Purchase();
+                    foreach ($purchaseAttributes as $value) {
+                        $purchaseList[$i]->__set($value, $row[$value]);
+                    }
+                    $i++;
+                }
+
+                $category = new Category();
+                foreach ($categoryAttributes as $value) {
+                    $category->__set($value, $row[$value]);
+                }
+
+                $event = new Event();
+                foreach ($eventAttributes as $value) {
+                    $event->__set($value, $row[$value]);
+                }
+
+                $eventByDate = new EventByDate();
+                foreach ($eventByDateAttributes as $value) {
+                    $eventByDate->__set($value, $row[$value]);
+                }
+
+                $seatsByEvent = new SeatsByEvent();
+                foreach ($seatsByEventAttributes as $value) {
+                    $seatsByEvent->__set($value, $row[$value]);
+                }
+
+                $purchaseLine = new PurchaseLine();
+                foreach ($purchaseLineAttributes as $value) {
+                    $purchaseLine->__set($value, $row[$value]);
+                }
+
+                $event->setCategory($category);
+                $eventByDate->setEvent($event);
+                $seatsByEvent->setEventByDate($eventByDate);
+                $purchaseLine->setSeatsByEvent($seatsByEvent);
+
+                $purchaseList[$i-1]->addPurchaseLines($purchaseLine);
+            }
+        
         } catch (PDOException $ex) {
             throw new Exception (__METHOD__." error: ".$ex->getMessage());
         } catch (Exception $ex) {
