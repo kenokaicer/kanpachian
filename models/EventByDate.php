@@ -81,4 +81,16 @@ class EventByDate extends Attributes//Calendario
     {
         $this->artists[] = $artist;
     }
+
+	public function getIsSale()
+	{
+		return $this->isSale;
+	}
+
+    public function setIsSale($isSale)
+    {
+        $this->isSale = $isSale;
+
+        return $this;
+    }
 }
