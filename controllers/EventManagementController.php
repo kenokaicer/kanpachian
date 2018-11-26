@@ -43,7 +43,7 @@ class EventManagementController
     /**
      * Not using exist check, on purpose
      */
-    public function addEvent($eventName, $description, $idCategory)
+    public function addEvent($eventName, $description, $idCategory, $offerta)
     {
         $exist = false;
         try{

@@ -55,6 +55,18 @@
                     </table>
                     </td>
                 </tr>
+
+                <tr>
+                    <td colspan="2">
+                            <label>Esta en oferta?
+                                <select name ="inSale">
+                                    <option value="0">no</option>  
+                                     <option value ="1">si</option>
+                                </select>
+                            </label>
+                    </td>
+                </tr>
+
                 <tr>
                     <td colspan="2">
                         <div id="artistHidden">

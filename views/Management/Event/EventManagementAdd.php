@@ -6,6 +6,7 @@
                 <tr>
                     <td>Nombre: <input type="text" name="eventName" required></td>
                     <td>Imágen: <input id="file" type="file" name="file"></td>
+
                 </tr>
                 <tr>
                     <td>Descripción: <textarea name="description" cols="30" rows="10" required></textarea></td>
@@ -20,6 +21,8 @@
                             ?>
                         </select>
                     </td>
+                </tr>
+                <tr>
                 </tr>
                 <tr>
                     <td colspan="2">
