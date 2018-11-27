@@ -31,7 +31,8 @@ USE neonlab1_gotoevent;
 
 /*create table EventByDates(
     idEventByDate int unsigned auto_increment,
-    date date,
+    date date not null,
+    endPromoDate date,
     isSale bool default '0',
     idTheater int unsigned,
     idEvent int unsigned,

@@ -40,7 +40,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
         $values = "";
 
         try {
-            $parameters["date"] = $eventByDate->getDate();
+            $parameters = array_filter($artist->getAll());
             $parameters["idTheater"] = $eventByDate->getTheater()->getIdTheater();
             $parameters["idEvent"] = $eventByDate->getEvent()->getIdEvent();
 
@@ -585,7 +585,8 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
                         INNER JOIN " . $this->tableNameCategory . " C
                         ON E.idCategory = C.idCategory
                         WHERE ED.".$eventAttributes[0]." = :".key($parameters)." 
-                        AND ED.enabled = 1";
+                        AND ED.enabled = 1
+                        ORDER BY ED.idTheater";
             }else{
                 $query = "SELECT * FROM " . $this->tableName . " ED
                     WHERE ED.idEvent = :".key($parameters)." 

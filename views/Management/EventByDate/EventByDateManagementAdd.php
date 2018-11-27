@@ -4,7 +4,7 @@
         <form onsubmit="return send()" action="<?=FRONT_ROOT?>EventByDateManagement/addEventByDate" method="post">
             <table>
                 <tr>
-                    <td colspan="2">Evento:
+                    <td style="width:50%">Evento:
                         <select name="idEvent">
                             <?php
                                 foreach ($eventList as $value) {
@@ -15,10 +15,21 @@
                             ?>
                         </select>
                     </td>
+                    <td style="width:50%">
+                            <label>Esta en oferta?
+                                <select id="selectIsSale" name ="inSale">
+                                    <option value="0">no</option>  
+                                     <option id="selectIsSaleYes" value ="1">si</option>
+                                </select>
+                            </label>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Fecha: <input type="date" name="date"></td>
-                    <td>Teatro:
+                    <td>Fecha: <input type="date" name="date" required></td>
+                    <td>Fecha de finalización promo: <input id="date2" type="date" name="date2"></td>   
+                </tr>
+                <tr>
+                    <td colspan="2">Teatro:
                         <select name="idTheater">
                             <?php
                                 foreach ($theaterList as $value) {
@@ -53,17 +64,6 @@
                         <tbody>
                         </tbody>
                     </table>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colspan="2">
-                            <label>Esta en oferta?
-                                <select name ="inSale">
-                                    <option value="0">no</option>  
-                                     <option value ="1">si</option>
-                                </select>
-                            </label>
                     </td>
                 </tr>
 
@@ -116,4 +116,10 @@ function send()
     return ok;
 }
 
+
+$('#selectIsSale').change(function() {
+    if ($(this).val() === '1') {
+        $("#date2").prop('required',true);
+    }
+});
 </script>

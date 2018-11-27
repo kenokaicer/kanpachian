@@ -11,6 +11,7 @@ class EventByDate extends Attributes//Calendario
 {
     protected $idEventByDate;
     protected $date;
+    protected $endPromoDate;
     protected $isSale;
     private $event; //Class Event
     private $theater; //Class Theater
@@ -90,6 +91,18 @@ class EventByDate extends Attributes//Calendario
     public function setIsSale($isSale)
     {
         $this->isSale = $isSale;
+
+        return $this;
+    }
+
+    public function getEndPromoDate()
+	{
+		return $this->endPromoDate;
+	}
+
+    public function setEndPromoDate($endPromoDate)
+    {
+        $this->endPromoDate = $endPromoDate;
 
         return $this;
     }

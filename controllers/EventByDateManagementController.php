@@ -53,20 +53,24 @@ class EventByDateManagementController
         require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
     }
 
-    public function addEventByDate($idEvent, $date, $idTheater,$inSale, $idArtistList)
+    public function addEventByDate($idEvent, $isSale, $date, $date2, $idTheater, $idArtistList)
     {
+        
+        die();
         $eventByDate = new EventByDate();
         
         try{
             $eventByDate->setDate($date);
+            $eventByDate->setEndPromoDate($date2);
+            $eventByDate->setIsSale($isSale);
             
             $theater = $this->theaterDao->getById($idTheater);
             $event = $this->eventDao->getById($idEvent);
 
             $eventByDate->setTheater($theater);
             $eventByDate->setEvent($event);
-            $eventByDate->setIsSale($inSale);
-
+           
+            
             $idArtistList = json_decode($idArtistList);
 
             foreach ($idArtistList as $idArtist) {

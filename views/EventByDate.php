@@ -17,12 +17,14 @@
         foreach ($eventByDateList as $eventByDate) {
         ?> 
         
-        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px">
+        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px;">
             <div class="product-card">
                 <div class="product-card-thumbnail" style="width:50px;display:inline-block">
-                    <img src="<?=IMG_PATH."calendar.png"?>"/>
+                    <img src="<?=IMG_PATH."calendar.png"?>"/><img style="position:absolute;left:8px;up:1px;width:44px;<?php if($eventByDate->getIsSale()==0) echo "visibility: hidden;" ?>" src="<?=IMG_PATH."Sale-Ribbon.png"?>"/><img>
                 </div>
-                <h2 class="product-card-title"><a href="#">Fecha: <?=date($eventByDate->getDate())?></a></h2>
+                <h2 class="product-card-title"><a>Fecha: <?=date($eventByDate->getDate())?></a><br>
+                <span style="color:#4fa0ea"><?php if($eventByDate->getIsSale()==1) echo "Hasta: ".date($eventByDate->getEndPromoDate())?></span>
+                </h2>
                 <span class="product-card-desc">Artistas: 
                 <?php 
                 $artistList = $eventByDate->getArtists();
