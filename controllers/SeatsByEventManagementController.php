@@ -160,17 +160,14 @@ class SeatsByEventManagementController
      * Recieve modified attributes for object SeatsByEvent
      * and old object by id, call dao update
      */
-    public function editSeatsByEvent($oldIdSeatsByEvent, $seatsByEvent)
+    public function editSeatsByEvent($oldIdSeatsByEvent, $quantity, $price, $remnants)
     {
         $oldSeatsByEvent = $this->seatsByEventDao->getById($oldIdSeatsByEvent);
-        $newSeatsByEvent = new SeatsByEvent();
+        $newSeatsByEvent = clone $oldSeatsByEvent;
 
-        $args = func_get_args();
-        $seatsByEventAttributeList = array_combine(array_keys($newSeatsByEvent->getAll()),array_values($args)); 
-
-        foreach ($seatsByEventAttributeList as $attribute => $value) {
-            $newSeatsByEvent->__set($attribute,$value);
-        }
+        $newSeatsByEvent->setQuantity($quantity);
+        $newSeatsByEvent->setPrice($price);
+        $newSeatsByEvent->setRemnants($remnants);
 
         try{
             $this->seatsByEventDao->Update($oldSeatsByEvent, $newSeatsByEvent);

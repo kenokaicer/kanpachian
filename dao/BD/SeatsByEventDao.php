@@ -351,7 +351,7 @@ class SeatsByEventDao implements ISeatsByEventDao
             $seatsByEventArray = $newSeatsByEvent->getAll();
 
             /**
-             * Check if object is complete, otherwise lazy load would give error here
+             * Check if object is complete, otherwise lazy load would mess the update
              */
             if(!is_null($oldSeatsByEvent->getSeatType()) && !is_null($newSeatsByEvent->getSeatType())){
                 $oldSeatsByEventArray["idSeatType"] = $oldSeatsByEvent->getSeatType()->getIdSeatType();

@@ -3,6 +3,7 @@
 <div class="wrapper">
     <section>
     <form action="" onsubmit="return checkMax()" method="post">
+        <input type="hidden" name="oldIdSeatsByEvent" value="<?=$seatsByEvent->getIdSeatsByEvent()?>">
         <table id="mainTable" style="padding:0px;margin:0">
         <tr>
             <td style="width:50%">Evento: <?=$eventName?></td>
@@ -27,7 +28,7 @@
         <tr>
             <td colspan="2">
                 <div style="vertical-align: middle;">
-                    <button type="submit">Modificar</button>
+                    <button type="submit" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/editSeatsByEvent">Modificar</button>
                     <input style="margin-top: 18px"  class="button" type="submit" value="Volver" formaction="<?=FRONT_ROOT?>SeatsByEventManagement/index" formnovalidate> 
                 </div>
             </td>
