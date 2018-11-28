@@ -27,10 +27,19 @@ class AccountController
         $this->ticketDao = new TicketDao();
     }
 
-    public function index()
+    public function index($alert = array())
     {
-        try{
-            
+        require VIEWS_PATH."redirect.php";
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
+        try{    
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
                 require VIEWS_PATH."Login.php"; 
             }else if($_SESSION["userLogged"]->getRole()=="Admin"){ //Check if user is admin
@@ -45,10 +54,11 @@ class AccountController
                 exit;
             }
         }catch(Exception $ex){
-            echo "<script> alert('".$ex->getMessage()."'); 
-            window.location.replace('".FRONT_ROOT."Home/index');
-        </script>";
-        exit;
+            echo "<script>swal({title:'Error!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
+            exit;
         }   
     }   
 
@@ -59,7 +69,8 @@ class AccountController
             $user = $this->userDao->getByUsername($username);
             if($user == null) // if null the db didnt find any matches.
             {
-                echo "<script> alert('Datos ingresados no correctos');</script>";
+                $alert["title"] = "Datos ingresados no correctos";
+                $alert["icon"] = "warning";
             }
             else if(password_verify($password, $user->getPassword())){ //check if password provided coincides with hashed and salted one in BD
                 Session::add("userLogged", $user);
@@ -79,15 +90,17 @@ class AccountController
                     throw new Exception ("Role not defined");
                 }
             }else{
-                echo "<script> alert('Datos ingresados no correctos');</script>";
+                $alert["title"] = "Datos ingresados no correctos";
+                $alert["icon"] = "warning";
             }
         }
         catch(Exception $ex){
-            echo "<script> alert('No se pudo realizar el loggeo. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error, no se pudo realizar el loggeo";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        
-        $this->index();
+        $this->index($alert);
     }
 
     public function registerUser()
@@ -138,26 +151,33 @@ class AccountController
 
                 $this->sessionStart($username, $password); //this needs to be done, to get userId in the object
             }else {
-                echo "<script> alert('El usuario ya existe');</script>";
-                $this->registerUser();
+                $alert["title"] = "El usuario ya existe";
+                $alert["icon"] = "warning";
+                $this->registerUser($alert);
             }
         }catch(Exception $ex){
-            echo "<script> alert('Error interno al registrar nuevo usuario. Error: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->registerUser();
+            $alert["title"] = "Error interno al registrar nuevo usuario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->registerUser($alert);
         }
     }
 
     public function sessionClose(){
         try{
+            require VIEWS_PATH."redirect.php";
+
             Session::close();
-            //use script to redirect otherwise doesn't show alert
-            echo "<script> alert('Sesión Cerrada'); 
-                window.location.replace('".FRONT_ROOT."Home/index');
-                </script>";
+             echo "<script>swal({title:'Sesión cerrada!', 
+                text:'', 
+                icon:'success'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
             exit;
         }catch(Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "Error al cerrar sesión";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($index);
         }
         
     }

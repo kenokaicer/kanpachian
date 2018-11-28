@@ -20,7 +20,11 @@ class CheckSalesByEventController
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex){
-            echo "<script> alert('Error al cargar lista de eventos. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cargar lista de eventos!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
 
         require VIEWS_PATH."SalesByEvent.php";

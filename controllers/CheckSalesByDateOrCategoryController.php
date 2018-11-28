@@ -18,12 +18,22 @@ class CheckSalesByDateOrCategoryController
         $this->categoryDao = new CategoryDao();
     }
     
-    public function index()
+    public function index($alert = array())
     {	
         try{
             $totalPriceByCategoryArray = $this->getTotalByCategory();
         }catch (Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al cargar precios por categoría";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+        }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
         }
 
         require VIEWS_PATH."SalesByDateOrCategory.php";
@@ -66,7 +76,11 @@ class CheckSalesByDateOrCategoryController
 
             return $totalPriceByCategoryArray;
         }catch (Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al calcular total por categoría!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
     }
 }

@@ -20,8 +20,16 @@ class ClientManagementController
         $this->userDao = new UserDao();
     }
 
-    public function index()
+    public function index($alert = array())
     { 
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."ClientManagement.php";
     }
 
@@ -68,13 +76,24 @@ class ClientManagementController
         $this->index();
     }*/
 
-    public function clientList()
+    public function clientList($alert = array())
     {
         try{
             $clientList = $this->clientDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Clientes: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar Clientes";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."ClientManagementList.php";
     }
 
@@ -85,12 +104,16 @@ class ClientManagementController
 
             $this->userDao->Delete($client->getUser());
             $this->clientDao->Delete($client);
-            echo "<script> alert('Cliente y usuario eliminado exitosamente');</script>";
+
+            $alert["title"] = "Cliente y usuario eliminados exitosamente";
+            $alert["icon"] = "success";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el cliente. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el cliente";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->clientList();
+        $this->clientList($alert);
     }
 
     /**

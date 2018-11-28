@@ -25,8 +25,16 @@ class TheaterManagementController
         $this->seatsByEventDao = new SeatsByEventDao();
     }
 
-    public function index()
+    public function index($alert = array())
     { 
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."TheaterManagement.php";
     }
 
@@ -35,7 +43,10 @@ class TheaterManagementController
         try{
             $seatTypeList = $this->seatTypeDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al listar tipos de asiento: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar tipos de asiento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
         
         require VIEWS_PATH.$this->folder."TheaterManagementAdd.php";
@@ -49,10 +60,19 @@ class TheaterManagementController
                 $filePath = File::upload($file);
             } else {
             $filePath = null;
-            echo "<script> alert('Advertencia, imagen no ingresada');</script>";
+
+            echo "<script>swal({
+                title:'Advertencia, imagen no ingresada!', 
+                text:'El teatro se cargó, pero deberá ingresar una imágen en el futuro', 
+                icon:'error'
+                });</script>";
             }
         }catch (Exception $ex) {
-            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al subir imágen!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
         
         try{
@@ -78,21 +98,35 @@ class TheaterManagementController
             }
 
             $this->theaterDao->Add($theater);
-            echo "<script> alert('Teatro agregado exitosamente');</script>";
+
+            $alert["title"] = "Teatro agregado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo agregar el teatro. " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al agregar Teatro";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
         
-        $this->index();
+        $this->index($alert);
     }
 
-    public function theaterList()
+    public function theaterList($alert = array())
     {
         try{
             $theaterList = $this->theaterDao->getAll();
             
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo listar los teatros. " . str_replace("'","",$ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar los teatros";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+        }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
         }
 
         require VIEWS_PATH.$this->folder."TheaterManagementList.php";
@@ -105,16 +139,22 @@ class TheaterManagementController
                 $theater = $this->theaterDao->getById($idTheater);
 
                 $this->theaterDao->Delete($theater);
-                echo "<script> alert('Teatro eliminado exitosamente');</script>";
+
+                $alert["title"] = "Teatro eliminado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('No se puede eliminar el teatro, ya que hay calendarios no expirados en dicho teatro');</script>";
+                $alert["title"] = "No se puede eliminar el teatro";
+                $alert["text"] = "Ya que hay calendarios no expirados en dicho teatro";
+                $alert["icon"] = "warning";
             }
             
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el teatro";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->theaterList();
+        $this->theaterList($alert);
     }
 
     public function viewEditTheater($idTheater)
@@ -123,7 +163,10 @@ class TheaterManagementController
             $seatTypeList = $this->seatTypeDao->getAll();
             $theater = $this->theaterDao->getById($idTheater);
         }catch (Exception $ex) {
-            echo "<script> alert('" . str_replace("'","",$ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al cargar datos necesarios";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->theaterList($alert);
         }
 
         require VIEWS_PATH.$this->folder."TheaterManagementEdit.php";
@@ -139,7 +182,9 @@ class TheaterManagementController
                 $filePath = null;
             }
         }catch (Exception $ex) {
-            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al subir imágen";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
         
         try{
@@ -169,9 +214,11 @@ class TheaterManagementController
 
             $this->theaterDao->Update($oldTheater, $theater);
         }catch (Exceptionaaaa $ex){
-            echo "<script> alert('No se pudo modificar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            $alert["title"] = "Error al modificar el teatro";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->theaterList();
+        $this->theaterList($alert);
     }
 }

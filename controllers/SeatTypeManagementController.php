@@ -20,8 +20,16 @@ class SeatTypeManagementController
         $this->seatsByEventDao = new SeatsByEventDao();
     }
 
-    public function index()
+    public function index($alert = array())
     { 
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."SeatTypeManagement.php";
     }
 
@@ -47,23 +55,38 @@ class SeatTypeManagementController
                 }
 
                 $this->seatTypeDao->Add($seatType);
-                echo "<script> alert('Tipo de asiento agregado exitosamente');</script>";
+
+                $alert["title"] = "Tipo de asiento agregado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Tipo de asiento ya existente');</script>";
+                $alert["title"] = "Tipo de asiento ya existente en el sistema";
+                $alert["icon"] = "warning";
             }
             }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el tipo de asiento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+                $alert["title"] = "Error al agregar Artista";
+                $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+                $alert["icon"] = "error";
         }
         
-        $this->index();
+        $this->index($index);
     }
 
-    public function seatTypeList()
+    public function seatTypeList($alert = array())
     {
         try{
             $seatTypeList = $this->seatTypeDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Tipo de asientos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar Tipo de asientos";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+        }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
         }
         
         require VIEWS_PATH.$this->folder."SeatTypeManagementList.php";
@@ -77,16 +100,22 @@ class SeatTypeManagementController
                 $seatType = $this->seatTypeDao->getById($idSeatType);
 
                 $this->seatTypeDao->Delete($seatType);
-                echo "<script> alert('Tipo de asiento eliminado exitosamente');</script>";
+
+                $alert["title"] = "Tipo de asiento eliminado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('No se puede eliminar el tipo de asiento, ya que es usado en Calendarios aún no expirados');</script>";
+                $alert["title"] = "No se puede eliminar el tipo de asiento";
+                $alert["text"] = "Ya es usado en Calendarios aún no expirados";
+                $alert["icon"] = "warning";
             }
             
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el tipo de asiento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el tipo de asiento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->seatTypeList();
+        $this->seatTypeList($alert);
     }
 
     /**
@@ -98,7 +127,10 @@ class SeatTypeManagementController
         try{
             $oldSeatType = $this->seatTypeDao->getById($idSeatType);
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el tipo de asiento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al cargar Tipo de asiento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->seatTypeList($alert);
         }
 
         require VIEWS_PATH.$this->folder."SeatTypeManagementEdit.php";
@@ -124,15 +156,20 @@ class SeatTypeManagementController
                 }
 
                 $this->seatTypeDao->Update($oldSeatType, $newSeatType);
-                echo "<script> alert('Tipo de asiento modificado exitosamente');</script>";
+
+                $alert["title"] = "Tipo de asiento modificado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Tipo de asiento ya existente');</script>";
+                $alert["title"] = "Tipo de asiento ya existente en el sistema";
+                $alert["icon"] = "warning";
             }
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el tipo de asiento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al modificar el tipo de asiento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->seatTypeList();
+        $this->seatTypeList($alert);
     }
 
 }

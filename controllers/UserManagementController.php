@@ -20,8 +20,16 @@ class UserManagementController
         $this->clientDao = new ClientDao();
     }
 
-    public function index()
+    public function index($alert = array())
     { 
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."UserManagement.php";
     }
 
@@ -44,20 +52,34 @@ class UserManagementController
             $user->setRole($role);
         
             $this->userDao->Add($user);
-            echo "<script> alert('Usuario agregado exitosamente');</script>";
+
+            $alert["title"] = "Usuario agregado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al agregar el usuario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
         
-        $this->index();
+        $this->index($alert);
     }
 
-    public function userList()
+    public function userList($alert = array())
     {
         try{
             $userList = $this->userDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Usuarios: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar Usuarios";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+        }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
         }
 
         require VIEWS_PATH.$this->folder."UserManagementList.php";
@@ -71,12 +93,16 @@ class UserManagementController
 
             $this->userDao->Delete($user);
             $this->clientDao->Delete($client);
-            echo "<script> alert('Usuario y Cliente eliminado exitosamente');</script>";
+
+            $alert["title"] = "Usuario y Cliente eliminados agregado exitosamente";
+            $alert["icon"] = "success";
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el usuario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->userList();
+        $this->userList($alert);
     }
 
     /**
@@ -89,8 +115,10 @@ class UserManagementController
             $oldUser = $this->userDao->getById($idUser);
             $roles = Role::getConstants();
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo cargar el usuario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "Error al cargar el usuario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->userList($alert);
         } 
 
         require VIEWS_PATH.$this->folder."UserManagementEdit.php";
@@ -117,12 +145,16 @@ class UserManagementController
             $newUser->setRole($role);
 
             $this->userDao->Update($oldUser, $newUser);
-            echo "<script> alert('Usuario modificado exitosamente');</script>";
+
+            $alert["title"] = "Usuario modificado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el usuario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al modificar el usuario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->userList();
+        $this->userList($alert);
     }
 
 }

@@ -135,14 +135,18 @@ class PurchaseController
 
             if(empty($eventByDateList))
             {
-                echo "<script> alert('No hay calendarios para esa fecha.');</script>";        
-                echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+                echo "<script>swal({title:'No hay calendarios para esa fecha', 
+                    text:' ', 
+                    icon:'warning'}).then(
+                    function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
             }
             
             setlocale(LC_TIME, array("ES","esl","spa"));
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar calendarios!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         require VIEWS_PATH."EventByDateByDate.php";
@@ -154,8 +158,10 @@ class PurchaseController
             $eventByDateList = $this->eventByDateDao->getAllByArtist($idArtist);
             $artist = $this->artistDao->getById($idArtist);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar los calendarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar calendarios!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         require VIEWS_PATH."EventByDateByArtist.php";
@@ -167,22 +173,28 @@ class PurchaseController
         try{
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar evento!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         try{
             $theater = $this->theaterDao->getById($idTheater, LoadType::Lazy1);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar teatro!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         try{
             $eventByDateList = $this->eventByDateDao->getByEventIdAndTheaterIdLazy($idEvent, $idTheater); //no loadType in this one
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar las fechas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar fechas!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         require VIEWS_PATH."EventByDate.php";
@@ -193,22 +205,28 @@ class PurchaseController
         try{
             $event = $this->eventDao->getById($idEvent);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar evento!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         try{
             $theater = $this->theaterDao->getById($idTheater, LoadType::Lazy1);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el teatro. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar teatro!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         try{
             $seatsByEventList = $this->seatsByEventDao->getByEventByDateId($idEventByDate);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el evento por fecha. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar el evento por fecha!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
         require VIEWS_PATH."SeatsByEvent.php";
     }
@@ -247,8 +265,10 @@ class PurchaseController
 
             require VIEWS_PATH."confirmPurchase.php";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo generar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            $this->showCart();
+            $alert["title"] = "No se pudo generar la compra";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->showCart($alert);
         }
     }
 
@@ -328,25 +348,39 @@ class PurchaseController
 
             $this->showTickets($idPurchase);
         }catch (PHPMailerExcpetion $ex){
-            echo "<script> alert('Email no pudo ser enviado, pero la compra se realizó con éxito: ".str_replace(array("\r","\n","'"), "", $mail->ErrorInfo) . "');</script>";  
-            $this->viewCart();
+            $alert["title"] = "Email no pudo ser enviado, pero la compra se realizó con éxito";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->viewCart($alert);
         }
         catch (Exception $ex){
-            echo "<script> alert('Hubo un problema al cerrar la compra. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            $this->viewCart();
+            $alert["title"] = "Hubo un problema al cerrar la compra";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->viewCart($alert);
         }
     }
 
-    public function viewCart()
+    public function viewCart($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         try{
             Session::userLogged();
             Session::virtualCartCheck();
 
             $purchaseLines = $_SESSION["virtualCart"];
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el carrito. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'No se pudo cargar el carrito!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         require VIEWS_PATH."Cart.php";
@@ -405,7 +439,7 @@ class PurchaseController
                         $_SESSION["virtualCart"] = $array;
                        
                     }else{
-                        echo "<script> alert('No hay asientos disponibles'<script>;";
+                        echo "<script> swal('No hay asientos disponibles!', '!', 'warning');<script>;";
                     }
                 }else{
                     throw new Exception("SeatsByEvent null");
@@ -415,14 +449,18 @@ class PurchaseController
                 throw new Exception("idSeatsByEvent not set");
             }
         }catch(Exception $ex){
-            echo "<script> alert('Error al agregar linea de compra. ".$ex->getMessage()."');</script>"; 
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al agregar linea de compra!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
             exit;
         } 
     }  
 
     public function removePurchaseLine($indexPurchaseLine)
     {
+        $alert = array();
+
         try{
             if(isset($_SESSION["virtualCart"])){
                 $purchaseLines = $_SESSION["virtualCart"];
@@ -434,10 +472,12 @@ class PurchaseController
 
             $_SESSION["virtualCart"] = $purchaseLines;
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo borrar el item del carrito. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al borrar item del carrito";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->viewCart();
+        $this->viewCart($alert);
     }
 
     public function showTickets($idPurchase)
@@ -448,8 +488,10 @@ class PurchaseController
             $ticketList = $this->ticketDao->getAllByPurchase($idPurchase);
             setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
         }catch (Exception $ex){
-            echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar tickets!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
         
         require VIEWS_PATH."ticket.php";

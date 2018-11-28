@@ -34,8 +34,16 @@ class EventByDateManagementController
         $this->purchaseLineDao = new PurchaseLineDao();
     }
 
-    public function index()
+    public function index($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."EventByDateManagement.php";
     }
 
@@ -46,8 +54,10 @@ class EventByDateManagementController
             $artistList = $this->artistDao->getAll();
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex){
-            echo "<script> alert('No se pude cargar datos necesarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "Error al cargar datos necesarios";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
         
         require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
@@ -77,20 +87,34 @@ class EventByDateManagementController
             }
 
             $this->eventByDateDao->Add($eventByDate);
-            echo "<script> alert('Calendario agregado exitosamente');</script>";
+
+            $alert["title"] = "Calendario agregado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al agregar el calendario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
         
-        $this->index();
+        $this->index($alert);
     }
 
-    public function eventByDateList()
+    public function eventByDateList($alert = array())
     {
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar Eventos";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+        }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
         }
         
         require VIEWS_PATH.$this->folder."EventByDateManagementList.php";
@@ -115,15 +139,21 @@ class EventByDateManagementController
             
             if($empty){ //if empty wasn't modified by past checks, delete
                 $this->eventByDateDao->Delete($eventByDate);
-                echo "<script> alert('Calendario eliminado exitosamente');</script>";
+
+                $alert["title"] = "Calendario eliminado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Calendario no puede ser borrado, ya que hay entradas vendidas para el mismo');</script>";
+                $alert["title"] = "Calendario no puede ser borrado";
+                $alert["text"] = "Ya hay entradas vendidas para el mismo";
+                $alert["icon"] = "warning";
             }  
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el calendario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->eventByDateList();
+        $this->eventByDateList($alert);
     }
 
     /**
@@ -138,7 +168,11 @@ class EventByDateManagementController
             $artistList = $this->artistDao->getAll();
             $eventList = $this->eventDao->getAll();
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo cargar calendario. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cargar el calendario!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         } 
 
         require VIEWS_PATH.$this->folder."EventByDateManagementEdit.php";
@@ -171,12 +205,16 @@ class EventByDateManagementController
             }
 
             $this->eventByDateDao->Update($oldEventByDate, $eventByDate);
-            echo "<script> alert('Calendario modificado exitosamente');</script>";
+
+            $alert["title"] = "Calendario modificado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el calendario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al modificar el calendario";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->eventByDateList();
+        $this->eventByDateList($alert);
     }
 
 }

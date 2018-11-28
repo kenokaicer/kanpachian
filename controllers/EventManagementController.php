@@ -24,8 +24,16 @@ class EventManagementController
         $this->purchaseLineDao = new PurchaseLineDao();
     }
 
-    public function index()
+    public function index($alert = array())
     { 
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."EventManagement.php";
     }
 
@@ -34,7 +42,11 @@ class EventManagementController
         try{
             $categoryList = $this->categoryDao->getAll();
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar categorías. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            echo "<script>swal({
+                title:'Error al cargar categorías!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
 
         require VIEWS_PATH.$this->folder."EventManagementAdd.php";
@@ -49,12 +61,15 @@ class EventManagementController
         try{
             if(!is_null($this->eventDao->getByEventName($eventName)))
             {
-                echo "<script> alert('Evento con mismo nombre ya existente');</script>";
+                $alert["title"] = "Evento con mismo nombre ya existente";
+                $alert["icon"] = "warning";
                 $exist = true;
             }
         }
         catch (Exception $ex){
-                echo "<script> alert('Error al confirmar Evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            $alert["title"] = "Error al confirmar Evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
         try{
@@ -64,11 +79,15 @@ class EventManagementController
                     $filePath = File::upload($file);
                 } else {
                 $filePath = null;
-                echo "<script> alert('Advertencia, imagen no ingresada');</script>";
+                $alert["title"] = "Advertencia, imagen no ingresada";
+                $alert["text"] = "El evento se cargará en el sistema, puede agregar una imágen en el futuro modificando el mismo";
+                $alert["icon"] = "warning";
                 }
             }
         }catch (Exception $ex) {
-            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al subir imágen";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
         try{
@@ -91,26 +110,42 @@ class EventManagementController
                 $event->setCategory($category);
             
                 $this->eventDao->Add($event);
-                echo "<script> alert('Evento agregado exitosamente');</script>";
+
+                $alert["title"] = "Evento agregado exitosamente";
+                $alert["icon"] = "success";
             }
         }catch (Exception $ex){
             if (strpos($ex->getMessage(), 'Duplicate') !== false) { //check on unique contraint in DB
-                echo "<script> alert('Evento con mismo nombre ya existente');</script>";  
+                $alert["title"] = "Evento con mismo nombre ya existente";
+                $alert["icon"] = "warning";
             }else{
-                echo "<script> alert('No se pudo agregar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+                $alert["title"] = "Error al agregar el evento";
+                $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+                $alert["icon"] = "error";
             }
         }
 
-        $this->index();
+        $this->index($alert);
     }
 
-    public function eventList()
+    public function eventList($alert = array())
     {
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar Eventos";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."EventManagementList.php";
     }
 
@@ -122,16 +157,22 @@ class EventManagementController
             if(empty($this->purchaseLineDao->getAllPastNowByEvent($idEvent)))
             {
                 $this->eventDao->Delete($event);
-                echo "<script> alert('Evento eliminado exitosamente');</script>";
+
+                $alert["title"] = "Evento eliminado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('no se puede borrar el evento ya que tiene entradas vendidas a futuro');</script>";
+                $alert["title"] = "No se puede borrar el evento";
+                $alert["text"] = "ya tiene entradas vendidas a futuro";
+                $alert["icon"] = "warning";
             }
 
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->eventList();
+        $this->eventList($alert);
     }
 
     /**
@@ -143,13 +184,21 @@ class EventManagementController
         try{
             $oldEvent = $this->eventDao->getById($idEvent);
         } catch (Exception $ex) {
-            echo "<script> alert('Error getting oldEvent. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cargar evento!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         } 
 
         try{
             $categoryList = $this->categoryDao->getAll();
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo listar las categorías. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al listar las categorías!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         } 
     
         require VIEWS_PATH.$this->folder."EventManagementEdit.php";
@@ -171,7 +220,9 @@ class EventManagementController
                 $filePath = null;
             }
         }catch (Exception $ex) {
-            echo "<script> alert('Error al subir imágen: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al subir imágen";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
         try{
@@ -188,7 +239,9 @@ class EventManagementController
                 $newEvent->__set($attribute,$value);
             }
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo modificar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
+            $alert["title"] = "Error al modificar el evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
         try{
@@ -196,18 +249,24 @@ class EventManagementController
             
             $newEvent->setCategory($category);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "Error al cargar la categoría";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
 
         try{
             $this->eventDao->Update($oldEvent, $newEvent);
-            echo "<script> alert('Evento modificado exitosamente');</script>";
+
+            $alert["title"] = "Evento modificado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el evento " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al modificar el evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->eventList();
+        $this->eventList($alert);
     }
 
 }

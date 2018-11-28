@@ -24,12 +24,20 @@
 				}
 
 				if(phpversion() < "7.2"){
-					echo "<script>alert('WARNING: Your PHP version is".phpversion().", site expects a PHP version 7.2 or higher');</script>";
+					echo "<script>swal({
+						title:'WARNING: Your PHP version is".phpversion()."!', 
+						text:'The site expects a PHP version 7.2 or higher!', 
+						icon:'warning'
+						});</script>";
 				}
 
 				$eventList = $this->eventDao->getAll();
 			}catch(Exception $ex){
-				echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+				echo "<script>swal({
+					title:'Error al cargar lista de eventos!', 
+					text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+					icon:'error'
+					});</script>";
 			}
 			require VIEWS_PATH."home.php";
 		}

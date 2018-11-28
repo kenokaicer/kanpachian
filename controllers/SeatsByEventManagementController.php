@@ -31,8 +31,16 @@ class SeatsByEventManagementController
         $this->purchaseLineDao = new PurchaseLineDao();
     }
 
-    public function index()
+    public function index($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."SeatsByEventManagement.php";
     }
 
@@ -41,8 +49,10 @@ class SeatsByEventManagementController
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex){
-            echo "<script> alert('No se pude cargar datos necesarios. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "No se pude cargar datos necesarios";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
         
         require VIEWS_PATH.$this->folder."SeatsByEventManagementAdd.php";
@@ -61,15 +71,19 @@ class SeatsByEventManagementController
         try{ 
             $seatTypesAlreadyAdded = $this->seatsByEventDao->getIdSeatTypesByEventByDate($eventByDateId);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar plazas evento ya insertadas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "Error al cargar plazas evento ya insertadas";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
 
         try{
             $eventByDate = $this->eventByDateDao->getById($eventByDateId);
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            $this->index();
+            $alert["title"] = "Error al agregar la plaza evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
         
         try{
@@ -91,7 +105,12 @@ class SeatsByEventManagementController
                 foreach ($seatTypesAlreadyAdded as $value) {
                     if ($value == $seatType->getIdSeatType()){
                         $exists = true;
-                        echo "<script> alert('Advertencia, al menos una de las plazas ya estaba insertada y no se insertó de vuelta');</script>";
+
+                        echo "<script>swal({
+                            title:'Advertencia!', 
+                            text:'Al menos una de las plazas ya estaba insertada y no se insertó de vuelta', 
+                            icon:'warning'
+                            });</script>";
                     }
                 }
                 
@@ -110,20 +129,33 @@ class SeatsByEventManagementController
                 $i++;
             }
 
-            echo "<script> alert('Plaza/s Evento agregada/s exitosamente');</script>";
+            $alert["title"] = "Plaza/s Evento agregada/s exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al agregar la plaza evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->index();
+        $this->index($alert);
     }
 
-    public function seatsByEventList()
+    public function seatsByEventList($alert = array())
     {
         try{
             $eventList = $this->eventDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Eventos: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al listar Eventos";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+        }
+
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
         }
         
         require VIEWS_PATH.$this->folder."SeatsByEventManagementList.php";
@@ -136,15 +168,21 @@ class SeatsByEventManagementController
                 $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
 
                 $this->seatsByEventDao->Delete($seatsByEvent);
-                echo "<script> alert('Asiento por Evento eliminado exitosamente');</script>";
+
+                $alert["title"] = "Asiento por Evento eliminado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Existen tickets vendidos futuros para este asiento, no se permite el borrado');</script>";
+                $alert["title"] = "No se permite el borrado";
+                $alert["text"] = "Existen tickets vendidos futuros para este asiento";
+                $alert["icon"] = "warning";
             }
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el Asiento por Evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar el Asiento por Evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->seatsByEventList();
+        $this->seatsByEventList($alert);
     }
 
     /**
@@ -153,7 +191,14 @@ class SeatsByEventManagementController
      */
     public function viewEditSeatsByEvent($eventName, $theaterData, $idSeatsByEvent)
     {   
-        $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
+        try{
+            $seatsByEvent = $this->seatsByEventDao->getById($idSeatsByEvent);
+        }catch (Exception $ex) {
+            $alert["title"] = "Error al modificar el asiento por evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->seatsByEventList($alert);
+        }
 
         require VIEWS_PATH.$this->folder."SeatsByEventManagementEdit.php";
     }
@@ -164,21 +209,25 @@ class SeatsByEventManagementController
      */
     public function editSeatsByEvent($oldIdSeatsByEvent, $quantity, $price, $remnants)
     {
-        $oldSeatsByEvent = $this->seatsByEventDao->getById($oldIdSeatsByEvent);
-        $newSeatsByEvent = clone $oldSeatsByEvent;
-
-        $newSeatsByEvent->setQuantity($quantity);
-        $newSeatsByEvent->setPrice($price);
-        $newSeatsByEvent->setRemnants($remnants);
-
         try{
+            $oldSeatsByEvent = $this->seatsByEventDao->getById($oldIdSeatsByEvent);
+            $newSeatsByEvent = clone $oldSeatsByEvent;
+
+            $newSeatsByEvent->setQuantity($quantity);
+            $newSeatsByEvent->setPrice($price);
+            $newSeatsByEvent->setRemnants($remnants);
+
             $this->seatsByEventDao->Update($oldSeatsByEvent, $newSeatsByEvent);
-            echo "<script> alert('Calendario modificado exitosamente');</script>";
+
+            $alert["title"] = "Asiento por evento modificado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el calendario " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al modificar el asiento por evento";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->seatsByEventList();
+        $this->seatsByEventList($alert);
     }
 
 }
