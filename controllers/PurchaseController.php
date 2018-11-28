@@ -53,12 +53,7 @@ class PurchaseController
                 exit;
             }
             $event = $this->eventDao->getById($idEvent);
-        }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
-        }
-
-        try{
+        
             $eventByDateList = $this->eventByDateDao->getByEventId($idEvent, LoadType::Lazy1);
             $theaterArray = array();
 
@@ -68,8 +63,11 @@ class PurchaseController
 
             $theaterArray =  array_unique($theaterArray, SORT_REGULAR); //leave only a list of note repeated theaters
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            require VIEWS_PATH."Redirect.php";
+            echo "<script>swal({title:'No se pudo cargar el evento!', 
+                text:'". str_replace(array("\r","\n","'"), "", $ex->getMessage()) ."', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
 
         require VIEWS_PATH."Event.php";
@@ -81,7 +79,7 @@ class PurchaseController
      */
     public static function getCategoryList()
     {
-        try{
+        try{        
             $eventList = (new EventDao)->getAll();
             $eventsByCategory = array();
             
@@ -98,7 +96,7 @@ class PurchaseController
             
             return $eventsByCategory;
         }catch(Exception $ex){
-            echo "<script> alert('Error al listar por categoría: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal('Error al listar por categoría!', '". str_replace(array("\r","\n","'"), "", $ex->getMessage()) ."', 'error');</script>";
         }
     }
 
@@ -108,9 +106,10 @@ class PurchaseController
             $artistList = $this->artistDao->getByNameOrAndLastname($artistString); //using BD like
 
             if(empty($artistList)){
-                echo "<script> alert('No hay coincidencias'); 
-                window.location.replace('".FRONT_ROOT."Home/index');
-                </script>";
+                echo "<script>swal({title:'No hay coincidencias!', 
+                            text:'No se encontró ninguna artista que conincida con los términos de buesqueda', 
+                            icon:'warning'}).then(
+                            function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
                 exit;
             }else if(sizeof($artistList) > 1){
                 require VIEWS_PATH."artistSearch.php";
@@ -119,8 +118,10 @@ class PurchaseController
                 $this->showEventByDatesByArtist($artist->getIdArtist());
             }
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo cargar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";        
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({title:'Error al cargar artista!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
     }
 

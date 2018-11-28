@@ -1,5 +1,5 @@
 <?php 
-error_reporting(E_ALL ^ E_WARNING); //disable warining in this page
+error_reporting(E_ALL ^ E_WARNING); //disable warnings in this page
 //or
 //error_reporting(E_ERROR | E_PARSE);?>
 
