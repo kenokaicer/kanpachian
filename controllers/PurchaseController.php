@@ -124,10 +124,19 @@ class PurchaseController
         }
     }
 
+    /**
+     * Result of search by date
+     */
     public function showEventByDate($date)
     {
         try{
             $eventByDateList = $this->eventByDateDao->getAllByDate($date);
+
+            if(empty($eventByDateList))
+            {
+                echo "<script> alert('No hay calendarios para esa fecha.');</script>";        
+                echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            }
             
             setlocale(LC_TIME, array("ES","esl","spa"));
         }catch (Exception $ex){

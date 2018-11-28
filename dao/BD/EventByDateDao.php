@@ -309,7 +309,9 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
                     INNER JOIN ".$this->tableNameArtist." A
                     ON AED.idArtist = A.idArtist
                     WHERE ED.date = :".key($parameters)." 
-                    AND ED.enabled = 1";
+                    AND ED.enabled = 1
+                    GROUP BY ED.idEventByDate
+                    ORDER BY E.idEvent, ED.idTheater";
 
             $resultSet = $this->connection->Execute($query,$parameters);
         
