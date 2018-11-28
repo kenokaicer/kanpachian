@@ -55,8 +55,6 @@ class EventByDateManagementController
 
     public function addEventByDate($idEvent, $isSale, $date, $date2, $idTheater, $idArtistList)
     {
-        
-        die();
         $eventByDate = new EventByDate();
         
         try{

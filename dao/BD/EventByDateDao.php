@@ -40,7 +40,7 @@ class EventByDateDao extends DaoBD implements IEventByDateDao
         $values = "";
 
         try {
-            $parameters = array_filter($artist->getAll());
+            $parameters = array_filter($eventByDate->getAll());
             $parameters["idTheater"] = $eventByDate->getTheater()->getIdTheater();
             $parameters["idEvent"] = $eventByDate->getEvent()->getIdEvent();
 
