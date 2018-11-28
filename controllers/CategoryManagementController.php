@@ -20,8 +20,16 @@ class CategoryManagementController
         $this->eventByDateDao = new EventByDateDao();
     }
 
-    public function index()
+    public function index($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."CategoryManagement.php";
     }
 
@@ -47,24 +55,40 @@ class CategoryManagementController
                 }
             
                 $this->categoryDao->Add($category);
-                echo "<script> alert('Categoría agregada exitosamente');</script>";
+
+                $alert["title"] = "Categoría agregada exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Categoría ya existente');</script>";
+                $alert["title"] = "Categoría ya existente en el sistema";
+                $alert["icon"] = "warning";
             }
             
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al agregar la categoría";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
         
-        $this->index();
+        $this->index($alert);
     }
 
-    public function categoryList()
+    public function categoryList($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         try{
             $categoryList = $this->categoryDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Categorías: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al intentar listar las categorías";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
         
         require VIEWS_PATH.$this->folder."CategoryManagementList.php";
@@ -77,16 +101,22 @@ class CategoryManagementController
                 $category = $this->categoryDao->getById($idCategory);
 
                 $this->categoryDao->Delete($category);
-                echo "<script> alert('Categoría eliminada exitosamente');</script>";
+                
+                $alert["title"] = "Categoría eliminada exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Categoría existe en un calendario futuro, no se permite el borrado');</script>";
+                $alert["title"] = "La categoría existe en un calendario futuro";
+                $alert["text"] = "No se permite el borrado";
+                $alert["icon"] = "warning";
                 //you could actually tell here which eventByDates are locking this
             }
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar la categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar categoría";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->categoryList();
+        $this->categoryList($alert);
     }
 
     /**
@@ -98,7 +128,10 @@ class CategoryManagementController
         try{
             $oldCategory = $this->categoryDao->getById($idCategory);
         } catch (Exception $ex) {
-            echo "<script> alert('Error al buscar categoría. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al intentar buscar categoría";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->categoryList($alert);
         }
         
         require VIEWS_PATH.$this->folder."CategoryManagementEdit.php";
@@ -124,15 +157,19 @@ class CategoryManagementController
                 }
 
                 $this->categoryDao->Update($oldCategory, $newCategory);
-                echo "<script> alert('Categoría modificada exitosamente');</script>";
+                
+                $alert["title"] = "Categoría modificado exitosamente";
+                $alert["icon"] = "success";
             }else{
                 echo "<script> alert('Categoría ya existente');</script>";
             }
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el categoría " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error no se pudo modificar la categoría";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->categoryList();
+        $this->categoryList($alert);
     }
 
 }

@@ -72,8 +72,6 @@
 
 <?php require VIEWS_PATH."FooterUserView.php";?>
 
-<style>
+<script>
 
-
-</style>
-
+</script>

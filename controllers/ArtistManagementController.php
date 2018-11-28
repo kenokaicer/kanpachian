@@ -22,8 +22,16 @@ class ArtistManagementController
         $this->eventByDateDao = new EventByDateDao();
     }
 
-    public function index()
+    public function index($alert = array())
     { 
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         require VIEWS_PATH.$this->folder."ArtistManagement.php";
     }
 
@@ -35,6 +43,8 @@ class ArtistManagementController
     public function addArtist($name, $lastname)
     {
         try{
+            $alert = array();
+
             if(empty($this->artistDao->getByNameAndLastname($name,$lastname)))
             {
                 $artist = new Artist();
@@ -49,23 +59,40 @@ class ArtistManagementController
                 }
 
                 $this->artistDao->Add($artist);
-                echo "<script> alert('Artista agregado exitosamente');</script>";
+
+                $alert["title"] = "Artista agregado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Artista ya existente en el sistema, si es otra persona agregue un alias');</script>";
+                $alert["title"] = "Artista ya existente en el sistema";
+                $alert["text"] = "Si es otra persona agregue un alias";
+                $alert["icon"] = "warning";
             }
         }catch (Exception $ex){
-            echo "<script> alert('No se pudo agregar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al agregar Artista";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
         
-        $this->index();
+        $this->index($alert);
     }
 
-    public function artistList()
+    public function artistList($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+
         try{
             $artistList = $this->artistDao->getAll();
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar listar Artistas: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al intentar listar Artistas";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->index($alert);
         }
         
         require VIEWS_PATH.$this->folder."ArtistManagementList.php";
@@ -78,17 +105,23 @@ class ArtistManagementController
                 $artist = $this->artistDao->getById($idArtist);
  
                 $this->artistDao->Delete($artist);
-                echo "<script> alert('Artista eliminado exitosamente');</script>";
+                
+                $alert["title"] = "Artista eliminado exitosamente";
+                $alert["icon"] = "success";
             }else{
-                echo "<script> alert('Artista existe en un calendario futuro, no se permite el borrado');</script>";
+                $alert["title"] = "Artista existe en un calendario futuro";
+                $alert["text"] = "No se permite el borrado";
+                $alert["icon"] = "warning";
                 //you could actually tell here which eventByDates are locking this
             }
             
         } catch (Exception $ex) {
-            echo "<script> alert('No se pudo eliminar el artista. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al eliminar artista";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         } 
 
-        $this->artistList();
+        $this->artistList($alert);
     }
 
     /**
@@ -100,7 +133,10 @@ class ArtistManagementController
         try{
             $oldArtist = $this->artistDao->getById($idArtist);
         }catch (Exception $ex) {
-            echo "<script> alert('Error al intentar buscar Artista: " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error al intentar buscar Artista";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
+            $this->artistList($alert);
         }
         
         require VIEWS_PATH.$this->folder."ArtistManagementEdit.php";
@@ -124,12 +160,16 @@ class ArtistManagementController
             }
 
             $this->artistDao->Update($oldArtist, $newArtist);
-            echo "<script> alert('Artista modificado exitosamente');</script>";
+            
+            $alert["title"] = "Artista modificado exitosamente";
+            $alert["icon"] = "success";
         }catch (Exception $ex) {
-            echo "<script> alert('No se pudo modificar el artista " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            $alert["title"] = "Error no se pudo modificar el artista";
+            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
+            $alert["icon"] = "error";
         }
 
-        $this->artistList();
+        $this->artistList($alert);
     }
 
 }
