@@ -18,8 +18,8 @@
                     <td style="width:50%">
                             <label>Esta en oferta?
                                 <select id="selectIsSale" name ="inSale">
-                                    <option value="0">no</option>  
-                                     <option id="selectIsSaleYes" value ="1">si</option>
+                                    <option value="0">No</option>  
+                                    <option value="1">Si</option>
                                 </select>
                             </label>
                     </td>
@@ -29,25 +29,23 @@
                     <td>Fecha de finalización promo: <input id="date2" type="date" name="date2"></td>   
                 </tr>
                 <tr>
-                    <td colspan="2">Teatro:
-                        <select name="idTheater">
-                            <?php
-                                foreach ($theaterList as $value) {
-                            ?>
-                                <option value="<?=$value->getIdTheater()?>"><?=$value->getTheaterName().", maxCap: ".$value->getMaxCapacity()?></option>      
-                            <?php
-                                }
-                            ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Artista: 
+                    <td>Artista: 
                         <select id="artistSelect" name="idArtist">
                             <?php
                                 foreach ($artistList as $value) {
                             ?>
                                 <option value="<?=$value->getIdArtist()?>"><?=$value->getName()." ".$value->getLastname()?></option>      
+                            <?php
+                                }
+                            ?>
+                        </select>
+                    </td>
+                    <td>Teatro:
+                        <select name="idTheater">
+                            <?php
+                                foreach ($theaterList as $value) {
+                            ?>
+                                <option value="<?=$value->getIdTheater()?>"><?=$value->getTheaterName().", maxCap: ".$value->getMaxCapacity()?></option>      
                             <?php
                                 }
                             ?>

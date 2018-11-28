@@ -4,10 +4,8 @@
         <form onsubmit="return send()" action="<?=FRONT_ROOT?>EventByDateManagement/editEventByDate" method="post">
             <input type="hidden" name="oldIdEventByDate" value="<?=$eventByDate->getIdEventByDate()?>">
             <table>
-                <th style="width:50%"></th>
-                <th style="width:50%"></th>
                 <tr>
-                    <td colspan="2">Evento:
+                    <td style="width:50%">Evento:
                         <select name="idEvent">
                             <?php
                                 foreach ($eventList as $value) {
@@ -18,9 +16,31 @@
                             ?>
                         </select>
                     </td>
+                    <td style="width:50%">
+                            <label>Esta en oferta?
+                                <select id="selectIsSale" name ="inSale">
+                                    <option value="0">No</option>  
+                                    <option <?php if($eventByDate->getIsSale() == 1) echo "selected"?> value ="1">Si</option>
+                                </select>
+                            </label>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Fecha: <input type="date" name="date" value="<?=$eventByDate->getDate()?>"></td>
+                    <td>Fecha: <input type="date" name="date" value="<?=$eventByDate->getDate()?>" required></td>
+                    <td>Fecha de finalización promo: <input id="date2" type="date" name="date2" value="<?=$eventByDate->getEndPromoDate()?>"></td>   
+                </tr>
+                <tr>
+                    <td>Artista: 
+                        <select id="artistSelect" name="idArtist">
+                            <?php
+                                foreach ($artistList as $value) {
+                            ?>
+                                <option value="<?=$value->getIdArtist()?>"><?=$value->getName()." ".$value->getLastname()?></option>      
+                            <?php
+                                }
+                            ?>
+                        </select>
+                    </td>
                     <td>Teatro:
                         <select name="idTheater">
                             <?php
@@ -33,19 +53,7 @@
                         </select>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2">Artista: 
-                        <select id="artistSelect" name="idArtist">
-                            <?php
-                                foreach ($artistList as $value) {
-                            ?>
-                                <option value="<?=$value->getIdArtist()?>"><?=$value->getName()." ".$value->getLastname()?></option>      
-                            <?php
-                                }
-                            ?>
-                        </select>
-                    </td>
-                </tr>
+                
                 
                 <tr>
                     <td>Artistas Cargados
@@ -114,5 +122,11 @@ function send()
 
     return ok;
 }
+
+$('#selectIsSale').change(function() {
+    if ($(this).val() === '1') {
+        $("#date2").prop('required',true);
+    }
+});
 
 </script>

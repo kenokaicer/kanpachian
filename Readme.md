@@ -48,12 +48,13 @@ DONE
 - Last test for management clases
 - email
 - finish admin check sales by category AND date
+- lolapalooza, add calendar thats a sale, various dates
 
 TO DO
 
 - add edit to SeatsByEvent
 
-- lolapalooza, add calendar thats a sale, various dates
+
 
 
  

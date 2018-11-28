@@ -40,6 +40,8 @@ if(isset($_SESSION["userLogged"]) && $_SESSION["userLogged"]->getRole() == "Admi
 
                 $array["idEventByDate"] = $eventByDate->getIdEventByDate();
                 $array["date"] = $eventByDate->getDate();
+                $array["endPromoDate"] = $eventByDate->getEndPromoDate();
+                $array["isSale"] = $eventByDate->getIsSale();
                 $array["theaterName"] = $eventByDate->getTheater()->getTheaterName();
 
                 $artistList = $eventByDate->getArtists();

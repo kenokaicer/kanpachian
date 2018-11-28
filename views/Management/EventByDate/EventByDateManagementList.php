@@ -15,8 +15,10 @@
         <section style="background-color:white">
             <table id="main-table">
                 <thead>
-                    <th>Fecha</th>
                     <th>Teatro</th>
+                    <th>Fecha</th>
+                    <th>Fecha Finalización Oferta</th>
+                    <th>Es Oferta</th>
                     <th>Artistas</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -69,7 +71,17 @@ function ajaxQuery(func,value)
 
 function fillTable(item)
 {
-    var markup = "<tr><td>"+item.date+"</td><td>"+item.theaterName+"</td><td>"+item.artistList+"</td><td><a href='<?=FRONT_ROOT?>EventByDateManagement/viewEditEventByDate?idEventByDate="+item.idEventByDate+"'>Editar</a></td><td><a href='<?=FRONT_ROOT?>EventByDateManagement/deleteEventByDate?idEventByDate="+item.idEventByDate+"'>Eliminar</a></td></tr>";
+    if(item.isSale == 1){
+        var sale = 'Si';
+    }else{
+        var sale = 'No';
+    }
+
+    if(item.endPromoDate == null){
+        item.endPromoDate = "-";
+    }
+
+    var markup = "<tr><td>"+item.theaterName+"</td><td>"+item.date+"</td><td>"+item.endPromoDate+"</td><td>"+sale+"</td><td>"+item.artistList+"</td><td><a href='<?=FRONT_ROOT?>EventByDateManagement/viewEditEventByDate?idEventByDate="+item.idEventByDate+"'>Editar</a></td><td><a href='<?=FRONT_ROOT?>EventByDateManagement/deleteEventByDate?idEventByDate="+item.idEventByDate+"'>Eliminar</a></td></tr>";
     $('#main-tbody').append(markup);
 }
 </script>
