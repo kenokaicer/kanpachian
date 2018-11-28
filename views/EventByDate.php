@@ -17,8 +17,8 @@
         foreach ($eventByDateList as $eventByDate) {
         ?> 
         
-        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px;">
-            <div class="product-card">
+        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px; vertical-align:text-top;position:relative">
+            <div class="product-card" style="min-height:250px">
                 <div class="product-card-thumbnail" style="width:50px;display:inline-block">
                     <img src="<?=IMG_PATH."calendar.png"?>"/><img style="position:absolute;left:8px;up:1px;width:44px;<?php if($eventByDate->getIsSale()==0) echo "visibility: hidden;" ?>" src="<?=IMG_PATH."Sale-Ribbon.png"?>"/><img>
                 </div>
@@ -35,16 +35,16 @@
                 $stringArtistas = rtrim($stringArtistas, ", ");
                 echo $stringArtistas;
                 ?>
-                </span>
-                <div class="product-card-colors">
-                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="get">
-                    <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
-                    <input type="hidden" name="idTheater" value="<?=$theater->getIdTheater()?>">
-                    <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
-                    <button >Ver Asientos</button>
-                    </form>
-                </div>
+                </span>  
             </div> 
+            <div style="position:absolute; bottom:25px; left: 35px" class="product-card-colors">
+                <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="get">
+                <input type="hidden" name="idEvent" value="<?=$event->getIdEvent()?>">
+                <input type="hidden" name="idTheater" value="<?=$theater->getIdTheater()?>">
+                <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
+                <button>Ver Asientos</button>
+                </form>
+            </div>
         </div> 
 
         <?php    

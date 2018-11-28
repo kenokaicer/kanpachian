@@ -15,8 +15,8 @@
         foreach ($eventByDateList as $eventByDate) {
         ?> 
         
-        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px">
-            <div class="product-card">
+        <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px;vertical-align:text-top;position:relative">
+            <div class="product-card" style="min-height:372px">
                 <div class="product-card-thumbnail" style="width:180px;display:inline-block;margin-bottom:5px">
                     <img stlye="width:250px" src="<?=IMG_PATH.$eventByDate->getEvent()->getImage()?>"/>
                 </div>
@@ -34,15 +34,15 @@
                 echo $stringArtistas;
                 ?>
                 </span>
-                <div class="product-card-colors">
-                    <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="get">
-                    <input type="hidden" name="idEvent" value="<?=$eventByDate->getEvent()->getIdEvent()?>">
-                    <input type="hidden" name="idTheater" value="<?=$eventByDate->getTheater()->getIdTheater()?>">
-                    <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
-                    <button >Ver Asientos</button>
-                    </form>
-                </div>
             </div> 
+            <div style="position:absolute; bottom:16px; left: 35px" class="product-card-colors">
+                <form action="<?=FRONT_ROOT?>Purchase/showSeatsByEvent" method="get">
+                <input type="hidden" name="idEvent" value="<?=$eventByDate->getEvent()->getIdEvent()?>">
+                <input type="hidden" name="idTheater" value="<?=$eventByDate->getTheater()->getIdTheater()?>">
+                <input type="hidden" name="idEventByDate" value="<?=$eventByDate->getIdEventByDate();?>">
+                <button >Ver Asientos</button>
+                </form>
+            </div>
         </div> 
 
         <?php    
