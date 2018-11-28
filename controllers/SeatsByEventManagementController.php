@@ -51,25 +51,19 @@ class SeatsByEventManagementController
     /**
      * Now only adding one seat at a time
      */
-    public function addSeatsByEvent($eventByDateId, $seatTypeId, $quantity, $price)
+    public function addSeatsByEvent($eventByDateId, $idSeatTypeList, $quantityList, $priceList)
     {
-        $seatsByEvent = new SeatsByEvent();
-
-        //get already inserted SeatsByEvent
-        //this isn't necessary if loading all at the same time
+        /**
+         * get already inserted SeatsByEvent
+         * this isn't necessary if loading all at the same time.
+         * Still used after list adaptation for checking purposes
+         */
         try{ 
             $seatTypesAlreadyAdded = $this->seatsByEventDao->getIdSeatTypesByEventByDate($eventByDateId);
         }catch (Exception $ex){
             echo "<script> alert('No se pudo cargar plazas evento ya insertadas. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
             $this->index();
         }
-        
-        //-----------------------
-        //deserialize: This is done only if recieving all seatTypes at the same time, currently not done this way.
-        //-seatTypeIdList
-        //-quantityList
-        //-priceList
-        //-----------------------
 
         try{
             $eventByDate = $this->eventByDateDao->getById($eventByDateId);
@@ -79,34 +73,42 @@ class SeatsByEventManagementController
         }
         
         try{
-            //foreach ($seatTypeIdList as $seatTypeIdItem) { //disabled until method for adding changes to list
+            //Deserialize recieved lists
+            $idSeatTypeList = json_decode($idSeatTypeList);
+            $quantityList = json_decode($quantityList);
+            $priceList = json_decode($priceList);
+            $i = 0;
+
+            foreach ($idSeatTypeList as $idSeatType) {
                 try{
-                    $seatType = $this->seatTypeDao->getById($seatTypeId);
+                    $seatType = $this->seatTypeDao->getById($idSeatType);
                 }catch (Exception $ex){
-                    echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+                    throw new Exception("Error al buscar tipo de asiento");
                 }
+
+                $exists = false;
 
                 foreach ($seatTypesAlreadyAdded as $value) {
                     if ($value == $seatType->getIdSeatType()){
-                        throw new Exception ("Plaza ya insertada");
+                        $exists = true;
+                        echo "<script> alert('Advertencia, al menos una de las plazas ya estaba insertada y no se insertó de vuelta');</script>";
                     }
                 }
                 
-                $seatsByEvent = new SeatsByEvent();
+                if(!$exists){
+                    $seatsByEvent = new SeatsByEvent();
     
-                $seatsByEvent->setEventByDate($eventByDate);
-                $seatsByEvent->setSeatType($seatType);
-                $seatsByEvent->setQuantity($quantity);
-                $seatsByEvent->setRemnants($quantity);
-                $seatsByEvent->setPrice($price);
-    
-                try{
+                    $seatsByEvent->setEventByDate($eventByDate);
+                    $seatsByEvent->setSeatType($seatType);
+                    $seatsByEvent->setQuantity($quantityList[$i]);
+                    $seatsByEvent->setRemnants($quantityList[$i]);
+                    $seatsByEvent->setPrice($priceList[$i]);
+        
                     $this->seatsByEventDao->Add($seatsByEvent);
-                }catch (Exception $ex){
-                    echo "<script> alert('No se pudo agregar la plaza evento. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-                    $this->index();
                 }
-            //}
+
+                $i++;
+            }
 
             echo "<script> alert('Plaza/s Evento agregada/s exitosamente');</script>";
         }catch (Exception $ex){
