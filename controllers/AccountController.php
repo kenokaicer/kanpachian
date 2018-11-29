@@ -220,7 +220,7 @@ class AccountController
             if(is_null($creditCard)) 
             {
                 $creditCardAttributes = array_keys(CreditCard::getAttributes());
-                
+
                 $artistAttributeList = array_combine($creditCardAttributes, $args);
 
                 $artistAttributeList["expirationDate"] = date("Y-m-d", strtotime($artistAttributeList["expirationDate"])); //transform YYYY-MM into YYYY-MM-DD for database format
@@ -250,6 +250,7 @@ class AccountController
                 echo "<script>swal({
                     title:'Tarjeta de Credito registrada exitosamente!', 
                     text:'Redirigiendo...', 
+                    timer: 3000,
                     icon:'success'}).then(
                     function(){window.location.href = '".FRONT_ROOT."Purchase/confirmPurchase';});</script>";
                 exit;
