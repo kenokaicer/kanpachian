@@ -102,8 +102,16 @@ class AccountController
         $this->index();
     }
 
-    public function registerUser()
+    public function registerUser($alert = array())
     {
+        if(!empty($alert)){
+            echo "<script>swal({
+                title: '".@$alert["title"]."!',
+                text: '".@$alert["text"]."!',
+                icon: '".@$alert["icon"]."',
+              });</script>";
+        }
+        
         require VIEWS_PATH."Register.php"; 
     }
 
@@ -198,7 +206,7 @@ class AccountController
         Session::userLogged();
 
         try{
-            $args = func_get_args();
+            $args = get_defined_vars(); //do not use fun_get_args(), because the $redirect var, not always used, if not used (and is defualt) the function will not pick it, unlike defined_vars
             array_pop($args);
             array_unshift($args, null);
 
@@ -211,9 +219,9 @@ class AccountController
              */
             if(is_null($creditCard)) 
             {
-                $creditCardAttributes = CreditCard::getAttributes();
-
-                $artistAttributeList = array_combine(array_keys($creditCardAttributes), $args);
+                $creditCardAttributes = array_keys(CreditCard::getAttributes());
+                
+                $artistAttributeList = array_combine($creditCardAttributes, $args);
 
                 $artistAttributeList["expirationDate"] = date("Y-m-d", strtotime($artistAttributeList["expirationDate"])); //transform YYYY-MM into YYYY-MM-DD for database format
 
