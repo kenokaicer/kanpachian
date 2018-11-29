@@ -18,7 +18,7 @@
         ?> 
         
         <div style="margin:0 auto;width:220px;display:inline-block;margin-left:20px; vertical-align:text-top;position:relative">
-            <div class="product-card" style="min-height:250px">
+            <div class="product-card" style="min-height:270px">
                 <div class="product-card-thumbnail" style="width:50px;display:inline-block">
                     <img src="<?=IMG_PATH."calendar.png"?>"/><img style="position:absolute;left:8px;up:1px;width:44px;<?php if($eventByDate->getIsSale()==0) echo "visibility: hidden;" ?>" src="<?=IMG_PATH."Sale-Ribbon.png"?>"/><img>
                 </div>
