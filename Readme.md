@@ -12,17 +12,17 @@ https://docs.google.com/document/d/18zjxM33cZFlJmpqZ5Vk4RvdU8D8j48RYrXVgIAA8G0I
 
 - Zurb Foundation (Zurb Foundation)
 
-###### PHP PSR-1 Naming conventions
+## PHP PSR-1 Naming conventions
 
 - Class names MUST be declared in StudlyCaps.
 - Class constants MUST be declared in all upper case with underscore separators.
 - Method names MUST be declared in camelCase.
 
-###### Passwords Hashed and Salted
+## Passwords Hashed and Salted
 
 - hash+salt: https://www.sitepoint.com/hashing-passwords-php-5-5-password-hashing-api/
 
-###### Packages and APIs
+## Packages and APIs
 
 - PHPMailer (https://github.com/PHPMailer/PHPMailer)
 
