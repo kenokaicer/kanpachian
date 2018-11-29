@@ -1,11 +1,10 @@
 # GoToEvent
 
-A project for the subjects "Laboratory 4" and "Systems Metodology I" for the degree "Senior Technician in Programming".
-The site would allow an administrator to load events, dates, seats for each event, and all info requied to make a sale.
+This is a project for the subjects "Laboratory 4" and "Systems Metodology I" for the degree "Senior Technician in Programming".\
+A website for online managment and sale of recreational events, the site would allow an administrator to load events, dates, seats for each event, and all info requied to make a sale.\
 The user can register/login and purchase a ticket for an event online.
 
-More info in the documentation.
-
+More info in the documentation.\
 https://docs.google.com/document/d/18zjxM33cZFlJmpqZ5Vk4RvdU8D8j48RYrXVgIAA8G0I
 
 ###### Template used for the site:
