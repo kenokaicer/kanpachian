@@ -106,7 +106,8 @@ class PurchaseController
             $artistList = $this->artistDao->getByNameOrAndLastname($artistString); //using BD like
 
             if(empty($artistList)){
-                echo "<script>swal({title:'No hay coincidencias!', 
+                echo "<script>swal({
+                            title:'No hay coincidencias!', 
                             text:'No se encontró ninguna artista que conincida con los términos de buesqueda', 
                             icon:'warning'}).then(
                             function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
@@ -118,7 +119,8 @@ class PurchaseController
                 $this->showEventByDatesByArtist($artist->getIdArtist());
             }
         }catch (Exception $ex){
-            echo "<script>swal({title:'Error al cargar artista!', 
+            echo "<script>swal({
+                title:'Error al cargar artista!', 
                 text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
                 icon:'error'}).then(
                 function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
@@ -135,7 +137,8 @@ class PurchaseController
 
             if(empty($eventByDateList))
             {
-                echo "<script>swal({title:'No hay calendarios para esa fecha', 
+                echo "<script>swal({
+                    title:'No hay calendarios para esa fecha', 
                     text:' ', 
                     icon:'warning'}).then(
                     function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";

@@ -10,7 +10,7 @@ https://docs.google.com/document/d/18zjxM33cZFlJmpqZ5Vk4RvdU8D8j48RYrXVgIAA8G0I
 
 ###### Template used for the site:
 
-- Zurb Foundation (Zurb Foundation)
+- Zurb Foundation (https://foundation.zurb.com/)
 
 ## PHP PSR-1 Naming conventions
 

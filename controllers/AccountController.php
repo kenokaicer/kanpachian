@@ -29,16 +29,6 @@ class AccountController
 
     public function index($alert = array())
     {
-        require VIEWS_PATH."redirect.php";
-
-        if(!empty($alert)){
-            echo "<script>swal({
-                title: '".@$alert["title"]."!',
-                text: '".@$alert["text"]."!',
-                icon: '".@$alert["icon"]."',
-              });</script>";
-        }
-
         try{    
             if(!isset($_SESSION["userLogged"])){ //Check if there is a user logged
                 require VIEWS_PATH."Login.php"; 
@@ -54,6 +44,7 @@ class AccountController
                 exit;
             }
         }catch(Exception $ex){
+            require VIEWS_PATH."redirect.php";
             echo "<script>swal({title:'Error!', 
                 text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
                 icon:'error'}).then(
@@ -69,8 +60,11 @@ class AccountController
             $user = $this->userDao->getByUsername($username);
             if($user == null) // if null the db didnt find any matches.
             {
-                $alert["title"] = "Datos ingresados no correctos";
-                $alert["icon"] = "warning";
+                echo "<script>swal({
+                    title:'Datos ingresados no correctos!', 
+                    text:'', 
+                    icon:'warning'
+                    });</script>";
             }
             else if(password_verify($password, $user->getPassword())){ //check if password provided coincides with hashed and salted one in BD
                 Session::add("userLogged", $user);
@@ -90,17 +84,22 @@ class AccountController
                     throw new Exception ("Role not defined");
                 }
             }else{
-                $alert["title"] = "Datos ingresados no correctos";
-                $alert["icon"] = "warning";
+                echo "<script>swal({
+                    title:'Datos ingresados no correctos!', 
+                    text:'', 
+                    icon:'warning'
+                    });</script>";
             }
         }
         catch(Exception $ex){
-            $alert["title"] = "Error, no se pudo realizar el loggeo";
-            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
-            $alert["icon"] = "error";
+            echo "<script>swal({
+                title:'Error, no se pudo realizar el logueo', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
 
-        $this->index($alert);
+        $this->index();
     }
 
     public function registerUser()
@@ -174,10 +173,12 @@ class AccountController
                 function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
             exit;
         }catch(Exception $ex){
-            $alert["title"] = "Error al cerrar sesión";
-            $alert["text"] = str_replace(array("\r","\n","'"), "", $ex->getMessage());
-            $alert["icon"] = "error";
-            $this->index($index);
+            echo "<script>swal({
+                title:'Error al cerrar sesión!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
+            $this->index();
         }
         
     }
@@ -232,15 +233,32 @@ class AccountController
 
             $this->clientDao->addCreditCardByClientId($idClient, $idCreditCard);
 
-            echo "<script> alert('Tarjeta de Credito registrada exitosamente, redirigiendo');</script>";
+            echo "<script>swal({
+                title:'Tarjeta de Credito registrada exitosamente!', 
+                text:'Redirigiendo...', 
+                icon:'success'
+                });</script>";
             if($redirect == "yes"){
-                echo "<script>window.location.replace('".FRONT_ROOT."Purchase/confirmPurchase');</script>";
+                echo "<script>swal({
+                    title:'Tarjeta de Credito registrada exitosamente!', 
+                    text:'Redirigiendo...', 
+                    icon:'success'}).then(
+                    function(){window.location.href = '".FRONT_ROOT."Purchase/confirmPurchase';});</script>";
                 exit;
             }else{
+                echo "<script>swal({
+                    title:'Tarjeta de Credito registrada exitosamente!', 
+                    text:'', 
+                    icon:'success'
+                    });</script>";
                 $this->accountView();
             }    
         }catch(Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al registrar tarjeta de crédito!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
             $this->index();
         }
     }
@@ -257,7 +275,11 @@ class AccountController
 
             $purchaseList = $this->purchaseDao->getAllByIdClient($idClient, LoadType::Lazy1);
         }catch(Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cargar datos de usuario!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
             $this->index();
         }
 
@@ -272,7 +294,11 @@ class AccountController
             $user = $_SESSION["userLogged"];
             $client = $this->clientDao->getByUserId($user->getIdUser());
         }catch(Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cargar datos de usuario!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
             $this->index();
         }
 
@@ -291,17 +317,30 @@ class AccountController
 
                 $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
                 $newUser->setPassword($hashedPassword);
-
-                echo "<script> alert('Contraseña cambiada con éxito');</script>";
+                
                 $this->userDao->update($user,$newUser);
 
                 $_SESSION["userLogged"] = $newUser;
+
+                echo "<script>swal({
+                    title:'Contraseña cambiada con éxito!', 
+                    text:'', 
+                    icon:'success'
+                    });</script>";
             }
             else{
-                echo "<script> alert('Contraseña ingresada no es válida');</script>";
+                echo "<script>swal({
+                    title:'Contraseña ingresada no es válida!', 
+                    text:'', 
+                    icon:'warning'
+                    });</script>";
             }   
         }catch(Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cambiar contraseña!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
 
         $this->accountView();
@@ -317,12 +356,21 @@ class AccountController
 
             $newUser->setEmail($newEmail);
 
-            echo "<script> alert('Email cambiado con éxito');</script>";
             $this->userDao->update($user,$newUser);
 
             $_SESSION["userLogged"] = $newUser;
+
+            echo "<script>swal({
+                title:'Email cambiado con éxito!', 
+                text:'', 
+                icon:'success'
+                });</script>";
         }catch(Exception $ex){
-            echo "<script> alert('" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
+            echo "<script>swal({
+                title:'Error al cambiar email!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'
+                });</script>";
         }
 
         $this->accountView();
@@ -338,12 +386,18 @@ class AccountController
                 $ticketList[] = $ticket;
                 setlocale(LC_TIME, array("ES","esl","spa")); //set locale of time to spanish, array tries each code until it gets a success
             }else{
-                echo "<script>alert('Código de ticket inexistente');</script>";
-                echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+                echo "<script>swal({
+                    title:'Código de ticket inexistente!', 
+                    text:'', 
+                    icon:'warning'}).then(
+                    function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
             }
         }catch (Exception $ex){
-            echo "<script> alert('Error getting tickets. " . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "');</script>";
-            echo "<script>window.location.replace('".FRONT_ROOT."Home/index');</script>";
+            echo "<script>swal({
+                title:'Error al cargar tickets!', 
+                text:'" . str_replace(array("\r","\n","'"), "", $ex->getMessage()) . "', 
+                icon:'error'}).then(
+                function(){window.location.href = '".FRONT_ROOT."Home/index';});</script>";
         }
         
         require VIEWS_PATH."ticket.php";
