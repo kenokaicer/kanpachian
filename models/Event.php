@@ -8,9 +8,9 @@ use Models\Category as Category;
 class Event extends Attributes
 {
     protected $idEvent;
-    protected $eventName;
-    protected $image;
+    protected $eventName; 
     protected $description;
+    protected $image; //image always last before objects
     private $category; //Class Category
 
     public function getEventName()

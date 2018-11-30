@@ -52,10 +52,7 @@ class EventManagementController
         require VIEWS_PATH.$this->folder."EventManagementAdd.php";
     }
 
-    /**
-     * Not using exist check, on purpose
-     */
-    public function addEvent($eventName, $description, $idCategory, $offerta)
+    public function addEvent($eventName, $description, $idCategory)
     {
         $exist = false;
         try{
@@ -92,11 +89,13 @@ class EventManagementController
 
         try{
             if(!$exist){
-                $args = array();
+                $args = func_get_args();
+                array_unshift($args, null); //put null at first of array for id
+                array_pop($args);
 
                 $eventAttributes = Event::getAttributes();
                 
-                array_push($args, null, $eventName, $filePath, $description);
+                array_push($args, $filePath);
 
                 $eventAttributeList = array_combine(array_keys($eventAttributes),array_values($args));  //get an array with atribues from object and another with function parameters, then combine it
 
