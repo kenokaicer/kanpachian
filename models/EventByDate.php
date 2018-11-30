@@ -106,4 +106,9 @@ class EventByDate extends Attributes//Calendario
 
         return $this;
     }
+
+    public static function getAllAttributes()
+    {
+        return get_class_vars(get_called_class()); //use get_called_class() insted of class_name($this) because it's a static method
+    }
 }

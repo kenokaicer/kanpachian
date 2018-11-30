@@ -63,28 +63,60 @@ class EventByDateManagementController
         require VIEWS_PATH.$this->folder."EventByDateManagementAdd.php";
     }
 
-    public function addEventByDate($idEvent, $isSale, $date, $date2, $idTheater, $idArtistList)
+    public function addEventByDate($idEvent, $isSale, $date, $endPromoDate, $idTheater, $artistList)
     {
-        $eventByDate = new EventByDate();
-        
         try{
-            $eventByDate->setDate($date);
-            $eventByDate->setEndPromoDate($date2);
-            $eventByDate->setIsSale($isSale);
-            
-            $theater = $this->theaterDao->getById($idTheater);
-            $event = $this->eventDao->getById($idEvent);
+            $args = get_defined_vars(); //get array with all defined variables at the moment with names as key, in this case only arguments, imporatant to this be before a new definition of a variable
 
-            $eventByDate->setTheater($theater);
-            $eventByDate->setEvent($event);
-           
-            
-            $idArtistList = json_decode($idArtistList);
+            /**
+             * Convert id variables to object
+             */
+            foreach ($args as $key => $value) {
+                if(substr($key, 0, 2) == "id"){ //check if first two caracters of method variable is an id
+                    $objectName = lcfirst(substr($key, 2)); //get name of class to fill
+                    $object = $this->{$objectName."Dao"}->getById($value); //call dao of class, using Dynamic variable {} https://medium.com/oceanize-geeks/dynamic-variable-in-php-3037fd8cae77 // I would like to get rid daos in constructors and use a (new daoName)
+                    
+                    $args[$objectName] = $object; //set object in array
+                    unset($args[$key]); //delete key and id from array
+                }/*elseif (substr($key, -4) == "List"){ 
+                    /**
+                     * This part would automate all lists, but currently it won't work well because arrays in object are now defined as the plural 
+                     * of the object, and some plural are not always an "s", example "category -> categories". A way to fix this it to call all
+                     * arrays in object models as "objectArray", example "categoryArray". Left here as proof of concept
+                     */
+                    /*
+                    $objectArray = array();
+                    $arr = json_decode($value);
+                    $objectName = substr($str, 0, -4)."s";
 
-            foreach ($idArtistList as $idArtist) {
+                    foreach ($arr as $idArr) {
+                        $object = $this->{$objectName."Dao"}->getById($value);
+                        $objectArray[] = $object;
+                    }
+
+                    $args[$objectName] = $object; 
+                    unset($args[$key]); 
+                }*/
+            }
+
+            $eventByDate = new EventByDate();
+            $eventByDateAttributes = EventByDate::getAllAttributes(); //get all attribute names, including objects, at the moment of this note, this method is not set yet in all models
+            foreach ($eventByDateAttributes as $attribute => $null) {
+                foreach ($args as $argsKey => $value) {
+                    if($argsKey == $attribute){                        //check if the args match with the attribute names
+                        $eventByDate->__set($attribute,$value);        //if yes, magic set them
+                    }
+                }
+            }                
+        
+            //Decode artistList and set them in eventByDate // this part would be remplaced by the above automatization if it is used 
+            $artistList = json_decode($artistList);
+
+            foreach ($artistList as $idArtist) {
                 $artist = $this->artistDao->getById($idArtist);
                 $eventByDate->addArtist($artist);
             }
+            //-----------------------------------------------
 
             $this->eventByDateDao->Add($eventByDate);
 

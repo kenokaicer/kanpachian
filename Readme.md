@@ -39,6 +39,10 @@ Used to decode Json while supplying a Class and/or Sub-Classes. Capable of makin
 
 Javascript alerts with many options and visually better than the default.
 
+## Notes
+
+- Proof of concept for complete automated object creation for magic set (__set) in EventByDateManagementController, line 71
+- More security info for password in AccountController, line 131
 
 
 
